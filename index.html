@@ -64,23 +64,25 @@
             gap: 18px;
         }
 
+        /* --- CONTENEDOR DEL LOGO ACTUALIZADO --- */
         .logo-placeholder {
-            width: 60px;
-            height: 60px;
-            background: white;
+            width: 70px;          /* Ajusta el ancho según tu imagen */
+            height: 70px;         /* Ajusta el alto según tu imagen */
+            background: white;    /* Fondo blanco para respetar el diseño original */
             border: 2px solid var(--primary);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            color: var(--primary);
-            text-align: center;
-            line-height: 1.3;
+            padding: 6px;         /* Pequeño margen interno */
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            /* Reemplaza el contenido con tu imagen real: */
-            /* background-image: url('escudo.png'); background-size: contain; background-repeat: no-repeat; background-position: center; */
+            flex-shrink: 0;
+        }
+
+        .logo-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;  /* Mantiene la proporción del logo */
         }
 
         .header-titles h1 {
@@ -487,12 +489,12 @@
 <body>
 <div class="container">
 
-    <!-- HEADER -->
+    <!-- HEADER CON EL LOGO REAL -->
     <header class="header">
         <div class="header-left">
             <div class="logo-placeholder">
-                <!-- Coloca aquí tu imagen: <img src="escudo.png" alt="Escudo" style="max-width:100%; max-height:100%;"> -->
-                ESCUDO<br>EMPRESA
+                <!-- AQUÍ SE MUESTRA EL LOGO DE CERÁMICA MARCOS PAZ -->
+                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz - MVP">
             </div>
             <div class="header-titles">
                 <h1>TALLER <span>YERBA BUENA</span></h1>
@@ -663,11 +665,9 @@
     // 3. FUNCIONES AUXILIARES
     // ============================================================
     function formatearFecha(fechaStr) {
-        // Si viene en formato "7/07/26" o "2026-07-07" intentamos parsear
         if (!fechaStr) return '';
         const partes = fechaStr.split('/');
         if (partes.length === 3) {
-            // dd/mm/yy
             let dia = partes[0].padStart(2, '0');
             let mes = partes[1].padStart(2, '0');
             let anio = '20' + partes[2];
@@ -720,7 +720,6 @@
         const selectSector = document.getElementById('filtroSector');
         const currentSector = selectSector.value;
 
-        // Operarios
         selectOperario.innerHTML = '<option value="todos">Todos</option>';
         const operariosOrdenados = Array.from(operariosUnicos).sort();
         operariosOrdenados.forEach(op => {
@@ -733,7 +732,6 @@
             selectOperario.value = currentOperario;
         }
 
-        // Sectores
         selectSector.innerHTML = '<option value="todos">Todos</option>';
         const sectoresOrdenados = Array.from(sectores).sort();
         sectoresOrdenados.forEach(sec => {
@@ -890,17 +888,13 @@
         const grid = document.getElementById('incidenciasGrid');
         grid.innerHTML = '';
 
-        // 1. OTs atrasadas
         const atrasadas = datos.filter(d => esAtrasada(d.fecha, d.estado) && d.estado !== 'Entregado');
-        // 2. OTs con criticidad Alta y no entregadas
         const criticas = datos.filter(d => d.criticidad === 'Alta' && d.estado !== 'Entregado');
-        // 3. OTs con "falta" o "sin permiso" en descripción (simulado)
         const operativas = datos.filter(d => {
             const desc = d.descripcion ? d.descripcion.toLowerCase() : '';
             return desc.includes('falta') || desc.includes('permiso') || desc.includes('inserto') || desc.includes('material');
         });
 
-        // Mostrar hasta 6 incidencias, combinando
         const incidencias = [];
         atrasadas.forEach(d => {
             incidencias.push({
@@ -927,7 +921,6 @@
             });
         });
 
-        // Limitar a 6 y mezclar
         const incidenciasMostrar = incidencias.slice(0, 8);
         if (incidenciasMostrar.length === 0) {
             grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:20px;"><i class="fas fa-check-circle" style="color:var(--success);"></i> No hay incidencias activas. ¡Todo en orden!</div>`;
@@ -966,9 +959,7 @@
                 alert('El CSV parece vacío o con formato incorrecto.');
                 return;
             }
-            // Asumimos que la primera fila son encabezados
             const encabezados = lineas[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
-            // Mapear índices según columnas esperadas
             const idxMap = {
                 fecha: encabezados.findIndex(h => h.toLowerCase().includes('fecha')),
                 nro: encabezados.findIndex(h => h.toLowerCase().includes('ot') || h.includes('N°')),
@@ -993,7 +984,6 @@
                 for (const [campo, idx] of Object.entries(idxMap)) {
                     obj[campo] = (idx !== -1 && idx < valores.length) ? valores[idx] : '';
                 }
-                // Si no hay N° OT, saltamos
                 if (!obj.nro) continue;
                 nuevosDatos.push(obj);
             }
@@ -1014,17 +1004,14 @@
     // 8. EVENTOS Y ARRANQUE
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        // Fecha actual
         const hoy = new Date();
         const opciones = { year: 'numeric', month: '2-digit', day: '2-digit' };
         const fechaStr = hoy.toLocaleDateString('es-AR', opciones);
         document.getElementById('fechaActual').textContent = fechaStr;
         document.getElementById('fechaFooter').textContent = fechaStr;
 
-        // Renderizar con datos de ejemplo
         renderizarDashboard();
 
-        // Evento para cargar CSV
         document.getElementById('btnCargarCSV').addEventListener('click', function() {
             document.getElementById('csvInput').click();
         });
@@ -1032,10 +1019,9 @@
             if (this.files && this.files[0]) {
                 cargarCSVdesdeArchivo(this.files[0]);
             }
-            this.value = ''; // reiniciar
+            this.value = '';
         });
 
-        // Eventos de filtros
         document.querySelectorAll('#filtroEstado, #filtroOperario, #filtroTipo, #filtroSector, #filtroTexto').forEach(el => {
             el.addEventListener('change', renderizarDashboard);
             if (el.tagName === 'INPUT') {

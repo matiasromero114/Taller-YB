@@ -3,34 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Taller Yerba Buena | Cerámica Marcos Paz</title>
+    <title>Taller Yerba Buena — Dashboard OTs y Ejecución</title>
 
-    <!-- Font Awesome CDN -->
+    <!-- Font Awesome 6 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+    <!-- Chart.js 4 (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
     </script>
+    <!-- Google Fonts: Inter + Roboto Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --azul-oscuro: #1a3a5c;
-            --azul-medio: #1e4d7b;
-            --naranja: #f47920;
-            --naranja-oscuro: #d96515;
-            --verde: #198754;
-            --rojo: #dc3545;
-            --amarillo: #ffc107;
-            --gris: #6c757d;
-            --gris-claro: #e9ecef;
-            --gris-fondo: #f5f6f8;
+            --azul-oscuro: #0f2b46;
+            --azul-medio: #1a3f63;
+            --naranja: #e8750c;
+            --naranja-claro: #f7941d;
+            --gris-fondo: #f4f5f7;
+            --gris-claro: #e2e4e7;
+            --gris-medio: #8b8f95;
+            --gris-oscuro: #3c4043;
             --blanco: #ffffff;
-            --borde: #dee2e6;
-            --texto: #212529;
-            --texto-claro: #6c757d;
-            --sombra: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --sombra-hover: 0 4px 16px rgba(0, 0, 0, 0.14);
-            --radius: 10px;
-            --radius-sm: 6px;
+            --verde: #1e8449;
+            --verde-claro: #e8f5e9;
+            --rojo: #c0392b;
+            --rojo-claro: #fdecea;
+            --amarillo: #b8860b;
+            --amarillo-claro: #fff8e1;
+            --azul-claro: #e3f0fa;
+            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radio: 10px;
+            --radio-sm: 6px;
             --transicion: 0.2s ease;
         }
 
@@ -41,174 +48,168 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #eef1f5;
-            color: var(--texto);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e8ecf0;
+            color: var(--gris-oscuro);
             min-height: 100vh;
             line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== CONTENEDOR PRINCIPAL ========== */
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 16px 20px 32px;
         }
 
         /* ========== HEADER ========== */
         .header {
             background: var(--blanco);
-            border-bottom: 3px solid var(--azul-oscuro);
-            padding: 14px 28px;
+            border-radius: var(--radio);
+            padding: 18px 24px;
             display: flex;
             align-items: center;
-            gap: 18px;
+            justify-content: space-between;
             flex-wrap: wrap;
-            box-shadow: var(--sombra);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            gap: 16px;
+            box-shadow: var(--sombra-md);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--naranja);
         }
-
-        .logo-container {
-            width: 56px;
-            height: 56px;
-            min-width: 56px;
+        .header-izq {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .logo-escudo {
+            width: 60px;
+            height: 60px;
             background: var(--blanco);
             border: 3px solid var(--azul-oscuro);
-            border-radius: var(--radius-sm);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 900;
-            font-size: 20px;
+            font-weight: 800;
+            font-size: 1.1rem;
             color: var(--azul-oscuro);
-            letter-spacing: -1px;
+            letter-spacing: 1px;
+            flex-shrink: 0;
+            box-shadow: var(--sombra-sm);
             user-select: none;
         }
-
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 3px;
-        }
-
-        .header-titles {
-            flex: 1;
-            min-width: 200px;
-        }
-        .header-titles h1 {
-            font-size: 1.35rem;
+        .header-titulos h1 {
+            font-size: 1.45rem;
             font-weight: 700;
             color: var(--azul-oscuro);
-            letter-spacing: 0.3px;
+            letter-spacing: -0.3px;
+            margin: 0;
             line-height: 1.2;
         }
-        .header-titles h1 .yerba-buena {
+        .header-titulos h1 .naranja {
             color: var(--naranja);
         }
-        .header-titles .subtitle {
-            font-size: 0.85rem;
-            color: var(--texto-claro);
-            font-weight: 400;
+        .header-titulos .subtitulo {
+            font-size: 0.82rem;
+            color: var(--gris-medio);
+            font-weight: 500;
+            margin-top: 2px;
         }
-
-        .header-date {
-            font-size: 0.9rem;
-            color: var(--texto-claro);
+        .header-der {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .fecha-actual {
             background: var(--gris-fondo);
             padding: 8px 14px;
             border-radius: 20px;
-            white-space: nowrap;
-            font-weight: 500;
-        }
-        .header-date i {
-            margin-right: 6px;
-            color: var(--naranja);
-        }
-
-        .header-buttons {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .btn-load {
-            padding: 10px 18px;
-            border: none;
-            border-radius: 25px;
             font-weight: 600;
             font-size: 0.9rem;
-            cursor: pointer;
-            transition: all var(--transicion);
-            display: flex;
-            align-items: center;
-            gap: 7px;
+            color: var(--gris-oscuro);
             white-space: nowrap;
-            letter-spacing: 0.2px;
+            border: 1px solid var(--gris-claro);
         }
-        .btn-load-ots {
-            background: var(--azul-oscuro);
-            color: #fff;
+        .btn-carga {
+            padding: 9px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--azul-medio);
+            background: var(--blanco);
+            color: var(--azul-medio);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all var(--transicion);
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .btn-load-ots:hover {
+        .btn-carga:hover {
             background: var(--azul-medio);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(26, 58, 92, 0.3);
+            color: var(--blanco);
+            box-shadow: var(--sombra-sm);
         }
-        .btn-load-trabajos {
+        .btn-carga.naranja {
+            border-color: var(--naranja);
+            color: var(--naranja);
+        }
+        .btn-carga.naranja:hover {
             background: var(--naranja);
-            color: #fff;
+            color: var(--blanco);
         }
-        .btn-load-trabajos:hover {
-            background: var(--naranja-oscuro);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(244, 121, 32, 0.3);
-        }
-        .btn-load i {
-            font-size: 0.95rem;
+        .btn-carga i {
+            font-size: 0.9rem;
         }
 
-        /* ========== MAIN CONTAINER ========== */
-        .main-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 24px 40px;
+        /* ========== TARJETAS DE RESUMEN ========== */
+        .seccion-titulo {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: var(--gris-medio);
+            margin-bottom: 10px;
+            padding-left: 4px;
         }
-
-        /* ========== SUMMARY CARDS ========== */
-        .summary-section {
+        .tarjetas-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
             margin-bottom: 20px;
         }
-        .summary-section h3 {
-            grid-column: 1 / -1;
-            font-size: 1rem;
-            color: var(--azul-oscuro);
-            margin-bottom: -4px;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            border-bottom: 2px solid var(--gris-claro);
-            padding-bottom: 6px;
-        }
-        .card-summary {
+        .tarjeta {
             background: var(--blanco);
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            box-shadow: var(--sombra);
+            border-radius: var(--radio);
+            padding: 16px 18px;
+            box-shadow: var(--sombra-sm);
             display: flex;
             align-items: center;
             gap: 14px;
-            transition: all var(--transicion);
+            transition: transform var(--transicion), box-shadow var(--transicion);
             border-left: 4px solid transparent;
         }
-        .card-summary:hover {
-            box-shadow: var(--sombra-hover);
+        .tarjeta:hover {
             transform: translateY(-2px);
+            box-shadow: var(--sombra-md);
         }
-        .card-summary.ots-card {
-            border-left-color: var(--azul-oscuro);
+        .tarjeta.azul {
+            border-left-color: var(--azul-medio);
         }
-        .card-summary.trab-card {
+        .tarjeta.naranja {
             border-left-color: var(--naranja);
         }
-        .card-icon {
+        .tarjeta.verde {
+            border-left-color: var(--verde);
+        }
+        .tarjeta.rojo {
+            border-left-color: var(--rojo);
+        }
+        .tarjeta-icono {
             width: 44px;
             height: 44px;
             border-radius: 50%;
@@ -218,348 +219,309 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        .ots-card .card-icon {
-            background: #e8f0f8;
-            color: var(--azul-oscuro);
+        .tarjeta.azul .tarjeta-icono {
+            background: var(--azul-claro);
+            color: var(--azul-medio);
         }
-        .trab-card .card-icon {
-            background: #fef3ea;
+        .tarjeta.naranja .tarjeta-icono {
+            background: #fef3e6;
             color: var(--naranja);
         }
-        .card-info .card-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            line-height: 1;
-            color: var(--texto);
+        .tarjeta.verde .tarjeta-icono {
+            background: var(--verde-claro);
+            color: var(--verde);
         }
-        .card-info .card-label {
-            font-size: 0.78rem;
-            color: var(--texto-claro);
+        .tarjeta.rojo .tarjeta-icono {
+            background: var(--rojo-claro);
+            color: var(--rojo);
+        }
+        .tarjeta-info .tarjeta-numero {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            color: var(--gris-oscuro);
+        }
+        .tarjeta-info .tarjeta-label {
+            font-size: 0.75rem;
+            color: var(--gris-medio);
             font-weight: 500;
             margin-top: 2px;
         }
 
-        /* ========== FILTERS ========== */
-        .filters-bar {
+        /* ========== FILTROS ========== */
+        .filtros-bar {
             background: var(--blanco);
-            border-radius: var(--radius);
+            border-radius: var(--radio);
             padding: 14px 18px;
-            margin-bottom: 12px;
-            box-shadow: var(--sombra);
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
+            box-shadow: var(--sombra-sm);
+            margin-bottom: 14px;
         }
-        .filters-bar label {
+        .filtros-bar label {
             font-weight: 600;
-            font-size: 0.82rem;
-            color: var(--azul-oscuro);
+            font-size: 0.78rem;
+            color: var(--gris-oscuro);
             white-space: nowrap;
+            margin-right: 2px;
         }
-        .filters-bar select,
-        .filters-bar input[type="text"] {
-            padding: 8px 12px;
-            border: 2px solid var(--gris-claro);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-family: inherit;
+        .filtros-bar select,
+        .filtros-bar input[type="text"] {
+            padding: 7px 10px;
+            border-radius: var(--radio-sm);
+            border: 1.5px solid var(--gris-claro);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
             background: var(--gris-fondo);
-            transition: all var(--transicion);
-            min-width: 130px;
+            color: var(--gris-oscuro);
+            transition: border var(--transicion);
+            min-width: 100px;
         }
-        .filters-bar select:focus,
-        .filters-bar input:focus {
+        .filtros-bar select:focus,
+        .filtros-bar input[type="text"]:focus {
             outline: none;
-            border-color: var(--naranja);
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(244, 121, 32, 0.08);
+            border-color: var(--azul-medio);
+            background: var(--blanco);
         }
-        .filters-bar input[type="text"] {
+        .filtros-bar input[type="text"] {
             flex: 1;
             min-width: 180px;
-            max-width: 350px;
+            max-width: 320px;
         }
 
-        /* ========== TABLES ========== */
-        .table-wrapper {
+        /* ========== TABLAS ========== */
+        .tabla-contenedor {
             background: var(--blanco);
-            border-radius: var(--radius);
-            box-shadow: var(--sombra);
+            border-radius: var(--radio);
+            box-shadow: var(--sombra-sm);
             overflow-x: auto;
             margin-bottom: 20px;
-            -webkit-overflow-scrolling: touch;
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid var(--gris-claro);
         }
-        .table-wrapper h3 {
-            padding: 14px 18px 6px;
-            font-size: 0.95rem;
-            color: var(--azul-oscuro);
-            font-weight: 700;
-            letter-spacing: 0.3px;
-        }
-        table {
+        .tabla-contenedor table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             min-width: 900px;
             white-space: nowrap;
         }
-        thead th {
-            background: var(--azul-oscuro);
-            color: #fff;
-            padding: 10px 10px;
-            font-weight: 600;
-            font-size: 0.76rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+        .tabla-contenedor thead {
             position: sticky;
             top: 0;
-            text-align: left;
-            border-bottom: 2px solid var(--azul-medio);
+            z-index: 10;
         }
-        tbody td {
-            padding: 9px 10px;
+        .tabla-contenedor thead th {
+            background: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 10px 8px;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+        .tabla-contenedor tbody td {
+            padding: 8px;
             border-bottom: 1px solid var(--gris-claro);
-            vertical-align: middle;
-            max-width: 220px;
+            color: var(--gris-oscuro);
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        tbody tr {
+        .tabla-contenedor tbody tr {
             transition: background var(--transicion);
         }
-        tbody tr:hover {
-            background: #f8fafc;
+        .tabla-contenedor tbody tr:hover {
+            background: #f8fafb;
         }
-        tbody tr:nth-child(even) {
-            background: #fafbfc;
-        }
-        tbody tr:nth-child(even):hover {
-            background: #f1f5f9;
-        }
-
-        /* Badges */
         .badge {
             display: inline-block;
-            padding: 4px 11px;
-            border-radius: 14px;
+            padding: 3px 10px;
+            border-radius: 12px;
             font-weight: 600;
-            font-size: 0.75rem;
-            letter-spacing: 0.2px;
-            text-align: center;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
             white-space: nowrap;
         }
         .badge-pendiente {
-            background: #fff8e1;
-            color: #b8860b;
-            border: 1px solid #ffc107;
+            background: var(--amarillo-claro);
+            color: var(--amarillo);
         }
         .badge-en-curso {
-            background: #e3f0fd;
-            color: #0a58ca;
-            border: 1px solid #0d6efd;
+            background: var(--azul-claro);
+            color: var(--azul-medio);
         }
         .badge-entregado {
-            background: #ddf6e8;
-            color: #0d6832;
-            border: 1px solid #198754;
+            background: var(--verde-claro);
+            color: var(--verde);
         }
         .badge-baja {
-            background: #f1f3f5;
+            background: #e9ecef;
             color: #495057;
-            border: 1px solid #adb5bd;
         }
         .badge-media {
-            background: #fff8e1;
-            color: #b8860b;
-            border: 1px solid #ffc107;
+            background: var(--amarillo-claro);
+            color: var(--amarillo);
         }
         .badge-alta {
-            background: #fde8ea;
-            color: #a71d2a;
-            border: 1px solid #dc3545;
+            background: var(--rojo-claro);
+            color: var(--rojo);
         }
         .badge-incidencia {
-            background: #fde8ea;
-            color: #a71d2a;
-            border: 1px solid #dc3545;
-            font-size: 0.73rem;
-            max-width: 180px;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            background: var(--rojo-claro);
+            color: var(--rojo);
+            font-weight: 700;
             cursor: default;
-            padding: 4px 10px;
-            border-radius: 14px;
-            font-weight: 600;
+            font-size: 0.68rem;
+            padding: 2px 8px;
         }
         .celda-vacia {
             color: #c0c4c8;
             font-style: italic;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
-        /* ========== CHARTS SECTION ========== */
-        .charts-grid {
+        /* ========== GRÁFICOS ========== */
+        .graficos-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 16px;
             margin-bottom: 20px;
         }
-        .charts-grid.fila-2 {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .chart-card {
+        .grafico-card {
             background: var(--blanco);
-            border-radius: var(--radius);
-            box-shadow: var(--sombra);
+            border-radius: var(--radio);
             padding: 16px;
+            box-shadow: var(--sombra-sm);
             position: relative;
-            min-height: 340px;
+            min-height: 320px;
             display: flex;
             flex-direction: column;
         }
-        .chart-card h4 {
+        .grafico-card h3 {
             font-size: 0.85rem;
-            color: var(--azul-oscuro);
-            margin-bottom: 10px;
             font-weight: 700;
-            letter-spacing: 0.3px;
-            text-align: center;
+            color: var(--azul-oscuro);
+            margin-bottom: 8px;
+            letter-spacing: -0.2px;
         }
-        .chart-card canvas {
+        .grafico-card canvas {
             flex: 1;
             max-height: 300px;
         }
-        @media (max-width: 1000px) {
-            .charts-grid,
-            .charts-grid.fila-2 {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-        @media (max-width: 650px) {
-            .charts-grid,
-            .charts-grid.fila-2 {
-                grid-template-columns: 1fr;
-            }
-        }
 
-        /* ========== ALERTS PANEL ========== */
-        .alerts-panel {
+        /* ========== PANEL INCIDENCIAS ========== */
+        .incidencias-panel {
             background: var(--blanco);
-            border-radius: var(--radius);
-            box-shadow: var(--sombra);
+            border-radius: var(--radio);
             padding: 18px 20px;
+            box-shadow: var(--sombra-sm);
             margin-bottom: 20px;
-            border-top: 4px solid var(--rojo);
+            border-left: 5px solid var(--rojo);
         }
-        .alerts-panel h3 {
-            font-size: 0.95rem;
-            color: var(--rojo);
+        .incidencias-panel h2 {
+            font-size: 1rem;
             font-weight: 700;
-            letter-spacing: 0.3px;
+            color: var(--rojo);
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-        .alerts-panel h3 i {
-            animation: pulse-icon 2s infinite;
+        .incidencias-panel h2 i {
+            font-size: 1.1rem;
         }
-        @keyframes pulse-icon {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.25);
-            }
-        }
-        .alert-item {
+        .alerta-item {
             display: flex;
             align-items: flex-start;
             gap: 10px;
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
+            padding: 10px 12px;
             margin-bottom: 8px;
+            border-radius: var(--radio-sm);
             background: #fff5f5;
-            border-left: 4px solid var(--rojo);
-            font-size: 0.84rem;
-        }
-        .alert-item .alert-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--rojo);
-            flex-shrink: 0;
-            margin-top: 4px;
-        }
-        .alert-item .alert-content {
-            flex: 1;
-        }
-        .alert-item .alert-title {
-            font-weight: 700;
-            color: #a71d2a;
-        }
-        .alert-item .alert-detail {
-            color: #555;
+            border-left: 3px solid var(--rojo);
             font-size: 0.8rem;
         }
-        .alert-item .alert-date {
-            color: var(--texto-claro);
+        .alerta-item .alerta-icono {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--rojo-claro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rojo);
             font-size: 0.75rem;
-            white-space: nowrap;
-            font-weight: 500;
         }
-        .alert-ok {
-            background: #f0faf4;
-            border-left: 4px solid var(--verde);
-            color: #0d6832;
+        .alerta-item .alerta-contenido {
+            flex: 1;
+        }
+        .alerta-item .alerta-titulo {
+            font-weight: 700;
+            color: var(--gris-oscuro);
+            margin-bottom: 2px;
+        }
+        .alerta-item .alerta-detalle {
+            color: var(--gris-medio);
+            font-size: 0.75rem;
+        }
+        .alerta-item .alerta-fecha {
             font-weight: 600;
-            text-align: center;
-            padding: 16px;
-            border-radius: var(--radius-sm);
-            font-size: 0.9rem;
+            color: var(--rojo);
+            font-size: 0.7rem;
+            white-space: nowrap;
+            margin-left: auto;
+            flex-shrink: 0;
         }
-        .alert-ok i {
+        .todo-ok {
+            text-align: center;
+            padding: 20px;
+            color: var(--verde);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .todo-ok i {
             margin-right: 6px;
         }
 
         /* ========== FOOTER ========== */
         .footer {
             text-align: center;
-            padding: 16px;
-            color: var(--texto-claro);
-            font-size: 0.8rem;
+            padding: 14px;
+            font-size: 0.75rem;
+            color: var(--gris-medio);
             border-top: 1px solid var(--gris-claro);
-            background: var(--blanco);
-            margin-top: 10px;
-            border-radius: 0 0 var(--radius) var(--radius);
+            margin-top: 8px;
+            letter-spacing: 0.3px;
         }
 
-        /* ========== TOAST ========== */
+        /* ========== MENSAJE TOAST ========== */
         .toast {
             position: fixed;
             top: 20px;
             right: 20px;
-            z-index: 9999;
-            padding: 14px 22px;
-            border-radius: 25px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.9rem;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-            animation: slideInRight 0.35s ease, fadeOut 0.5s ease 2.5s forwards;
-            max-width: 400px;
-        }
-        .toast-success {
-            background: #198754;
-        }
-        .toast-info {
             background: var(--azul-oscuro);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1000;
+            box-shadow: var(--sombra-lg);
+            animation: slideIn 0.35s ease;
+            display: none;
         }
-        @keyframes slideInRight {
+        .toast.mostrar {
+            display: block;
+        }
+        @keyframes slideIn {
             from {
                 transform: translateX(120%);
                 opacity: 0;
@@ -569,1256 +531,997 @@
                 opacity: 1;
             }
         }
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-15px);
-            }
-        }
 
         /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             .header {
-                padding: 10px 14px;
-                gap: 10px;
+                flex-direction: column;
+                align-items: flex-start;
             }
-            .header-titles h1 {
-                font-size: 1.1rem;
+            .header-der {
+                width: 100%;
+                justify-content: flex-start;
             }
-            .btn-load {
-                padding: 8px 13px;
-                font-size: 0.78rem;
+            .tarjetas-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             }
-            .summary-section {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+            .graficos-grid {
+                grid-template-columns: 1fr;
             }
-            .filters-bar {
-                gap: 8px;
-                padding: 10px 12px;
+            .filtros-bar {
+                flex-direction: column;
+                align-items: stretch;
             }
-            .filters-bar select,
-            .filters-bar input {
-                font-size: 0.78rem;
-                padding: 6px 10px;
+            .filtros-bar input[type="text"] {
+                max-width: 100%;
             }
-            table {
-                font-size: 0.72rem;
-                min-width: 700px;
-            }
-            thead th {
-                font-size: 0.7rem;
-                padding: 7px 7px;
-            }
-            tbody td {
-                padding: 6px 7px;
+            .tabla-contenedor {
+                max-height: 350px;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==================== HEADER ==================== -->
-    <header class="header">
-        <div class="logo-container" title="Cerámica Marcos Paz">
-            <!-- Logo placeholder: escudo CMP. Reemplazar src si se tiene la imagen real -->
-            <!-- <img src="logo-cmp.png" alt="Logo CMP"> -->
-            <span style="font-size:22px;font-weight:900;color:#1a3a5c;">CMP</span>
-        </div>
-        <div class="header-titles">
-            <h1>TALLER <span class="yerba-buena">YERBA BUENA</span></h1>
-            <p class="subtitle">Dashboard de Órdenes de Trabajo y Ejecución</p>
-        </div>
-        <div class="header-date" id="headerDate">
-            <i class="fa-regular fa-calendar"></i> <span id="fechaActual"></span>
-        </div>
-        <div class="header-buttons">
-            <button class="btn-load btn-load-ots" id="btnCargarOTs" title="Cargar archivo CSV de Órdenes de Trabajo">
-                <i class="fa-solid fa-file-csv"></i> Cargar OTs
-            </button>
-            <button class="btn-load btn-load-trabajos" id="btnCargarTrabajos" title="Cargar archivo CSV de Trabajos Realizados">
-                <i class="fa-solid fa-file-csv"></i> Cargar Trabajos
-            </button>
-            <input type="file" id="inputOTs" accept=".csv" style="display:none;">
-            <input type="file" id="inputTrabajos" accept=".csv" style="display:none;">
-        </div>
-    </header>
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
 
-    <!-- ==================== MAIN CONTAINER ==================== -->
-    <div class="main-container">
+    <!-- ==================== DASHBOARD CONTAINER ==================== -->
+    <div class="dashboard-container">
 
-        <!-- ===== SECCIÓN: Tarjetas Resumen OTs ===== -->
-        <div class="summary-section" id="summaryOTsSection">
-            <h3><i class="fa-solid fa-clipboard-list"></i> Resumen de Órdenes de Trabajo</h3>
-            <div class="card-summary ots-card">
-                <div class="card-icon"><i class="fa-solid fa-hashtag"></i></div>
-                <div class="card-info"><div class="card-value" id="totalOTs">0</div><div class="card-label">Total OTs</div></div>
+        <!-- ========== HEADER ========== -->
+        <header class="header">
+            <div class="header-izq">
+                <div class="logo-escudo" title="Cerámica Marcos Paz">MVP</div>
+                <div class="header-titulos">
+                    <h1>TALLER <span class="naranja">YERBA BUENA</span></h1>
+                    <p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p>
+                </div>
             </div>
-            <div class="card-summary ots-card">
-                <div class="card-icon"><i class="fa-solid fa-spinner"></i></div>
-                <div class="card-info"><div class="card-value" id="enCursoOTs">0</div><div class="card-label">En curso</div></div>
+            <div class="header-der">
+                <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
+                <button class="btn-carga" id="btnCargarOTs" title="Cargar CSV de O.T. Taller de YB">
+                    <i class="fa-solid fa-file-csv"></i> Cargar OTs
+                </button>
+                <button class="btn-carga naranja" id="btnCargarTrabajos" title="Cargar CSV de Trabajos Realizados">
+                    <i class="fa-solid fa-file-csv"></i> Cargar Trabajos
+                </button>
+                <button class="btn-carga" id="btnRecargarGoogle" title="Recargar desde Google Sheets" style="border-color:#34a853;color:#34a853;">
+                    <i class="fa-brands fa-google"></i> Google Sheets
+                </button>
             </div>
-            <div class="card-summary ots-card">
-                <div class="card-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                <div class="card-info"><div class="card-value" id="atrasadasOTs">0</div><div class="card-label">Atrasadas</div></div>
-            </div>
-            <div class="card-summary ots-card">
-                <div class="card-icon"><i class="fa-solid fa-users"></i></div>
-                <div class="card-info"><div class="card-value" id="operariosActivos">0</div><div class="card-label">Operarios activos</div></div>
-            </div>
+        </header>
+
+        <!-- ========== TARJETAS OTs ========== -->
+        <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
+        <div class="tarjetas-grid" id="tarjetasOTs">
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
+            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-clock"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="atrasadasOTs">0</div><div class="tarjeta-label">Atrasadas</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- ===== SECCIÓN: Tarjetas Resumen Trabajos ===== -->
-        <div class="summary-section" id="summaryTrabSection">
-            <h3><i class="fa-solid fa-wrench"></i> Resumen de Trabajos Realizados</h3>
-            <div class="card-summary trab-card">
-                <div class="card-icon"><i class="fa-solid fa-list-check"></i></div>
-                <div class="card-info"><div class="card-value" id="totalTrabajos">0</div><div class="card-label">Total trabajos</div></div>
-            </div>
-            <div class="card-summary trab-card">
-                <div class="card-icon"><i class="fa-regular fa-clock"></i></div>
-                <div class="card-info"><div class="card-value" id="horasTotales">0</div><div class="card-label">Horas totales</div></div>
-            </div>
-            <div class="card-summary trab-card">
-                <div class="card-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
-                <div class="card-info"><div class="card-value" id="conIncidencia">0</div><div class="card-label">Con incidencia</div></div>
-            </div>
-            <div class="card-summary trab-card">
-                <div class="card-icon"><i class="fa-solid fa-user-gear"></i></div>
-                <div class="card-info"><div class="card-value" id="responsablesCount">0</div><div class="card-label">Responsables</div></div>
-            </div>
+        <!-- ========== TARJETAS TRABAJOS ========== -->
+        <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
+        <div class="tarjetas-grid" id="tarjetasTrabajos">
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalTrabajos">0</div><div class="tarjeta-label">Total trabajos</div></div></div>
+            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-user-gear"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="responsablesCount">0</div><div class="tarjeta-label">Responsables</div></div></div>
         </div>
 
-        <!-- ===== FILTROS Tabla OTs ===== -->
-        <div class="filters-bar" id="filtrosOTs">
-            <label><i class="fa-solid fa-filter"></i> Filtrar OTs:</label>
-            <select id="filtroEstadoOT"><option value="Todos">Estado: Todos</option></select>
-            <select id="filtroOperarioOT"><option value="Todos">Operario: Todos</option></select>
-            <select id="filtroTipoOT"><option value="Todos">Tipo: Todos</option></select>
-            <select id="filtroSectorOT"><option value="Todos">Sector: Todos</option></select>
-            <input type="text" id="busquedaOT" placeholder="&#xf002; Buscar en N° OT, Máquina, Piezas, Descripción...">
+        <!-- ========== FILTROS OTs ========== -->
+        <div class="filtros-bar" id="filtrosOTs">
+            <label>Estado:</label>
+            <select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperario"><option value="Todos">Todos</option></select>
+            <label>Tipo:</label>
+            <select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
+            <label>Sector:</label>
+            <select id="filtroSector"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
         </div>
 
-        <!-- ===== TABLA OTs ===== -->
-        <div class="table-wrapper" id="tablaOTsWrapper">
-            <h3><i class="fa-solid fa-table"></i> Órdenes de Trabajo</h3>
-            <div style="overflow-x:auto;">
-                <table id="tablaOTs">
-                    <thead>
-                        <tr>
-                            <th>Fecha Programada</th><th>N° OT</th><th>Solicitante</th><th>Operario Asignado</th>
-                            <th>Equipo de Trabajo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th>
-                            <th>Tipo de Trabajo</th><th>Descripción de tarea</th><th>Criticidad</th><th>Estado</th>
-                            <th>Lugar de Trabajo</th><th>OT Mant Asoc</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyOTs"></tbody>
-                </table>
-            </div>
+        <!-- ========== TABLA OTs ========== -->
+        <div class="tabla-contenedor" id="tablaOTsContainer">
+            <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Solicitante</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Descripción</th><th>Criticidad</th><th>Estado</th><th>Lugar</th><th>OT Mant Asoc</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- ===== FILTROS Tabla Trabajos ===== -->
-        <div class="filters-bar" id="filtrosTrabajos">
-            <label><i class="fa-solid fa-filter"></i> Filtrar Trabajos:</label>
-            <select id="filtroOTtrab"><option value="Todos">N° OT: Todos</option></select>
-            <select id="filtroResponsableTrab"><option value="Todos">Responsable: Todos</option></select>
-            <input type="text" id="busquedaTrab" placeholder="&#xf002; Buscar en N° OT, Descripción, Materiales, Incidencia...">
+        <!-- ========== FILTROS TRABAJOS ========== -->
+        <div class="filtros-bar" id="filtrosTrabajos">
+            <label>N° OT:</label>
+            <select id="filtroNroOT"><option value="Todos">Todos</option></select>
+            <label>Responsable:</label>
+            <select id="filtroResponsable"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
         </div>
 
-        <!-- ===== TABLA Trabajos ===== -->
-        <div class="table-wrapper" id="tablaTrabajosWrapper">
-            <h3><i class="fa-solid fa-table-list"></i> Trabajos Realizados</h3>
-            <div style="overflow-x:auto;">
-                <table id="tablaTrabajos">
-                    <thead>
-                        <tr>
-                            <th>N° OT</th><th>Responsable</th><th>Máquina Usada</th><th>Fecha de Realización</th>
-                            <th>Descripción del Trabajo Realizado</th><th>Materiales e Insumos Consumidos</th>
-                            <th>Incidencia o Dificultad</th><th>Cantidad</th><th>Hora Inicio</th><th>Hora Fin</th>
-                            <th>Tiempo Total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyTrabajos"></tbody>
-                </table>
-            </div>
+        <!-- ========== TABLA TRABAJOS ========== -->
+        <div class="tabla-contenedor" id="tablaTrabajosContainer">
+            <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Responsable</th><th>Máquina Usada</th><th>Fecha Realiz.</th><th>Descripción</th><th>Materiales</th><th>Incidencia</th><th>Cant.</th><th>Hora Inicio</th><th>Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- ===== GRÁFICOS Fila 1 (OTs) ===== -->
-        <div class="charts-grid" id="chartsFila1">
-            <div class="chart-card"><h4>Distribución de OTs por Estado</h4><canvas id="chartOTsEstado"></canvas></div>
-            <div class="chart-card"><h4>Cantidad de OTs por Operario</h4><canvas id="chartOTsOperario"></canvas></div>
-            <div class="chart-card"><h4>Cantidad de OTs por Tipo de Trabajo</h4><canvas id="chartOTsTipo"></canvas></div>
+        <!-- ========== GRÁFICOS FILA 1 (OTs) ========== -->
+        <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
+        <div class="graficos-grid" id="graficosOTs">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo de Trabajo</h3><canvas id="graficoTipo"></canvas></div>
         </div>
 
-        <!-- ===== GRÁFICOS Fila 2 (Trabajos) ===== -->
-        <div class="charts-grid fila-2" id="chartsFila2">
-            <div class="chart-card"><h4>Horas Trabajadas por Responsable</h4><canvas id="chartTrabHoras"></canvas></div>
-            <div class="chart-card"><h4>Trabajos por Máquina Usada</h4><canvas id="chartTrabMaquina"></canvas></div>
-            <div class="chart-card"><h4>Incidencias por N° OT</h4><canvas id="chartTrabIncidencias"></canvas></div>
+        <!-- ========== GRÁFICOS FILA 2 (Trabajos) ========== -->
+        <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
+        <div class="graficos-grid" id="graficosTrabajos">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas trabajadas por Responsable</h3><canvas id="graficoHorasResp"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina Usada</h3><canvas id="graficoMaquina"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
-        <!-- ===== PANEL DE INCIDENCIAS Y ALERTAS ===== -->
-        <div class="alerts-panel" id="panelAlertas">
-            <h3><i class="fa-solid fa-bell"></i> Panel de Incidencias y Alertas</h3>
-            <div id="contenidoAlertas">
-                <div class="alert-ok"><i class="fa-solid fa-circle-check"></i> Todo en orden</div>
-            </div>
+        <!-- ========== PANEL DE INCIDENCIAS Y ALERTAS ========== -->
+        <div class="incidencias-panel" id="panelIncidencias">
+            <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
+            <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p></div>
         </div>
 
-        <!-- ===== FOOTER ===== -->
-        <div class="footer" id="footerText">
-            Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="footerFecha"></span>
-        </div>
-
+        <!-- ========== FOOTER ========== -->
+        <footer class="footer" id="footerTexto">
+            Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span>
+        </footer>
     </div>
 
-    <!-- ==================== SCRIPTS ==================== -->
+    <!-- INPUTS OCULTOS PARA CARGA DE ARCHIVOS -->
+    <input type="file" id="inputCSVOTs" accept=".csv" style="display:none;">
+    <input type="file" id="inputCSVTrabajos" accept=".csv" style="display:none;">
+
     <script>
         (function() {
-            // ==================== DATOS GLOBALES ====================
-            let datosOTs = []; // Array de objetos con las 14 columnas mapeadas
-            let datosTrabajos = []; // Array de objetos con las 11 columnas mapeadas
+            // ==================== VARIABLES GLOBALES ====================
+            let datosOTs = []; // Array de objetos de la hoja O.T. Taller de YB
+            let datosTrabajos = []; // Array de objetos de la hoja TrabajosRealizados
 
             // Instancias de gráficos de Chart.js
-            let chartInstances = {
-                chartOTsEstado: null,
-                chartOTsOperario: null,
-                chartOTsTipo: null,
-                chartTrabHoras: null,
-                chartTrabMaquina: null,
-                chartTrabIncidencias: null,
-            };
+            let charts = {};
 
-            // Nombres canónicos de columnas (en minúsculas sin tildes)
-            const CANONICAL_OTS = [
-                'fecha programada', 'n° ot', 'solicitante', 'operario asignado',
-                'equipo de trabajo', 'sector', 'maquina/equipo', 'piezas',
-                'tipo de trabajo', 'descripcion de tarea', 'criticidad', 'estado',
-                'lugar de trabajo', 'ot mant asoc'
-            ];
-            const CANONICAL_TRABAJOS = [
-                'n° ot', 'responsable', 'maquina usada', 'fecha de realizacion',
-                'descripcion del trabajo realizado', 'materiales e insumos consumidos',
-                'incidencia o dificultad', 'cantidad', 'hora inicio', 'hora fin', 'tiempo total'
-            ];
-
-            // Alias para mapeo flexible (formas alternativas que pueden aparecer en el CSV)
-            const ALIAS_OTS = {
-                'fecha programada': ['fecha programada', 'fecha', 'fecha prog', 'fecha programada'],
-                'n° ot': ['n° ot', 'nº ot', 'no ot', 'nro ot', 'numero ot', 'ot', 'n ot'],
-                'solicitante': ['solicitante', 'solicita', 'departamento', 'area solicitante'],
-                'operario asignado': ['operario asignado', 'operario', 'tecnico', 'responsable principal',
-                    'operario asig'
-                ],
-                'equipo de trabajo': ['equipo de trabajo', 'equipo', 'personal apoyo', 'apoyo'],
-                'sector': ['sector', 'area'],
-                'maquina/equipo': ['maquina/equipo', 'maquina', 'equipo', 'maquina equipo', 'máquina/equipo',
-                    'máquina'
-                ],
-                'piezas': ['piezas', 'pieza', 'componente'],
-                'tipo de trabajo': ['tipo de trabajo', 'tipo', 'clasificacion', 'tipo trabajo'],
-                'descripcion de tarea': ['descripcion de tarea', 'descripcion', 'tarea', 'detalle'],
-                'criticidad': ['criticidad', 'prioridad', 'critica'],
-                'estado': ['estado', 'situacion', 'status'],
-                'lugar de trabajo': ['lugar de trabajo', 'lugar', 'ubicacion', 'ubicación'],
-                'ot mant asoc': ['ot mant asoc', 'ot mantenimiento', 'ot asociada', 'ot mant'],
-            };
-            const ALIAS_TRABAJOS = {
-                'n° ot': ['n° ot', 'nº ot', 'no ot', 'nro ot', 'numero ot', 'ot', 'n ot'],
-                'responsable': ['responsable', 'operario', 'ejecutor', 'tecnico'],
-                'maquina usada': ['maquina usada', 'máquina usada', 'maquina', 'equipo usado', 'máquina'],
-                'fecha de realizacion': ['fecha de realizacion', 'fecha realizacion', 'fecha', 'fecha ejecucion',
-                    'fecha de realización'
-                ],
-                'descripcion del trabajo realizado': ['descripcion del trabajo realizado', 'descripcion trabajo',
-                    'trabajo realizado', 'descripcion', 'detalle trabajo'
-                ],
-                'materiales e insumos consumidos': ['materiales e insumos consumidos', 'materiales', 'insumos',
-                    'materiales consumidos'
-                ],
-                'incidencia o dificultad': ['incidencia o dificultad', 'dificulta', 'dificultad', 'incidencia',
-                    'problema', 'incidencia o dificulta'
-                ],
-                'cantidad': ['cantidad', 'cant', 'piezas', 'unidades'],
-                'hora inicio': ['hora inicio', 'inicio', 'hora comienzo'],
-                'hora fin': ['hora fin', 'fin', 'hora finalizacion', 'hora finalización'],
-                'tiempo total': ['tiempo total', 'duracion', 'duración', 'total horas', 'horas'],
-            };
-
-            // ==================== FUNCIONES DE NORMALIZACIÓN ====================
-            function normalizeStr(str) {
-                if (!str) return '';
-                return str.toLowerCase()
-                    .normalize('NFD')
-                    .replace(/[\u0300-\u036f]/g, '')
-                    .replace(/[º°]/g, '')
-                    .replace(/\s+/g, ' ')
-                    .trim();
-            }
-
-            // ==================== MAPEO FLEXIBLE DE COLUMNAS ====================
-            function buildColumnMapper(headers, canonicalList, aliasMap) {
-                // headers: array de strings (encabezados del CSV)
-                // Devuelve un array de índices: mapper[índiceCanónico] = índiceEnCSV (o -1 si no se encontró)
-                const mapper = new Array(canonicalList.length).fill(-1);
-                const normalizedHeaders = headers.map((h, i) => ({ norm: normalizeStr(h), originalIndex: i }));
-
-                canonicalList.forEach((canon, canonIndex) => {
-                    const aliases = aliasMap[canon] || [canon];
-                    const normalizedAliases = aliases.map(a => normalizeStr(a));
-                    // Buscar coincidencia exacta primero
-                    let found = normalizedHeaders.find(nh => normalizedAliases.includes(nh.norm));
-                    if (!found) {
-                        // Búsqueda parcial: si el alias está contenido en el header o viceversa
-                        found = normalizedHeaders.find(nh => {
-                            return normalizedAliases.some(alias =>
-                                nh.norm.includes(alias) || alias.includes(nh.norm)
-                            );
-                        });
-                    }
-                    if (found) {
-                        mapper[canonIndex] = found.originalIndex;
-                    }
-                });
-                return mapper;
-            }
-
-            // ==================== PARSEO DE CSV ====================
-            function parseCSV(texto) {
-                // Soporta comillas, saltos de línea dentro de comillas, punto y coma o coma como separador
-                const rows = [];
-                let currentRow = [];
-                let currentField = '';
-                let inQuotes = false;
-
-                // Detectar separador: si hay punto y coma, usar ese; si no, coma
-                const firstLine = texto.split('\n')[0] || '';
-                const separator = (firstLine.split(';').length >= firstLine.split(',').length) ? ';' : ',';
-
-                for (let i = 0; i < texto.length; i++) {
-                    const char = texto[i];
-                    const nextChar = texto[i + 1];
-
-                    if (inQuotes) {
-                        if (char === '"' && nextChar === '"') {
-                            currentField += '"';
-                            i++; // saltar la siguiente comilla
-                        } else if (char === '"') {
-                            inQuotes = false;
-                        } else {
-                            currentField += char;
-                        }
-                    } else {
-                        if (char === '"') {
-                            inQuotes = true;
-                        } else if (char === separator) {
-                            currentRow.push(currentField.trim());
-                            currentField = '';
-                        } else if (char === '\n' || (char === '\r' && nextChar === '\n')) {
-                            if (char === '\r') i++; // saltar \n después de \r
-                            currentRow.push(currentField.trim());
-                            if (currentRow.some(f => f !== '')) {
-                                rows.push(currentRow);
-                            }
-                            currentRow = [];
-                            currentField = '';
-                        } else if (char === '\r') {
-                            currentRow.push(currentField.trim());
-                            if (currentRow.some(f => f !== '')) {
-                                rows.push(currentRow);
-                            }
-                            currentRow = [];
-                            currentField = '';
-                        } else {
-                            currentField += char;
-                        }
-                    }
-                }
-                // Último campo/fila
-                if (currentField !== '' || currentRow.length > 0) {
-                    currentRow.push(currentField.trim());
-                    if (currentRow.some(f => f !== '')) {
-                        rows.push(currentRow);
-                    }
-                }
-                return rows;
-            }
-
-            // ==================== PROCESAR CSV DE OTs ====================
-            function procesarCSV_OTs(texto) {
-                const rows = parseCSV(texto);
-                if (rows.length < 2) {
-                    throw new Error('El archivo CSV de OTs debe tener al menos una fila de encabezados y una de datos.');
-                }
-                const headers = rows[0];
-                const mapper = buildColumnMapper(headers, CANONICAL_OTS, ALIAS_OTS);
-
-                // Verificar que al menos algunas columnas clave se hayan mapeado
-                const mappedCount = mapper.filter(i => i >= 0).length;
-                if (mappedCount < 3) {
-                    console.warn('Pocas columnas mapeadas para OTs. Headers encontrados:', headers);
-                    console.warn('Mapper:', mapper.map((v, i) => CANONICAL_OTS[i] + ' -> ' + (v >= 0 ? headers[v] :
-                        'NO ENCONTRADO')).join('\n'));
-                }
-
-                const datos = [];
-                for (let r = 1; r < rows.length; r++) {
-                    const row = rows[r];
-                    const obj = {};
-                    CANONICAL_OTS.forEach((canon, idx) => {
-                        const colIdx = mapper[idx];
-                        obj[canon] = (colIdx >= 0 && colIdx < row.length) ? row[colIdx] : '';
-                    });
-                    // No filtrar filas vacías: todas las filas se incluyen
-                    datos.push(obj);
-                }
-                return datos;
-            }
-
-            // ==================== PROCESAR CSV DE Trabajos ====================
-            function procesarCSV_Trabajos(texto) {
-                const rows = parseCSV(texto);
-                if (rows.length < 2) {
-                    throw new Error(
-                        'El archivo CSV de Trabajos debe tener al menos una fila de encabezados y una de datos.');
-                }
-                const headers = rows[0];
-                const mapper = buildColumnMapper(headers, CANONICAL_TRABAJOS, ALIAS_TRABAJOS);
-
-                const mappedCount = mapper.filter(i => i >= 0).length;
-                if (mappedCount < 3) {
-                    console.warn('Pocas columnas mapeadas para Trabajos. Headers encontrados:', headers);
-                    console.warn('Mapper:', mapper.map((v, i) => CANONICAL_TRABAJOS[i] + ' -> ' + (v >= 0 ? headers[v] :
-                        'NO ENCONTRADO')).join('\n'));
-                }
-
-                const datos = [];
-                for (let r = 1; r < rows.length; r++) {
-                    const row = rows[r];
-                    const obj = {};
-                    CANONICAL_TRABAJOS.forEach((canon, idx) => {
-                        const colIdx = mapper[idx];
-                        obj[canon] = (colIdx >= 0 && colIdx < row.length) ? row[colIdx] : '';
-                    });
-                    datos.push(obj);
-                }
-                return datos;
-            }
-
-            // ==================== DATOS DE EJEMPLO ====================
-            function generarDatosEjemploOTs() {
-                const hoy = new Date();
-                const fmt = (d) => {
-                    const dd = String(d.getDate()).padStart(2, '0');
-                    const mm = String(d.getMonth() + 1).padStart(2, '0');
-                    const aa = String(d.getFullYear()).slice(2);
-                    return dd + '/' + mm + '/' + aa;
-                };
-                const diasAtras = (n) => {
-                    const d = new Date(hoy);
-                    d.setDate(d.getDate() - n);
-                    return fmt(d);
-                };
-                const diasFuturo = (n) => {
-                    const d = new Date(hoy);
-                    d.setDate(d.getDate() + n);
-                    return fmt(d);
-                };
-
-                return [
-                    ['15/07/26', 'OTTI-2607-01-F', 'Mantenimiento Industrial', 'Pulido, Victor', 'Soldador',
-                        'Carga', 'Carro Buscador', 'Polea transmisión', 'Reparación',
-                        'Reparar polea de transmisión del carro buscador', 'Alta', 'En curso', 'Taller Cevil',
-                        ''
-                    ],
-                    ['10/07/26', 'OTTI-2607-02-F', 'Producción', 'Figueroa, Ramón', 'Fresador', 'Molienda',
-                        'Mezcladora', 'Eje', 'Fabricación', 'Fabricar eje para mezcladora', 'Media',
-                        'Pendiente', 'YB', 'MTTO-123'
-                    ],
-                    ['05/07/26', 'OTTI-2607-03-M', 'Mantenimiento Industrial', 'Pulido, Victor', '', 'Secadero',
-                        'Rotofiltro', 'Bulones', 'Reparación', 'Cambio de bulones en rotofiltro', 'Alta',
-                        'Entregado', 'Taller Cevil', 'MTTO-089'
-                    ],
-                    ['18/07/26', 'OTTI-2607-04-F', 'Calidad', 'Gómez, Sergio', 'Tornero', 'Producción', 'Torno CNC',
-                        'Piñón', 'Fabricación', 'Fabricar piñón para línea de esmaltado', 'Baja', 'En curso',
-                        'YB', ''
-                    ],
-                    ['12/07/26', 'OTTI-2607-05-M', 'Logística', 'Figueroa, Ramón', 'Soldador, Fresador', 'Carga',
-                        'Cinta Transportadora', 'Rodamiento', 'Modificación',
-                        'Modificar soporte de rodamiento en cinta', 'Media', 'Pendiente', 'YB', ''
-                    ],
-                    ['08/07/26', 'OTTI-2607-06-R', 'Mantenimiento Industrial', 'López, Carlos', '', 'Molienda',
-                        'Molino a Bolas', 'Coraza interna', 'Reparación',
-                        'Reparar coraza interna del molino a bolas', 'Alta', 'Entregado', 'Taller Cevil',
-                        'MTTO-101'
-                    ],
-                    ['20/07/26', 'OTTI-2607-07-F', 'Producción', 'Pulido, Victor', 'Fresador', 'Secadero',
-                        'Ventilador Industrial', 'Aspas', 'Fabricación', 'Fabricar aspas para ventilador',
-                        'Media', 'En curso', 'YB', ''
-                    ],
-                    ['01/07/26', 'OTTI-2607-08-M', 'Mantenimiento Industrial', 'Gómez, Sergio', 'Soldador',
-                        'Producción', 'Mezcladora', 'Paletas', 'Modificación',
-                        'Modificar ángulo de paletas mezcladoras', 'Baja', 'Entregado', 'Taller Cevil', ''
-                    ],
-                    ['14/07/26', 'OTTI-2607-09-R', 'Calidad', 'López, Carlos', '', 'Carga', 'Balanza Industrial',
-                        'Celda de carga', 'Reparación', 'Reparar celda de carga de balanza', 'Alta',
-                        'Pendiente', 'YB', 'MTTO-115'
-                    ],
-                    ['22/07/26', 'OTTI-2607-10-F', 'Producción', 'Figueroa, Ramón', 'Tornero, Soldador',
-                        'Molienda', 'Trituradora', 'Martillos', 'Fabricación',
-                        'Fabricar martillos para trituradora', 'Alta', 'Pendiente', 'Taller Cevil', ''
-                    ],
-                ].map(row => {
-                    const obj = {};
-                    CANONICAL_OTS.forEach((canon, i) => {
-                        obj[canon] = row[i] || '';
-                    });
-                    return obj;
-                });
-            }
-
-            function generarDatosEjemploTrabajos() {
-                return [
-                    ['OTTI-2607-01-F', 'Pulido, Victor', 'Torno', '15/07/26',
-                        'Torneado de polea de transmisión', 'Acero SAE 1045',
-                        'Dificultad con la alineación del eje', '1', '08:00', '12:00', '4.0'
-                    ],
-                    ['OTTI-2607-03-M', 'Pulido, Victor', 'Fresadora', '05/07/26',
-                        'Mecanizado de bulones de anclaje', 'Acero Inox 304', '', '8', '07:30', '10:45', '3.25'
-                    ],
-                    ['OTTI-2607-06-R', 'López, Carlos', 'Soldadora MIG', '08/07/26',
-                        'Soldadura de coraza interna', 'Electrodo E6013, Planchuela 1/4"',
-                        'Falta de material adecuado al inicio', '1', '09:00', '16:00', '7.0'
-                    ],
-                    ['OTTI-2607-08-M', 'Gómez, Sergio', 'Torno CNC', '01/07/26',
-                        'Mecanizado de paletas mezcladoras', 'Acero SAE 1045', '', '4', '08:00', '11:30', '3.5'
-                    ],
-                    ['OTTI-2607-04-F', 'Gómez, Sergio', 'Fresadora', '18/07/26',
-                        'Fresado de dientes de piñón', 'Acero SAE 4140',
-                        'Rotura de fresa durante el mecanizado', '1', '08:30', '14:00', '5.5'
-                    ],
-                    ['OTTI-2607-07-F', 'Pulido, Victor', 'Torno', '20/07/26',
-                        'Torneado de aspas para ventilador', 'Aluminio 6061', '', '6', '07:00', '10:00', '3.0'
-                    ],
-                    ['OTTI-2607-02-F', 'Figueroa, Ramón', 'Fresadora', '10/07/26',
-                        'Mecanizado de eje para mezcladora', 'Acero SAE 1045', '', '1', '08:00', '13:00', '5.0'
-                    ],
-                    ['OTTI-2607-05-M', 'Figueroa, Ramón', 'Soldadora TIG', '12/07/26',
-                        'Modificación de soporte de rodamiento', 'Electrodo Inox, Planchuela',
-                        'Problema de acceso a la zona de soldadura', '2', '09:00', '15:30', '6.5'
-                    ],
-                    ['', 'López, Carlos', 'Torno', '16/07/26',
-                        'Reparación urgente de bocina', 'Bronce SAE 64', '', '2', '14:00', '16:30', '2.5'
-                    ],
-                ].map(row => {
-                    const obj = {};
-                    CANONICAL_TRABAJOS.forEach((canon, i) => {
-                        obj[canon] = row[i] || '';
-                    });
-                    return obj;
-                });
-            }
-
-            // Inicializar con datos de ejemplo
-            datosOTs = generarDatosEjemploOTs();
-            datosTrabajos = generarDatosEjemploTrabajos();
+            // IDs de Google Sheets
+            const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
+            const SHEET_NAME_OTS = 'O.T. Taller de YB';
+            const SHEET_NAME_TRABAJOS = 'TrabajosRealizados';
 
             // ==================== UTILIDADES ====================
+            function mostrarToast(mensaje, duracion = 3000) {
+                const toast = document.getElementById('toast');
+                toast.textContent = mensaje;
+                toast.classList.add('mostrar');
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => toast.classList.remove('mostrar'), duracion);
+            }
+
             function obtenerFechaActual() {
                 const hoy = new Date();
                 const dd = String(hoy.getDate()).padStart(2, '0');
                 const mm = String(hoy.getMonth() + 1).padStart(2, '0');
                 const aaaa = hoy.getFullYear();
-                return dd + '/' + mm + '/' + aaaa;
+                return `${dd}/${mm}/${aaaa}`;
             }
 
-            function parseFechaDDMMAA(str) {
-                if (!str || str.trim() === '') return null;
-                const partes = str.trim().split('/');
-                if (partes.length !== 3) return null;
-                let dd = parseInt(partes[0], 10);
-                let mm = parseInt(partes[1], 10) - 1;
-                let aa = parseInt(partes[2], 10);
-                if (aa < 100) aa += 2000; // Asumir siglo 21
-                if (isNaN(dd) || isNaN(mm) || isNaN(aa)) return null;
-                const fecha = new Date(aa, mm, dd);
-                if (fecha.getFullYear() !== aa || fecha.getMonth() !== mm || fecha.getDate() !== dd) return null;
-                return fecha;
+            function actualizarFechasUI() {
+                const f = obtenerFechaActual();
+                document.getElementById('fechaActual').innerHTML =
+                    `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
+                document.getElementById('fechaFooter').textContent = f;
             }
 
-            function esFechaAtrasada(fechaStr) {
-                const fecha = parseFechaDDMMAA(fechaStr);
-                if (!fecha) return false;
-                const hoy = new Date();
-                hoy.setHours(0, 0, 0, 0);
-                return fecha < hoy;
+            /**
+             * Parsea una fecha en formato dd/mm/aa o dd/mm/aaaa a objeto Date.
+             * Retorna null si no es válida.
+             */
+            function parsearFechaDMY(str) {
+                if (!str || typeof str !== 'string') return null;
+                str = str.trim();
+                if (str === '') return null;
+                // Buscar patrón dd/mm/aaaa o dd/mm/aa
+                const match = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
+                if (!match) return null;
+                let dia = parseInt(match[1], 10);
+                let mes = parseInt(match[2], 10) - 1;
+                let anio = parseInt(match[3], 10);
+                if (anio < 100) anio += 2000;
+                const d = new Date(anio, mes, dia);
+                if (isNaN(d.getTime())) return null;
+                // Verificar que el día y mes coincidan (evita desbordes)
+                if (d.getDate() !== dia || d.getMonth() !== mes) return null;
+                return d;
             }
 
-            function parseTiempoTotal(str) {
-                if (!str || str.trim() === '') return 0;
-                const num = parseFloat(str.trim().replace(',', '.'));
-                return isNaN(num) ? 0 : num;
+            /**
+             * Convierte texto con coma decimal a número flotante.
+             */
+            function parsearNumero(str) {
+                if (!str || typeof str !== 'string') return 0;
+                str = str.trim().replace(',', '.');
+                const n = parseFloat(str);
+                return isNaN(n) ? 0 : n;
             }
 
-            // ==================== TOAST ====================
-            function mostrarToast(mensaje, tipo = 'info') {
-                const toast = document.createElement('div');
-                toast.className = 'toast toast-' + tipo;
-                toast.textContent = mensaje;
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                    if (toast.parentNode) toast.parentNode.removeChild(toast);
-                }, 3200);
+            // ==================== MAPEO FLEXIBLE DE COLUMNAS ====================
+            /**
+             * Busca en los encabezados del CSV la columna que coincida con alguna
+             * de las palabras clave dadas. Retorna el índice o -1.
+             */
+            function encontrarColumna(encabezados, palabrasClave) {
+                for (let i = 0; i < encabezados.length; i++) {
+                    const h = encabezados[i].toLowerCase()
+                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar tildes
+                        .replace(/[^a-z0-9]/g, ''); // solo alfanumérico
+                    for (const clave of palabrasClave) {
+                        const c = clave.toLowerCase()
+                            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                            .replace(/[^a-z0-9]/g, '');
+                        if (h.includes(c)) return i;
+                    }
+                }
+                return -1;
             }
 
-            // ==================== ACTUALIZAR TODO ====================
-            function actualizarTodo() {
-                actualizarTarjetasResumen();
-                actualizarFiltrosOTs();
-                actualizarFiltrosTrabajos();
+            function mapearFilaOTs(encabezados, fila) {
+                const idxFechaProg = encontrarColumna(encabezados, ['fecha programada', 'fechaprogramada',
+                    'fecha prog'
+                ]);
+                const idxNroOT = encontrarColumna(encabezados, ['n° ot', 'nº ot', 'numero ot', 'nro ot', 'not',
+                    'n°ot', 'nºot'
+                ]);
+                const idxSolicitante = encontrarColumna(encabezados, ['solicitante']);
+                const idxOperario = encontrarColumna(encabezados, ['operario asignado', 'operario', 'operarioasignado']);
+                const idxEquipo = encontrarColumna(encabezados, ['equipo de trabajo', 'equipo', 'equipotrabajo']);
+                const idxSector = encontrarColumna(encabezados, ['sector']);
+                const idxMaquina = encontrarColumna(encabezados, ['maquina/equipo', 'maquina equipo', 'maquina',
+                    'máquina/equipo', 'máquina equipo', 'máquina'
+                ]);
+                const idxPiezas = encontrarColumna(encabezados, ['piezas', 'pieza']);
+                const idxTipo = encontrarColumna(encabezados, ['tipo de trabajo', 'tipo', 'tipodetrabajo']);
+                const idxDescripcion = encontrarColumna(encabezados, ['descripcion de tarea', 'descripcion',
+                    'descripción', 'tarea'
+                ]);
+                const idxCriticidad = encontrarColumna(encabezados, ['criticidad', 'prioridad']);
+                const idxEstado = encontrarColumna(encabezados, ['estado', 'situacion']);
+                const idxLugar = encontrarColumna(encabezados, ['lugar de trabajo', 'lugar', 'lugartrabajo']);
+                const idxOTMant = encontrarColumna(encabezados, ['ot mant asoc', 'ot mant', 'otmant', 'mant asoc']);
+
+                return {
+                    fechaProgramada: idxFechaProg >= 0 ? (fila[idxFechaProg] || '').trim() : '',
+                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
+                    solicitante: idxSolicitante >= 0 ? (fila[idxSolicitante] || '').trim() : '',
+                    operarioAsignado: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
+                    equipoTrabajo: idxEquipo >= 0 ? (fila[idxEquipo] || '').trim() : '',
+                    sector: idxSector >= 0 ? (fila[idxSector] || '').trim() : '',
+                    maquinaEquipo: idxMaquina >= 0 ? (fila[idxMaquina] || '').trim() : '',
+                    piezas: idxPiezas >= 0 ? (fila[idxPiezas] || '').trim() : '',
+                    tipoTrabajo: idxTipo >= 0 ? (fila[idxTipo] || '').trim() : '',
+                    descripcionTarea: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
+                    criticidad: idxCriticidad >= 0 ? (fila[idxCriticidad] || '').trim() : '',
+                    estado: idxEstado >= 0 ? (fila[idxEstado] || '').trim() : '',
+                    lugarTrabajo: idxLugar >= 0 ? (fila[idxLugar] || '').trim() : '',
+                    otMantAsoc: idxOTMant >= 0 ? (fila[idxOTMant] || '').trim() : '',
+                };
+            }
+
+            function mapearFilaTrabajos(encabezados, fila) {
+                const idxNroOT = encontrarColumna(encabezados, ['n° ot', 'nº ot', 'numero ot', 'nro ot', 'not',
+                    'n°ot', 'nºot'
+                ]);
+                const idxResponsable = encontrarColumna(encabezados, ['responsable']);
+                const idxMaquinaUsada = encontrarColumna(encabezados, ['maquina usada', 'máquina usada',
+                    'maquinausada', 'maquina', 'máquina'
+                ]);
+                const idxFechaRealiz = encontrarColumna(encabezados, ['fecha de realizacion', 'fecha realizacion',
+                    'fecharealizacion', 'fecha', 'fecha de realización'
+                ]);
+                const idxDescripcion = encontrarColumna(encabezados, ['descripcion del trabajo realizado',
+                    'descripcion trabajo', 'descripción', 'descripcion', 'trabajo realizado'
+                ]);
+                const idxMateriales = encontrarColumna(encabezados, ['materiales e insumos consumidos', 'materiales',
+                    'insumos', 'materiales consumidos'
+                ]);
+                const idxIncidencia = encontrarColumna(encabezados, ['incidencia o dificultad', 'incidencia',
+                    'dificulta', 'dificultad', 'incidencia o dificulta'
+                ]);
+                const idxCantidad = encontrarColumna(encabezados, ['cantidad', 'cant', 'piezas']);
+                const idxHoraInicio = encontrarColumna(encabezados, ['hora inicio', 'horainicio', 'hora de inicio']);
+                const idxHoraFin = encontrarColumna(encabezados, ['hora fin', 'horafin', 'hora de fin']);
+                const idxTiempoTotal = encontrarColumna(encabezados, ['tiempo total', 'tiempototal', 'duracion',
+                    'duración', 'horas'
+                ]);
+
+                return {
+                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
+                    responsable: idxResponsable >= 0 ? (fila[idxResponsable] || '').trim() : '',
+                    maquinaUsada: idxMaquinaUsada >= 0 ? (fila[idxMaquinaUsada] || '').trim() : '',
+                    fechaRealizacion: idxFechaRealiz >= 0 ? (fila[idxFechaRealiz] || '').trim() : '',
+                    descripcionTrabajo: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
+                    materialesInsumos: idxMateriales >= 0 ? (fila[idxMateriales] || '').trim() : '',
+                    incidenciaDificultad: idxIncidencia >= 0 ? (fila[idxIncidencia] || '').trim() : '',
+                    cantidad: idxCantidad >= 0 ? (fila[idxCantidad] || '').trim() : '',
+                    horaInicio: idxHoraInicio >= 0 ? (fila[idxHoraInicio] || '').trim() : '',
+                    horaFin: idxHoraFin >= 0 ? (fila[idxHoraFin] || '').trim() : '',
+                    tiempoTotal: idxTiempoTotal >= 0 ? (fila[idxTiempoTotal] || '').trim() : '',
+                };
+            }
+
+            // ==================== PARSEO DE CSV ====================
+            function parsearCSV(texto) {
+                const lineas = texto.split(/\r?\n/).filter(l => l.trim() !== '');
+                if (lineas.length === 0) return { encabezados: [], filas: [] };
+                // Parseo simple: split por coma, pero respetando comillas
+                function parsearLinea(linea) {
+                    const resultado = [];
+                    let actual = '';
+                    let dentroComillas = false;
+                    for (let i = 0; i < linea.length; i++) {
+                        const ch = linea[i];
+                        if (ch === '"') {
+                            dentroComillas = !dentroComillas;
+                        } else if (ch === ',' && !dentroComillas) {
+                            resultado.push(actual);
+                            actual = '';
+                        } else {
+                            actual += ch;
+                        }
+                    }
+                    resultado.push(actual);
+                    return resultado;
+                }
+                const encabezados = parsearLinea(lineas[0]);
+                const filas = [];
+                for (let i = 1; i < lineas.length; i++) {
+                    const f = parsearLinea(lineas[i]);
+                    if (f.length > 0 && f.some(c => c.trim() !== '')) {
+                        filas.push(f);
+                    }
+                }
+                return { encabezados, filas };
+            }
+
+            // ==================== CARGA DESDE GOOGLE SHEETS ====================
+            async function cargarDesdeGoogleSheets(nombreHoja) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombreHoja)}`;
+                const respuesta = await fetch(url);
+                if (!respuesta.ok) throw new Error(`Error HTTP ${respuesta.status} al cargar "${nombreHoja}"`);
+                const texto = await respuesta.text();
+                return texto;
+            }
+
+            async function cargarOTsDesdeGoogle() {
+                const texto = await cargarDesdeGoogleSheets(SHEET_NAME_OTS);
+                const { encabezados, filas } = parsearCSV(texto);
+                datosOTs = filas.map(f => mapearFilaOTs(encabezados, f));
+                mostrarToast(`✅ OTs cargadas desde Google Sheets: ${datosOTs.length} registros`);
+                actualizarTodoOTs();
+            }
+
+            async function cargarTrabajosDesdeGoogle() {
+                const texto = await cargarDesdeGoogleSheets(SHEET_NAME_TRABAJOS);
+                const { encabezados, filas } = parsearCSV(texto);
+                datosTrabajos = filas.map(f => mapearFilaTrabajos(encabezados, f));
+                mostrarToast(`✅ Trabajos cargados desde Google Sheets: ${datosTrabajos.length} registros`);
+                actualizarTodoTrabajos();
+            }
+
+            async function cargarTodoDesdeGoogle() {
+                try {
+                    mostrarToast('🔄 Conectando con Google Sheets...', 2000);
+                    await cargarOTsDesdeGoogle();
+                } catch (e) {
+                    console.warn('Error cargando OTs desde Google:', e.message);
+                    mostrarToast('⚠️ No se pudieron cargar las OTs desde Google Sheets. Usa "Cargar OTs" manualmente.',
+                        5000);
+                }
+                try {
+                    await cargarTrabajosDesdeGoogle();
+                } catch (e) {
+                    console.warn('Error cargando Trabajos desde Google:', e.message);
+                    mostrarToast(
+                        '⚠️ No se pudieron cargar los Trabajos desde Google Sheets. Usa "Cargar Trabajos" manualmente.',
+                        5000);
+                }
+            }
+
+            // ==================== CARGA DESDE ARCHIVO LOCAL ====================
+            function leerArchivoCSV(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = () => reject(new Error('Error al leer el archivo'));
+                    reader.readAsText(file, 'UTF-8');
+                });
+            }
+
+            async function cargarOTsDesdeArchivo(file) {
+                const texto = await leerArchivoCSV(file);
+                const { encabezados, filas } = parsearCSV(texto);
+                datosOTs = filas.map(f => mapearFilaOTs(encabezados, f));
+                mostrarToast(`✅ OTs cargadas desde archivo: ${datosOTs.length} registros`);
+                actualizarTodoOTs();
+            }
+
+            async function cargarTrabajosDesdeArchivo(file) {
+                const texto = await leerArchivoCSV(file);
+                const { encabezados, filas } = parsearCSV(texto);
+                datosTrabajos = filas.map(f => mapearFilaTrabajos(encabezados, f));
+                mostrarToast(`✅ Trabajos cargados desde archivo: ${datosTrabajos.length} registros`);
+                actualizarTodoTrabajos();
+            }
+
+            // ==================== ACTUALIZACIÓN COMPLETA ====================
+            function actualizarTodoOTs() {
+                poblarFiltrosOTs();
+                actualizarTarjetasOTs();
                 actualizarTablaOTs();
-                actualizarTablaTrabajos();
-                actualizarGraficos();
-                actualizarPanelAlertas();
-                actualizarFechas();
+                actualizarGraficosOTs();
+                actualizarPanelIncidencias();
             }
 
-            function actualizarFechas() {
-                const fecha = obtenerFechaActual();
-                document.getElementById('fechaActual').textContent = fecha;
-                document.getElementById('footerFecha').textContent = fecha;
+            function actualizarTodoTrabajos() {
+                poblarFiltrosTrabajos();
+                actualizarTarjetasTrabajos();
+                actualizarTablaTrabajos();
+                actualizarGraficosTrabajos();
+                actualizarPanelIncidencias();
             }
 
             // ==================== TARJETAS DE RESUMEN ====================
-            function actualizarTarjetasResumen() {
-                // OTs
-                const totalOTs = datosOTs.length;
-                const enCurso = datosOTs.filter(o => {
-                    const estado = normalizeStr(o['estado'] || '');
-                    return estado === 'en curso';
-                }).length;
+            function actualizarTarjetasOTs() {
+                const total = datosOTs.length;
+                const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
                 const atrasadas = datosOTs.filter(o => {
-                    const estado = normalizeStr(o['estado'] || '');
-                    if (estado === 'entregado') return false;
-                    return esFechaAtrasada(o['fecha programada'] || '');
+                    if (o.estado.toLowerCase() === 'entregado') return false;
+                    const fp = parsearFechaDMY(o.fechaProgramada);
+                    return fp && fp < hoy;
                 }).length;
-                const operariosSet = new Set();
-                datosOTs.forEach(o => {
-                    const op = (o['operario asignado'] || '').trim();
-                    if (op) operariosSet.add(normalizeStr(op));
-                });
-                const operariosActivos = operariosSet.size;
-
-                document.getElementById('totalOTs').textContent = totalOTs;
+                const operariosSet = new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim() !== ''));
+                document.getElementById('totalOTs').textContent = total;
                 document.getElementById('enCursoOTs').textContent = enCurso;
                 document.getElementById('atrasadasOTs').textContent = atrasadas;
-                document.getElementById('operariosActivos').textContent = operariosActivos;
-
-                // Trabajos
-                const totalTrabajos = datosTrabajos.length;
-                const horasTotales = datosTrabajos.reduce((sum, t) => sum + parseTiempoTotal(t['tiempo total'] || ''),
-                    0);
-                const conIncidencia = datosTrabajos.filter(t => {
-                    const inc = (t['incidencia o dificultad'] || '').trim();
-                    return inc !== '';
-                }).length;
-                const responsablesSet = new Set();
-                datosTrabajos.forEach(t => {
-                    const resp = (t['responsable'] || '').trim();
-                    if (resp) responsablesSet.add(normalizeStr(resp));
-                });
-                const responsablesCount = responsablesSet.size;
-
-                document.getElementById('totalTrabajos').textContent = totalTrabajos;
-                document.getElementById('horasTotales').textContent = horasTotales.toFixed(1);
-                document.getElementById('conIncidencia').textContent = conIncidencia;
-                document.getElementById('responsablesCount').textContent = responsablesCount;
+                document.getElementById('operariosActivos').textContent = operariosSet.size;
             }
 
-            // ==================== FILTROS ====================
-            function poblarSelect(selectId, valores, incluirTodos = true) {
-                const select = document.getElementById(selectId);
-                const currentVal = select.value;
-                select.innerHTML = '';
-                if (incluirTodos) {
-                    const opt = document.createElement('option');
-                    opt.value = 'Todos';
-                    opt.textContent = selectId.includes('Estado') ? 'Estado: Todos' :
-                        selectId.includes('Operario') ? 'Operario: Todos' :
-                        selectId.includes('Tipo') ? 'Tipo: Todos' :
-                        selectId.includes('Sector') ? 'Sector: Todos' :
-                        selectId.includes('OTtrab') ? 'N° OT: Todos' :
-                        selectId.includes('Responsable') ? 'Responsable: Todos' : 'Todos';
-                    select.appendChild(opt);
-                }
-                valores.forEach(v => {
-                    const opt = document.createElement('option');
-                    opt.value = v;
-                    opt.textContent = v;
-                    select.appendChild(opt);
-                });
-                // Restaurar valor anterior si existe
-                if ([...select.options].some(o => o.value === currentVal)) {
-                    select.value = currentVal;
-                }
+            function actualizarTarjetasTrabajos() {
+                const total = datosTrabajos.length;
+                const horasTot = datosTrabajos.reduce((sum, t) => sum + parsearNumero(t.tiempoTotal), 0);
+                const conInc = datosTrabajos.filter(t => t.incidenciaDificultad.trim() !== '').length;
+                const respSet = new Set(datosTrabajos.map(t => t.responsable).filter(n => n.trim() !== ''));
+                document.getElementById('totalTrabajos').textContent = total;
+                document.getElementById('horasTotales').textContent = horasTot.toFixed(1);
+                document.getElementById('conIncidencia').textContent = conInc;
+                document.getElementById('responsablesCount').textContent = respSet.size;
             }
 
-            function actualizarFiltrosOTs() {
-                const estados = [...new Set(datosOTs.map(o => (o['estado'] || '').trim()).filter(v => v))].sort();
-                const operarios = [...new Set(datosOTs.map(o => (o['operario asignado'] || '').trim()).filter(v => v))]
+            // ==================== POBLAR FILTROS ====================
+            function poblarFiltrosOTs() {
+                const operarios = [...new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim() !== ''))]
                     .sort();
-                const tipos = [...new Set(datosOTs.map(o => (o['tipo de trabajo'] || '').trim()).filter(v => v))].sort();
-                const sectores = [...new Set(datosOTs.map(o => (o['sector'] || '').trim()).filter(v => v))].sort();
-
-                poblarSelect('filtroEstadoOT', ['Pendiente', 'En curso', 'Entregado'].filter(e => estados.some(s =>
-                    normalizeStr(s) === normalizeStr(e))));
-                // Asegurar que las 3 opciones estén siempre
-                const selectEstado = document.getElementById('filtroEstadoOT');
-                if (selectEstado.options.length <= 1) {
-                    ['Pendiente', 'En curso', 'Entregado'].forEach(e => {
-                        if (![...selectEstado.options].some(o => o.value === e)) {
-                            const opt = document.createElement('option');
-                            opt.value = e;
-                            opt.textContent = e;
-                            selectEstado.appendChild(opt);
-                        }
-                    });
-                }
-                poblarSelect('filtroOperarioOT', operarios);
-                poblarSelect('filtroTipoOT', tipos);
-                poblarSelect('filtroSectorOT', sectores);
+                const sectores = [...new Set(datosOTs.map(o => o.sector).filter(n => n.trim() !== ''))].sort();
+                const selOperario = document.getElementById('filtroOperario');
+                const selSector = document.getElementById('filtroSector');
+                const valOp = selOperario.value;
+                const valSec = selSector.value;
+                selOperario.innerHTML = '<option value="Todos">Todos</option>' + operarios.map(o =>
+                    `<option value="${o}">${o}</option>`).join('');
+                selSector.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s =>
+                    `<option value="${s}">${s}</option>`).join('');
+                if (operarios.includes(valOp)) selOperario.value = valOp;
+                if (sectores.includes(valSec)) selSector.value = valSec;
             }
 
-            function actualizarFiltrosTrabajos() {
-                const ots = [...new Set(datosTrabajos.map(t => (t['n° ot'] || '').trim()).filter(v => v))].sort();
-                const responsables = [...new Set(datosTrabajos.map(t => (t['responsable'] || '').trim()).filter(v => v))]
+            function poblarFiltrosTrabajos() {
+                const nrosOT = [...new Set(datosTrabajos.map(t => t.nroOT).filter(n => n.trim() !== ''))].sort();
+                const responsables = [...new Set(datosTrabajos.map(t => t.responsable).filter(n => n.trim() !== ''))]
                     .sort();
-                poblarSelect('filtroOTtrab', ots);
-                poblarSelect('filtroResponsableTrab', responsables);
+                const selNro = document.getElementById('filtroNroOT');
+                const selResp = document.getElementById('filtroResponsable');
+                const valNro = selNro.value;
+                const valResp = selResp.value;
+                selNro.innerHTML = '<option value="Todos">Todos</option>' + nrosOT.map(n =>
+                    `<option value="${n}">${n}</option>`).join('');
+                selResp.innerHTML = '<option value="Todos">Todos</option>' + responsables.map(r =>
+                    `<option value="${r}">${r}</option>`).join('');
+                if (nrosOT.includes(valNro)) selNro.value = valNro;
+                if (responsables.includes(valResp)) selResp.value = valResp;
             }
 
+            // ==================== FILTRADO ====================
             function obtenerOTsFiltradas() {
-                const filtroEstado = document.getElementById('filtroEstadoOT').value;
-                const filtroOperario = document.getElementById('filtroOperarioOT').value;
-                const filtroTipo = document.getElementById('filtroTipoOT').value;
-                const filtroSector = document.getElementById('filtroSectorOT').value;
-                const busqueda = normalizeStr(document.getElementById('busquedaOT').value || '');
-
+                const fEstado = document.getElementById('filtroEstado').value;
+                const fOperario = document.getElementById('filtroOperario').value;
+                const fTipo = document.getElementById('filtroTipo').value;
+                const fSector = document.getElementById('filtroSector').value;
+                const busqueda = document.getElementById('busquedaOTs').value.toLowerCase().trim();
                 return datosOTs.filter(o => {
-                    if (filtroEstado !== 'Todos' && normalizeStr(o['estado'] || '') !== normalizeStr(
-                            filtroEstado)) return false;
-                    if (filtroOperario !== 'Todos' && normalizeStr(o['operario asignado'] || '') !== normalizeStr(
-                            filtroOperario)) return false;
-                    if (filtroTipo !== 'Todos' && normalizeStr(o['tipo de trabajo'] || '') !== normalizeStr(
-                            filtroTipo)) return false;
-                    if (filtroSector !== 'Todos' && normalizeStr(o['sector'] || '') !== normalizeStr(filtroSector))
-                        return false;
+                    if (fEstado !== 'Todos' && o.estado.toLowerCase() !== fEstado.toLowerCase()) return false;
+                    if (fOperario !== 'Todos' && o.operarioAsignado !== fOperario) return false;
+                    if (fTipo !== 'Todos' && o.tipoTrabajo !== fTipo) return false;
+                    if (fSector !== 'Todos' && o.sector !== fSector) return false;
                     if (busqueda) {
-                        const camposBusqueda = [
-                            o['n° ot'] || '',
-                            o['maquina/equipo'] || '',
-                            o['piezas'] || '',
-                            o['descripcion de tarea'] || '',
-                        ];
-                        const todoJunto = normalizeStr(camposBusqueda.join(' '));
-                        if (!todoJunto.includes(busqueda)) return false;
+                        const campos = [o.nroOT, o.maquinaEquipo, o.piezas, o.descripcionTarea].join(' ')
+                            .toLowerCase();
+                        if (!campos.includes(busqueda)) return false;
                     }
                     return true;
                 });
             }
 
             function obtenerTrabajosFiltrados() {
-                const filtroOT = document.getElementById('filtroOTtrab').value;
-                const filtroResponsable = document.getElementById('filtroResponsableTrab').value;
-                const busqueda = normalizeStr(document.getElementById('busquedaTrab').value || '');
-
+                const fNroOT = document.getElementById('filtroNroOT').value;
+                const fResponsable = document.getElementById('filtroResponsable').value;
+                const busqueda = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
                 return datosTrabajos.filter(t => {
-                    if (filtroOT !== 'Todos' && (t['n° ot'] || '').trim() !== filtroOT) return false;
-                    if (filtroResponsable !== 'Todos' && normalizeStr(t['responsable'] || '') !== normalizeStr(
-                            filtroResponsable)) return false;
+                    if (fNroOT !== 'Todos' && t.nroOT !== fNroOT) return false;
+                    if (fResponsable !== 'Todos' && t.responsable !== fResponsable) return false;
                     if (busqueda) {
-                        const camposBusqueda = [
-                            t['n° ot'] || '',
-                            t['descripcion del trabajo realizado'] || '',
-                            t['materiales e insumos consumidos'] || '',
-                            t['incidencia o dificultad'] || '',
-                        ];
-                        const todoJunto = normalizeStr(camposBusqueda.join(' '));
-                        if (!todoJunto.includes(busqueda)) return false;
+                        const campos = [t.nroOT, t.descripcionTrabajo, t.materialesInsumos, t
+                            .incidenciaDificultad
+                        ].join(' ').toLowerCase();
+                        if (!campos.includes(busqueda)) return false;
                     }
                     return true;
                 });
             }
 
             // ==================== TABLAS ====================
-            function badgeEstado(estado) {
-                const norm = normalizeStr(estado || '');
-                if (norm === 'pendiente') return '<span class="badge badge-pendiente">Pendiente</span>';
-                if (norm === 'en curso') return '<span class="badge badge-en-curso">En curso</span>';
-                if (norm === 'entregado') return '<span class="badge badge-entregado">Entregado</span>';
-                return estado || '<span class="celda-vacia">—</span>';
-            }
-
-            function badgeCriticidad(crit) {
-                const norm = normalizeStr(crit || '');
-                if (norm === 'baja') return '<span class="badge badge-baja">Baja</span>';
-                if (norm === 'media') return '<span class="badge badge-media">Media</span>';
-                if (norm === 'alta') return '<span class="badge badge-alta">Alta</span>';
-                return crit || '<span class="celda-vacia">—</span>';
-            }
-
-            function celdaOpcional(valor) {
-                if (valor === undefined || valor === null || valor.trim() === '') {
-                    return '<span class="celda-vacia">—</span>';
-                }
-                return escaparHTML(valor);
-            }
-
-            function escaparHTML(str) {
-                if (!str) return '';
+            function escapeHTML(str) {
                 const div = document.createElement('div');
                 div.textContent = str;
                 return div.innerHTML;
             }
 
             function actualizarTablaOTs() {
-                const tbody = document.getElementById('tbodyOTs');
-                const otsFiltradas = obtenerOTsFiltradas();
-                tbody.innerHTML = otsFiltradas.map(o => {
+                const filtradas = obtenerOTsFiltradas();
+                const tbody = document.querySelector('#tablaOTs tbody');
+                tbody.innerHTML = filtradas.map(o => {
+                    let badgeEstado = '';
+                    const estLower = o.estado.toLowerCase();
+                    if (estLower === 'pendiente') badgeEstado =
+                        '<span class="badge badge-pendiente">Pendiente</span>';
+                    else if (estLower === 'en curso') badgeEstado =
+                    '<span class="badge badge-en-curso">En curso</span>';
+                    else if (estLower === 'entregado') badgeEstado =
+                        '<span class="badge badge-entregado">Entregado</span>';
+                    else badgeEstado = escapeHTML(o.estado);
+
+                    let badgeCrit = '';
+                    const critLower = o.criticidad.toLowerCase();
+                    if (critLower === 'baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
+                    else if (critLower === 'media') badgeCrit =
+                        '<span class="badge badge-media">Media</span>';
+                    else if (critLower === 'alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
+                    else badgeCrit = escapeHTML(o.criticidad);
+
+                    const celda = (v) => v ? escapeHTML(v) : '<span class="celda-vacia">—</span>';
+
                     return `<tr>
-                        <td>${celdaOpcional(o['fecha programada'] || '')}</td>
-                        <td>${celdaOpcional(o['n° ot'] || '')}</td>
-                        <td>${celdaOpcional(o['solicitante'] || '')}</td>
-                        <td>${celdaOpcional(o['operario asignado'] || '')}</td>
-                        <td>${celdaOpcional(o['equipo de trabajo'] || '')}</td>
-                        <td>${celdaOpcional(o['sector'] || '')}</td>
-                        <td>${celdaOpcional(o['maquina/equipo'] || '')}</td>
-                        <td>${celdaOpcional(o['piezas'] || '')}</td>
-                        <td>${celdaOpcional(o['tipo de trabajo'] || '')}</td>
-                        <td>${celdaOpcional(o['descripcion de tarea'] || '')}</td>
-                        <td>${badgeCriticidad(o['criticidad'] || '')}</td>
-                        <td>${badgeEstado(o['estado'] || '')}</td>
-                        <td>${celdaOpcional(o['lugar de trabajo'] || '')}</td>
-                        <td>${celdaOpcional(o['ot mant asoc'] || '')}</td>
+                        <td>${celda(o.fechaProgramada)}</td>
+                        <td>${celda(o.nroOT)}</td>
+                        <td>${celda(o.solicitante)}</td>
+                        <td>${celda(o.operarioAsignado)}</td>
+                        <td>${celda(o.equipoTrabajo)}</td>
+                        <td>${celda(o.sector)}</td>
+                        <td>${celda(o.maquinaEquipo)}</td>
+                        <td>${celda(o.piezas)}</td>
+                        <td>${celda(o.tipoTrabajo)}</td>
+                        <td>${celda(o.descripcionTarea)}</td>
+                        <td>${badgeCrit}</td>
+                        <td>${badgeEstado}</td>
+                        <td>${celda(o.lugarTrabajo)}</td>
+                        <td>${celda(o.otMantAsoc)}</td>
                     </tr>`;
                 }).join('');
             }
 
             function actualizarTablaTrabajos() {
-                const tbody = document.getElementById('tbodyTrabajos');
-                const trabajosFiltrados = obtenerTrabajosFiltrados();
-                tbody.innerHTML = trabajosFiltrados.map(t => {
-                    const incidencia = (t['incidencia o dificultad'] || '').trim();
-                    const incidenciaHTML = incidencia ?
-                        `<span class="badge-incidencia" title="${escaparHTML(incidencia)}">${escaparHTML(incidencia)}</span>` :
-                        '<span class="celda-vacia">—</span>';
+                const filtradas = obtenerTrabajosFiltrados();
+                const tbody = document.querySelector('#tablaTrabajos tbody');
+                tbody.innerHTML = filtradas.map(t => {
+                    let celdaIncidencia = '';
+                    if (t.incidenciaDificultad.trim() !== '') {
+                        celdaIncidencia =
+                            `<span class="badge badge-incidencia" title="${escapeHTML(t.incidenciaDificultad)}">${escapeHTML(t.incidenciaDificultad)}</span>`;
+                    } else {
+                        celdaIncidencia = '<span class="celda-vacia">—</span>';
+                    }
+                    const celda = (v) => v ? escapeHTML(v) : '<span class="celda-vacia">—</span>';
                     return `<tr>
-                        <td>${celdaOpcional(t['n° ot'] || '')}</td>
-                        <td>${celdaOpcional(t['responsable'] || '')}</td>
-                        <td>${celdaOpcional(t['maquina usada'] || '')}</td>
-                        <td>${celdaOpcional(t['fecha de realizacion'] || '')}</td>
-                        <td>${celdaOpcional(t['descripcion del trabajo realizado'] || '')}</td>
-                        <td>${celdaOpcional(t['materiales e insumos consumidos'] || '')}</td>
-                        <td>${incidenciaHTML}</td>
-                        <td>${celdaOpcional(t['cantidad'] || '')}</td>
-                        <td>${celdaOpcional(t['hora inicio'] || '')}</td>
-                        <td>${celdaOpcional(t['hora fin'] || '')}</td>
-                        <td>${celdaOpcional(t['tiempo total'] || '')}</td>
+                        <td>${celda(t.nroOT)}</td>
+                        <td>${celda(t.responsable)}</td>
+                        <td>${celda(t.maquinaUsada)}</td>
+                        <td>${celda(t.fechaRealizacion)}</td>
+                        <td>${celda(t.descripcionTrabajo)}</td>
+                        <td>${celda(t.materialesInsumos)}</td>
+                        <td>${celdaIncidencia}</td>
+                        <td>${celda(t.cantidad)}</td>
+                        <td>${celda(t.horaInicio)}</td>
+                        <td>${celda(t.horaFin)}</td>
+                        <td>${celda(t.tiempoTotal)}</td>
                     </tr>`;
                 }).join('');
             }
 
             // ==================== GRÁFICOS ====================
-            function destruirGrafico(key) {
-                if (chartInstances[key]) {
-                    chartInstances[key].destroy();
-                    chartInstances[key] = null;
+            function destruirGraficos(keys) {
+                keys.forEach(k => {
+                    if (charts[k]) {
+                        charts[k].destroy();
+                        delete charts[k];
+                    }
+                });
+            }
+
+            const COLORES_INDUSTRIALES = {
+                azulOscuro: '#0f2b46',
+                azulMedio: '#1a3f63',
+                naranja: '#e8750c',
+                naranjaClaro: '#f7941d',
+                verde: '#1e8449',
+                rojo: '#c0392b',
+                amarillo: '#d4a017',
+                gris: '#8b8f95',
+                grisClaro: '#b0b5ba',
+                paletaEstados: ['#d4a017', '#1a3f63', '#1e8449'], // Pendiente, En curso, Entregado
+                paletaTorta: ['#1e8449', '#1a3f63', '#d4a017', '#e8750c', '#8b8f95'],
+                paletaBarras: ['#1a3f63', '#e8750c', '#1e8449', '#c0392b', '#8b8f95', '#d4a017', '#2c5f8a',
+                    '#f0a040', '#3da061', '#d96060'
+                ],
+            };
+
+            function actualizarGraficosOTs() {
+                const filtradas = obtenerOTsFiltradas();
+                destruirGraficos(['estado', 'operario', 'tipo']);
+
+                // Gráfico de torta: distribución por Estado
+                const ctxEstado = document.getElementById('graficoEstado')?.getContext('2d');
+                if (ctxEstado && filtradas.length > 0) {
+                    const conteo = {};
+                    filtradas.forEach(o => {
+                        const e = o.estado || 'Sin estado';
+                        conteo[e] = (conteo[e] || 0) + 1;
+                    });
+                    const labels = Object.keys(conteo);
+                    const data = Object.values(conteo);
+                    charts['estado'] = new Chart(ctxEstado, {
+                        type: 'doughnut',
+                        data: {
+                            labels,
+                            datasets: [{
+                                data,
+                                backgroundColor: COLORES_INDUSTRIALES.paletaTorta.slice(0, labels
+                                    .length),
+                                borderColor: '#fff',
+                                borderWidth: 2,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { position: 'bottom', labels: { font: { size: 11 },
+                                        padding: 16 } } },
+                        },
+                    });
+                }
+
+                // Gráfico de barras horizontales: OTs por Operario
+                const ctxOperario = document.getElementById('graficoOperario')?.getContext('2d');
+                if (ctxOperario && filtradas.length > 0) {
+                    const conteo = {};
+                    filtradas.forEach(o => {
+                        const op = o.operarioAsignado || 'Sin asignar';
+                        conteo[op] = (conteo[op] || 0) + 1;
+                    });
+                    const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+                    charts['operario'] = new Chart(ctxOperario, {
+                        type: 'bar',
+                        data: {
+                            labels: sorted.map(e => e[0]),
+                            datasets: [{
+                                label: 'Cantidad de OTs',
+                                data: sorted.map(e => e[1]),
+                                backgroundColor: COLORES_INDUSTRIALES.azulMedio,
+                                borderRadius: 4,
+                            }],
+                        },
+                        options: {
+                            indexAxis: 'y',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { x: { beginAtZero: true, ticks: { stepSize: 1,
+                                        font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } },
+                        },
+                    });
+                }
+
+                // Gráfico de barras verticales: OTs por Tipo de Trabajo
+                const ctxTipo = document.getElementById('graficoTipo')?.getContext('2d');
+                if (ctxTipo && filtradas.length > 0) {
+                    const conteo = {};
+                    filtradas.forEach(o => {
+                        const t = o.tipoTrabajo || 'Sin tipo';
+                        conteo[t] = (conteo[t] || 0) + 1;
+                    });
+                    const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+                    charts['tipo'] = new Chart(ctxTipo, {
+                        type: 'bar',
+                        data: {
+                            labels: sorted.map(e => e[0]),
+                            datasets: [{
+                                label: 'Cantidad de OTs',
+                                data: sorted.map(e => e[1]),
+                                backgroundColor: COLORES_INDUSTRIALES.naranja,
+                                borderRadius: 4,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { stepSize: 1,
+                                        font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } },
+                        },
+                    });
                 }
             }
 
-            function actualizarGraficos() {
-                actualizarGraficoOTsEstado();
-                actualizarGraficoOTsOperario();
-                actualizarGraficoOTsTipo();
-                actualizarGraficoTrabHoras();
-                actualizarGraficoTrabMaquina();
-                actualizarGraficoTrabIncidencias();
-            }
+            function actualizarGraficosTrabajos() {
+                const filtradas = obtenerTrabajosFiltrados();
+                destruirGraficos(['horasResp', 'maquina', 'incidencias']);
 
-            function actualizarGraficoOTsEstado() {
-                destruirGrafico('chartOTsEstado');
-                const ctx = document.getElementById('chartOTsEstado').getContext('2d');
-                const counts = { Pendiente: 0, 'En curso': 0, Entregado: 0 };
-                datosOTs.forEach(o => {
-                    const norm = normalizeStr(o['estado'] || '');
-                    if (norm === 'pendiente') counts['Pendiente']++;
-                    else if (norm === 'en curso') counts['En curso']++;
-                    else if (norm === 'entregado') counts['Entregado']++;
-                    else counts['Pendiente'] = (counts['Pendiente'] || 0); // mantener estructura
-                });
-                const labels = Object.keys(counts);
-                const data = Object.values(counts);
-                const bgColors = ['#ffc107', '#0d6efd', '#198754'];
+                // Horas trabajadas por Responsable
+                const ctxHoras = document.getElementById('graficoHorasResp')?.getContext('2d');
+                if (ctxHoras && filtradas.length > 0) {
+                    const horas = {};
+                    filtradas.forEach(t => {
+                        const r = t.responsable || 'Sin responsable';
+                        horas[r] = (horas[r] || 0) + parsearNumero(t.tiempoTotal);
+                    });
+                    const sorted = Object.entries(horas).sort((a, b) => b[1] - a[1]);
+                    charts['horasResp'] = new Chart(ctxHoras, {
+                        type: 'bar',
+                        data: {
+                            labels: sorted.map(e => e[0]),
+                            datasets: [{
+                                label: 'Horas trabajadas',
+                                data: sorted.map(e => e[1]),
+                                backgroundColor: COLORES_INDUSTRIALES.verde,
+                                borderRadius: 4,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { display: false } },
+                            scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } },
+                                    title: { display: true, text: 'Horas',
+                                        font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } },
+                        },
+                    });
+                }
 
-                chartInstances['chartOTsEstado'] = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: labels,
-                        datasets: [{ data: data, backgroundColor: bgColors, borderColor: '#fff',
-                            borderWidth: 2 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16,
-                                    usePointStyle: true } }
+                // Trabajos por Máquina Usada (torta)
+                const ctxMaquina = document.getElementById('graficoMaquina')?.getContext('2d');
+                if (ctxMaquina && filtradas.length > 0) {
+                    const conteo = {};
+                    filtradas.forEach(t => {
+                        const m = t.maquinaUsada || 'Sin máquina';
+                        conteo[m] = (conteo[m] || 0) + 1;
+                    });
+                    const labels = Object.keys(conteo);
+                    const data = Object.values(conteo);
+                    charts['maquina'] = new Chart(ctxMaquina, {
+                        type: 'doughnut',
+                        data: {
+                            labels,
+                            datasets: [{
+                                data,
+                                backgroundColor: COLORES_INDUSTRIALES.paletaBarras.slice(0,
+                                    labels.length),
+                                borderColor: '#fff',
+                                borderWidth: 2,
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: { legend: { position: 'bottom', labels: { font: { size: 10 },
+                                        padding: 12 } } },
+                        },
+                    });
+                }
+
+                // Incidencias por N° OT
+                const ctxInc = document.getElementById('graficoIncidencias')?.getContext('2d');
+                if (ctxInc && filtradas.length > 0) {
+                    const incidencias = {};
+                    filtradas.forEach(t => {
+                        if (t.incidenciaDificultad.trim() !== '') {
+                            const ot = t.nroOT || 'Sin OT';
+                            incidencias[ot] = (incidencias[ot] || 0) + 1;
                         }
+                    });
+                    const sorted = Object.entries(incidencias).sort((a, b) => b[1] - a[1]);
+                    if (sorted.length > 0) {
+                        charts['incidencias'] = new Chart(ctxInc, {
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e[0]),
+                                datasets: [{
+                                    label: 'Cantidad de incidencias',
+                                    data: sorted.map(e => e[1]),
+                                    backgroundColor: COLORES_INDUSTRIALES.rojo,
+                                    borderRadius: 4,
+                                }],
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: { y: { beginAtZero: true, ticks: { stepSize: 1,
+                                            font: { size: 10 } } }, x: { ticks: { font: { size: 8 } } } },
+                            },
+                        });
+                    } else {
+                        // Sin incidencias: mostrar gráfico vacío con mensaje
+                        charts['incidencias'] = new Chart(ctxInc, {
+                            type: 'bar',
+                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0],
+                                    backgroundColor: '#ccc' }] },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                            },
+                        });
                     }
-                });
+                }
             }
 
-            function actualizarGraficoOTsOperario() {
-                destruirGrafico('chartOTsOperario');
-                const ctx = document.getElementById('chartOTsOperario').getContext('2d');
-                const mapCount = {};
-                datosOTs.forEach(o => {
-                    const op = (o['operario asignado'] || '').trim();
-                    if (op) {
-                        const key = normalizeStr(op);
-                        mapCount[key] = (mapCount[key] || 0) + 1;
-                    }
-                });
-                const sorted = Object.entries(mapCount).sort((a, b) => b[1] - a[1]);
-                const labels = sorted.map(e => e[0].split(',')[0].trim()); // nombre corto
-                const data = sorted.map(e => e[1]);
-                const colors = ['#1a3a5c', '#f47920', '#198754', '#0d6efd', '#6f42c1', '#17a2b8', '#6c757d',
-                '#dc3545'];
-
-                chartInstances['chartOTsOperario'] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{ data: data, backgroundColor: colors.slice(0, data.length),
-                            borderRadius: 4 }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: '#eee' } },
-                            y: { ticks: { font: { size: 10 } } }
-                        }
-                    }
-                });
-            }
-
-            function actualizarGraficoOTsTipo() {
-                destruirGrafico('chartOTsTipo');
-                const ctx = document.getElementById('chartOTsTipo').getContext('2d');
-                const mapCount = {};
-                datosOTs.forEach(o => {
-                    const tipo = (o['tipo de trabajo'] || '').trim();
-                    if (tipo) {
-                        const key = normalizeStr(tipo);
-                        mapCount[key] = (mapCount[key] || 0) + 1;
-                    }
-                });
-                const sorted = Object.entries(mapCount).sort((a, b) => b[1] - a[1]);
-                const labels = sorted.map(e => e[0]);
-                const data = sorted.map(e => e[1]);
-                const colors = ['#f47920', '#1a3a5c', '#198754', '#0d6efd', '#6f42c1'];
-
-                chartInstances['chartOTsTipo'] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{ data: data, backgroundColor: colors.slice(0, data.length),
-                            borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { ticks: { stepSize: 1, font: { size: 10 } }, beginAtZero: true,
-                                grid: { color: '#eee' } },
-                            x: { ticks: { font: { size: 9 } } }
-                        }
-                    }
-                });
-            }
-
-            function actualizarGraficoTrabHoras() {
-                destruirGrafico('chartTrabHoras');
-                const ctx = document.getElementById('chartTrabHoras').getContext('2d');
-                const mapHoras = {};
-                datosTrabajos.forEach(t => {
-                    const resp = (t['responsable'] || '').trim();
-                    if (resp) {
-                        const key = normalizeStr(resp);
-                        mapHoras[key] = (mapHoras[key] || 0) + parseTiempoTotal(t['tiempo total'] || '');
-                    }
-                });
-                const sorted = Object.entries(mapHoras).sort((a, b) => b[1] - a[1]);
-                const labels = sorted.map(e => e[0].split(',')[0].trim());
-                const data = sorted.map(e => e[1]);
-                const colors = ['#f47920', '#1a3a5c', '#198754', '#0d6efd', '#6f42c1', '#17a2b8'];
-
-                chartInstances['chartTrabHoras'] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{ label: 'Horas', data: data, backgroundColor: colors.slice(0, data
-                                .length), borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { ticks: { font: { size: 10 } }, beginAtZero: true,
-                            grid: { color: '#eee' } },
-                            x: { ticks: { font: { size: 9 } } }
-                        }
-                    }
-                });
-            }
-
-            function actualizarGraficoTrabMaquina() {
-                destruirGrafico('chartTrabMaquina');
-                const ctx = document.getElementById('chartTrabMaquina').getContext('2d');
-                const mapCount = {};
-                datosTrabajos.forEach(t => {
-                    const maq = (t['maquina usada'] || '').trim();
-                    if (maq) {
-                        const key = normalizeStr(maq);
-                        mapCount[key] = (mapCount[key] || 0) + 1;
-                    }
-                });
-                const sorted = Object.entries(mapCount).sort((a, b) => b[1] - a[1]);
-                const labels = sorted.map(e => e[0]);
-                const data = sorted.map(e => e[1]);
-                const bgColors = ['#1a3a5c', '#f47920', '#198754', '#0d6efd', '#6f42c1', '#17a2b8', '#6c757d',
-                '#ffc107'];
-
-                chartInstances['chartTrabMaquina'] = new Chart(ctx, {
-                    type: 'pie',
-                    data: {
-                        labels: labels,
-                        datasets: [{ data: data, backgroundColor: bgColors.slice(0, data.length),
-                            borderColor: '#fff', borderWidth: 2 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: {
-                            legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 14,
-                                    usePointStyle: true } }
-                        }
-                    }
-                });
-            }
-
-            function actualizarGraficoTrabIncidencias() {
-                destruirGrafico('chartTrabIncidencias');
-                const ctx = document.getElementById('chartTrabIncidencias').getContext('2d');
-                const mapInc = {};
-                datosTrabajos.forEach(t => {
-                    const inc = (t['incidencia o dificultad'] || '').trim();
-                    const ot = (t['n° ot'] || '').trim();
-                    if (inc && ot) {
-                        const key = ot;
-                        mapInc[key] = (mapInc[key] || 0) + 1;
-                    }
-                });
-                const sorted = Object.entries(mapInc).sort((a, b) => b[1] - a[1]);
-                const labels = sorted.map(e => e[0]);
-                const data = sorted.map(e => e[1]);
-
-                chartInstances['chartTrabIncidencias'] = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{ label: 'Incidencias', data: data, backgroundColor: '#dc3545',
-                            borderRadius: 4 }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: true,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            y: { ticks: { stepSize: 1, font: { size: 10 } }, beginAtZero: true,
-                                grid: { color: '#eee' } },
-                            x: { ticks: { font: { size: 8 }, maxRotation: 45 } }
-                        }
-                    }
-                });
-            }
-
-            // ==================== PANEL DE ALERTAS ====================
-            function actualizarPanelAlertas() {
-                const contenedor = document.getElementById('contenidoAlertas');
+            // ==================== PANEL DE INCIDENCIAS Y ALERTAS ====================
+            function actualizarPanelIncidencias() {
                 const alertas = [];
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
 
-                // OTs atrasadas (Fecha Programada < hoy y Estado ≠ Entregado)
+                // OTs atrasadas
                 datosOTs.forEach(o => {
-                    const estado = normalizeStr(o['estado'] || '');
-                    if (estado === 'entregado') return;
-                    if (esFechaAtrasada(o['fecha programada'] || '')) {
-                        const fechaProg = o['fecha programada'] || 'Sin fecha';
-                        const fechaParsed = parseFechaDDMMAA(fechaProg);
-                        let diasRetraso = '?';
-                        if (fechaParsed) {
-                            const hoy = new Date();
-                            hoy.setHours(0, 0, 0, 0);
-                            diasRetraso = Math.floor((hoy - fechaParsed) / (1000 * 60 * 60 * 24));
-                        }
+                    if (o.estado.toLowerCase() === 'entregado') return;
+                    const fp = parsearFechaDMY(o.fechaProgramada);
+                    if (fp && fp < hoy) {
+                        const dias = Math.floor((hoy - fp) / (1000 * 60 * 60 * 24));
                         alertas.push({
-                            titulo: 'OT Atrasada: ' + (o['n° ot'] || 'Sin N° OT'),
-                            detalle: (o['descripcion de tarea'] || 'Sin descripción') + ' | Programada: ' +
-                                fechaProg,
-                            fecha: diasRetraso + ' día(s) de retraso',
-                            prioridad: 1,
+                            tipo: 'atraso',
+                            titulo: `OT Atrasada: ${o.nroOT || 'Sin N°'}`,
+                            detalle: `${o.descripcionTarea || 'Sin descripción'} — ${o.maquinaEquipo || 'Sin máquina'}`,
+                            fecha: `${dias} día(s) de retraso (prog: ${o.fechaProgramada})`,
+                            prioridad: 10 + dias,
                         });
                     }
                 });
 
-                // OTs con Criticidad Alta y Estado ≠ Entregado
+                // OTs con Criticidad Alta y no entregadas
                 datosOTs.forEach(o => {
-                    const criticidad = normalizeStr(o['criticidad'] || '');
-                    const estado = normalizeStr(o['estado'] || '');
-                    if (criticidad === 'alta' && estado !== 'entregado') {
-                        // Evitar duplicados con atrasadas (misma OT)
-                        const yaAgregada = alertas.some(a => a.titulo.includes(o['n° ot'] || ''));
-                        if (!yaAgregada) {
-                            alertas.push({
-                                titulo: 'Criticidad Alta: ' + (o['n° ot'] || 'Sin N° OT'),
-                                detalle: (o['descripcion de tarea'] || 'Sin descripción') +
-                                    ' | Estado: ' + (o['estado'] || 'N/A'),
-                                fecha: 'Programada: ' + (o['fecha programada'] || 'Sin fecha'),
-                                prioridad: 2,
-                            });
-                        }
+                    if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
+                        alertas.push({
+                            tipo: 'criticidad',
+                            titulo: `Criticidad ALTA: ${o.nroOT || 'Sin N°'}`,
+                            detalle: `${o.descripcionTarea || 'Sin descripción'} — Estado: ${o.estado || 'N/A'}`,
+                            fecha: o.fechaProgramada || 'Sin fecha prog.',
+                            prioridad: 8,
+                        });
                     }
                 });
 
-                // Trabajos con Incidencia
+                // Trabajos con incidencia
                 datosTrabajos.forEach(t => {
-                    const inc = (t['incidencia o dificultad'] || '').trim();
-                    if (inc) {
+                    if (t.incidenciaDificultad.trim() !== '') {
                         alertas.push({
-                            titulo: 'Incidencia en trabajo: ' + (t['n° ot'] || 'Sin N° OT'),
-                            detalle: inc,
-                            fecha: t['fecha de realizacion'] || 'Sin fecha',
-                            prioridad: 3,
+                            tipo: 'incidencia',
+                            titulo: `Incidencia en trabajo: ${t.nroOT || 'Sin OT'}`,
+                            detalle: t.incidenciaDificultad,
+                            fecha: t.fechaRealizacion || 'Sin fecha',
+                            prioridad: 5,
                         });
                     }
                 });
 
-                // Ordenar por prioridad
-                alertas.sort((a, b) => a.prioridad - b.prioridad);
+                // Ordenar por prioridad descendente y limitar a 8
+                alertas.sort((a, b) => b.prioridad - a.prioridad);
+                const top8 = alertas.slice(0, 8);
 
-                // Limitar a 8
-                const topAlertas = alertas.slice(0, 8);
-
-                if (topAlertas.length === 0) {
+                const contenedor = document.getElementById('contenidoIncidencias');
+                if (top8.length === 0) {
                     contenedor.innerHTML =
-                        '<div class="alert-ok"><i class="fa-solid fa-circle-check"></i> Todo en orden</div>';
+                        '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p>';
                 } else {
-                    contenedor.innerHTML = topAlertas.map(a => `
-                        <div class="alert-item">
-                            <div class="alert-dot"></div>
-                            <div class="alert-content">
-                                <span class="alert-title">${escaparHTML(a.titulo)}</span>
-                                <br><span class="alert-detail">${escaparHTML(a.detalle)}</span>
+                    contenedor.innerHTML = top8.map(a => `
+                        <div class="alerta-item">
+                            <div class="alerta-icono"><i class="fa-solid ${a.tipo === 'atraso' ? 'fa-clock' : a.tipo === 'criticidad' ? 'fa-skull' : 'fa-triangle-exclamation'}"></i></div>
+                            <div class="alerta-contenido">
+                                <div class="alerta-titulo">${escapeHTML(a.titulo)}</div>
+                                <div class="alerta-detalle">${escapeHTML(a.detalle)}</div>
                             </div>
-                            <span class="alert-date">${escaparHTML(a.fecha)}</span>
+                            <div class="alerta-fecha">${escapeHTML(a.fecha)}</div>
                         </div>
                     `).join('');
                 }
             }
 
-            // ==================== CARGA DE ARCHIVOS ====================
-            function cargarArchivo(file, tipo) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const texto = e.target.result;
-                        if (tipo === 'ots') {
-                            datosOTs = procesarCSV_OTs(texto);
-                            mostrarToast('✅ OTs cargadas: ' + datosOTs.length + ' registros', 'success');
-                        } else if (tipo === 'trabajos') {
-                            datosTrabajos = procesarCSV_Trabajos(texto);
-                            mostrarToast('✅ Trabajos cargados: ' + datosTrabajos.length + ' registros',
-                                'success');
-                        }
-                        actualizarTodo();
-                    } catch (err) {
-                        console.error('Error al procesar CSV:', err);
-                        mostrarToast('❌ Error al procesar el archivo: ' + err.message, 'info');
-                    }
-                };
-                reader.onerror = function() {
-                    mostrarToast('❌ Error al leer el archivo', 'info');
-                };
-                reader.readAsText(file, 'UTF-8');
-            }
-
             // ==================== EVENT LISTENERS ====================
-            document.getElementById('btnCargarOTs').addEventListener('click', function() {
-                document.getElementById('inputOTs').click();
-            });
-            document.getElementById('btnCargarTrabajos').addEventListener('click', function() {
-                document.getElementById('inputTrabajos').click();
-            });
-            document.getElementById('inputOTs').addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    cargarArchivo(e.target.files[0], 'ots');
-                    e.target.value = '';
-                }
-            });
-            document.getElementById('inputTrabajos').addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    cargarArchivo(e.target.files[0], 'trabajos');
-                    e.target.value = '';
-                }
-            });
+            function configurarEventListeners() {
+                // Botones de carga
+                document.getElementById('btnCargarOTs').addEventListener('click', () => {
+                    document.getElementById('inputCSVOTs').click();
+                });
+                document.getElementById('btnCargarTrabajos').addEventListener('click', () => {
+                    document.getElementById('inputCSVTrabajos').click();
+                });
+                document.getElementById('btnRecargarGoogle').addEventListener('click', () => {
+                    cargarTodoDesdeGoogle();
+                });
 
-            // Filtros OTs
-            ['filtroEstadoOT', 'filtroOperarioOT', 'filtroTipoOT', 'filtroSectorOT'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
+                // Inputs de archivo
+                document.getElementById('inputCSVOTs').addEventListener('change', async (e) => {
+                    if (e.target.files.length > 0) {
+                        await cargarOTsDesdeArchivo(e.target.files[0]);
+                        e.target.value = '';
+                    }
+                });
+                document.getElementById('inputCSVTrabajos').addEventListener('change', async (e) => {
+                    if (e.target.files.length > 0) {
+                        await cargarTrabajosDesdeArchivo(e.target.files[0]);
+                        e.target.value = '';
+                    }
+                });
+
+                // Filtros OTs
+                ['filtroEstado', 'filtroOperario', 'filtroTipo', 'filtroSector'].forEach(id => {
+                    document.getElementById(id).addEventListener('change', () => {
+                        actualizarTablaOTs();
+                        actualizarGraficosOTs();
+                    });
+                });
+                document.getElementById('busquedaOTs').addEventListener('input', () => {
                     actualizarTablaOTs();
-                    // Nota: los gráficos usan datosOTs completos, no los filtrados de tabla
+                    actualizarGraficosOTs();
                 });
-            });
-            document.getElementById('busquedaOT').addEventListener('input', function() {
-                actualizarTablaOTs();
-            });
 
-            // Filtros Trabajos
-            ['filtroOTtrab', 'filtroResponsableTrab'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
-                    actualizarTablaTrabajos();
+                // Filtros Trabajos
+                ['filtroNroOT', 'filtroResponsable'].forEach(id => {
+                    document.getElementById(id).addEventListener('change', () => {
+                        actualizarTablaTrabajos();
+                        actualizarGraficosTrabajos();
+                    });
                 });
-            });
-            document.getElementById('busquedaTrab').addEventListener('input', function() {
-                actualizarTablaTrabajos();
-            });
+                document.getElementById('busquedaTrabajos').addEventListener('input', () => {
+                    actualizarTablaTrabajos();
+                    actualizarGraficosTrabajos();
+                });
+            }
 
             // ==================== INICIALIZACIÓN ====================
             function inicializar() {
-                actualizarFechas();
-                actualizarTodo();
-                console.log('Dashboard Taller Yerba Buena inicializado.');
-                console.log('OTs de ejemplo:', datosOTs.length, 'registros');
-                console.log('Trabajos de ejemplo:', datosTrabajos.length, 'registros');
-                console.log('Cargue sus archivos CSV usando los botones "Cargar OTs" y "Cargar Trabajos".');
+                actualizarFechasUI();
+                configurarEventListeners();
+                actualizarTarjetasOTs();
+                actualizarTarjetasTrabajos();
+                actualizarTablaOTs();
+                actualizarTablaTrabajos();
+                actualizarPanelIncidencias();
+                // Intentar carga automática desde Google Sheets
+                setTimeout(() => {
+                    cargarTodoDesdeGoogle();
+                }, 600);
             }
 
-            // Ejecutar al cargar la página
+            // Arrancar cuando el DOM esté listo
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', inicializar);
             } else {

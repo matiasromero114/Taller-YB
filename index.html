@@ -64,7 +64,6 @@
             gap: 18px;
         }
 
-        /* --- CONTENEDOR DEL LOGO ACTUALIZADO --- */
         .logo-placeholder {
             width: 70px;
             height: 70px;
@@ -198,7 +197,6 @@
             margin-top: 2px;
         }
 
-        /* colores especiales */
         .card-total .icon { background: #dbeafe; color: #1e3a8a; }
         .card-curso .icon { background: #d1fae5; color: #065f46; }
         .card-atrasadas .icon { background: #fee2e2; color: #991b1b; }
@@ -641,19 +639,9 @@
 
 <script>
     // ============================================================
-    // 1. DATOS DE EJEMPLO (primeras filas de tu hoja)
+    // 1. DATOS DE EJEMPLO (VACÍO - SIN DATOS INVENTADOS)
     // ============================================================
-    const datosEjemplo = [
-        { fecha: "7/07/26", nro: "OTTI-2607-01-F", solicitante: "Mantenimiento Industrial", operario: "Pulido, Victor", equipo: "Soldador", sector: "Carga", maquina: "Carro Buscador", piezas: "Polea transmisión", tipo: "Reparación", descripcion: "Relleno de orificio de transmisión", criticidad: "Media", estado: "Entregado", lugar: "Taller Cevil", otAsoc: "" },
-        { fecha: "8/07/26", nro: "OTTI-2607-02-F", solicitante: "Mantenimiento Industrial", operario: "Valenzuela, Martin", equipo: "Fresador", sector: "Producción", maquina: "Mezcladora", piezas: "Eje", tipo: "Fabricación", descripcion: "Fabricar eje completo", criticidad: "Alta", estado: "En curso", lugar: "YB", otAsoc: "" },
-        { fecha: "9/07/26", nro: "OTTI-2607-03-F", solicitante: "Mantenimiento Industrial", operario: "Gozales, Cesar", equipo: "Apoyo", sector: "Molienda", maquina: "Rotofiltro", piezas: "Piñón", tipo: "Mecanizado", descripcion: "Mecanizar chavetas", criticidad: "Baja", estado: "Pendiente", lugar: "Taller Cevil", otAsoc: "" },
-        { fecha: "10/07/26", nro: "OTTI-2607-04-F", solicitante: "Mantenimiento Industrial", operario: "Lagoria, Jeremías", equipo: "Apoyo", sector: "Secadero", maquina: "Secador", piezas: "Bulones", tipo: "Reparación", descripcion: "Cambio de bulones", criticidad: "Media", estado: "Pendiente", lugar: "YB", otAsoc: "" },
-        { fecha: "6/07/26", nro: "OTTI-2607-05-F", solicitante: "Mantenimiento Industrial", operario: "Pulido, Victor", equipo: "Tornero", sector: "Carga", maquina: "Carro Buscador", piezas: "Eje", tipo: "Fabricación", descripcion: "Eje de transmisión", criticidad: "Alta", estado: "En curso", lugar: "Taller Cevil", otAsoc: "" },
-        { fecha: "12/07/26", nro: "OTTI-2607-06-F", solicitante: "Mantenimiento Industrial", operario: "Valenzuela, Martin", equipo: "Fresador", sector: "Producción", maquina: "Mezcladora", piezas: "Piñón", tipo: "Modificación", descripcion: "Modificar piñón para nuevo acople", criticidad: "Baja", estado: "Entregado", lugar: "YB", otAsoc: "" },
-        { fecha: "13/07/26", nro: "OTTI-2607-07-F", solicitante: "Mantenimiento Industrial", operario: "Gozales, Cesar", equipo: "Soldador", sector: "Molienda", maquina: "Rotofiltro", piezas: "Polea", tipo: "Reparación", descripcion: "Soldar polea", criticidad: "Media", estado: "Pendiente", lugar: "Taller Cevil", otAsoc: "" },
-        { fecha: "14/07/26", nro: "OTTI-2607-08-F", solicitante: "Mantenimiento Industrial", operario: "Lagoria, Jeremías", equipo: "Apoyo", sector: "Secadero", maquina: "Secador", piezas: "Bulones", tipo: "Reparación", descripcion: "Reparar rosca de bulones", criticidad: "Baja", estado: "Entregado", lugar: "YB", otAsoc: "" },
-        { fecha: "5/07/26", nro: "OTTI-2607-09-F", solicitante: "Mantenimiento Industrial", operario: "Pulido, Victor", equipo: "Tornero", sector: "Carga", maquina: "Carro Buscador", piezas: "Eje", tipo: "Fabricación", descripcion: "Fabricar eje", criticidad: "Alta", estado: "Entregado", lugar: "Taller Cevil", otAsoc: "" }
-    ];
+    const datosEjemplo = [];  // <--- AHORA ESTÁ VACÍO
 
     // ============================================================
     // 2. ESTADO GLOBAL
@@ -756,7 +744,7 @@
             if (filtroTipo !== 'todos' && d.tipo !== filtroTipo) return false;
             if (filtroSectorVal !== 'todos' && d.sector !== filtroSectorVal) return false;
             if (filtroTexto) {
-                const texto = `${d.nro} ${d.maquina} ${d.piezas} ${d.descripcion}`.toLowerCase();
+                const texto = `${d.nro || ''} ${d.maquina || ''} ${d.piezas || ''} ${d.descripcion || ''}`.toLowerCase();
                 if (!texto.includes(filtroTexto)) return false;
             }
             return true;
@@ -765,6 +753,14 @@
         // --- Tabla ---
         const tbody = document.getElementById('tablaBody');
         tbody.innerHTML = '';
+
+        if (datosFiltrados.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="14" style="text-align:center; padding:30px; color:#94a3b8;">No hay órdenes de trabajo cargadas. Carga un CSV para comenzar.</td></tr>`;
+            actualizarGraficos([]);
+            generarIncidencias([]);
+            return;
+        }
+
         datosFiltrados.forEach(d => {
             const tr = document.createElement('tr');
             const estadoClase = d.estado === 'Pendiente' ? 'badge-pendiente' : d.estado === 'En curso' ? 'badge-curso' : 'badge-entregado';
@@ -801,6 +797,14 @@
     let chartEstado = null, chartOperario = null, chartTipo = null;
 
     function actualizarGraficos(datos) {
+        // Si no hay datos, mostramos gráficos vacíos o los destruimos
+        if (datos.length === 0) {
+            if (chartEstado) { chartEstado.destroy(); chartEstado = null; }
+            if (chartOperario) { chartOperario.destroy(); chartOperario = null; }
+            if (chartTipo) { chartTipo.destroy(); chartTipo = null; }
+            return;
+        }
+
         // Por Estado
         const estados = ['Pendiente', 'En curso', 'Entregado'];
         const countsEstado = estados.map(e => datos.filter(d => d.estado === e).length);
@@ -886,6 +890,11 @@
     function generarIncidencias(datos) {
         const grid = document.getElementById('incidenciasGrid');
         grid.innerHTML = '';
+
+        if (datos.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:#94a3b8; padding:20px;"><i class="fas fa-info-circle"></i> No hay datos para mostrar incidencias.</div>`;
+            return;
+        }
 
         const atrasadas = datos.filter(d => esAtrasada(d.fecha, d.estado) && d.estado !== 'Entregado');
         const criticas = datos.filter(d => d.criticidad === 'Alta' && d.estado !== 'Entregado');

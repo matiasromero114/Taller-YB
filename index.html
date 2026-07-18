@@ -583,7 +583,8 @@
         <div class="tarjetas-grid" id="tarjetasOTs">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
-            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-clock"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="atrasadasOTs">0</div><div class="tarjeta-label">Atrasadas</div></div></div>
+            <!-- MODIFICACIÓN: Atrasadas -> Pendientes -->
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
@@ -888,17 +889,12 @@
             function actualizarTarjetasOTs() {
                 const total = datosOTs.length;
                 const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
-                const hoy = new Date();
-                hoy.setHours(0, 0, 0, 0);
-                const atrasadas = datosOTs.filter(o => {
-                    if (o.estado.toLowerCase() === 'entregado') return false;
-                    const fp = parsearFechaDMY(o.fechaProgramada);
-                    return fp && fp < hoy;
-                }).length;
+                // MODIFICACIÓN: Ahora cuenta OTs pendientes en lugar de atrasadas
+                const pendientes = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
                 const operariosSet = new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim() !== ''));
                 document.getElementById('totalOTs').textContent = total;
                 document.getElementById('enCursoOTs').textContent = enCurso;
-                document.getElementById('atrasadasOTs').textContent = atrasadas;
+                document.getElementById('pendientesOTs').textContent = pendientes;
                 document.getElementById('operariosActivos').textContent = operariosSet.size;
             }
 

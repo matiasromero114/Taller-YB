@@ -521,28 +521,32 @@
             }
         }
 
-        /* ========== DEBUG ========== */
-        .debug-panel {
-            background: #fff8e1;
-            border: 1px solid var(--naranja);
-            border-radius: var(--radio);
-            padding: 14px;
-            margin-top: 16px;
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.75rem;
-            display: none;
-        }
-        .debug-panel.visible {
-            display: block;
-        }
-        .debug-btn {
-            margin-top: 8px;
-            background: #e8e8e8;
-            border: 1px solid #aaa;
-            border-radius: 6px;
-            padding: 4px 12px;
-            cursor: pointer;
-            font-size: 0.7rem;
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .header-der {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .tarjetas-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            .graficos-grid {
+                grid-template-columns: 1fr;
+            }
+            .filtros-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filtros-bar input[type="text"] {
+                max-width: 100%;
+            }
+            .tabla-contenedor {
+                max-height: 350px;
+            }
         }
     </style>
 </head>
@@ -571,7 +575,6 @@
                 <button class="btn-carga" id="btnRecargarGoogle" title="Recargar desde Google Sheets" style="border-color:#34a853;color:#34a853;">
                     <i class="fa-brands fa-google"></i> Google Sheets
                 </button>
-                <button class="debug-btn" id="btnDebug" title="Mostrar/Ocultar depuración de operarios">🔧 Debug Operarios</button>
             </div>
         </header>
 
@@ -666,12 +669,6 @@
         <div class="incidencias-panel" id="panelIncidencias">
             <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
             <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p></div>
-        </div>
-
-        <!-- ========== PANEL DEBUG (oculto por defecto) ========== -->
-        <div class="debug-panel" id="debugPanel">
-            <h3 style="margin-bottom:8px;">🔍 Depuración de Operarios</h3>
-            <div id="debugContenido">Cargando datos...</div>
         </div>
 
         <!-- ========== FOOTER ========== -->
@@ -903,7 +900,6 @@
                 actualizarTablaOTs();
                 actualizarGraficosOTs();
                 actualizarPanelIncidencias();
-                actualizarDebugOperarios();
             }
 
             function actualizarTodoTrabajos() {
@@ -920,18 +916,12 @@
                 const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
                 const pendientes = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
                 
+                // Normalización para contar operarios únicos sin duplicados por espacios o mayúsculas
                 const operariosUnicos = new Set(
                     datosOTs
                         .map(o => o.operarioAsignado.trim())
                         .filter(n => n !== '')
-                        .map(nombre => {
-                            let limpio = nombre.toLowerCase()
-                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                                .replace(/[^a-z\s]/g, '')
-                                .replace(/\s+/g, ' ')
-                                .trim();
-                            return limpio.split(' ')[0] || limpio;
-                        })
+                        .map(n => n.toLowerCase().replace(/\s+/g, ' ').trim())
                 );
                 
                 document.getElementById('totalOTs').textContent = total;
@@ -949,34 +939,6 @@
                 document.getElementById('horasTotales').textContent = horasTot.toFixed(1);
                 document.getElementById('conIncidencia').textContent = conInc;
                 document.getElementById('responsablesCount').textContent = respSet.size;
-            }
-
-            // ==================== DEBUG OPERARIOS ====================
-            function actualizarDebugOperarios() {
-                const panel = document.getElementById('debugContenido');
-                if (!panel) return;
-                const nombresOriginales = datosOTs
-                    .map(o => o.operarioAsignado.trim())
-                    .filter(n => n !== '');
-                const unicosOriginales = [...new Set(nombresOriginales)];
-                const normalizados = nombresOriginales.map(nombre => {
-                    let limpio = nombre.toLowerCase()
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                        .replace(/[^a-z\s]/g, '')
-                        .replace(/\s+/g, ' ')
-                        .trim();
-                    return { original: nombre, normalizado: limpio, primeraPalabra: limpio.split(' ')[0] || limpio };
-                });
-                const setNormal = new Set(normalizados.map(n => n.primeraPalabra));
-                let html = `<p><strong>Total de filas con operario:</strong> ${nombresOriginales.length}</p>`;
-                html += `<p><strong>Operarios únicos (originales):</strong> ${unicosOriginales.length} — ${unicosOriginales.join(', ')}</p>`;
-                html += `<p><strong>Conteo tras normalización:</strong> ${setNormal.size} (${[...setNormal].join(', ')})</p>`;
-                html += `<ul>`;
-                normalizados.forEach((item, i) => {
-                    html += `<li>${item.original} → "${item.normalizado}" → <strong>${item.primeraPalabra}</strong></li>`;
-                });
-                html += `</ul>`;
-                panel.innerHTML = html;
             }
 
             // ==================== POBLAR FILTROS ====================
@@ -1396,11 +1358,6 @@
             // ==================== EVENT LISTENERS ====================
             function configurarEventListeners() {
                 document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodoDesdeGoogle);
-                
-                document.getElementById('btnDebug').addEventListener('click', () => {
-                    const panel = document.getElementById('debugPanel');
-                    panel.classList.toggle('visible');
-                });
 
                 ['filtroEstado', 'filtroOperario', 'filtroTipo', 'filtroSector'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => {

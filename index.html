@@ -916,12 +916,22 @@
                 const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
                 const pendientes = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
                 
-                // Normalización para contar operarios únicos sin duplicados por espacios o mayúsculas
+                // Normalización robusta de nombres de operarios
                 const operariosUnicos = new Set(
                     datosOTs
                         .map(o => o.operarioAsignado.trim())
                         .filter(n => n !== '')
-                        .map(n => n.toLowerCase().replace(/\s+/g, ' ').trim())
+                        .map(nombre => {
+                            // Eliminar tildes, pasar a minúsculas, quitar caracteres no alfabéticos (excepto espacios)
+                            // y tomar la primera palabra (apellido) para unificar formatos como "Pulido, Victor" o "Gonzales Juan"
+                            let limpio = nombre.toLowerCase()
+                                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // quitar tildes
+                                .replace(/[^a-z\s]/g, '') // solo letras y espacios
+                                .replace(/\s+/g, ' ') // colapsar espacios múltiples
+                                .trim();
+                            // Tomar la primera palabra (el apellido) para normalizar aún más
+                            return limpio.split(' ')[0] || limpio;
+                        })
                 );
                 
                 document.getElementById('totalOTs').textContent = total;

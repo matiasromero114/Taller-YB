@@ -296,7 +296,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 0.78rem;
-            min-width: 900px;
+            min-width: 1100px; /* Ajustado para 15 columnas */
             white-space: nowrap;
         }
         .tabla-contenedor thead {
@@ -583,7 +583,6 @@
         <div class="tarjetas-grid" id="tarjetasOTs">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
-            <!-- MODIFICACIÓN: Atrasadas -> Pendientes -->
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
@@ -612,7 +611,28 @@
 
         <!-- ========== TABLA OTs ========== -->
         <div class="tabla-contenedor" id="tablaOTsContainer">
-            <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Solicitante</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Descripción</th><th>Criticidad</th><th>Estado</th><th>Lugar</th><th>OT Mant Asoc</th></tr></thead><tbody></tbody></table>
+            <table id="tablaOTs">
+                <thead>
+                    <tr>
+                        <th>Fecha Prog.</th>
+                        <th>N° OT</th>
+                        <th>Descripción de tarea</th>
+                        <th>Solicitante</th>
+                        <th>Máquina (Rol)</th>
+                        <th>Operario</th>
+                        <th>Equipo de Trabajo</th>
+                        <th>Sector</th>
+                        <th>Máquina/Equipo</th>
+                        <th>Piezas</th>
+                        <th>Tipo de Trabajo</th>
+                        <th>Criticidad</th>
+                        <th>Lugar de Trabajo</th>
+                        <th>OT Mant Asoc</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
 
         <!-- ========== FILTROS TRABAJOS ========== -->
@@ -717,8 +737,13 @@
             }
 
             // ==================== MAPEO FLEXIBLE DE COLUMNAS ====================
-            function encontrarColumna(encabezados, palabrasClave) {
+            /**
+             * Busca en los encabezados del CSV la columna que coincida con alguna
+             * de las palabras clave dadas. Puede excluir índices ya utilizados.
+             */
+            function encontrarColumna(encabezados, palabrasClave, excluirIndices = []) {
                 for (let i = 0; i < encabezados.length; i++) {
+                    if (excluirIndices.includes(i)) continue;
                     const h = encabezados[i].toLowerCase()
                         .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
                         .replace(/[^a-z0-9]/g, '');
@@ -733,36 +758,43 @@
             }
 
             function mapearFilaOTs(encabezados, fila) {
+                // Primero encontramos columnas que no tienen ambigüedad
                 const idxFechaProg = encontrarColumna(encabezados, ['fecha programada', 'fechaprogramada', 'fecha prog']);
                 const idxNroOT = encontrarColumna(encabezados, ['n° ot', 'nº ot', 'numero ot', 'nro ot', 'not', 'n°ot', 'nºot']);
+                const idxDescripcion = encontrarColumna(encabezados, ['descripcion de tarea', 'descripcion', 'descripción', 'tarea']);
                 const idxSolicitante = encontrarColumna(encabezados, ['solicitante']);
+                
+                // Para evitar confusión entre "Máquina" (rol) y "Máquina/Equipo", buscamos con exclusión mutua
+                const idxMaquinaEquipo = encontrarColumna(encabezados, ['maquina/equipo', 'máquina/equipo', 'maquina equipo']);
+                // Buscar "Máquina" (rol) excluyendo el índice de Máquina/Equipo si se encontró
+                const idxMaquinaRol = encontrarColumna(encabezados, ['maquina', 'máquina'], idxMaquinaEquipo >= 0 ? [idxMaquinaEquipo] : []);
+                
                 const idxOperario = encontrarColumna(encabezados, ['operario asignado', 'operario', 'operarioasignado']);
                 const idxEquipo = encontrarColumna(encabezados, ['equipo de trabajo', 'equipo', 'equipotrabajo']);
                 const idxSector = encontrarColumna(encabezados, ['sector']);
-                const idxMaquina = encontrarColumna(encabezados, ['maquina/equipo', 'maquina equipo', 'maquina', 'máquina/equipo', 'máquina equipo', 'máquina']);
                 const idxPiezas = encontrarColumna(encabezados, ['piezas', 'pieza']);
                 const idxTipo = encontrarColumna(encabezados, ['tipo de trabajo', 'tipo', 'tipodetrabajo']);
-                const idxDescripcion = encontrarColumna(encabezados, ['descripcion de tarea', 'descripcion', 'descripción', 'tarea']);
                 const idxCriticidad = encontrarColumna(encabezados, ['criticidad', 'prioridad']);
-                const idxEstado = encontrarColumna(encabezados, ['estado', 'situacion']);
                 const idxLugar = encontrarColumna(encabezados, ['lugar de trabajo', 'lugar', 'lugartrabajo']);
                 const idxOTMant = encontrarColumna(encabezados, ['ot mant asoc', 'ot mant', 'otmant', 'mant asoc']);
+                const idxEstado = encontrarColumna(encabezados, ['estado', 'situacion']);
 
                 return {
                     fechaProgramada: idxFechaProg >= 0 ? (fila[idxFechaProg] || '').trim() : '',
                     nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
+                    descripcionTarea: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
                     solicitante: idxSolicitante >= 0 ? (fila[idxSolicitante] || '').trim() : '',
+                    maquinaRol: idxMaquinaRol >= 0 ? (fila[idxMaquinaRol] || '').trim() : '',
                     operarioAsignado: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
                     equipoTrabajo: idxEquipo >= 0 ? (fila[idxEquipo] || '').trim() : '',
                     sector: idxSector >= 0 ? (fila[idxSector] || '').trim() : '',
-                    maquinaEquipo: idxMaquina >= 0 ? (fila[idxMaquina] || '').trim() : '',
+                    maquinaEquipo: idxMaquinaEquipo >= 0 ? (fila[idxMaquinaEquipo] || '').trim() : '',
                     piezas: idxPiezas >= 0 ? (fila[idxPiezas] || '').trim() : '',
                     tipoTrabajo: idxTipo >= 0 ? (fila[idxTipo] || '').trim() : '',
-                    descripcionTarea: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
                     criticidad: idxCriticidad >= 0 ? (fila[idxCriticidad] || '').trim() : '',
-                    estado: idxEstado >= 0 ? (fila[idxEstado] || '').trim() : '',
                     lugarTrabajo: idxLugar >= 0 ? (fila[idxLugar] || '').trim() : '',
                     otMantAsoc: idxOTMant >= 0 ? (fila[idxOTMant] || '').trim() : '',
+                    estado: idxEstado >= 0 ? (fila[idxEstado] || '').trim() : '',
                 };
             }
 
@@ -889,7 +921,6 @@
             function actualizarTarjetasOTs() {
                 const total = datosOTs.length;
                 const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
-                // MODIFICACIÓN: Ahora cuenta OTs pendientes en lugar de atrasadas
                 const pendientes = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
                 const operariosSet = new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim() !== ''));
                 document.getElementById('totalOTs').textContent = total;
@@ -1001,18 +1032,19 @@
                     return `<tr>
                         <td>${celda(o.fechaProgramada)}</td>
                         <td>${celda(o.nroOT)}</td>
+                        <td>${celda(o.descripcionTarea)}</td>
                         <td>${celda(o.solicitante)}</td>
+                        <td>${celda(o.maquinaRol)}</td>
                         <td>${celda(o.operarioAsignado)}</td>
                         <td>${celda(o.equipoTrabajo)}</td>
                         <td>${celda(o.sector)}</td>
                         <td>${celda(o.maquinaEquipo)}</td>
                         <td>${celda(o.piezas)}</td>
                         <td>${celda(o.tipoTrabajo)}</td>
-                        <td>${celda(o.descripcionTarea)}</td>
                         <td>${badgeCrit}</td>
-                        <td>${badgeEstado}</td>
                         <td>${celda(o.lugarTrabajo)}</td>
                         <td>${celda(o.otMantAsoc)}</td>
+                        <td>${badgeEstado}</td>
                     </tr>`;
                 }).join('');
             }
@@ -1324,10 +1356,8 @@
 
             // ==================== EVENT LISTENERS ====================
             function configurarEventListeners() {
-                // Botón Google Sheets
                 document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodoDesdeGoogle);
 
-                // Filtros OTs
                 ['filtroEstado', 'filtroOperario', 'filtroTipo', 'filtroSector'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => {
                         actualizarTablaOTs();
@@ -1339,7 +1369,6 @@
                     actualizarGraficosOTs();
                 });
 
-                // Filtros Trabajos
                 ['filtroNroOT', 'filtroResponsable'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => {
                         actualizarTablaTrabajos();
@@ -1352,7 +1381,6 @@
                 });
             }
 
-            // ==================== INICIALIZACIÓN ====================
             function inicializar() {
                 actualizarFechasUI();
                 configurarEventListeners();

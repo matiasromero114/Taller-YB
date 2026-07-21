@@ -459,12 +459,28 @@
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- TARJETAS TRABAJOS (tarjeta OTs con trabajo eliminada) -->
+        <!-- TARJETAS TRABAJOS -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
+        </div>
+
+        <!-- GRÁFICOS OTs (movidos aquí) -->
+        <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
+        <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
+        </div>
+
+        <!-- GRÁFICOS TRABAJOS -->
+        <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
+        <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
         <!-- FILTROS OTs -->
@@ -503,22 +519,6 @@
                 <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
                 <tbody></tbody>
             </table>
-        </div>
-
-        <!-- GRÁFICOS OTs -->
-        <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
-        <div class="graficos-grid">
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
-        </div>
-
-        <!-- GRÁFICOS TRABAJOS -->
-        <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
-        <div class="graficos-grid">
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
         <!-- PANEL INCIDENCIAS -->
@@ -747,7 +747,7 @@
                 document.getElementById('operariosActivos').textContent = masterOperarios.length;
             }
 
-            // Tarjetas Trabajos (modificada la primera, eliminada la cuarta)
+            // Tarjetas Trabajos
             function actualizarTarjetasTrabajos() {
                 const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
                 const trabajosTerminados = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;

@@ -456,14 +456,13 @@
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
-            <!-- La tarjeta de Operarios activos ahora se alimenta de la hoja "Operarios" -->
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- TARJETAS TRABAJOS (sin la tarjeta "Operarios" duplicada) -->
+        <!-- TARJETAS TRABAJOS (primera tarjeta modificada) -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
-            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalTrabajos">0</div><div class="tarjeta-label">Total trabajos</div></div></div>
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-gears"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosDistintos">0</div><div class="tarjeta-label">OTs con trabajo</div></div></div>
@@ -538,7 +537,7 @@
         (function() {
             let datosOTs = [];
             let datosTrabajos = [];
-            let masterOperarios = []; // Lista maestra de operarios desde la hoja "Operarios"
+            let masterOperarios = []; 
             let charts = {};
 
             const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
@@ -692,16 +691,15 @@
             async function cargarMasterOperarios() {
                 const texto = await fetchSheet(SHEET_OPERARIOS);
                 const { enc, filas } = parsearCSV(texto);
-                // La primera columna contiene los nombres; las dos primeras filas son "Cantidad" y "Promedio" (se ignoran)
                 const nombres = filas
-                .map(f => (f[0] || '').trim())
-                .filter(nombre => {
-                    const lower = nombre.toLowerCase();
-                    return lower !== 'cantidad' && lower !== 'promedio' && lower !== 'operario' && nombre !== '';
-                });
+                    .map(f => (f[0] || '').trim())
+                    .filter(nombre => {
+                        const lower = nombre.toLowerCase();
+                        return lower !== 'cantidad' && lower !== 'promedio' && lower !== 'operario' && nombre !== '';
+                    });
                 masterOperarios = [...new Set(nombres)].sort();
                 toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
-                actualizarTodoOTs(); // refrescar tarjeta y filtro
+                actualizarTodoOTs();
             }
 
             async function cargarOTs() {
@@ -721,7 +719,7 @@
             }
 
             async function cargarTodo() {
-                await cargarMasterOperarios(); // debe ir antes para que filtros y tarjetas usen la lista correcta
+                await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
             }
@@ -747,26 +745,27 @@
                 document.getElementById('totalOTs').textContent = datosOTs.length;
                 document.getElementById('enCursoOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
                 document.getElementById('pendientesOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
-                // Ahora se usa la lista maestra
                 document.getElementById('operariosActivos').textContent = masterOperarios.length;
             }
 
-            // Tarjetas Trabajos
+            // Tarjetas Trabajos (modificada la primera)
             function actualizarTarjetasTrabajos() {
-                document.getElementById('totalTrabajos').textContent = datosTrabajos.length;
+                // Conjunto de N° OT entregadas
+                const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
+                // Trabajos que pertenecen a una OT entregada
+                const trabajosTerminados = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
+                document.getElementById('trabajosTerminados').textContent = trabajosTerminados;
+
                 const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
                 document.getElementById('horasTotales').textContent = horas.toFixed(1);
                 document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
-                // Cantidad de OTs distintas que tienen al menos un trabajo registrado
                 const otsConTrabajo = new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n));
                 document.getElementById('trabajosDistintos').textContent = otsConTrabajo.size;
             }
 
             function poblarFiltrosOTs() {
-                // Operarios: usar lista maestra
                 const selOp = document.getElementById('filtroOperario');
                 selOp.innerHTML = '<option value="Todos">Todos</option>' + masterOperarios.map(o => `<option value="${o}">${o}</option>`).join('');
-                
                 const sectores = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
                 const selSec = document.getElementById('filtroSector');
                 selSec.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s => `<option value="${s}">${s}</option>`).join('');

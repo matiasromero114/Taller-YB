@@ -459,13 +459,12 @@
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- TARJETAS TRABAJOS (primera tarjeta modificada) -->
+        <!-- TARJETAS TRABAJOS (tarjeta OTs con trabajo eliminada) -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
-            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-gears"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosDistintos">0</div><div class="tarjeta-label">OTs con trabajo</div></div></div>
         </div>
 
         <!-- FILTROS OTs -->
@@ -748,19 +747,15 @@
                 document.getElementById('operariosActivos').textContent = masterOperarios.length;
             }
 
-            // Tarjetas Trabajos (modificada la primera)
+            // Tarjetas Trabajos (modificada la primera, eliminada la cuarta)
             function actualizarTarjetasTrabajos() {
-                // Conjunto de N° OT entregadas
                 const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
-                // Trabajos que pertenecen a una OT entregada
                 const trabajosTerminados = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
                 document.getElementById('trabajosTerminados').textContent = trabajosTerminados;
 
                 const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
                 document.getElementById('horasTotales').textContent = horas.toFixed(1);
                 document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
-                const otsConTrabajo = new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n));
-                document.getElementById('trabajosDistintos').textContent = otsConTrabajo.size;
             }
 
             function poblarFiltrosOTs() {

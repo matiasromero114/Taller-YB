@@ -143,14 +143,6 @@
             color: var(--blanco);
             box-shadow: var(--sombra-sm);
         }
-        .btn-carga.naranja {
-            border-color: var(--naranja);
-            color: var(--naranja);
-        }
-        .btn-carga.naranja:hover {
-            background: var(--naranja);
-            color: var(--blanco);
-        }
         .btn-carga i {
             font-size: 0.9rem;
         }
@@ -186,18 +178,10 @@
             transform: translateY(-2px);
             box-shadow: var(--sombra-md);
         }
-        .tarjeta.azul {
-            border-left-color: var(--azul-medio);
-        }
-        .tarjeta.naranja {
-            border-left-color: var(--naranja);
-        }
-        .tarjeta.verde {
-            border-left-color: var(--verde);
-        }
-        .tarjeta.rojo {
-            border-left-color: var(--rojo);
-        }
+        .tarjeta.azul { border-left-color: var(--azul-medio); }
+        .tarjeta.naranja { border-left-color: var(--naranja); }
+        .tarjeta.verde { border-left-color: var(--verde); }
+        .tarjeta.rojo { border-left-color: var(--rojo); }
         .tarjeta-icono {
             width: 44px;
             height: 44px;
@@ -208,22 +192,10 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        .tarjeta.azul .tarjeta-icono {
-            background: var(--azul-claro);
-            color: var(--azul-medio);
-        }
-        .tarjeta.naranja .tarjeta-icono {
-            background: #fef3e6;
-            color: var(--naranja);
-        }
-        .tarjeta.verde .tarjeta-icono {
-            background: var(--verde-claro);
-            color: var(--verde);
-        }
-        .tarjeta.rojo .tarjeta-icono {
-            background: var(--rojo-claro);
-            color: var(--rojo);
-        }
+        .tarjeta.azul .tarjeta-icono { background: var(--azul-claro); color: var(--azul-medio); }
+        .tarjeta.naranja .tarjeta-icono { background: #fef3e6; color: var(--naranja); }
+        .tarjeta.verde .tarjeta-icono { background: var(--verde-claro); color: var(--verde); }
+        .tarjeta.rojo .tarjeta-icono { background: var(--rojo-claro); color: var(--rojo); }
         .tarjeta-info .tarjeta-numero {
             font-size: 1.7rem;
             font-weight: 800;
@@ -255,7 +227,6 @@
             font-size: 0.78rem;
             color: var(--gris-oscuro);
             white-space: nowrap;
-            margin-right: 2px;
         }
         .filtros-bar select,
         .filtros-bar input[type="text"] {
@@ -322,12 +293,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        .tabla-contenedor tbody tr {
-            transition: background var(--transicion);
-        }
-        .tabla-contenedor tbody tr:hover {
-            background: #f8fafb;
-        }
+        .tabla-contenedor tbody tr:hover { background: #f8fafb; }
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -338,43 +304,14 @@
             text-transform: uppercase;
             white-space: nowrap;
         }
-        .badge-pendiente {
-            background: var(--amarillo-claro);
-            color: var(--amarillo);
-        }
-        .badge-en-curso {
-            background: var(--azul-claro);
-            color: var(--azul-medio);
-        }
-        .badge-entregado {
-            background: var(--verde-claro);
-            color: var(--verde);
-        }
-        .badge-baja {
-            background: #e9ecef;
-            color: #495057;
-        }
-        .badge-media {
-            background: var(--amarillo-claro);
-            color: var(--amarillo);
-        }
-        .badge-alta {
-            background: var(--rojo-claro);
-            color: var(--rojo);
-        }
-        .badge-incidencia {
-            background: var(--rojo-claro);
-            color: var(--rojo);
-            font-weight: 700;
-            cursor: default;
-            font-size: 0.68rem;
-            padding: 2px 8px;
-        }
-        .celda-vacia {
-            color: #c0c4c8;
-            font-style: italic;
-            font-size: 0.7rem;
-        }
+        .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
+        .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
+        .badge-entregado { background: var(--verde-claro); color: var(--verde); }
+        .badge-baja { background: #e9ecef; color: #495057; }
+        .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
+        .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
+        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; cursor: default; font-size: 0.68rem; padding: 2px 8px; }
+        .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
         /* ========== GRÁFICOS ========== */
         .graficos-grid {
@@ -388,7 +325,6 @@
             border-radius: var(--radio);
             padding: 16px;
             box-shadow: var(--sombra-sm);
-            position: relative;
             min-height: 320px;
             display: flex;
             flex-direction: column;
@@ -398,12 +334,8 @@
             font-weight: 700;
             color: var(--azul-oscuro);
             margin-bottom: 8px;
-            letter-spacing: -0.2px;
         }
-        .grafico-card canvas {
-            flex: 1;
-            max-height: 300px;
-        }
+        .grafico-card canvas { flex: 1; max-height: 300px; }
 
         /* ========== PANEL INCIDENCIAS ========== */
         .incidencias-panel {
@@ -423,9 +355,6 @@
             align-items: center;
             gap: 8px;
         }
-        .incidencias-panel h2 i {
-            font-size: 1.1rem;
-        }
         .alerta-item {
             display: flex;
             align-items: flex-start;
@@ -437,8 +366,7 @@
             border-left: 3px solid var(--rojo);
             font-size: 0.8rem;
         }
-        .alerta-item .alerta-icono {
-            flex-shrink: 0;
+        .alerta-icono {
             width: 28px;
             height: 28px;
             border-radius: 50%;
@@ -448,37 +376,13 @@
             justify-content: center;
             color: var(--rojo);
             font-size: 0.75rem;
-        }
-        .alerta-item .alerta-contenido {
-            flex: 1;
-        }
-        .alerta-item .alerta-titulo {
-            font-weight: 700;
-            color: var(--gris-oscuro);
-            margin-bottom: 2px;
-        }
-        .alerta-item .alerta-detalle {
-            color: var(--gris-medio);
-            font-size: 0.75rem;
-        }
-        .alerta-item .alerta-fecha {
-            font-weight: 600;
-            color: var(--rojo);
-            font-size: 0.7rem;
-            white-space: nowrap;
-            margin-left: auto;
             flex-shrink: 0;
         }
-        .todo-ok {
-            text-align: center;
-            padding: 20px;
-            color: var(--verde);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .todo-ok i {
-            margin-right: 6px;
-        }
+        .alerta-contenido { flex: 1; }
+        .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
+        .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
+        .alerta-fecha { font-weight: 600; color: var(--rojo); font-size: 0.7rem; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
+        .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
 
         /* ========== FOOTER ========== */
         .footer {
@@ -488,10 +392,9 @@
             color: var(--gris-medio);
             border-top: 1px solid var(--gris-claro);
             margin-top: 8px;
-            letter-spacing: 0.3px;
         }
 
-        /* ========== MENSAJE TOAST ========== */
+        /* ========== TOAST ========== */
         .toast {
             position: fixed;
             top: 20px;
@@ -507,64 +410,33 @@
             animation: slideIn 0.35s ease;
             display: none;
         }
-        .toast.mostrar {
-            display: block;
-        }
+        .toast.mostrar { display: block; }
         @keyframes slideIn {
-            from {
-                transform: translateX(120%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .header-der {
-                width: 100%;
-                justify-content: flex-start;
-            }
-            .tarjetas-grid {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            }
-            .graficos-grid {
-                grid-template-columns: 1fr;
-            }
-            .filtros-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .filtros-bar input[type="text"] {
-                max-width: 100%;
-            }
-            .tabla-contenedor {
-                max-height: 350px;
-            }
+            .header { flex-direction: column; align-items: flex-start; }
+            .header-der { width: 100%; justify-content: flex-start; }
+            .tarjetas-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .graficos-grid { grid-template-columns: 1fr; }
+            .filtros-bar { flex-direction: column; align-items: stretch; }
+            .filtros-bar input[type="text"] { max-width: 100%; }
+            .tabla-contenedor { max-height: 350px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- TOAST -->
     <div class="toast" id="toast"></div>
 
-    <!-- ==================== DASHBOARD CONTAINER ==================== -->
     <div class="dashboard-container">
 
-        <!-- ========== HEADER ========== -->
+        <!-- HEADER -->
         <header class="header">
             <div class="header-izq">
-                <img src="logo-ceramica.png" 
-                     alt="Cerámica Marcos Paz" 
-                     class="logo-escudo" 
-                     style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
+                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
                 <div class="header-titulos">
                     <h1>TALLER</h1>
                     <p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p>
@@ -572,32 +444,32 @@
             </div>
             <div class="header-der">
                 <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-                <button class="btn-carga" id="btnRecargarGoogle" title="Recargar desde Google Sheets" style="border-color:#34a853;color:#34a853;">
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;">
                     <i class="fa-brands fa-google"></i> Google Sheets
                 </button>
             </div>
         </header>
 
-        <!-- ========== TARJETAS OTs ========== -->
+        <!-- TARJETAS OTs -->
         <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
-        <div class="tarjetas-grid" id="tarjetasOTs">
+        <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- ========== TARJETAS TRABAJOS ========== -->
+        <!-- TARJETAS TRABAJOS -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
-        <div class="tarjetas-grid" id="tarjetasTrabajos">
+        <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalTrabajos">0</div><div class="tarjeta-label">Total trabajos</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
-            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-user-gear"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="responsablesCount">0</div><div class="tarjeta-label">Responsables</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-user-gear"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosTrabajos">0</div><div class="tarjeta-label">Operarios</div></div></div>
         </div>
 
-        <!-- ========== FILTROS OTs ========== -->
-        <div class="filtros-bar" id="filtrosOTs">
+        <!-- FILTROS OTs -->
+        <div class="filtros-bar">
             <label>Estado:</label>
             <select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
             <label>Operario:</label>
@@ -609,291 +481,233 @@
             <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
         </div>
 
-        <!-- ========== TABLA OTs ========== -->
-        <div class="tabla-contenedor" id="tablaOTsContainer">
+        <!-- TABLA OTs -->
+        <div class="tabla-contenedor">
             <table id="tablaOTs">
-                <thead>
-                    <tr>
-                        <th>Fecha Prog.</th>
-                        <th>N° OT</th>
-                        <th>Descripción de tarea</th>
-                        <th>Solicitante</th>
-                        <th>Máquina (Rol)</th>
-                        <th>Operario</th>
-                        <th>Equipo de Trabajo</th>
-                        <th>Sector</th>
-                        <th>Máquina/Equipo</th>
-                        <th>Piezas</th>
-                        <th>Tipo de Trabajo</th>
-                        <th>Criticidad</th>
-                        <th>Lugar de Trabajo</th>
-                        <th>OT Mant Asoc</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
 
-        <!-- ========== FILTROS TRABAJOS ========== -->
-        <div class="filtros-bar" id="filtrosTrabajos">
+        <!-- FILTROS TRABAJOS -->
+        <div class="filtros-bar">
             <label>N° OT:</label>
             <select id="filtroNroOT"><option value="Todos">Todos</option></select>
-            <label>Responsable:</label>
-            <select id="filtroResponsable"><option value="Todos">Todos</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
             <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
         </div>
 
-        <!-- ========== TABLA TRABAJOS ========== -->
-        <div class="tabla-contenedor" id="tablaTrabajosContainer">
-            <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Responsable</th><th>Máquina Usada</th><th>Fecha Realiz.</th><th>Descripción</th><th>Materiales</th><th>Incidencia</th><th>Cant.</th><th>Hora Inicio</th><th>Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
+        <!-- TABLA TRABAJOS -->
+        <div class="tabla-contenedor">
+            <table id="tablaTrabajos">
+                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
+                <tbody></tbody>
+            </table>
         </div>
 
-        <!-- ========== GRÁFICOS FILA 1 (OTs) ========== -->
+        <!-- GRÁFICOS OTs -->
         <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
-        <div class="graficos-grid" id="graficosOTs">
+        <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo de Trabajo</h3><canvas id="graficoTipo"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
         </div>
 
-        <!-- ========== GRÁFICOS FILA 2 (Trabajos) ========== -->
+        <!-- GRÁFICOS TRABAJOS -->
         <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
-        <div class="graficos-grid" id="graficosTrabajos">
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas trabajadas por Responsable</h3><canvas id="graficoHorasResp"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina Usada</h3><canvas id="graficoMaquina"></canvas></div>
+        <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
-        <!-- ========== PANEL DE INCIDENCIAS Y ALERTAS ========== -->
-        <div class="incidencias-panel" id="panelIncidencias">
+        <!-- PANEL INCIDENCIAS -->
+        <div class="incidencias-panel">
             <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
-            <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p></div>
+            <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
         </div>
 
-        <!-- ========== FOOTER ========== -->
-        <footer class="footer" id="footerTexto">
+        <footer class="footer">
             Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span>
         </footer>
     </div>
 
     <script>
         (function() {
-            // ==================== VARIABLES GLOBALES ====================
-            let datosOTs = []; 
-            let datosTrabajos = []; 
+            let datosOTs = [];
+            let datosTrabajos = [];
             let charts = {};
 
-            // IDs de Google Sheets
             const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
-            const SHEET_NAME_OTS = 'O.T. Taller de YB';
-            const SHEET_NAME_TRABAJOS = 'TrabajosRealizados';
+            const SHEET_OTS = 'O.T. Taller de YB';
+            const SHEET_TRAB = 'TrabajosRealizados';
 
-            // ==================== UTILIDADES ====================
-            function mostrarToast(mensaje, duracion = 3000) {
-                const toast = document.getElementById('toast');
-                toast.textContent = mensaje;
-                toast.classList.add('mostrar');
-                clearTimeout(toast._timeout);
-                toast._timeout = setTimeout(() => toast.classList.remove('mostrar'), duracion);
+            function toast(msg, dur=3000) {
+                const t = document.getElementById('toast');
+                t.textContent = msg; t.classList.add('mostrar');
+                clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('mostrar'), dur);
             }
 
-            function obtenerFechaActual() {
-                const hoy = new Date();
-                const dd = String(hoy.getDate()).padStart(2, '0');
-                const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-                const aaaa = hoy.getFullYear();
-                return `${dd}/${mm}/${aaaa}`;
+            function fechaHoy() {
+                const d = new Date();
+                return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
             }
-
             function actualizarFechasUI() {
-                const f = obtenerFechaActual();
-                document.getElementById('fechaActual').innerHTML =
-                    `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
+                const f = fechaHoy();
+                document.getElementById('fechaActual').innerHTML = `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
                 document.getElementById('fechaFooter').textContent = f;
             }
 
-            function parsearFechaDMY(str) {
-                if (!str || typeof str !== 'string') return null;
+            function parseFechaDMY(str) {
+                if (!str) return null;
                 str = str.trim();
-                if (str === '') return null;
-                const match = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
-                if (!match) return null;
-                let dia = parseInt(match[1], 10);
-                let mes = parseInt(match[2], 10) - 1;
-                let anio = parseInt(match[3], 10);
-                if (anio < 100) anio += 2000;
-                const d = new Date(anio, mes, dia);
-                if (isNaN(d.getTime())) return null;
-                if (d.getDate() !== dia || d.getMonth() !== mes) return null;
-                return d;
+                const m = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
+                if (!m) return null;
+                let d = parseInt(m[1]), mes = parseInt(m[2])-1, a = parseInt(m[3]);
+                if (a < 100) a += 2000;
+                const dt = new Date(a, mes, d);
+                return (dt.getDate()===d && dt.getMonth()===mes) ? dt : null;
             }
 
-            function parsearNumero(str) {
-                if (!str || typeof str !== 'string') return 0;
-                str = str.trim().replace(',', '.');
-                const n = parseFloat(str);
+            function parseDuracionHHMMSS(str) {
+                if (!str) return 0;
+                const parts = str.trim().split(':');
+                if (parts.length === 3) {
+                    return parseInt(parts[0]) + parseInt(parts[1])/60 + parseInt(parts[2])/3600;
+                }
+                // fallback: número decimal
+                const n = parseFloat(str.replace(',','.'));
                 return isNaN(n) ? 0 : n;
             }
 
-            // ==================== MAPEO FLEXIBLE DE COLUMNAS ====================
-            function encontrarColumna(encabezados, palabrasClave, excluirIndices = []) {
-                for (let i = 0; i < encabezados.length; i++) {
-                    if (excluirIndices.includes(i)) continue;
-                    const h = encabezados[i].toLowerCase()
-                        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                        .replace(/[^a-z0-9]/g, '');
-                    for (const clave of palabrasClave) {
-                        const c = clave.toLowerCase()
-                            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                            .replace(/[^a-z0-9]/g, '');
+            // ---------- MAPEO FLEXIBLE ----------
+            function encontrarColumna(encabezados, palabras, excluir=[]) {
+                for (let i=0; i<encabezados.length; i++) {
+                    if (excluir.includes(i)) continue;
+                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                    for (const p of palabras) {
+                        const c = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
                         if (h.includes(c)) return i;
                     }
                 }
                 return -1;
             }
 
-            function mapearFilaOTs(encabezados, fila) {
-                const idxFechaProg = encontrarColumna(encabezados, ['fecha programada', 'fechaprogramada', 'fecha prog']);
-                const idxNroOT = encontrarColumna(encabezados, ['n° ot', 'nº ot', 'numero ot', 'nro ot', 'not', 'n°ot', 'nºot']);
-                const idxDescripcion = encontrarColumna(encabezados, ['descripcion de tarea', 'descripcion', 'descripción', 'tarea']);
-                const idxSolicitante = encontrarColumna(encabezados, ['solicitante']);
-                
-                const idxMaquinaEquipo = encontrarColumna(encabezados, ['maquina/equipo', 'máquina/equipo', 'maquina equipo']);
-                const idxMaquinaRol = encontrarColumna(encabezados, ['maquina', 'máquina'], idxMaquinaEquipo >= 0 ? [idxMaquinaEquipo] : []);
-                
-                const idxOperario = encontrarColumna(encabezados, ['operario asignado', 'operario', 'operarioasignado']);
-                const idxEquipo = encontrarColumna(encabezados, ['equipo de trabajo', 'equipo', 'equipotrabajo']);
-                const idxSector = encontrarColumna(encabezados, ['sector']);
-                const idxPiezas = encontrarColumna(encabezados, ['piezas', 'pieza']);
-                const idxTipo = encontrarColumna(encabezados, ['tipo de trabajo', 'tipo', 'tipodetrabajo']);
-                const idxCriticidad = encontrarColumna(encabezados, ['criticidad', 'prioridad']);
-                const idxLugar = encontrarColumna(encabezados, ['lugar de trabajo', 'lugar', 'lugartrabajo']);
-                const idxOTMant = encontrarColumna(encabezados, ['ot mant asoc', 'ot mant', 'otmant', 'mant asoc']);
-                const idxEstado = encontrarColumna(encabezados, ['estado', 'situacion']);
+            function mapearOTs(encabezados, fila) {
+                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada']);
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','tarea']);
+                const idxSol = encontrarColumna(encabezados, ['solicitante']);
+                const idxMaqEq = encontrarColumna(encabezados, ['maquina/equipo','máquina/equipo','maquina equipo']);
+                const idxMaqRol = encontrarColumna(encabezados, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
+                const idxOp = encontrarColumna(encabezados, ['operario asignado','operario','operarioasignado']);
+                const idxEq = encontrarColumna(encabezados, ['equipo de trabajo','equipo','equipotrabajo']);
+                const idxSec = encontrarColumna(encabezados, ['sector']);
+                const idxPie = encontrarColumna(encabezados, ['piezas','pieza']);
+                const idxTip = encontrarColumna(encabezados, ['tipo de trabajo','tipo','tipodetrabajo']);
+                const idxCrit = encontrarColumna(encabezados, ['criticidad','prioridad']);
+                const idxLug = encontrarColumna(encabezados, ['lugar de trabajo','lugar','lugartrabajo']);
+                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant']);
+                const idxEst = encontrarColumna(encabezados, ['estado','situacion']);
 
                 return {
-                    fechaProgramada: idxFechaProg >= 0 ? (fila[idxFechaProg] || '').trim() : '',
-                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
-                    descripcionTarea: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
-                    solicitante: idxSolicitante >= 0 ? (fila[idxSolicitante] || '').trim() : '',
-                    maquinaRol: idxMaquinaRol >= 0 ? (fila[idxMaquinaRol] || '').trim() : '',
-                    operarioAsignado: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
-                    equipoTrabajo: idxEquipo >= 0 ? (fila[idxEquipo] || '').trim() : '',
-                    sector: idxSector >= 0 ? (fila[idxSector] || '').trim() : '',
-                    maquinaEquipo: idxMaquinaEquipo >= 0 ? (fila[idxMaquinaEquipo] || '').trim() : '',
-                    piezas: idxPiezas >= 0 ? (fila[idxPiezas] || '').trim() : '',
-                    tipoTrabajo: idxTipo >= 0 ? (fila[idxTipo] || '').trim() : '',
-                    criticidad: idxCriticidad >= 0 ? (fila[idxCriticidad] || '').trim() : '',
-                    lugarTrabajo: idxLugar >= 0 ? (fila[idxLugar] || '').trim() : '',
-                    otMantAsoc: idxOTMant >= 0 ? (fila[idxOTMant] || '').trim() : '',
-                    estado: idxEstado >= 0 ? (fila[idxEstado] || '').trim() : '',
+                    fechaProgramada: idxFecha>=0 ? (fila[idxFecha]||'').trim() : '',
+                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
+                    descripcionTarea: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
+                    solicitante: idxSol>=0 ? (fila[idxSol]||'').trim() : '',
+                    maquinaRol: idxMaqRol>=0 ? (fila[idxMaqRol]||'').trim() : '',
+                    operarioAsignado: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
+                    equipoTrabajo: idxEq>=0 ? (fila[idxEq]||'').trim() : '',
+                    sector: idxSec>=0 ? (fila[idxSec]||'').trim() : '',
+                    maquinaEquipo: idxMaqEq>=0 ? (fila[idxMaqEq]||'').trim() : '',
+                    piezas: idxPie>=0 ? (fila[idxPie]||'').trim() : '',
+                    tipoTrabajo: idxTip>=0 ? (fila[idxTip]||'').trim() : '',
+                    criticidad: idxCrit>=0 ? (fila[idxCrit]||'').trim() : '',
+                    lugarTrabajo: idxLug>=0 ? (fila[idxLug]||'').trim() : '',
+                    otMantAsoc: idxMant>=0 ? (fila[idxMant]||'').trim() : '',
+                    estado: idxEst>=0 ? (fila[idxEst]||'').trim() : ''
                 };
             }
 
-            function mapearFilaTrabajos(encabezados, fila) {
-                const idxNroOT = encontrarColumna(encabezados, ['n° ot', 'nº ot', 'numero ot', 'nro ot', 'not', 'n°ot', 'nºot']);
-                const idxResponsable = encontrarColumna(encabezados, ['responsable']);
-                const idxMaquinaUsada = encontrarColumna(encabezados, ['maquina usada', 'máquina usada', 'maquinausada', 'maquina', 'máquina']);
-                const idxFechaRealiz = encontrarColumna(encabezados, ['fecha de realizacion', 'fecha realizacion', 'fecharealizacion', 'fecha', 'fecha de realización']);
-                const idxDescripcion = encontrarColumna(encabezados, ['descripcion del trabajo realizado', 'descripcion trabajo', 'descripción', 'descripcion', 'trabajo realizado']);
-                const idxMateriales = encontrarColumna(encabezados, ['materiales e insumos consumidos', 'materiales', 'insumos', 'materiales consumidos']);
-                const idxIncidencia = encontrarColumna(encabezados, ['incidencia o dificultad', 'incidencia', 'dificulta', 'dificultad', 'incidencia o dificulta']);
-                const idxCantidad = encontrarColumna(encabezados, ['cantidad', 'cant', 'piezas']);
-                const idxHoraInicio = encontrarColumna(encabezados, ['hora inicio', 'horainicio', 'hora de inicio']);
-                const idxHoraFin = encontrarColumna(encabezados, ['hora fin', 'horafin', 'hora de fin']);
-                const idxTiempoTotal = encontrarColumna(encabezados, ['tiempo total', 'tiempototal', 'duracion', 'duración', 'horas']);
+            function mapearTrabajos(encabezados, fila) {
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']); // rol
+                const idxOp = encontrarColumna(encabezados, ['operario']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
+                const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
+                const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
+                const idxInc = encontrarColumna(encabezados, ['incidencia o dificulta','incidencia','dificulta']);
+                const idxIni = encontrarColumna(encabezados, ['fecha hora inicio','hora inicio','fechahora inicio']);
+                const idxFin = encontrarColumna(encabezados, ['fecha hora fin','hora fin','fechahora fin']);
+                const idxDur = encontrarColumna(encabezados, ['tiempo total','tiempototal','duracion']);
 
                 return {
-                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
-                    responsable: idxResponsable >= 0 ? (fila[idxResponsable] || '').trim() : '',
-                    maquinaUsada: idxMaquinaUsada >= 0 ? (fila[idxMaquinaUsada] || '').trim() : '',
-                    fechaRealizacion: idxFechaRealiz >= 0 ? (fila[idxFechaRealiz] || '').trim() : '',
-                    descripcionTrabajo: idxDescripcion >= 0 ? (fila[idxDescripcion] || '').trim() : '',
-                    materialesInsumos: idxMateriales >= 0 ? (fila[idxMateriales] || '').trim() : '',
-                    incidenciaDificultad: idxIncidencia >= 0 ? (fila[idxIncidencia] || '').trim() : '',
-                    cantidad: idxCantidad >= 0 ? (fila[idxCantidad] || '').trim() : '',
-                    horaInicio: idxHoraInicio >= 0 ? (fila[idxHoraInicio] || '').trim() : '',
-                    horaFin: idxHoraFin >= 0 ? (fila[idxHoraFin] || '').trim() : '',
-                    tiempoTotal: idxTiempoTotal >= 0 ? (fila[idxTiempoTotal] || '').trim() : '',
+                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
+                    maquinaRol: idxMaq>=0 ? (fila[idxMaq]||'').trim() : '',
+                    operario: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
+                    descripcion: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
+                    materiales: idxMat>=0 ? (fila[idxMat]||'').trim() : '',
+                    cantidad: idxCant>=0 ? (fila[idxCant]||'').trim() : '',
+                    incidencia: idxInc>=0 ? (fila[idxInc]||'').trim() : '',
+                    fechaHoraInicio: idxIni>=0 ? (fila[idxIni]||'').trim() : '',
+                    fechaHoraFin: idxFin>=0 ? (fila[idxFin]||'').trim() : '',
+                    tiempoTotal: idxDur>=0 ? (fila[idxDur]||'').trim() : ''
                 };
             }
 
-            // ==================== PARSEO DE CSV ====================
             function parsearCSV(texto) {
-                const lineas = texto.split(/\r?\n/).filter(l => l.trim() !== '');
-                if (lineas.length === 0) return { encabezados: [], filas: [] };
-                function parsearLinea(linea) {
-                    const resultado = [];
-                    let actual = '';
-                    let dentroComillas = false;
-                    for (let i = 0; i < linea.length; i++) {
-                        const ch = linea[i];
-                        if (ch === '"') {
-                            dentroComillas = !dentroComillas;
-                        } else if (ch === ',' && !dentroComillas) {
-                            resultado.push(actual);
-                            actual = '';
-                        } else {
-                            actual += ch;
-                        }
+                const lineas = texto.split(/\r?\n/).filter(l => l.trim());
+                if (lineas.length===0) return { enc: [], filas: [] };
+                const parseLinea = (l) => {
+                    const res = []; let act='', comillas=false;
+                    for (let i=0; i<l.length; i++) {
+                        const ch = l[i];
+                        if (ch==='"') comillas=!comillas;
+                        else if (ch===',' && !comillas) { res.push(act); act=''; }
+                        else act += ch;
                     }
-                    resultado.push(actual);
-                    return resultado;
-                }
-                const encabezados = parsearLinea(lineas[0]);
+                    res.push(act);
+                    return res;
+                };
+                const enc = parseLinea(lineas[0]);
                 const filas = [];
-                for (let i = 1; i < lineas.length; i++) {
-                    const f = parsearLinea(lineas[i]);
-                    if (f.length > 0 && f.some(c => c.trim() !== '')) {
-                        filas.push(f);
-                    }
+                for (let i=1; i<lineas.length; i++) {
+                    const f = parseLinea(lineas[i]);
+                    if (f.some(c=>c.trim())) filas.push(f);
                 }
-                return { encabezados, filas };
+                return { enc, filas };
             }
 
-            // ==================== CARGA DESDE GOOGLE SHEETS ====================
-            async function cargarDesdeGoogleSheets(nombreHoja) {
-                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombreHoja)}`;
-                const respuesta = await fetch(url);
-                if (!respuesta.ok) throw new Error(`Error HTTP ${respuesta.status} al cargar "${nombreHoja}"`);
-                const texto = await respuesta.text();
-                return texto;
+            async function fetchSheet(sheetName) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`Error ${res.status}`);
+                return await res.text();
             }
 
-            async function cargarOTsDesdeGoogle() {
-                const texto = await cargarDesdeGoogleSheets(SHEET_NAME_OTS);
-                const { encabezados, filas } = parsearCSV(texto);
-                datosOTs = filas.map(f => mapearFilaOTs(encabezados, f));
-                mostrarToast(`✅ OTs cargadas desde Google Sheets: ${datosOTs.length} registros`);
+            async function cargarOTs() {
+                const texto = await fetchSheet(SHEET_OTS);
+                const {enc, filas} = parsearCSV(texto);
+                datosOTs = filas.map(f => mapearOTs(enc, f));
+                toast(`✅ OTs: ${datosOTs.length} registros`);
                 actualizarTodoOTs();
             }
 
-            async function cargarTrabajosDesdeGoogle() {
-                const texto = await cargarDesdeGoogleSheets(SHEET_NAME_TRABAJOS);
-                const { encabezados, filas } = parsearCSV(texto);
-                datosTrabajos = filas.map(f => mapearFilaTrabajos(encabezados, f));
-                mostrarToast(`✅ Trabajos cargados desde Google Sheets: ${datosTrabajos.length} registros`);
+            async function cargarTrabajos() {
+                const texto = await fetchSheet(SHEET_TRAB);
+                const {enc, filas} = parsearCSV(texto);
+                datosTrabajos = filas.map(f => mapearTrabajos(enc, f));
+                toast(`✅ Trabajos: ${datosTrabajos.length} registros`);
                 actualizarTodoTrabajos();
             }
 
-            async function cargarTodoDesdeGoogle() {
-                try {
-                    mostrarToast('🔄 Conectando con Google Sheets...', 2000);
-                    await cargarOTsDesdeGoogle();
-                } catch (e) {
-                    console.warn('Error cargando OTs desde Google:', e.message);
-                    mostrarToast('⚠️ No se pudieron cargar las OTs desde Google Sheets.', 5000);
-                }
-                try {
-                    await cargarTrabajosDesdeGoogle();
-                } catch (e) {
-                    console.warn('Error cargando Trabajos desde Google:', e.message);
-                    mostrarToast('⚠️ No se pudieron cargar los Trabajos desde Google Sheets.', 5000);
-                }
+            async function cargarTodo() {
+                try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
+                try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
             }
 
-            // ==================== ACTUALIZACIÓN COMPLETA ====================
+            // ----- ACTUALIZACIONES -----
             function actualizarTodoOTs() {
                 poblarFiltrosOTs();
                 actualizarTarjetasOTs();
@@ -901,7 +715,6 @@
                 actualizarGraficosOTs();
                 actualizarPanelIncidencias();
             }
-
             function actualizarTodoTrabajos() {
                 poblarFiltrosTrabajos();
                 actualizarTarjetasTrabajos();
@@ -910,494 +723,217 @@
                 actualizarPanelIncidencias();
             }
 
-            // ==================== TARJETAS DE RESUMEN ====================
+            // Tarjetas OTs
             function actualizarTarjetasOTs() {
-                const total = datosOTs.length;
-                const enCurso = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
-                const pendientes = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
-                
-                // Normalización para contar operarios únicos sin duplicados por espacios o mayúsculas
-                const operariosUnicos = new Set(
-                    datosOTs
-                        .map(o => o.operarioAsignado.trim())
-                        .filter(n => n !== '')
-                        .map(n => n.toLowerCase().replace(/\s+/g, ' ').trim())
-                );
-                
-                document.getElementById('totalOTs').textContent = total;
-                document.getElementById('enCursoOTs').textContent = enCurso;
-                document.getElementById('pendientesOTs').textContent = pendientes;
-                document.getElementById('operariosActivos').textContent = operariosUnicos.size;
+                document.getElementById('totalOTs').textContent = datosOTs.length;
+                document.getElementById('enCursoOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
+                document.getElementById('pendientesOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
+                const setOp = new Set(datosOTs.map(o=>o.operarioAsignado).filter(n=>n).map(n=>n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z\s]/g,'').replace(/\s+/g,' ').trim().split(' ')[0]));
+                document.getElementById('operariosActivos').textContent = setOp.size;
             }
 
+            // Tarjetas Trabajos
             function actualizarTarjetasTrabajos() {
-                const total = datosTrabajos.length;
-                const horasTot = datosTrabajos.reduce((sum, t) => sum + parsearNumero(t.tiempoTotal), 0);
-                const conInc = datosTrabajos.filter(t => t.incidenciaDificultad.trim() !== '').length;
-                const respSet = new Set(datosTrabajos.map(t => t.responsable).filter(n => n.trim() !== ''));
-                document.getElementById('totalTrabajos').textContent = total;
-                document.getElementById('horasTotales').textContent = horasTot.toFixed(1);
-                document.getElementById('conIncidencia').textContent = conInc;
-                document.getElementById('responsablesCount').textContent = respSet.size;
+                document.getElementById('totalTrabajos').textContent = datosTrabajos.length;
+                const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
+                document.getElementById('horasTotales').textContent = horas.toFixed(1);
+                document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
+                const ops = new Set(datosTrabajos.map(t=>t.operario).filter(n=>n));
+                document.getElementById('operariosTrabajos').textContent = ops.size;
             }
 
-            // ==================== POBLAR FILTROS ====================
             function poblarFiltrosOTs() {
-                const operarios = [...new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim() !== ''))].sort();
-                const sectores = [...new Set(datosOTs.map(o => o.sector).filter(n => n.trim() !== ''))].sort();
-                const selOperario = document.getElementById('filtroOperario');
-                const selSector = document.getElementById('filtroSector');
-                const valOp = selOperario.value;
-                const valSec = selSector.value;
-                selOperario.innerHTML = '<option value="Todos">Todos</option>' + operarios.map(o => `<option value="${o}">${o}</option>`).join('');
-                selSector.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s => `<option value="${s}">${s}</option>`).join('');
-                if (operarios.includes(valOp)) selOperario.value = valOp;
-                if (sectores.includes(valSec)) selSector.value = valSec;
+                const ops = [...new Set(datosOTs.map(o=>o.operarioAsignado).filter(n=>n))].sort();
+                const secs = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
+                const selOp = document.getElementById('filtroOperario');
+                const selSec = document.getElementById('filtroSector');
+                selOp.innerHTML = '<option value="Todos">Todos</option>'+ops.map(o=>`<option>${o}</option>`).join('');
+                selSec.innerHTML = '<option value="Todos">Todos</option>'+secs.map(s=>`<option>${s}</option>`).join('');
             }
 
             function poblarFiltrosTrabajos() {
-                const nrosOT = [...new Set(datosTrabajos.map(t => t.nroOT).filter(n => n.trim() !== ''))].sort();
-                const responsables = [...new Set(datosTrabajos.map(t => t.responsable).filter(n => n.trim() !== ''))].sort();
-                const selNro = document.getElementById('filtroNroOT');
-                const selResp = document.getElementById('filtroResponsable');
-                const valNro = selNro.value;
-                const valResp = selResp.value;
-                selNro.innerHTML = '<option value="Todos">Todos</option>' + nrosOT.map(n => `<option value="${n}">${n}</option>`).join('');
-                selResp.innerHTML = '<option value="Todos">Todos</option>' + responsables.map(r => `<option value="${r}">${r}</option>`).join('');
-                if (nrosOT.includes(valNro)) selNro.value = valNro;
-                if (responsables.includes(valResp)) selResp.value = valResp;
+                const ots = [...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort();
+                const ops = [...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort();
+                const selOT = document.getElementById('filtroNroOT');
+                const selOp = document.getElementById('filtroOperarioTrab');
+                selOT.innerHTML = '<option value="Todos">Todos</option>'+ots.map(o=>`<option>${o}</option>`).join('');
+                selOp.innerHTML = '<option value="Todos">Todos</option>'+ops.map(o=>`<option>${o}</option>`).join('');
             }
 
-            // ==================== FILTRADO ====================
-            function obtenerOTsFiltradas() {
-                const fEstado = document.getElementById('filtroEstado').value;
-                const fOperario = document.getElementById('filtroOperario').value;
-                const fTipo = document.getElementById('filtroTipo').value;
-                const fSector = document.getElementById('filtroSector').value;
-                const busqueda = document.getElementById('busquedaOTs').value.toLowerCase().trim();
-                return datosOTs.filter(o => {
-                    if (fEstado !== 'Todos' && o.estado.toLowerCase() !== fEstado.toLowerCase()) return false;
-                    if (fOperario !== 'Todos' && o.operarioAsignado !== fOperario) return false;
-                    if (fTipo !== 'Todos' && o.tipoTrabajo !== fTipo) return false;
-                    if (fSector !== 'Todos' && o.sector !== fSector) return false;
-                    if (busqueda) {
-                        const campos = [o.nroOT, o.maquinaEquipo, o.piezas, o.descripcionTarea].join(' ').toLowerCase();
-                        if (!campos.includes(busqueda)) return false;
-                    }
+            function filtrarOTs() {
+                const est = document.getElementById('filtroEstado').value;
+                const op = document.getElementById('filtroOperario').value;
+                const tip = document.getElementById('filtroTipo').value;
+                const sec = document.getElementById('filtroSector').value;
+                const q = document.getElementById('busquedaOTs').value.toLowerCase().trim();
+                return datosOTs.filter(o=>{
+                    if (est!=='Todos' && o.estado.toLowerCase()!==est.toLowerCase()) return false;
+                    if (op!=='Todos' && o.operarioAsignado!==op) return false;
+                    if (tip!=='Todos' && o.tipoTrabajo!==tip) return false;
+                    if (sec!=='Todos' && o.sector!==sec) return false;
+                    if (q && !`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false;
                     return true;
                 });
             }
 
-            function obtenerTrabajosFiltrados() {
-                const fNroOT = document.getElementById('filtroNroOT').value;
-                const fResponsable = document.getElementById('filtroResponsable').value;
-                const busqueda = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
-                return datosTrabajos.filter(t => {
-                    if (fNroOT !== 'Todos' && t.nroOT !== fNroOT) return false;
-                    if (fResponsable !== 'Todos' && t.responsable !== fResponsable) return false;
-                    if (busqueda) {
-                        const campos = [t.nroOT, t.descripcionTrabajo, t.materialesInsumos, t.incidenciaDificultad].join(' ').toLowerCase();
-                        if (!campos.includes(busqueda)) return false;
-                    }
+            function filtrarTrabajos() {
+                const ot = document.getElementById('filtroNroOT').value;
+                const op = document.getElementById('filtroOperarioTrab').value;
+                const q = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
+                return datosTrabajos.filter(t=>{
+                    if (ot!=='Todos' && t.nroOT!==ot) return false;
+                    if (op!=='Todos' && t.operario!==op) return false;
+                    if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales} ${t.incidencia}`.toLowerCase().includes(q)) return false;
                     return true;
                 });
             }
 
-            // ==================== TABLAS ====================
-            function escapeHTML(str) {
-                const div = document.createElement('div');
-                div.textContent = str;
-                return div.innerHTML;
-            }
+            function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+            function celda(v) { return v ? escapeHTML(v) : '<span class="celda-vacia">—</span>'; }
 
             function actualizarTablaOTs() {
-                const filtradas = obtenerOTsFiltradas();
                 const tbody = document.querySelector('#tablaOTs tbody');
-                tbody.innerHTML = filtradas.map(o => {
-                    let badgeEstado = '';
-                    const estLower = o.estado.toLowerCase();
-                    if (estLower === 'pendiente') badgeEstado = '<span class="badge badge-pendiente">Pendiente</span>';
-                    else if (estLower === 'en curso') badgeEstado = '<span class="badge badge-en-curso">En curso</span>';
-                    else if (estLower === 'entregado') badgeEstado = '<span class="badge badge-entregado">Entregado</span>';
-                    else badgeEstado = escapeHTML(o.estado);
-
+                tbody.innerHTML = filtrarOTs().map(o=>{
+                    let badgeEst = '';
+                    const e = o.estado.toLowerCase();
+                    if (e==='pendiente') badgeEst = '<span class="badge badge-pendiente">Pendiente</span>';
+                    else if (e==='en curso') badgeEst = '<span class="badge badge-en-curso">En curso</span>';
+                    else if (e==='entregado') badgeEst = '<span class="badge badge-entregado">Entregado</span>';
+                    else badgeEst = escapeHTML(o.estado);
                     let badgeCrit = '';
-                    const critLower = o.criticidad.toLowerCase();
-                    if (critLower === 'baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
-                    else if (critLower === 'media') badgeCrit = '<span class="badge badge-media">Media</span>';
-                    else if (critLower === 'alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
+                    const c = o.criticidad.toLowerCase();
+                    if (c==='baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
+                    else if (c==='media') badgeCrit = '<span class="badge badge-media">Media</span>';
+                    else if (c==='alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
                     else badgeCrit = escapeHTML(o.criticidad);
-
-                    const celda = (v) => v ? escapeHTML(v) : '<span class="celda-vacia">—</span>';
-
                     return `<tr>
-                        <td>${celda(o.fechaProgramada)}</td>
-                        <td>${celda(o.nroOT)}</td>
-                        <td>${celda(o.descripcionTarea)}</td>
-                        <td>${celda(o.solicitante)}</td>
-                        <td>${celda(o.maquinaRol)}</td>
-                        <td>${celda(o.operarioAsignado)}</td>
-                        <td>${celda(o.equipoTrabajo)}</td>
-                        <td>${celda(o.sector)}</td>
-                        <td>${celda(o.maquinaEquipo)}</td>
-                        <td>${celda(o.piezas)}</td>
-                        <td>${celda(o.tipoTrabajo)}</td>
-                        <td>${badgeCrit}</td>
-                        <td>${celda(o.lugarTrabajo)}</td>
-                        <td>${celda(o.otMantAsoc)}</td>
-                        <td>${badgeEstado}</td>
+                        <td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td>
+                        <td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td>
+                        <td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td>
+                        <td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td>
+                        <td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td>
                     </tr>`;
                 }).join('');
             }
 
             function actualizarTablaTrabajos() {
-                const filtradas = obtenerTrabajosFiltrados();
                 const tbody = document.querySelector('#tablaTrabajos tbody');
-                tbody.innerHTML = filtradas.map(t => {
-                    let celdaIncidencia = '';
-                    if (t.incidenciaDificultad.trim() !== '') {
-                        celdaIncidencia = `<span class="badge badge-incidencia" title="${escapeHTML(t.incidenciaDificultad)}">${escapeHTML(t.incidenciaDificultad)}</span>`;
-                    } else {
-                        celdaIncidencia = '<span class="celda-vacia">—</span>';
-                    }
-                    const celda = (v) => v ? escapeHTML(v) : '<span class="celda-vacia">—</span>';
+                tbody.innerHTML = filtrarTrabajos().map(t=>{
+                    const inc = t.incidencia.trim() ? `<span class="badge badge-incidencia">${escapeHTML(t.incidencia)}</span>` : '<span class="celda-vacia">—</span>';
                     return `<tr>
-                        <td>${celda(t.nroOT)}</td>
-                        <td>${celda(t.responsable)}</td>
-                        <td>${celda(t.maquinaUsada)}</td>
-                        <td>${celda(t.fechaRealizacion)}</td>
-                        <td>${celda(t.descripcionTrabajo)}</td>
-                        <td>${celda(t.materialesInsumos)}</td>
-                        <td>${celdaIncidencia}</td>
-                        <td>${celda(t.cantidad)}</td>
-                        <td>${celda(t.horaInicio)}</td>
-                        <td>${celda(t.horaFin)}</td>
-                        <td>${celda(t.tiempoTotal)}</td>
+                        <td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td>
+                        <td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td>
+                        <td>${inc}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td>
                     </tr>`;
                 }).join('');
             }
 
-            // ==================== GRÁFICOS ====================
-            function destruirGraficos(keys) {
-                keys.forEach(k => {
-                    if (charts[k]) {
-                        charts[k].destroy();
-                        delete charts[k];
-                    }
-                });
-            }
-
-            const COLORES_INDUSTRIALES = {
-                azulOscuro: '#0f2b46',
-                azulMedio: '#1a3f63',
-                naranja: '#e8750c',
-                naranjaClaro: '#f7941d',
-                verde: '#1e8449',
-                rojo: '#c0392b',
-                amarillo: '#d4a017',
-                gris: '#8b8f95',
-                grisClaro: '#b0b5ba',
-                paletaEstados: ['#d4a017', '#1a3f63', '#1e8449'],
-                paletaTorta: ['#1e8449', '#1a3f63', '#d4a017', '#e8750c', '#8b8f95'],
-                paletaBarras: ['#1a3f63', '#e8750c', '#1e8449', '#c0392b', '#8b8f95', '#d4a017', '#2c5f8a', '#f0a040', '#3da061', '#d96060'],
+            // Gráficos (similares, actualizando referencias)
+            function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
+            const COL = {
+                azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b',
+                paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
+                paletaBarras: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017']
             };
 
             function actualizarGraficosOTs() {
-                const filtradas = obtenerOTsFiltradas();
-                destruirGraficos(['estado', 'operario', 'tipo']);
-
-                const ctxEstado = document.getElementById('graficoEstado')?.getContext('2d');
-                if (ctxEstado && filtradas.length > 0) {
-                    const conteo = {};
-                    filtradas.forEach(o => {
-                        const e = o.estado || 'Sin estado';
-                        conteo[e] = (conteo[e] || 0) + 1;
-                    });
-                    const labels = Object.keys(conteo);
-                    const data = Object.values(conteo);
-                    charts['estado'] = new Chart(ctxEstado, {
-                        type: 'doughnut',
-                        data: {
-                            labels,
-                            datasets: [{
-                                data,
-                                backgroundColor: COLORES_INDUSTRIALES.paletaTorta.slice(0, labels.length),
-                                borderColor: '#fff',
-                                borderWidth: 2,
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16 } } },
-                        },
-                    });
-                }
-
-                const ctxOperario = document.getElementById('graficoOperario')?.getContext('2d');
-                if (ctxOperario && filtradas.length > 0) {
-                    const conteo = {};
-                    filtradas.forEach(o => {
-                        const op = o.operarioAsignado || 'Sin asignar';
-                        conteo[op] = (conteo[op] || 0) + 1;
-                    });
-                    const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
-                    charts['operario'] = new Chart(ctxOperario, {
-                        type: 'bar',
-                        data: {
-                            labels: sorted.map(e => e[0]),
-                            datasets: [{
-                                label: 'Cantidad de OTs',
-                                data: sorted.map(e => e[1]),
-                                backgroundColor: COLORES_INDUSTRIALES.azulMedio,
-                                borderRadius: 4,
-                            }],
-                        },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: { x: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, y: { ticks: { font: { size: 10 } } } },
-                        },
-                    });
-                }
-
-                const ctxTipo = document.getElementById('graficoTipo')?.getContext('2d');
-                if (ctxTipo && filtradas.length > 0) {
-                    const conteo = {};
-                    filtradas.forEach(o => {
-                        const t = o.tipoTrabajo || 'Sin tipo';
-                        conteo[t] = (conteo[t] || 0) + 1;
-                    });
-                    const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
-                    charts['tipo'] = new Chart(ctxTipo, {
-                        type: 'bar',
-                        data: {
-                            labels: sorted.map(e => e[0]),
-                            datasets: [{
-                                label: 'Cantidad de OTs',
-                                data: sorted.map(e => e[1]),
-                                backgroundColor: COLORES_INDUSTRIALES.naranja,
-                                borderRadius: 4,
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } },
-                        },
-                    });
+                const filt = filtrarOTs();
+                destruirGraficos(['estado','operario','tipo']);
+                if (filt.length) {
+                    const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
+                    if (ctx1) {
+                        const conteo = {}; filt.forEach(o=>{ const e=o.estado||'Sin'; conteo[e]=(conteo[e]||0)+1; });
+                        const labels = Object.keys(conteo), data = Object.values(conteo);
+                        charts['estado'] = new Chart(ctx1, { type:'doughnut', data:{labels,datasets:[{data,backgroundColor:COL.paletaTorta.slice(0,labels.length),borderColor:'#fff',borderWidth:2}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16}}}} });
+                    }
+                    const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
+                    if (ctx2) {
+                        const conteo = {}; filt.forEach(o=>{ const op=o.operarioAsignado||'Sin'; conteo[op]=(conteo[op]||0)+1; });
+                        const sorted = Object.entries(conteo).sort((a,b)=>b[1]-a[1]);
+                        charts['operario'] = new Chart(ctx2, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.azulMedio}]}, options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{stepSize:1}}}} });
+                    }
+                    const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
+                    if (ctx3) {
+                        const conteo = {}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin'; conteo[t]=(conteo[t]||0)+1; });
+                        const sorted = Object.entries(conteo).sort((a,b)=>b[1]-a[1]);
+                        charts['tipo'] = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}} });
+                    }
                 }
             }
 
             function actualizarGraficosTrabajos() {
-                const filtradas = obtenerTrabajosFiltrados();
-                destruirGraficos(['horasResp', 'maquina', 'incidencias']);
-
-                const ctxHoras = document.getElementById('graficoHorasResp')?.getContext('2d');
-                if (ctxHoras && filtradas.length > 0) {
-                    const horas = {};
-                    filtradas.forEach(t => {
-                        const r = t.responsable || 'Sin responsable';
-                        horas[r] = (horas[r] || 0) + parsearNumero(t.tiempoTotal);
-                    });
-                    const sorted = Object.entries(horas).sort((a, b) => b[1] - a[1]);
-                    charts['horasResp'] = new Chart(ctxHoras, {
-                        type: 'bar',
-                        data: {
-                            labels: sorted.map(e => e[0]),
-                            datasets: [{
-                                label: 'Horas trabajadas',
-                                data: sorted.map(e => e[1]),
-                                backgroundColor: COLORES_INDUSTRIALES.verde,
-                                borderRadius: 4,
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { display: false } },
-                            scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } }, title: { display: true, text: 'Horas', font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } },
-                        },
-                    });
-                }
-
-                const ctxMaquina = document.getElementById('graficoMaquina')?.getContext('2d');
-                if (ctxMaquina && filtradas.length > 0) {
-                    const conteo = {};
-                    filtradas.forEach(t => {
-                        const m = t.maquinaUsada || 'Sin máquina';
-                        conteo[m] = (conteo[m] || 0) + 1;
-                    });
-                    const labels = Object.keys(conteo);
-                    const data = Object.values(conteo);
-                    charts['maquina'] = new Chart(ctxMaquina, {
-                        type: 'doughnut',
-                        data: {
-                            labels,
-                            datasets: [{
-                                data,
-                                backgroundColor: COLORES_INDUSTRIALES.paletaBarras.slice(0, labels.length),
-                                borderColor: '#fff',
-                                borderWidth: 2,
-                            }],
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 12 } } },
-                        },
-                    });
-                }
-
-                const ctxInc = document.getElementById('graficoIncidencias')?.getContext('2d');
-                if (ctxInc && filtradas.length > 0) {
-                    const incidencias = {};
-                    filtradas.forEach(t => {
-                        if (t.incidenciaDificultad.trim() !== '') {
-                            const ot = t.nroOT || 'Sin OT';
-                            incidencias[ot] = (incidencias[ot] || 0) + 1;
+                const filt = filtrarTrabajos();
+                destruirGraficos(['horasResp','maquina','incidencias']);
+                if (filt.length) {
+                    const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
+                    if (ctx1) {
+                        const horas = {}; filt.forEach(t=>{ const op=t.operario||'Sin'; horas[op]=(horas[op]||0)+parseDuracionHHMMSS(t.tiempoTotal); });
+                        const sorted = Object.entries(horas).sort((a,b)=>b[1]-a[1]);
+                        charts['horasResp'] = new Chart(ctx1, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Horas',data:sorted.map(e=>e[1]),backgroundColor:COL.verde}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+                    }
+                    const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
+                    if (ctx2) {
+                        const conteo = {}; filt.forEach(t=>{ const m=t.maquinaRol||'Sin'; conteo[m]=(conteo[m]||0)+1; });
+                        const labels = Object.keys(conteo), data = Object.values(conteo);
+                        charts['maquina'] = new Chart(ctx2, { type:'doughnut', data:{labels,datasets:[{data,backgroundColor:COL.paletaBarras.slice(0,labels.length),borderColor:'#fff',borderWidth:2}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12}}}} });
+                    }
+                    const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
+                    if (ctx3) {
+                        const incs = {}; filt.forEach(t=>{ if(t.incidencia.trim()){ const ot=t.nroOT||'Sin'; incs[ot]=(incs[ot]||0)+1; } });
+                        const sorted = Object.entries(incs).sort((a,b)=>b[1]-a[1]);
+                        if (sorted.length) {
+                            charts['incidencias'] = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Incidencias',data:sorted.map(e=>e[1]),backgroundColor:COL.rojo}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}} });
+                        } else {
+                            charts['incidencias'] = new Chart(ctx3, { type:'bar', data:{labels:['Sin incidencias'],datasets:[{data:[0],backgroundColor:'#ccc'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} });
                         }
-                    });
-                    const sorted = Object.entries(incidencias).sort((a, b) => b[1] - a[1]);
-                    if (sorted.length > 0) {
-                        charts['incidencias'] = new Chart(ctxInc, {
-                            type: 'bar',
-                            data: {
-                                labels: sorted.map(e => e[0]),
-                                datasets: [{
-                                    label: 'Cantidad de incidencias',
-                                    data: sorted.map(e => e[1]),
-                                    backgroundColor: COLORES_INDUSTRIALES.rojo,
-                                    borderRadius: 4,
-                                }],
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
-                                scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 8 } } } },
-                            },
-                        });
-                    } else {
-                        charts['incidencias'] = new Chart(ctxInc, {
-                            type: 'bar',
-                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#ccc' }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } },
-                        });
                     }
                 }
             }
 
-            // ==================== PANEL DE INCIDENCIAS Y ALERTAS ====================
             function actualizarPanelIncidencias() {
                 const alertas = [];
-                const hoy = new Date();
-                hoy.setHours(0, 0, 0, 0);
-
-                datosOTs.forEach(o => {
-                    if (o.estado.toLowerCase() === 'entregado') return;
-                    const fp = parsearFechaDMY(o.fechaProgramada);
+                const hoy = new Date(); hoy.setHours(0,0,0,0);
+                datosOTs.forEach(o=>{
+                    if (o.estado.toLowerCase()==='entregado') return;
+                    const fp = parseFechaDMY(o.fechaProgramada);
                     if (fp && fp < hoy) {
-                        const dias = Math.floor((hoy - fp) / (1000 * 60 * 60 * 24));
-                        alertas.push({
-                            tipo: 'atraso',
-                            titulo: `OT Atrasada: ${o.nroOT || 'Sin N°'}`,
-                            detalle: `${o.descripcionTarea || 'Sin descripción'} — ${o.maquinaEquipo || 'Sin máquina'}`,
-                            fecha: `${dias} día(s) de retraso (prog: ${o.fechaProgramada})`,
-                            prioridad: 10 + dias,
-                        });
+                        const dias = Math.floor((hoy-fp)/(86400000));
+                        alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias});
                     }
                 });
-
-                datosOTs.forEach(o => {
-                    if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
-                        alertas.push({
-                            tipo: 'criticidad',
-                            titulo: `Criticidad ALTA: ${o.nroOT || 'Sin N°'}`,
-                            detalle: `${o.descripcionTarea || 'Sin descripción'} — Estado: ${o.estado || 'N/A'}`,
-                            fecha: o.fechaProgramada || 'Sin fecha prog.',
-                            prioridad: 8,
-                        });
+                datosOTs.forEach(o=>{
+                    if (o.criticidad.toLowerCase()==='alta' && o.estado.toLowerCase()!=='entregado') {
+                        alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8});
                     }
                 });
-
-                datosTrabajos.forEach(t => {
-                    if (t.incidenciaDificultad.trim() !== '') {
-                        alertas.push({
-                            tipo: 'incidencia',
-                            titulo: `Incidencia en trabajo: ${t.nroOT || 'Sin OT'}`,
-                            detalle: t.incidenciaDificultad,
-                            fecha: t.fechaRealizacion || 'Sin fecha',
-                            prioridad: 5,
-                        });
+                datosTrabajos.forEach(t=>{
+                    if (t.incidencia.trim()) {
+                        alertas.push({tipo:'incidencia',titulo:`Incidencia: ${t.nroOT||'Sin'}`,detalle:t.incidencia,fecha:t.fechaHoraInicio||'Sin fecha',prioridad:5});
                     }
                 });
-
-                alertas.sort((a, b) => b.prioridad - a.prioridad);
-                const top8 = alertas.slice(0, 8);
-                const contenedor = document.getElementById('contenidoIncidencias');
-                if (top8.length === 0) {
-                    contenedor.innerHTML = '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p>';
-                } else {
-                    contenedor.innerHTML = top8.map(a => `
-                        <div class="alerta-item">
-                            <div class="alerta-icono"><i class="fa-solid ${a.tipo === 'atraso' ? 'fa-clock' : a.tipo === 'criticidad' ? 'fa-skull' : 'fa-triangle-exclamation'}"></i></div>
-                            <div class="alerta-contenido">
-                                <div class="alerta-titulo">${escapeHTML(a.titulo)}</div>
-                                <div class="alerta-detalle">${escapeHTML(a.detalle)}</div>
-                            </div>
-                            <div class="alerta-fecha">${escapeHTML(a.fecha)}</div>
-                        </div>
-                    `).join('');
-                }
+                alertas.sort((a,b)=>b.prioridad-a.prioridad);
+                const top = alertas.slice(0,8);
+                const cont = document.getElementById('contenidoIncidencias');
+                cont.innerHTML = top.length ? top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
             }
 
-            // ==================== EVENT LISTENERS ====================
-            function configurarEventListeners() {
-                document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodoDesdeGoogle);
-
-                ['filtroEstado', 'filtroOperario', 'filtroTipo', 'filtroSector'].forEach(id => {
-                    document.getElementById(id).addEventListener('change', () => {
-                        actualizarTablaOTs();
-                        actualizarGraficosOTs();
-                    });
-                });
-                document.getElementById('busquedaOTs').addEventListener('input', () => {
-                    actualizarTablaOTs();
-                    actualizarGraficosOTs();
-                });
-
-                ['filtroNroOT', 'filtroResponsable'].forEach(id => {
-                    document.getElementById(id).addEventListener('change', () => {
-                        actualizarTablaTrabajos();
-                        actualizarGraficosTrabajos();
-                    });
-                });
-                document.getElementById('busquedaTrabajos').addEventListener('input', () => {
-                    actualizarTablaTrabajos();
-                    actualizarGraficosTrabajos();
-                });
-            }
+            // Eventos
+            document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo);
+            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
+            document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); });
+            ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
+            document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
             function inicializar() {
                 actualizarFechasUI();
-                configurarEventListeners();
-                actualizarTarjetasOTs();
-                actualizarTarjetasTrabajos();
-                actualizarTablaOTs();
-                actualizarTablaTrabajos();
+                actualizarTarjetasOTs(); actualizarTarjetasTrabajos();
+                actualizarTablaOTs(); actualizarTablaTrabajos();
                 actualizarPanelIncidencias();
-                setTimeout(() => cargarTodoDesdeGoogle(), 600);
+                setTimeout(cargarTodo, 600);
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', inicializar);
-            } else {
-                inicializar();
-            }
+            if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', inicializar);
+            else inicializar();
         })();
     </script>
 </body>

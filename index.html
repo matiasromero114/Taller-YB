@@ -690,19 +690,40 @@
 
             // Cargar lista maestra de operarios desde la hoja "Operarios"
             async function cargarMasterOperarios() {
-                const texto = await fetchSheet(SHEET_OPERARIOS);
-                const { enc, filas } = parsearCSV(texto);
-                // La primera columna contiene los nombres; las dos primeras filas son "Cantidad" y "Promedio" (se ignoran)
-                const nombres = filas
-                    .map(f => (f[0] || '').trim())
-                    .filter(nombre => {
-                        const lower = nombre.toLowerCase();
-                        return lower !== 'cantidad' && lower !== 'promedio' && nombre !== '';
-                    });
-                masterOperarios = [...new Set(nombres)].sort();
-                toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
-                actualizarTodoOTs(); // refrescar tarjeta y filtro
-            }
+    const texto = await fetchSheet(SHEET_OPERARIOS);
+    const lineas = texto.split(/\r?\n/).filter(l => l.trim() !== '');
+    if (lineas.length === 0) return;
+
+    // 1. Encontrar la primera línea que contiene "Operario" (el título de la columna A)
+    let headerIndex = -1;
+    for (let i = 0; i < lineas.length; i++) {
+        const columnas = lineas[i].split(',');
+        if (columnas.length > 0 && columnas[0].trim().toLowerCase() === 'operario') {
+            headerIndex = i;
+            break;
+        }
+    }
+    if (headerIndex === -1) {
+        console.warn('No se encontró el encabezado "Operario" en la hoja Operarios');
+        return;
+    }
+
+    // 2. A partir de la siguiente línea, leer los nombres reales
+    const nombres = [];
+    for (let i = headerIndex + 1; i < lineas.length; i++) {
+        const columnas = lineas[i].split(',');
+        const nombre = (columnas[0] || '').trim();
+        // Ignorar filas de "Cantidad", "Promedio" o vacías
+        const lower = nombre.toLowerCase();
+        if (nombre !== '' && lower !== 'cantidad' && lower !== 'promedio') {
+            nombres.push(nombre);
+        }
+    }
+
+    masterOperarios = [...new Set(nombres)].sort();
+    toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
+    actualizarTodoOTs();
+}
 
             async function cargarOTs() {
                 const texto = await fetchSheet(SHEET_OTS);

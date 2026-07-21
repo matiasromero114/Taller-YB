@@ -5,228 +5,613 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taller Yerba Buena — Dashboard OTs y Ejecución</title>
 
+    <!-- Font Awesome 6 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <!-- Chart.js 4 (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+    </script>
+    <!-- Google Fonts: Inter + Roboto Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --azul-oscuro: #0f2b46; --azul-medio: #1a3f63; --naranja: #e8750c; --gris-fondo: #f4f5f7;
-            --gris-claro: #e2e4e7; --gris-medio: #8b8f95; --gris-oscuro: #3c4043; --blanco: #ffffff;
-            --verde: #1e8449; --rojo: #c0392b; --amarillo: #b8860b;
-            --sombra-sm: 0 1px 3px rgba(0,0,0,0.08); --sombra-md: 0 4px 12px rgba(0,0,0,0.1);
-            --radio: 10px; --radio-sm: 6px;
+            --azul-oscuro: #0f2b46;
+            --azul-medio: #1a3f63;
+            --naranja: #e8750c;
+            --naranja-claro: #f7941d;
+            --gris-fondo: #f4f5f7;
+            --gris-claro: #e2e4e7;
+            --gris-medio: #8b8f95;
+            --gris-oscuro: #3c4043;
+            --blanco: #ffffff;
+            --verde: #1e8449;
+            --verde-claro: #e8f5e9;
+            --rojo: #c0392b;
+            --rojo-claro: #fdecea;
+            --amarillo: #b8860b;
+            --amarillo-claro: #fff8e1;
+            --azul-claro: #e3f0fa;
+            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radio: 10px;
+            --radio-sm: 6px;
+            --transicion: 0.2s ease;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background: #e8ecf0; color: var(--gris-oscuro); }
-        .dashboard-container { max-width: 1440px; margin: 0 auto; padding: 16px 20px 32px; }
 
-        .header { background: var(--blanco); border-radius: var(--radio); padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; box-shadow: var(--sombra-md); margin-bottom: 20px; border-left: 5px solid var(--naranja); }
-        .header-izq { display: flex; align-items: center; gap: 16px; }
-        .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); }
-        .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); }
-        .subtitulo { font-size: 0.82rem; color: var(--gris-medio); }
-        .header-der { display: flex; align-items: center; gap: 12px; }
-        .fecha-actual { background: var(--gris-fondo); padding: 8px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
-        .btn-carga { padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco); color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); }
-        .btn-carga.debug { border-color: #888; color: #888; margin-left: 8px; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; }
-        .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; border-left: 4px solid transparent; }
-        .tarjeta.azul { border-left-color: var(--azul-medio); } .tarjeta.naranja { border-left-color: var(--naranja); } .tarjeta.verde { border-left-color: var(--verde); } .tarjeta.rojo { border-left-color: var(--rojo); }
-        .tarjeta-icono { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .tarjeta.azul .tarjeta-icono { background: #e3f0fa; color: var(--azul-medio); }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e8ecf0;
+            color: var(--gris-oscuro);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== CONTENEDOR PRINCIPAL ========== */
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 16px 20px 32px;
+        }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: var(--sombra-md);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--naranja);
+        }
+        .header-izq {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .logo-escudo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--azul-oscuro);
+            box-shadow: var(--sombra-sm);
+            flex-shrink: 0;
+        }
+        .header-titulos h1 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            letter-spacing: -0.3px;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .header-titulos .subtitulo {
+            font-size: 0.82rem;
+            color: var(--gris-medio);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .header-der {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .fecha-actual {
+            background: var(--gris-fondo);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gris-oscuro);
+            white-space: nowrap;
+            border: 1px solid var(--gris-claro);
+        }
+        .btn-carga {
+            padding: 9px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--azul-medio);
+            background: var(--blanco);
+            color: var(--azul-medio);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all var(--transicion);
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-carga:hover {
+            background: var(--azul-medio);
+            color: var(--blanco);
+            box-shadow: var(--sombra-sm);
+        }
+        .btn-carga i {
+            font-size: 0.9rem;
+        }
+
+        /* ========== TARJETAS DE RESUMEN ========== */
+        .seccion-titulo {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: var(--gris-medio);
+            margin-bottom: 10px;
+            padding-left: 4px;
+        }
+        .tarjetas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .tarjeta {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 16px 18px;
+            box-shadow: var(--sombra-sm);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform var(--transicion), box-shadow var(--transicion);
+            border-left: 4px solid transparent;
+        }
+        .tarjeta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-md);
+        }
+        .tarjeta.azul { border-left-color: var(--azul-medio); }
+        .tarjeta.naranja { border-left-color: var(--naranja); }
+        .tarjeta.verde { border-left-color: var(--verde); }
+        .tarjeta.rojo { border-left-color: var(--rojo); }
+        .tarjeta-icono {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .tarjeta.azul .tarjeta-icono { background: var(--azul-claro); color: var(--azul-medio); }
         .tarjeta.naranja .tarjeta-icono { background: #fef3e6; color: var(--naranja); }
-        .tarjeta.verde .tarjeta-icono { background: #e8f5e9; color: var(--verde); }
-        .tarjeta.rojo .tarjeta-icono { background: #fdecea; color: var(--rojo); }
-        .tarjeta-numero { font-size: 1.7rem; font-weight: 800; }
-        .tarjeta-label { font-size: 0.75rem; color: var(--gris-medio); }
+        .tarjeta.verde .tarjeta-icono { background: var(--verde-claro); color: var(--verde); }
+        .tarjeta.rojo .tarjeta-icono { background: var(--rojo-claro); color: var(--rojo); }
+        .tarjeta-info .tarjeta-numero {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            color: var(--gris-oscuro);
+        }
+        .tarjeta-info .tarjeta-label {
+            font-size: 0.75rem;
+            color: var(--gris-medio);
+            font-weight: 500;
+            margin-top: 2px;
+        }
 
-        .filtros-bar { background: var(--blanco); border-radius: var(--radio); padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--sombra-sm); margin-bottom: 14px; }
-        .filtros-bar label { font-weight: 600; font-size: 0.78rem; }
-        .filtros-bar select, .filtros-bar input[type="text"] { padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro); font-size: 0.82rem; background: var(--gris-fondo); }
-        .filtros-bar input[type="text"] { flex: 1; min-width: 180px; max-width: 320px; }
+        /* ========== FILTROS ========== */
+        .filtros-bar {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 14px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            box-shadow: var(--sombra-sm);
+            margin-bottom: 14px;
+        }
+        .filtros-bar label {
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: var(--gris-oscuro);
+            white-space: nowrap;
+        }
+        .filtros-bar select,
+        .filtros-bar input[type="text"] {
+            padding: 7px 10px;
+            border-radius: var(--radio-sm);
+            border: 1.5px solid var(--gris-claro);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            background: var(--gris-fondo);
+            color: var(--gris-oscuro);
+            transition: border var(--transicion);
+            min-width: 100px;
+        }
+        .filtros-bar select:focus,
+        .filtros-bar input[type="text"]:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+            background: var(--blanco);
+        }
+        .filtros-bar input[type="text"] {
+            flex: 1;
+            min-width: 180px;
+            max-width: 320px;
+        }
 
-        .tabla-contenedor { background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-sm); overflow-x: auto; margin-bottom: 20px; max-height: 480px; overflow-y: auto; border: 1px solid var(--gris-claro); }
-        table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 1100px; }
-        thead th { background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; position: sticky; top: 0; }
-        tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; }
-        .badge-pendiente { background: #fff8e1; color: var(--amarillo); } .badge-en-curso { background: #e3f0fa; color: var(--azul-medio); } .badge-entregado { background: #e8f5e9; color: var(--verde); }
-        .badge-baja { background: #e9ecef; color: #495057; } .badge-media { background: #fff8e1; color: var(--amarillo); } .badge-alta { background: #fdecea; color: var(--rojo); }
-        .badge-incidencia { background: #fdecea; color: var(--rojo); font-size: 0.68rem; }
-        .celda-vacia { color: #c0c4c8; font-style: italic; }
+        /* ========== TABLAS ========== */
+        .tabla-contenedor {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            box-shadow: var(--sombra-sm);
+            overflow-x: auto;
+            margin-bottom: 20px;
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid var(--gris-claro);
+        }
+        .tabla-contenedor table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            min-width: 1100px;
+            white-space: nowrap;
+        }
+        .tabla-contenedor thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .tabla-contenedor thead th {
+            background: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 10px 8px;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+        .tabla-contenedor tbody td {
+            padding: 8px;
+            border-bottom: 1px solid var(--gris-claro);
+            color: var(--gris-oscuro);
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .tabla-contenedor tbody tr:hover { background: #f8fafb; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
+        .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
+        .badge-entregado { background: var(--verde-claro); color: var(--verde); }
+        .badge-baja { background: #e9ecef; color: #495057; }
+        .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
+        .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
+        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; cursor: default; font-size: 0.68rem; padding: 2px 8px; }
+        .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
-        .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
-        .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; }
-        .grafico-card canvas { max-height: 300px; }
+        /* ========== GRÁFICOS ========== */
+        .graficos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .grafico-card {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 16px;
+            box-shadow: var(--sombra-sm);
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+        .grafico-card h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 8px;
+        }
+        .grafico-card canvas { flex: 1; max-height: 300px; }
 
-        .incidencias-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); border-left: 5px solid var(--rojo); margin-bottom: 20px; }
-        .alerta-item { display: flex; gap: 10px; padding: 10px 12px; margin-bottom: 8px; background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; border-radius: 6px; }
-        .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; }
+        /* ========== PANEL INCIDENCIAS ========== */
+        .incidencias-panel {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 18px 20px;
+            box-shadow: var(--sombra-sm);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--rojo);
+        }
+        .incidencias-panel h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--rojo);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alerta-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radio-sm);
+            background: #fff5f5;
+            border-left: 3px solid var(--rojo);
+            font-size: 0.8rem;
+        }
+        .alerta-icono {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--rojo-claro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rojo);
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        .alerta-contenido { flex: 1; }
+        .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
+        .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
+        .alerta-fecha { font-weight: 600; color: var(--rojo); font-size: 0.7rem; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
+        .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
 
-        .footer { text-align: center; padding: 14px; font-size: 0.75rem; color: var(--gris-medio); border-top: 1px solid var(--gris-claro); }
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 0.75rem;
+            color: var(--gris-medio);
+            border-top: 1px solid var(--gris-claro);
+            margin-top: 8px;
+        }
 
-        .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; z-index: 1000; display: none; }
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--azul-oscuro);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1000;
+            box-shadow: var(--sombra-lg);
+            animation: slideIn 0.35s ease;
+            display: none;
+        }
         .toast.mostrar { display: block; }
+        @keyframes slideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
 
-        .debug-panel { background: #fff8e1; border: 1px solid var(--naranja); border-radius: var(--radio); padding: 14px; margin-top: 16px; font-family: 'Roboto Mono', monospace; font-size: 0.75rem; display: none; }
-        .debug-panel.visible { display: block; }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; align-items: flex-start; }
+            .header-der { width: 100%; justify-content: flex-start; }
+            .tarjetas-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .graficos-grid { grid-template-columns: 1fr; }
+            .filtros-bar { flex-direction: column; align-items: stretch; }
+            .filtros-bar input[type="text"] { max-width: 100%; }
+            .tabla-contenedor { max-height: 350px; }
+        }
     </style>
 </head>
 <body>
+
     <div class="toast" id="toast"></div>
+
     <div class="dashboard-container">
+
+        <!-- HEADER -->
         <header class="header">
             <div class="header-izq">
-                <img src="logo-ceramica.png" alt="Logo" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
-                <div class="header-titulos"><h1>TALLER</h1><p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p></div>
+                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
+                <div class="header-titulos">
+                    <h1>TALLER</h1>
+                    <p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p>
+                </div>
             </div>
             <div class="header-der">
                 <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;"><i class="fa-brands fa-google"></i> Google Sheets</button>
-                <button class="btn-carga debug" id="btnDebug"><i class="fa-solid fa-bug"></i> Debug</button>
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;">
+                    <i class="fa-brands fa-google"></i> Google Sheets
+                </button>
             </div>
         </header>
 
+        <!-- TARJETAS OTs -->
         <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
         <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
+            <!-- La tarjeta de Operarios activos ahora se alimenta de la hoja "Operarios" -->
             <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
+        <!-- TARJETAS TRABAJOS (sin la tarjeta "Operarios" duplicada) -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
             <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalTrabajos">0</div><div class="tarjeta-label">Total trabajos</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
-            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-user-gear"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosTrabajos">0</div><div class="tarjeta-label">Operarios (Trab.)</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-gears"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosDistintos">0</div><div class="tarjeta-label">OTs con trabajo</div></div></div>
         </div>
 
+        <!-- FILTROS OTs -->
         <div class="filtros-bar">
-            <label>Estado:</label><select id="filtroEstado"><option value="Todos">Todos</option><option>Pendiente</option><option>En curso</option><option>Entregado</option></select>
-            <label>Operario:</label><select id="filtroOperario"><option value="Todos">Todos</option></select>
-            <label>Tipo:</label><select id="filtroTipo"><option value="Todos">Todos</option><option>Fabricación</option><option>Reparación</option><option>Mecanizado</option><option>Modificación</option></select>
-            <label>Sector:</label><select id="filtroSector"><option value="Todos">Todos</option></select>
-            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar...">
+            <label>Estado:</label>
+            <select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperario"><option value="Todos">Todos</option></select>
+            <label>Tipo:</label>
+            <select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
+            <label>Sector:</label>
+            <select id="filtroSector"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
         </div>
 
+        <!-- TABLA OTs -->
         <div class="tabla-contenedor">
-            <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead><tbody></tbody></table>
+            <table id="tablaOTs">
+                <thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead>
+                <tbody></tbody>
+            </table>
         </div>
 
+        <!-- FILTROS TRABAJOS -->
         <div class="filtros-bar">
-            <label>N° OT:</label><select id="filtroNroOT"><option value="Todos">Todos</option></select>
-            <label>Operario:</label><select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
-            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar...">
+            <label>N° OT:</label>
+            <select id="filtroNroOT"><option value="Todos">Todos</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
         </div>
 
+        <!-- TABLA TRABAJOS -->
         <div class="tabla-contenedor">
-            <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Inicio</th><th>Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
+            <table id="tablaTrabajos">
+                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
+                <tbody></tbody>
+            </table>
         </div>
 
-        <p class="seccion-titulo">📊 Gráficos — OTs</p>
+        <!-- GRÁFICOS OTs -->
+        <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
         </div>
 
-        <p class="seccion-titulo">📊 Gráficos — Trabajos</p>
+        <!-- GRÁFICOS TRABAJOS -->
+        <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
+        <!-- PANEL INCIDENCIAS -->
         <div class="incidencias-panel">
             <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
             <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
         </div>
 
-        <div class="debug-panel" id="debugPanel">
-            <h3>🔍 Depuración de operarios (OTs)</h3>
-            <div id="debugContenido"></div>
-        </div>
-
-        <footer class="footer">Cerámica Marcos Paz · Taller Yerba Buena · <span id="fechaFooter"></span></footer>
+        <footer class="footer">
+            Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span>
+        </footer>
     </div>
 
     <script>
         (function() {
-            // Configuración
+            let datosOTs = [];
+            let datosTrabajos = [];
+            let masterOperarios = []; // Lista maestra de operarios desde la hoja "Operarios"
+            let charts = {};
+
             const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
             const SHEET_OTS = 'O.T. Taller de YB';
             const SHEET_TRAB = 'TrabajosRealizados';
+            const SHEET_OPERARIOS = 'Operarios';
 
-            let datosOTs = [], datosTrabajos = [];
-            let charts = {};
-
-            // Utilidades
-            const toast = (msg, dur=3000) => {
+            function toast(msg, dur=3000) {
                 const t = document.getElementById('toast');
                 t.textContent = msg; t.classList.add('mostrar');
                 clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('mostrar'), dur);
-            };
-            const fechaHoy = () => new Date().toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
-            const actFechas = () => {
+            }
+
+            function fechaHoy() {
+                const d = new Date();
+                return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+            }
+            function actualizarFechasUI() {
                 const f = fechaHoy();
                 document.getElementById('fechaActual').innerHTML = `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
                 document.getElementById('fechaFooter').textContent = f;
-            };
+            }
 
-            const parseFecha = str => {
+            function parseFechaDMY(str) {
                 if (!str) return null;
-                const m = str.trim().match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
+                str = str.trim();
+                const m = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
                 if (!m) return null;
                 let d = parseInt(m[1]), mes = parseInt(m[2])-1, a = parseInt(m[3]);
-                if (a<100) a+=2000;
-                const dt = new Date(a,mes,d);
+                if (a < 100) a += 2000;
+                const dt = new Date(a, mes, d);
                 return (dt.getDate()===d && dt.getMonth()===mes) ? dt : null;
-            };
-            const duracionHoras = str => {
+            }
+
+            function parseDuracionHHMMSS(str) {
                 if (!str) return 0;
-                const partes = str.trim().split(':');
-                if (partes.length===3) return parseInt(partes[0]) + parseInt(partes[1])/60 + parseInt(partes[2])/3600;
+                const parts = str.trim().split(':');
+                if (parts.length === 3) {
+                    return parseInt(parts[0]) + parseInt(parts[1])/60 + parseInt(parts[2])/3600;
+                }
                 const n = parseFloat(str.replace(',','.'));
                 return isNaN(n) ? 0 : n;
-            };
-            const escapar = s => { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; };
-            const celda = v => v ? escapar(v) : '<span class="celda-vacia">—</span>';
+            }
 
-            // Mapeo robusto de columnas (con exclusión explícita para evitar colisiones)
-            function idxColumna(encabezados, palabras, excluir=[]) {
+            // ---------- MAPEO FLEXIBLE ----------
+            function encontrarColumna(encabezados, palabras, excluir=[]) {
                 for (let i=0; i<encabezados.length; i++) {
                     if (excluir.includes(i)) continue;
-                    let h = encabezados[i].trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9ñ]/g,'');
-                    for (let p of palabras) {
-                        let limpia = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9ñ]/g,'');
-                        if (h.includes(limpia)) return i;
+                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                    for (const p of palabras) {
+                        const c = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                        if (h.includes(c)) return i;
                     }
                 }
                 return -1;
             }
 
-            function mapearOT(fila, enc) {
-                const idxFecha  = idxColumna(enc, ['fecha programada','fechaprogramada']);
-                const idxOT     = idxColumna(enc, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxDesc   = idxColumna(enc, ['descripcion de tarea','descripcion','tarea']);
-                const idxSol    = idxColumna(enc, ['solicitante']);
-                const idxMaqEq  = idxColumna(enc, ['maquina/equipo','máquina/equipo','maquina equipo']);
-                const idxMaqRol = idxColumna(enc, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
-                const idxOp     = idxColumna(enc, ['operario','operario asignado','operarioasignado','tecnico responsable']);
-                const idxEq     = idxColumna(enc, ['equipo de trabajo','equipo']);
-                const idxSector = idxColumna(enc, ['sector']);
-                const idxPiezas = idxColumna(enc, ['piezas','pieza']);
-                const idxTipo   = idxColumna(enc, ['tipo de trabajo','tipo']);
-                const idxCrit   = idxColumna(enc, ['criticidad','prioridad']);
-                const idxLugar  = idxColumna(enc, ['lugar de trabajo','lugar']);
-                const idxMant   = idxColumna(enc, ['ot mant asoc','ot mant']);
-                const idxEstado = idxColumna(enc, ['estado','situacion']);
+            function mapearOTs(encabezados, fila) {
+                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada']);
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','tarea']);
+                const idxSol = encontrarColumna(encabezados, ['solicitante']);
+                const idxMaqEq = encontrarColumna(encabezados, ['maquina/equipo','máquina/equipo','maquina equipo']);
+                const idxMaqRol = encontrarColumna(encabezados, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
+                const idxOp = encontrarColumna(encabezados, ['operario asignado','operario','operarioasignado']);
+                const idxEq = encontrarColumna(encabezados, ['equipo de trabajo','equipo','equipotrabajo']);
+                const idxSec = encontrarColumna(encabezados, ['sector']);
+                const idxPie = encontrarColumna(encabezados, ['piezas','pieza']);
+                const idxTip = encontrarColumna(encabezados, ['tipo de trabajo','tipo','tipodetrabajo']);
+                const idxCrit = encontrarColumna(encabezados, ['criticidad','prioridad']);
+                const idxLug = encontrarColumna(encabezados, ['lugar de trabajo','lugar','lugartrabajo']);
+                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant']);
+                const idxEst = encontrarColumna(encabezados, ['estado','situacion']);
 
                 return {
                     fechaProgramada: idxFecha>=0 ? (fila[idxFecha]||'').trim() : '',
@@ -236,28 +621,29 @@
                     maquinaRol: idxMaqRol>=0 ? (fila[idxMaqRol]||'').trim() : '',
                     operarioAsignado: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
                     equipoTrabajo: idxEq>=0 ? (fila[idxEq]||'').trim() : '',
-                    sector: idxSector>=0 ? (fila[idxSector]||'').trim() : '',
+                    sector: idxSec>=0 ? (fila[idxSec]||'').trim() : '',
                     maquinaEquipo: idxMaqEq>=0 ? (fila[idxMaqEq]||'').trim() : '',
-                    piezas: idxPiezas>=0 ? (fila[idxPiezas]||'').trim() : '',
-                    tipoTrabajo: idxTipo>=0 ? (fila[idxTipo]||'').trim() : '',
+                    piezas: idxPie>=0 ? (fila[idxPie]||'').trim() : '',
+                    tipoTrabajo: idxTip>=0 ? (fila[idxTip]||'').trim() : '',
                     criticidad: idxCrit>=0 ? (fila[idxCrit]||'').trim() : '',
-                    lugarTrabajo: idxLugar>=0 ? (fila[idxLugar]||'').trim() : '',
+                    lugarTrabajo: idxLug>=0 ? (fila[idxLug]||'').trim() : '',
                     otMantAsoc: idxMant>=0 ? (fila[idxMant]||'').trim() : '',
-                    estado: idxEstado>=0 ? (fila[idxEstado]||'').trim() : ''
+                    estado: idxEst>=0 ? (fila[idxEst]||'').trim() : ''
                 };
             }
 
-            function mapearTrab(fila, enc) {
-                const idxOT     = idxColumna(enc, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxMaq    = idxColumna(enc, ['maquina','máquina']);
-                const idxOp     = idxColumna(enc, ['operario']);
-                const idxDesc   = idxColumna(enc, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
-                const idxMat    = idxColumna(enc, ['repuestos, materiales e insumos consumidos','materiales','insumos']);
-                const idxCant   = idxColumna(enc, ['cantidad','cant']);
-                const idxInc    = idxColumna(enc, ['incidencia o dificulta','incidencia','dificulta']);
-                const idxIni    = idxColumna(enc, ['fecha hora inicio','hora inicio','fechahora inicio']);
-                const idxFin    = idxColumna(enc, ['fecha hora fin','hora fin','fechahora fin']);
-                const idxDur    = idxColumna(enc, ['tiempo total','tiempototal','duracion']);
+            function mapearTrabajos(encabezados, fila) {
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']); // rol
+                const idxOp = encontrarColumna(encabezados, ['operario']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
+                const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
+                const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
+                const idxInc = encontrarColumna(encabezados, ['incidencia o dificulta','incidencia','dificulta']);
+                const idxIni = encontrarColumna(encabezados, ['fecha hora inicio','hora inicio','fechahora inicio']);
+                const idxFin = encontrarColumna(encabezados, ['fecha hora fin','hora fin','fechahora fin']);
+                const idxDur = encontrarColumna(encabezados, ['tiempo total','tiempototal','duracion']);
+
                 return {
                     nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
                     maquinaRol: idxMaq>=0 ? (fila[idxMaq]||'').trim() : '',
@@ -274,105 +660,123 @@
 
             function parsearCSV(texto) {
                 const lineas = texto.split(/\r?\n/).filter(l => l.trim());
-                if (!lineas.length) return { enc:[], filas:[] };
-                const parse = linea => {
+                if (lineas.length===0) return { enc: [], filas: [] };
+                const parseLinea = (l) => {
                     const res = []; let act='', comillas=false;
-                    for (let ch of linea) {
+                    for (let i=0; i<l.length; i++) {
+                        const ch = l[i];
                         if (ch==='"') comillas=!comillas;
                         else if (ch===',' && !comillas) { res.push(act); act=''; }
-                        else act+=ch;
+                        else act += ch;
                     }
                     res.push(act);
                     return res;
                 };
-                const enc = parse(lineas[0]);
-                const filas = lineas.slice(1).map(parse).filter(f => f.some(c=>c.trim()));
+                const enc = parseLinea(lineas[0]);
+                const filas = [];
+                for (let i=1; i<lineas.length; i++) {
+                    const f = parseLinea(lineas[i]);
+                    if (f.some(c=>c.trim())) filas.push(f);
+                }
                 return { enc, filas };
             }
 
-            async function fetchSheet(nombre) {
-                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(nombre)}`;
+            async function fetchSheet(sheetName) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
                 const res = await fetch(url);
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok) throw new Error(`Error ${res.status}`);
                 return await res.text();
+            }
+
+            // Cargar lista maestra de operarios desde la hoja "Operarios"
+            async function cargarMasterOperarios() {
+                const texto = await fetchSheet(SHEET_OPERARIOS);
+                const { enc, filas } = parsearCSV(texto);
+                // La primera columna contiene los nombres; las dos primeras filas son "Cantidad" y "Promedio" (se ignoran)
+                const nombres = filas
+                    .map(f => (f[0] || '').trim())
+                    .filter(nombre => {
+                        const lower = nombre.toLowerCase();
+                        return lower !== 'cantidad' && lower !== 'promedio' && nombre !== '';
+                    });
+                masterOperarios = [...new Set(nombres)].sort();
+                toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
+                actualizarTodoOTs(); // refrescar tarjeta y filtro
             }
 
             async function cargarOTs() {
                 const texto = await fetchSheet(SHEET_OTS);
                 const {enc, filas} = parsearCSV(texto);
-                datosOTs = filas.map(f => mapearOT(f, enc));
+                datosOTs = filas.map(f => mapearOTs(enc, f));
                 toast(`✅ OTs: ${datosOTs.length} registros`);
                 actualizarTodoOTs();
             }
+
             async function cargarTrabajos() {
                 const texto = await fetchSheet(SHEET_TRAB);
                 const {enc, filas} = parsearCSV(texto);
-                datosTrabajos = filas.map(f => mapearTrab(f, enc));
+                datosTrabajos = filas.map(f => mapearTrabajos(enc, f));
                 toast(`✅ Trabajos: ${datosTrabajos.length} registros`);
                 actualizarTodoTrabajos();
             }
+
             async function cargarTodo() {
+                await cargarMasterOperarios(); // debe ir antes para que filtros y tarjetas usen la lista correcta
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
             }
 
+            // ----- ACTUALIZACIONES -----
             function actualizarTodoOTs() {
                 poblarFiltrosOTs();
                 actualizarTarjetasOTs();
                 actualizarTablaOTs();
                 actualizarGraficosOTs();
-                actualizarPanelAlertas();
-                actualizarDebug();
+                actualizarPanelIncidencias();
             }
             function actualizarTodoTrabajos() {
                 poblarFiltrosTrabajos();
                 actualizarTarjetasTrabajos();
                 actualizarTablaTrabajos();
                 actualizarGraficosTrabajos();
-                actualizarPanelAlertas();
+                actualizarPanelIncidencias();
             }
 
-            // ---------- TARJETAS ----------
+            // Tarjetas OTs
             function actualizarTarjetasOTs() {
                 document.getElementById('totalOTs').textContent = datosOTs.length;
-                document.getElementById('enCursoOTs').textContent = datosOTs.filter(o => o.estado.toLowerCase() === 'en curso').length;
-                document.getElementById('pendientesOTs').textContent = datosOTs.filter(o => o.estado.toLowerCase() === 'pendiente').length;
-
-                // Conteo corregido: nombre completo normalizado sin perder información
-                const operariosUnicos = new Set(
-                    datosOTs
-                        .map(o => o.operarioAsignado.trim())
-                        .filter(n => n !== '')
-                        .map(n => n.toLowerCase()
-                            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')   // quita tildes
-                            .replace(/\s+/g, ' ')                                // un solo espacio
-                            .trim()
-                        )
-                );
-                document.getElementById('operariosActivos').textContent = operariosUnicos.size;
+                document.getElementById('enCursoOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
+                document.getElementById('pendientesOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
+                // Ahora se usa la lista maestra
+                document.getElementById('operariosActivos').textContent = masterOperarios.length;
             }
 
+            // Tarjetas Trabajos
             function actualizarTarjetasTrabajos() {
                 document.getElementById('totalTrabajos').textContent = datosTrabajos.length;
-                const horas = datosTrabajos.reduce((s, t) => s + duracionHoras(t.tiempoTotal), 0);
+                const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
                 document.getElementById('horasTotales').textContent = horas.toFixed(1);
-                document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t => t.incidencia.trim() !== '').length;
-                const ops = new Set(datosTrabajos.map(t => t.operario.trim()).filter(n => n));
-                document.getElementById('operariosTrabajos').textContent = ops.size;
+                document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
+                // Cantidad de OTs distintas que tienen al menos un trabajo registrado
+                const otsConTrabajo = new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n));
+                document.getElementById('trabajosDistintos').textContent = otsConTrabajo.size;
             }
 
-            // ---------- FILTROS ----------
             function poblarFiltrosOTs() {
-                const ops = [...new Set(datosOTs.map(o => o.operarioAsignado).filter(n => n.trim()))].sort();
-                const sect = [...new Set(datosOTs.map(o => o.sector).filter(n => n.trim()))].sort();
-                document.getElementById('filtroOperario').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o => `<option>${o}</option>`).join('');
-                document.getElementById('filtroSector').innerHTML = '<option value="Todos">Todos</option>' + sect.map(s => `<option>${s}</option>`).join('');
+                // Operarios: usar lista maestra
+                const selOp = document.getElementById('filtroOperario');
+                selOp.innerHTML = '<option value="Todos">Todos</option>' + masterOperarios.map(o => `<option value="${o}">${o}</option>`).join('');
+                
+                const sectores = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
+                const selSec = document.getElementById('filtroSector');
+                selSec.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s => `<option value="${s}">${s}</option>`).join('');
             }
+
             function poblarFiltrosTrabajos() {
-                const ots = [...new Set(datosTrabajos.map(t => t.nroOT).filter(n => n.trim()))].sort();
-                const ops = [...new Set(datosTrabajos.map(t => t.operario).filter(n => n.trim()))].sort();
-                document.getElementById('filtroNroOT').innerHTML = '<option value="Todos">Todos</option>' + ots.map(o => `<option>${o}</option>`).join('');
-                document.getElementById('filtroOperarioTrab').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o => `<option>${o}</option>`).join('');
+                const ots = [...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort();
+                const ops = [...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort();
+                document.getElementById('filtroNroOT').innerHTML = '<option value="Todos">Todos</option>' + ots.map(o => `<option value="${o}">${o}</option>`).join('');
+                document.getElementById('filtroOperarioTrab').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o => `<option value="${o}">${o}</option>`).join('');
             }
 
             function filtrarOTs() {
@@ -381,43 +785,60 @@
                 const tip = document.getElementById('filtroTipo').value;
                 const sec = document.getElementById('filtroSector').value;
                 const q = document.getElementById('busquedaOTs').value.toLowerCase().trim();
-                return datosOTs.filter(o => {
-                    if (est !== 'Todos' && o.estado.toLowerCase() !== est.toLowerCase()) return false;
-                    if (op !== 'Todos' && o.operarioAsignado !== op) return false;
-                    if (tip !== 'Todos' && o.tipoTrabajo !== tip) return false;
-                    if (sec !== 'Todos' && o.sector !== sec) return false;
+                return datosOTs.filter(o=>{
+                    if (est!=='Todos' && o.estado.toLowerCase()!==est.toLowerCase()) return false;
+                    if (op!=='Todos' && o.operarioAsignado !== op) return false;
+                    if (tip!=='Todos' && o.tipoTrabajo !== tip) return false;
+                    if (sec!=='Todos' && o.sector !== sec) return false;
                     if (q && !`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false;
                     return true;
                 });
             }
+
             function filtrarTrabajos() {
                 const ot = document.getElementById('filtroNroOT').value;
                 const op = document.getElementById('filtroOperarioTrab').value;
                 const q = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
-                return datosTrabajos.filter(t => {
-                    if (ot !== 'Todos' && t.nroOT !== ot) return false;
-                    if (op !== 'Todos' && t.operario !== op) return false;
+                return datosTrabajos.filter(t=>{
+                    if (ot!=='Todos' && t.nroOT!==ot) return false;
+                    if (op!=='Todos' && t.operario!==op) return false;
                     if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales} ${t.incidencia}`.toLowerCase().includes(q)) return false;
                     return true;
                 });
             }
 
+            function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+            function celda(v) { return v ? escapeHTML(v) : '<span class="celda-vacia">—</span>'; }
+
             function actualizarTablaOTs() {
-                document.querySelector('#tablaOTs tbody').innerHTML = filtrarOTs().map(o => {
-                    const badgeEst = {'pendiente':'badge-pendiente','en curso':'badge-en-curso','entregado':'badge-entregado'}[o.estado.toLowerCase()] || '';
-                    const badgeCrit = {'baja':'badge-baja','media':'badge-media','alta':'badge-alta'}[o.criticidad.toLowerCase()] || '';
+                const tbody = document.querySelector('#tablaOTs tbody');
+                tbody.innerHTML = filtrarOTs().map(o=>{
+                    let badgeEst = '';
+                    const e = o.estado.toLowerCase();
+                    if (e==='pendiente') badgeEst = '<span class="badge badge-pendiente">Pendiente</span>';
+                    else if (e==='en curso') badgeEst = '<span class="badge badge-en-curso">En curso</span>';
+                    else if (e==='entregado') badgeEst = '<span class="badge badge-entregado">Entregado</span>';
+                    else badgeEst = escapeHTML(o.estado);
+                    let badgeCrit = '';
+                    const c = o.criticidad.toLowerCase();
+                    if (c==='baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
+                    else if (c==='media') badgeCrit = '<span class="badge badge-media">Media</span>';
+                    else if (c==='alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
+                    else badgeCrit = escapeHTML(o.criticidad);
                     return `<tr>
                         <td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td>
                         <td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td>
                         <td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td>
-                        <td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td><span class="badge ${badgeCrit}">${o.criticidad}</span></td>
-                        <td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td><span class="badge ${badgeEst}">${o.estado}</span></td>
+                        <td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td>
+                        <td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td>
                     </tr>`;
                 }).join('');
             }
+
             function actualizarTablaTrabajos() {
-                document.querySelector('#tablaTrabajos tbody').innerHTML = filtrarTrabajos().map(t => {
-                    const inc = t.incidencia.trim() ? `<span class="badge badge-incidencia">${escapar(t.incidencia)}</span>` : '<span class="celda-vacia">—</span>';
+                const tbody = document.querySelector('#tablaTrabajos tbody');
+                tbody.innerHTML = filtrarTrabajos().map(t=>{
+                    const inc = t.incidencia.trim() ? `<span class="badge badge-incidencia">${escapeHTML(t.incidencia)}</span>` : '<span class="celda-vacia">—</span>';
                     return `<tr>
                         <td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td>
                         <td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td>
@@ -426,105 +847,112 @@
                 }).join('');
             }
 
-            // Gráficos (sin cambios relevantes)
-            function actGraficosOTs() {
+            // Gráficos
+            function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
+            const COL = {
+                azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b',
+                paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
+                paletaBarras: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017']
+            };
+
+            function actualizarGraficosOTs() {
                 const filt = filtrarOTs();
-                Object.values(charts).forEach(c => c.destroy());
-                charts = {};
+                destruirGraficos(['estado','operario','tipo']);
                 if (filt.length) {
                     const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
                     if (ctx1) {
-                        const conteo = {}; filt.forEach(o => { const e = o.estado||'Sin'; conteo[e]=(conteo[e]||0)+1; });
-                        charts.estado = new Chart(ctx1, { type:'doughnut', data:{labels:Object.keys(conteo), datasets:[{data:Object.values(conteo), backgroundColor:['#1e8449','#1a3f63','#d4a017']}]}, options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom'}}} });
+                        const conteo = {}; filt.forEach(o=>{ const e=o.estado||'Sin'; conteo[e]=(conteo[e]||0)+1; });
+                        const labels = Object.keys(conteo), data = Object.values(conteo);
+                        charts['estado'] = new Chart(ctx1, { type:'doughnut', data:{labels,datasets:[{data,backgroundColor:COL.paletaTorta.slice(0,labels.length),borderColor:'#fff',borderWidth:2}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16}}}} });
                     }
                     const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
                     if (ctx2) {
-                        const conteo = {}; filt.forEach(o => { const op=o.operarioAsignado||'Sin'; conteo[op]=(conteo[op]||0)+1; });
+                        const conteo = {}; filt.forEach(o=>{ const op=o.operarioAsignado||'Sin'; conteo[op]=(conteo[op]||0)+1; });
                         const sorted = Object.entries(conteo).sort((a,b)=>b[1]-a[1]);
-                        charts.operario = new Chart(ctx2, { type:'bar', data:{labels:sorted.map(e=>e[0]), datasets:[{data:sorted.map(e=>e[1]), backgroundColor:'#1a3f63'}]}, options:{indexAxis:'y', responsive:true, plugins:{legend:{display:false}}, scales:{x:{beginAtZero:true, ticks:{stepSize:1}}}} });
+                        charts['operario'] = new Chart(ctx2, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.azulMedio}]}, options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,ticks:{stepSize:1}}}} });
                     }
                     const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
                     if (ctx3) {
-                        const conteo = {}; filt.forEach(o => { const t=o.tipoTrabajo||'Sin'; conteo[t]=(conteo[t]||0)+1; });
+                        const conteo = {}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin'; conteo[t]=(conteo[t]||0)+1; });
                         const sorted = Object.entries(conteo).sort((a,b)=>b[1]-a[1]);
-                        charts.tipo = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]), datasets:[{data:sorted.map(e=>e[1]), backgroundColor:'#e8750c'}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}} });
+                        charts['tipo'] = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}} });
                     }
                 }
             }
-            function actGraficosTrabajos() {
+
+            function actualizarGraficosTrabajos() {
                 const filt = filtrarTrabajos();
-                Object.values(charts).forEach(c => c.destroy());
-                charts = {};
+                destruirGraficos(['horasResp','maquina','incidencias']);
                 if (filt.length) {
                     const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                     if (ctx1) {
-                        const horas = {}; filt.forEach(t => { const op=t.operario||'Sin'; horas[op]=(horas[op]||0)+duracionHoras(t.tiempoTotal); });
+                        const horas = {}; filt.forEach(t=>{ const op=t.operario||'Sin'; horas[op]=(horas[op]||0)+parseDuracionHHMMSS(t.tiempoTotal); });
                         const sorted = Object.entries(horas).sort((a,b)=>b[1]-a[1]);
-                        charts.horas = new Chart(ctx1, { type:'bar', data:{labels:sorted.map(e=>e[0]), datasets:[{data:sorted.map(e=>e[1]), backgroundColor:'#1e8449'}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}} });
+                        charts['horasResp'] = new Chart(ctx1, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Horas',data:sorted.map(e=>e[1]),backgroundColor:COL.verde}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
                     }
                     const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
                     if (ctx2) {
-                        const conteo = {}; filt.forEach(t => { const m=t.maquinaRol||'Sin'; conteo[m]=(conteo[m]||0)+1; });
-                        const labels=Object.keys(conteo), data=Object.values(conteo);
-                        charts.maq = new Chart(ctx2, { type:'doughnut', data:{labels, datasets:[{data, backgroundColor:['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95']}]}, options:{responsive:true, plugins:{legend:{position:'bottom'}}} });
+                        const conteo = {}; filt.forEach(t=>{ const m=t.maquinaRol||'Sin'; conteo[m]=(conteo[m]||0)+1; });
+                        const labels = Object.keys(conteo), data = Object.values(conteo);
+                        charts['maquina'] = new Chart(ctx2, { type:'doughnut', data:{labels,datasets:[{data,backgroundColor:COL.paletaBarras.slice(0,labels.length),borderColor:'#fff',borderWidth:2}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12}}}} });
                     }
                     const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                     if (ctx3) {
-                        const incs = {}; filt.forEach(t => { if(t.incidencia.trim()){ const ot=t.nroOT||'Sin'; incs[ot]=(incs[ot]||0)+1; } });
+                        const incs = {}; filt.forEach(t=>{ if(t.incidencia.trim()){ const ot=t.nroOT||'Sin'; incs[ot]=(incs[ot]||0)+1; } });
                         const sorted = Object.entries(incs).sort((a,b)=>b[1]-a[1]);
                         if (sorted.length) {
-                            charts.inc = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]), datasets:[{data:sorted.map(e=>e[1]), backgroundColor:'#c0392b'}]}, options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{stepSize:1}}}} });
+                            charts['incidencias'] = new Chart(ctx3, { type:'bar', data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Incidencias',data:sorted.map(e=>e[1]),backgroundColor:COL.rojo}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}} });
                         } else {
-                            charts.inc = new Chart(ctx3, { type:'bar', data:{labels:['Sin incidencias'], datasets:[{data:[0], backgroundColor:'#ccc'}]} });
+                            charts['incidencias'] = new Chart(ctx3, { type:'bar', data:{labels:['Sin incidencias'],datasets:[{data:[0],backgroundColor:'#ccc'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} });
                         }
                     }
                 }
             }
 
-            function actualizarPanelAlertas() {
+            function actualizarPanelIncidencias() {
                 const alertas = [];
                 const hoy = new Date(); hoy.setHours(0,0,0,0);
-                datosOTs.forEach(o => {
+                datosOTs.forEach(o=>{
                     if (o.estado.toLowerCase()==='entregado') return;
-                    const fp = parseFecha(o.fechaProgramada);
-                    if (fp && fp < hoy) alertas.push({tipo:'atraso', titulo:`OT Atrasada: ${o.nroOT||'Sin'}`, detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha:`${Math.floor((hoy-fp)/86400000)} día(s)`});
-                    if (o.criticidad.toLowerCase()==='alta' && o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad', titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle:o.descripcionTarea, fecha:o.fechaProgramada});
+                    const fp = parseFechaDMY(o.fechaProgramada);
+                    if (fp && fp < hoy) {
+                        const dias = Math.floor((hoy-fp)/(86400000));
+                        alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias});
+                    }
                 });
-                datosTrabajos.forEach(t => { if (t.incidencia.trim()) alertas.push({tipo:'incidencia', titulo:`Incidencia: ${t.nroOT||'Sin'}`, detalle:t.incidencia, fecha:t.fechaHoraInicio}); });
-                alertas.sort((a,b)=> (a.tipo==='atraso'?10: a.tipo==='criticidad'?8:5) - (b.tipo==='atraso'?10: b.tipo==='criticidad'?8:5) );
+                datosOTs.forEach(o=>{
+                    if (o.criticidad.toLowerCase()==='alta' && o.estado.toLowerCase()!=='entregado') {
+                        alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8});
+                    }
+                });
+                datosTrabajos.forEach(t=>{
+                    if (t.incidencia.trim()) {
+                        alertas.push({tipo:'incidencia',titulo:`Incidencia: ${t.nroOT||'Sin'}`,detalle:t.incidencia,fecha:t.fechaHoraInicio||'Sin fecha',prioridad:5});
+                    }
+                });
+                alertas.sort((a,b)=>b.prioridad-a.prioridad);
+                const top = alertas.slice(0,8);
                 const cont = document.getElementById('contenidoIncidencias');
-                cont.innerHTML = alertas.length ? alertas.slice(0,8).map(a => `<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapar(a.titulo)}</div><div class="alerta-detalle">${escapar(a.detalle)}</div></div><div class="alerta-fecha">${escapar(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
-            }
-
-            function actualizarDebug() {
-                const panel = document.getElementById('debugContenido');
-                if (!panel) return;
-                const nombres = datosOTs.map(o => o.operarioAsignado.trim()).filter(n=>n);
-                const unicos = [...new Set(nombres)];
-                const normal = nombres.map(n => {
-                    const limpio = n.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
-                    return {original:n, normalizado:limpio};
-                });
-                const setFinal = new Set(normal.map(x => x.normalizado));
-                panel.innerHTML = `<p><strong>Total filas con operario:</strong> ${nombres.length}</p>
-                <p><strong>Únicos originales:</strong> ${unicos.length} (${unicos.join(', ')})</p>
-                <p><strong>Conteo normalizado:</strong> ${setFinal.size} → ${[...setFinal].join(', ')}</p>`;
+                cont.innerHTML = top.length ? top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
             }
 
             // Eventos
             document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo);
-            document.getElementById('btnDebug').addEventListener('click', () => document.getElementById('debugPanel').classList.toggle('visible'));
-            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaOTs(); actGraficosOTs(); }));
-            document.getElementById('busquedaOTs').addEventListener('input', () => { actualizarTablaOTs(); actGraficosOTs(); });
-            ['filtroNroOT','filtroOperarioTrab'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaTrabajos(); actGraficosTrabajos(); }));
-            document.getElementById('busquedaTrabajos').addEventListener('input', () => { actualizarTablaTrabajos(); actGraficosTrabajos(); });
+            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
+            document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); });
+            ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
+            document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
-            // Inicio
-            actFechas();
-            actualizarTarjetasOTs(); actualizarTarjetasTrabajos();
-            actualizarTablaOTs(); actualizarTablaTrabajos();
-            actualizarPanelAlertas();
-            setTimeout(cargarTodo, 600);
+            function inicializar() {
+                actualizarFechasUI();
+                actualizarTarjetasOTs(); actualizarTarjetasTrabajos();
+                actualizarTablaOTs(); actualizarTablaTrabajos();
+                actualizarPanelIncidencias();
+                setTimeout(cargarTodo, 600);
+            }
+
+            if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', inicializar);
+            else inicializar();
         })();
     </script>
 </body>

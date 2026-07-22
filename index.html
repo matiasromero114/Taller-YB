@@ -837,7 +837,10 @@
 
             function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
             const COL = {
-                azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b',
+                azulMedio: '#1a3f63',
+                naranja: '#e8750c',
+                verde: '#1e8449',
+                rojo: '#c0392b',
                 paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
                 paletaBarras: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017']
             };
@@ -846,7 +849,7 @@
                 const filt = filtrarOTs();
                 destruirGraficos(['estado','operario','tipo']);
                 if (filt.length) {
-                    // GRÁFICO DE TORTA MEJORADO (PIE CHART)
+                    // GRÁFICO DE TORTA MEJORADO
                     const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
                     if (ctx1) {
                         const conteo = {};
@@ -857,8 +860,6 @@
                         const labels = Object.keys(conteo);
                         const data = Object.values(conteo);
                         const total = data.reduce((a, b) => a + b, 0);
-                        
-                        // Colores: Entregado=azul, En curso=naranja, Pendiente=rojo
                         const bgColors = labels.map(l => {
                             const lo = l.toLowerCase();
                             if (lo === 'entregado') return '#1a3f63';
@@ -866,7 +867,6 @@
                             if (lo === 'pendiente') return '#c0392b';
                             return '#8b8f95';
                         });
-                        
                         charts['estado'] = new Chart(ctx1, {
                             type: 'pie',
                             data: {
@@ -885,96 +885,62 @@
                                 responsive: true,
                                 maintainAspectRatio: false,
                                 plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: {
-                                            font: { size: 11 },
-                                            padding: 16,
-                                            usePointStyle: true,
-                                            pointStyleWidth: 10
-                                        }
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(ctx) {
-                                                const value = ctx.raw;
-                                                const pct = ((value / total) * 100).toFixed(1);
-                                                return `${ctx.label}: ${pct}%`;
-                                            }
-                                        }
-                                    }
+                                    legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16, usePointStyle: true, pointStyleWidth: 10 } },
+                                    tooltip: { callbacks: { label: ctx => `${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%` } }
                                 },
-                                animation: {
-                                    animateRotate: true,
-                                    animateScale: true
-                                },
-                                layout: {
-                                    padding: 10
-                                }
+                                animation: { animateRotate: true, animateScale: true },
+                                layout: { padding: 10 }
                             }
                         });
                     }
-                    
+
+                    // *** NUEVO GRÁFICO DE BARRAS APILADAS POR OPERARIO ***
                     const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
                     if (ctx2) {
-                        const conteo = {}; 
-                        filt.forEach(o => { 
-                            const op = o.operarioAsignado || 'Sin asignar'; 
-                            conteo[op] = (conteo[op] || 0) + 1; 
-                        });
-                        const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+                        const operariosSet = new Set(filt.map(o => o.operarioAsignado || 'Sin asignar'));
+                        const operarios = Array.from(operariosSet).sort();
+                        const estados = ['Entregado', 'En curso', 'Pendiente'];
+                        const coloresEstados = {
+                            'Entregado': '#1a3f63',
+                            'En curso': '#e8750c',
+                            'Pendiente': '#c0392b'
+                        };
+                        const datasets = estados.map(est => ({
+                            label: est,
+                            data: operarios.map(op => filt.filter(o => (o.operarioAsignado || 'Sin asignar') === op && o.estado.toLowerCase() === est.toLowerCase()).length),
+                            backgroundColor: coloresEstados[est],
+                            borderRadius: 4,
+                            borderSkipped: false
+                        }));
                         charts['operario'] = new Chart(ctx2, {
                             type: 'bar',
-                            data: {
-                                labels: sorted.map(e => e[0]),
-                                datasets: [{
-                                    label: 'Cantidad de OTs',
-                                    data: sorted.map(e => e[1]),
-                                    backgroundColor: COL.azulMedio,
-                                    borderRadius: 4
-                                }]
-                            },
+                            data: { labels: operarios, datasets },
                             options: {
                                 indexAxis: 'y',
                                 responsive: true,
                                 maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
+                                plugins: {
+                                    legend: { position: 'bottom', labels: { font: { size: 10 }, usePointStyle: true, pointStyleWidth: 8 } },
+                                    tooltip: { mode: 'index', intersect: false }
+                                },
                                 scales: {
-                                    x: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
-                                    y: { ticks: { font: { size: 10 } } }
-                                }
+                                    x: { stacked: true, beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, title: { display: true, text: 'Cantidad de OTs', font: { size: 10 } } },
+                                    y: { stacked: true, ticks: { font: { size: 10 } } }
+                                },
+                                interaction: { mode: 'nearest', axis: 'y', intersect: true }
                             }
                         });
                     }
-                    
+
                     const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
                     if (ctx3) {
                         const conteo = {};
-                        filt.forEach(o => {
-                            const t = o.tipoTrabajo || 'Sin tipo';
-                            conteo[t] = (conteo[t] || 0) + 1;
-                        });
+                        filt.forEach(o => { const t = o.tipoTrabajo || 'Sin tipo'; conteo[t] = (conteo[t] || 0) + 1; });
                         const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
                         charts['tipo'] = new Chart(ctx3, {
                             type: 'bar',
-                            data: {
-                                labels: sorted.map(e => e[0]),
-                                datasets: [{
-                                    label: 'Cantidad de OTs',
-                                    data: sorted.map(e => e[1]),
-                                    backgroundColor: COL.naranja,
-                                    borderRadius: 4
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
-                                scales: {
-                                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
-                                    x: { ticks: { font: { size: 9 } } }
-                                }
-                            }
+                            data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Cantidad', data: sorted.map(e => e[1]), backgroundColor: COL.naranja, borderRadius: 4 }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } } }
                         });
                     }
                 }
@@ -987,116 +953,33 @@
                     const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                     if (ctx1) {
                         const horas = {};
-                        filt.forEach(t => {
-                            const op = t.operario || 'Sin responsable';
-                            horas[op] = (horas[op] || 0) + parseDuracionHHMMSS(t.tiempoTotal);
-                        });
+                        filt.forEach(t => { const op = t.operario || 'Sin responsable'; horas[op] = (horas[op] || 0) + parseDuracionHHMMSS(t.tiempoTotal); });
                         const sorted = Object.entries(horas).sort((a, b) => b[1] - a[1]);
                         charts['horasResp'] = new Chart(ctx1, {
-                            type: 'bar',
-                            data: {
-                                labels: sorted.map(e => e[0]),
-                                datasets: [{
-                                    label: 'Horas trabajadas',
-                                    data: sorted.map(e => e[1]),
-                                    backgroundColor: COL.verde,
-                                    borderRadius: 4
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
-                                scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: { font: { size: 10 } },
-                                        title: { display: true, text: 'Horas', font: { size: 10 } }
-                                    },
-                                    x: { ticks: { font: { size: 9 } } }
-                                }
-                            }
+                            type: 'bar', data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Horas', data: sorted.map(e => e[1]), backgroundColor: COL.verde, borderRadius: 4 }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } }, title: { display: true, text: 'Horas', font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } } }
                         });
                     }
-                    
                     const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
                     if (ctx2) {
-                        const conteo = {};
-                        filt.forEach(t => {
-                            const m = t.maquinaRol || 'Sin máquina';
-                            conteo[m] = (conteo[m] || 0) + 1;
-                        });
-                        const labels = Object.keys(conteo);
-                        const data = Object.values(conteo);
+                        const conteo = {}; filt.forEach(t => { const m = t.maquinaRol || 'Sin máquina'; conteo[m] = (conteo[m] || 0) + 1; });
+                        const labels = Object.keys(conteo), data = Object.values(conteo);
                         charts['maquina'] = new Chart(ctx2, {
-                            type: 'doughnut',
-                            data: {
-                                labels,
-                                datasets: [{
-                                    data,
-                                    backgroundColor: COL.paletaBarras.slice(0, labels.length),
-                                    borderColor: '#fff',
-                                    borderWidth: 2
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: { font: { size: 10 }, padding: 12 }
-                                    }
-                                }
-                            }
+                            type: 'doughnut', data: { labels, datasets: [{ data, backgroundColor: COL.paletaBarras.slice(0, labels.length), borderColor: '#fff', borderWidth: 2 }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 12 } } } }
                         });
                     }
-                    
                     const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                     if (ctx3) {
-                        const incs = {};
-                        filt.forEach(t => {
-                            if (t.incidencia.trim()) {
-                                const ot = t.nroOT || 'Sin OT';
-                                incs[ot] = (incs[ot] || 0) + 1;
-                            }
-                        });
+                        const incs = {}; filt.forEach(t => { if (t.incidencia.trim()) { const ot = t.nroOT || 'Sin OT'; incs[ot] = (incs[ot] || 0) + 1; } });
                         const sorted = Object.entries(incs).sort((a, b) => b[1] - a[1]);
                         if (sorted.length) {
                             charts['incidencias'] = new Chart(ctx3, {
-                                type: 'bar',
-                                data: {
-                                    labels: sorted.map(e => e[0]),
-                                    datasets: [{
-                                        label: 'Cantidad de incidencias',
-                                        data: sorted.map(e => e[1]),
-                                        backgroundColor: COL.rojo,
-                                        borderRadius: 4
-                                    }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: { legend: { display: false } },
-                                    scales: {
-                                        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
-                                        x: { ticks: { font: { size: 8 } } }
-                                    }
-                                }
+                                type: 'bar', data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Incidencias', data: sorted.map(e => e[1]), backgroundColor: COL.rojo, borderRadius: 4 }] },
+                                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 8 } } } } }
                             });
                         } else {
-                            charts['incidencias'] = new Chart(ctx3, {
-                                type: 'bar',
-                                data: {
-                                    labels: ['Sin incidencias'],
-                                    datasets: [{ data: [0], backgroundColor: '#ccc' }]
-                                },
-                                options: {
-                                    responsive: true,
-                                    maintainAspectRatio: false,
-                                    plugins: { legend: { display: false } }
-                                }
-                            });
+                            charts['incidencias'] = new Chart(ctx3, { type: 'bar', data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#ccc' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
                         }
                     }
                 }
@@ -1104,105 +987,47 @@
 
             function actualizarPanelIncidencias() {
                 const alertas = [];
-                const hoy = new Date();
-                hoy.setHours(0, 0, 0, 0);
-                
+                const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
                 datosOTs.forEach(o => {
                     if (o.estado.toLowerCase() === 'entregado') return;
                     const fp = parseFechaDMY(o.fechaProgramada);
                     if (fp && fp < hoy) {
                         const dias = Math.floor((hoy - fp) / 86400000);
-                        alertas.push({
-                            tipo: 'atraso',
-                            titulo: `OT Atrasada: ${o.nroOT || 'Sin N°'}`,
-                            detalle: `${o.descripcionTarea || 'Sin descripción'} — ${o.maquinaEquipo || 'Sin máquina'}`,
-                            fecha: `${dias} día(s) de retraso (prog: ${o.fechaProgramada})`,
-                            prioridad: 10 + dias
-                        });
+                        alertas.push({ tipo: 'atraso', titulo: `OT Atrasada: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha: `${dias} día(s) (prog:${o.fechaProgramada})`, prioridad: 10+dias });
                     }
                 });
-                
                 datosOTs.forEach(o => {
                     if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
-                        alertas.push({
-                            tipo: 'criticidad',
-                            titulo: `Criticidad ALTA: ${o.nroOT || 'Sin N°'}`,
-                            detalle: `${o.descripcionTarea || 'Sin descripción'} — Estado: ${o.estado || 'N/A'}`,
-                            fecha: o.fechaProgramada || 'Sin fecha prog.',
-                            prioridad: 8
-                        });
+                        alertas.push({ tipo: 'criticidad', titulo: `Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - Estado: ${o.estado}`, fecha: o.fechaProgramada || 'Sin fecha', prioridad: 8 });
                     }
                 });
-                
                 datosTrabajos.forEach(t => {
                     if (t.incidencia.trim()) {
-                        alertas.push({
-                            tipo: 'incidencia',
-                            titulo: `Incidencia en trabajo: ${t.nroOT || 'Sin OT'}`,
-                            detalle: t.incidencia,
-                            fecha: t.fechaHoraInicio || 'Sin fecha',
-                            prioridad: 5
-                        });
+                        alertas.push({ tipo: 'incidencia', titulo: `Incidencia: ${t.nroOT||'Sin'}`, detalle: t.incidencia, fecha: t.fechaHoraInicio || 'Sin fecha', prioridad: 5 });
                     }
                 });
-                
-                alertas.sort((a, b) => b.prioridad - a.prioridad);
-                const top8 = alertas.slice(0, 8);
+                alertas.sort((a,b) => b.prioridad - a.prioridad);
+                const top = alertas.slice(0, 8);
                 const cont = document.getElementById('contenidoIncidencias');
-                
-                if (top8.length === 0) {
-                    cont.innerHTML = '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p>';
-                } else {
-                    cont.innerHTML = top8.map(a => `
-                        <div class="alerta-item">
-                            <div class="alerta-icono"><i class="fa-solid ${a.tipo === 'atraso' ? 'fa-clock' : a.tipo === 'criticidad' ? 'fa-skull' : 'fa-triangle-exclamation'}"></i></div>
-                            <div class="alerta-contenido">
-                                <div class="alerta-titulo">${escapeHTML(a.titulo)}</div>
-                                <div class="alerta-detalle">${escapeHTML(a.detalle)}</div>
-                            </div>
-                            <div class="alerta-fecha">${escapeHTML(a.fecha)}</div>
-                        </div>
-                    `).join('');
-                }
+                cont.innerHTML = top.length ? top.map(a => `<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
             }
 
             document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo);
-            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id => 
-                document.getElementById(id).addEventListener('change', () => {
-                    actualizarTablaOTs();
-                    actualizarGraficosOTs();
-                })
-            );
-            document.getElementById('busquedaOTs').addEventListener('input', () => {
-                actualizarTablaOTs();
-                actualizarGraficosOTs();
-            });
-            ['filtroNroOT','filtroOperarioTrab'].forEach(id => 
-                document.getElementById(id).addEventListener('change', () => {
-                    actualizarTablaTrabajos();
-                    actualizarGraficosTrabajos();
-                })
-            );
-            document.getElementById('busquedaTrabajos').addEventListener('input', () => {
-                actualizarTablaTrabajos();
-                actualizarGraficosTrabajos();
-            });
+            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaOTs(); actualizarGraficosOTs(); }));
+            document.getElementById('busquedaOTs').addEventListener('input', () => { actualizarTablaOTs(); actualizarGraficosOTs(); });
+            ['filtroNroOT','filtroOperarioTrab'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
+            document.getElementById('busquedaTrabajos').addEventListener('input', () => { actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
             function inicializar() {
                 actualizarFechasUI();
-                actualizarTarjetasOTs();
-                actualizarTarjetasTrabajos();
-                actualizarTablaOTs();
-                actualizarTablaTrabajos();
+                actualizarTarjetasOTs(); actualizarTarjetasTrabajos();
+                actualizarTablaOTs(); actualizarTablaTrabajos();
                 actualizarPanelIncidencias();
                 setTimeout(cargarTodo, 600);
             }
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', inicializar);
-            } else {
-                inicializar();
-            }
+            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inicializar);
+            else inicializar();
         })();
     </script>
 </body>

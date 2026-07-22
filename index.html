@@ -595,9 +595,9 @@
             }
 
             function mapearOTs(encabezados, fila) {
-                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada']);
-                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','tarea']);
+                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada','fecha prog']);
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','descripción','tarea']);
                 const idxSol = encontrarColumna(encabezados, ['solicitante']);
                 const idxMaqEq = encontrarColumna(encabezados, ['maquina/equipo','máquina/equipo','maquina equipo']);
                 const idxMaqRol = encontrarColumna(encabezados, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
@@ -608,7 +608,7 @@
                 const idxTip = encontrarColumna(encabezados, ['tipo de trabajo','tipo','tipodetrabajo']);
                 const idxCrit = encontrarColumna(encabezados, ['criticidad','prioridad']);
                 const idxLug = encontrarColumna(encabezados, ['lugar de trabajo','lugar','lugartrabajo']);
-                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant']);
+                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant','mant asoc']);
                 const idxEst = encontrarColumna(encabezados, ['estado','situacion']);
 
                 return {
@@ -635,4 +635,575 @@
                 const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']);
                 const idxOp = encontrarColumna(encabezados, ['operario']);
                 const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
-                const idxMat = encontrar
+                const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
+                const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
+                const idxInc = encontrarColumna(encabezados, ['incidencia o dificulta','incidencia','dificulta']);
+                const idxIni = encontrarColumna(encabezados, ['fecha hora inicio','hora inicio','fechahora inicio']);
+                const idxFin = encontrarColumna(encabezados, ['fecha hora fin','hora fin','fechahora fin']);
+                const idxDur = encontrarColumna(encabezados, ['tiempo total','tiempototal','duracion']);
+
+                return {
+                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
+                    maquinaRol: idxMaq>=0 ? (fila[idxMaq]||'').trim() : '',
+                    operario: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
+                    descripcion: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
+                    materiales: idxMat>=0 ? (fila[idxMat]||'').trim() : '',
+                    cantidad: idxCant>=0 ? (fila[idxCant]||'').trim() : '',
+                    incidencia: idxInc>=0 ? (fila[idxInc]||'').trim() : '',
+                    fechaHoraInicio: idxIni>=0 ? (fila[idxIni]||'').trim() : '',
+                    fechaHoraFin: idxFin>=0 ? (fila[idxFin]||'').trim() : '',
+                    tiempoTotal: idxDur>=0 ? (fila[idxDur]||'').trim() : ''
+                };
+            }
+
+            function parsearCSV(texto) {
+                const lineas = texto.split(/\r?\n/).filter(l => l.trim());
+                if (lineas.length===0) return { enc: [], filas: [] };
+                const parseLinea = (l) => {
+                    const res = []; let act='', comillas=false;
+                    for (let i=0; i<l.length; i++) {
+                        const ch = l[i];
+                        if (ch==='"') comillas=!comillas;
+                        else if (ch===',' && !comillas) { res.push(act); act=''; }
+                        else act += ch;
+                    }
+                    res.push(act);
+                    return res;
+                };
+                const enc = parseLinea(lineas[0]);
+                const filas = [];
+                for (let i=1; i<lineas.length; i++) {
+                    const f = parseLinea(lineas[i]);
+                    if (f.some(c=>c.trim())) filas.push(f);
+                }
+                return { enc, filas };
+            }
+
+            async function fetchSheet(sheetName) {
+                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`Error ${res.status}`);
+                return await res.text();
+            }
+
+            async function cargarMasterOperarios() {
+                const texto = await fetchSheet(SHEET_OPERARIOS);
+                const { enc, filas } = parsearCSV(texto);
+                const nombres = filas
+                    .map(f => (f[0] || '').trim())
+                    .filter(nombre => {
+                        const lower = nombre.toLowerCase();
+                        return lower !== 'cantidad' && lower !== 'promedio' && lower !== 'operario' && nombre !== '';
+                    });
+                masterOperarios = [...new Set(nombres)].sort();
+                toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
+                actualizarTodoOTs();
+            }
+
+            async function cargarOTs() {
+                const texto = await fetchSheet(SHEET_OTS);
+                const {enc, filas} = parsearCSV(texto);
+                datosOTs = filas.map(f => mapearOTs(enc, f));
+                toast(`✅ OTs: ${datosOTs.length} registros`);
+                actualizarTodoOTs();
+            }
+
+            async function cargarTrabajos() {
+                const texto = await fetchSheet(SHEET_TRAB);
+                const {enc, filas} = parsearCSV(texto);
+                datosTrabajos = filas.map(f => mapearTrabajos(enc, f));
+                toast(`✅ Trabajos: ${datosTrabajos.length} registros`);
+                actualizarTodoTrabajos();
+            }
+
+            async function cargarTodo() {
+                await cargarMasterOperarios();
+                try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
+                try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
+            }
+
+            function actualizarTodoOTs() {
+                poblarFiltrosOTs();
+                actualizarTarjetasOTs();
+                actualizarTablaOTs();
+                actualizarGraficosOTs();
+                actualizarPanelIncidencias();
+            }
+            function actualizarTodoTrabajos() {
+                poblarFiltrosTrabajos();
+                actualizarTarjetasTrabajos();
+                actualizarTablaTrabajos();
+                actualizarGraficosTrabajos();
+                actualizarPanelIncidencias();
+            }
+
+            function actualizarTarjetasOTs() {
+                document.getElementById('totalOTs').textContent = datosOTs.length;
+                document.getElementById('enCursoOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
+                document.getElementById('pendientesOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
+                document.getElementById('operariosActivos').textContent = masterOperarios.length;
+            }
+
+            function actualizarTarjetasTrabajos() {
+                const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
+                document.getElementById('trabajosTerminados').textContent = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
+                const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
+                document.getElementById('horasTotales').textContent = horas.toFixed(1);
+                document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
+            }
+
+            function poblarFiltrosOTs() {
+                const selOp = document.getElementById('filtroOperario');
+                selOp.innerHTML = '<option value="Todos">Todos</option>' + masterOperarios.map(o => `<option value="${o}">${o}</option>`).join('');
+                const sectores = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
+                const selSec = document.getElementById('filtroSector');
+                selSec.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s => `<option value="${s}">${s}</option>`).join('');
+            }
+
+            function poblarFiltrosTrabajos() {
+                const ots = [...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort();
+                const ops = [...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort();
+                document.getElementById('filtroNroOT').innerHTML = '<option value="Todos">Todos</option>' + ots.map(o => `<option value="${o}">${o}</option>`).join('');
+                document.getElementById('filtroOperarioTrab').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o => `<option value="${o}">${o}</option>`).join('');
+            }
+
+            function filtrarOTs() {
+                const est = document.getElementById('filtroEstado').value;
+                const op = document.getElementById('filtroOperario').value;
+                const tip = document.getElementById('filtroTipo').value;
+                const sec = document.getElementById('filtroSector').value;
+                const q = document.getElementById('busquedaOTs').value.toLowerCase().trim();
+                return datosOTs.filter(o=>{
+                    if (est!=='Todos' && o.estado.toLowerCase()!==est.toLowerCase()) return false;
+                    if (op!=='Todos' && o.operarioAsignado !== op) return false;
+                    if (tip!=='Todos' && o.tipoTrabajo !== tip) return false;
+                    if (sec!=='Todos' && o.sector !== sec) return false;
+                    if (q && !`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false;
+                    return true;
+                });
+            }
+
+            function filtrarTrabajos() {
+                const ot = document.getElementById('filtroNroOT').value;
+                const op = document.getElementById('filtroOperarioTrab').value;
+                const q = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
+                return datosTrabajos.filter(t=>{
+                    if (ot!=='Todos' && t.nroOT!==ot) return false;
+                    if (op!=='Todos' && t.operario!==op) return false;
+                    if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales} ${t.incidencia}`.toLowerCase().includes(q)) return false;
+                    return true;
+                });
+            }
+
+            function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+            function celda(v) { return v ? escapeHTML(v) : '<span class="celda-vacia">—</span>'; }
+
+            function actualizarTablaOTs() {
+                const tbody = document.querySelector('#tablaOTs tbody');
+                tbody.innerHTML = filtrarOTs().map(o=>{
+                    let badgeEst = '';
+                    const e = o.estado.toLowerCase();
+                    if (e==='pendiente') badgeEst = '<span class="badge badge-pendiente">Pendiente</span>';
+                    else if (e==='en curso') badgeEst = '<span class="badge badge-en-curso">En curso</span>';
+                    else if (e==='entregado') badgeEst = '<span class="badge badge-entregado">Entregado</span>';
+                    else badgeEst = escapeHTML(o.estado);
+                    let badgeCrit = '';
+                    const c = o.criticidad.toLowerCase();
+                    if (c==='baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
+                    else if (c==='media') badgeCrit = '<span class="badge badge-media">Media</span>';
+                    else if (c==='alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
+                    else badgeCrit = escapeHTML(o.criticidad);
+                    return `<tr>
+                        <td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td>
+                        <td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td>
+                        <td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td>
+                        <td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td>
+                        <td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td>
+                    </tr>`;
+                }).join('');
+            }
+
+            function actualizarTablaTrabajos() {
+                const tbody = document.querySelector('#tablaTrabajos tbody');
+                tbody.innerHTML = filtrarTrabajos().map(t=>{
+                    const inc = t.incidencia.trim() ? `<span class="badge badge-incidencia">${escapeHTML(t.incidencia)}</span>` : '<span class="celda-vacia">—</span>';
+                    return `<tr>
+                        <td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td>
+                        <td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td>
+                        <td>${inc}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td>
+                    </tr>`;
+                }).join('');
+            }
+
+            function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
+            const COL = {
+                azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b',
+                paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
+                paletaBarras: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017']
+            };
+
+            function actualizarGraficosOTs() {
+                const filt = filtrarOTs();
+                destruirGraficos(['estado','operario','tipo']);
+                if (filt.length) {
+                    // GRÁFICO DE TORTA MEJORADO (PIE CHART)
+                    const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
+                    if (ctx1) {
+                        const conteo = {};
+                        filt.forEach(o => {
+                            const e = o.estado || 'Sin estado';
+                            conteo[e] = (conteo[e] || 0) + 1;
+                        });
+                        const labels = Object.keys(conteo);
+                        const data = Object.values(conteo);
+                        const total = data.reduce((a, b) => a + b, 0);
+                        
+                        // Colores: Entregado=azul, En curso=naranja, Pendiente=rojo
+                        const bgColors = labels.map(l => {
+                            const lo = l.toLowerCase();
+                            if (lo === 'entregado') return '#1a3f63';
+                            if (lo === 'en curso') return '#e8750c';
+                            if (lo === 'pendiente') return '#c0392b';
+                            return '#8b8f95';
+                        });
+                        
+                        charts['estado'] = new Chart(ctx1, {
+                            type: 'pie',
+                            data: {
+                                labels,
+                                datasets: [{
+                                    data,
+                                    backgroundColor: bgColors,
+                                    borderColor: '#fff',
+                                    borderWidth: 3,
+                                    borderRadius: 6,
+                                    offset: 10,
+                                    hoverOffset: 18
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            font: { size: 11 },
+                                            padding: 16,
+                                            usePointStyle: true,
+                                            pointStyleWidth: 10
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(ctx) {
+                                                const value = ctx.raw;
+                                                const pct = ((value / total) * 100).toFixed(1);
+                                                return `${ctx.label}: ${pct}%`;
+                                            }
+                                        }
+                                    }
+                                },
+                                animation: {
+                                    animateRotate: true,
+                                    animateScale: true
+                                },
+                                layout: {
+                                    padding: 10
+                                }
+                            }
+                        });
+                    }
+                    
+                    const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
+                    if (ctx2) {
+                        const conteo = {}; 
+                        filt.forEach(o => { 
+                            const op = o.operarioAsignado || 'Sin asignar'; 
+                            conteo[op] = (conteo[op] || 0) + 1; 
+                        });
+                        const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+                        charts['operario'] = new Chart(ctx2, {
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e[0]),
+                                datasets: [{
+                                    label: 'Cantidad de OTs',
+                                    data: sorted.map(e => e[1]),
+                                    backgroundColor: COL.azulMedio,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                indexAxis: 'y',
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    x: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+                                    y: { ticks: { font: { size: 10 } } }
+                                }
+                            }
+                        });
+                    }
+                    
+                    const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
+                    if (ctx3) {
+                        const conteo = {};
+                        filt.forEach(o => {
+                            const t = o.tipoTrabajo || 'Sin tipo';
+                            conteo[t] = (conteo[t] || 0) + 1;
+                        });
+                        const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+                        charts['tipo'] = new Chart(ctx3, {
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e[0]),
+                                datasets: [{
+                                    label: 'Cantidad de OTs',
+                                    data: sorted.map(e => e[1]),
+                                    backgroundColor: COL.naranja,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+                                    x: { ticks: { font: { size: 9 } } }
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+
+            function actualizarGraficosTrabajos() {
+                const filt = filtrarTrabajos();
+                destruirGraficos(['horasResp','maquina','incidencias']);
+                if (filt.length) {
+                    const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
+                    if (ctx1) {
+                        const horas = {};
+                        filt.forEach(t => {
+                            const op = t.operario || 'Sin responsable';
+                            horas[op] = (horas[op] || 0) + parseDuracionHHMMSS(t.tiempoTotal);
+                        });
+                        const sorted = Object.entries(horas).sort((a, b) => b[1] - a[1]);
+                        charts['horasResp'] = new Chart(ctx1, {
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e[0]),
+                                datasets: [{
+                                    label: 'Horas trabajadas',
+                                    data: sorted.map(e => e[1]),
+                                    backgroundColor: COL.verde,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: { font: { size: 10 } },
+                                        title: { display: true, text: 'Horas', font: { size: 10 } }
+                                    },
+                                    x: { ticks: { font: { size: 9 } } }
+                                }
+                            }
+                        });
+                    }
+                    
+                    const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
+                    if (ctx2) {
+                        const conteo = {};
+                        filt.forEach(t => {
+                            const m = t.maquinaRol || 'Sin máquina';
+                            conteo[m] = (conteo[m] || 0) + 1;
+                        });
+                        const labels = Object.keys(conteo);
+                        const data = Object.values(conteo);
+                        charts['maquina'] = new Chart(ctx2, {
+                            type: 'doughnut',
+                            data: {
+                                labels,
+                                datasets: [{
+                                    data,
+                                    backgroundColor: COL.paletaBarras.slice(0, labels.length),
+                                    borderColor: '#fff',
+                                    borderWidth: 2
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: { font: { size: 10 }, padding: 12 }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    
+                    const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
+                    if (ctx3) {
+                        const incs = {};
+                        filt.forEach(t => {
+                            if (t.incidencia.trim()) {
+                                const ot = t.nroOT || 'Sin OT';
+                                incs[ot] = (incs[ot] || 0) + 1;
+                            }
+                        });
+                        const sorted = Object.entries(incs).sort((a, b) => b[1] - a[1]);
+                        if (sorted.length) {
+                            charts['incidencias'] = new Chart(ctx3, {
+                                type: 'bar',
+                                data: {
+                                    labels: sorted.map(e => e[0]),
+                                    datasets: [{
+                                        label: 'Cantidad de incidencias',
+                                        data: sorted.map(e => e[1]),
+                                        backgroundColor: COL.rojo,
+                                        borderRadius: 4
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false } },
+                                    scales: {
+                                        y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+                                        x: { ticks: { font: { size: 8 } } }
+                                    }
+                                }
+                            });
+                        } else {
+                            charts['incidencias'] = new Chart(ctx3, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['Sin incidencias'],
+                                    datasets: [{ data: [0], backgroundColor: '#ccc' }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: { legend: { display: false } }
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            function actualizarPanelIncidencias() {
+                const alertas = [];
+                const hoy = new Date();
+                hoy.setHours(0, 0, 0, 0);
+                
+                datosOTs.forEach(o => {
+                    if (o.estado.toLowerCase() === 'entregado') return;
+                    const fp = parseFechaDMY(o.fechaProgramada);
+                    if (fp && fp < hoy) {
+                        const dias = Math.floor((hoy - fp) / 86400000);
+                        alertas.push({
+                            tipo: 'atraso',
+                            titulo: `OT Atrasada: ${o.nroOT || 'Sin N°'}`,
+                            detalle: `${o.descripcionTarea || 'Sin descripción'} — ${o.maquinaEquipo || 'Sin máquina'}`,
+                            fecha: `${dias} día(s) de retraso (prog: ${o.fechaProgramada})`,
+                            prioridad: 10 + dias
+                        });
+                    }
+                });
+                
+                datosOTs.forEach(o => {
+                    if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
+                        alertas.push({
+                            tipo: 'criticidad',
+                            titulo: `Criticidad ALTA: ${o.nroOT || 'Sin N°'}`,
+                            detalle: `${o.descripcionTarea || 'Sin descripción'} — Estado: ${o.estado || 'N/A'}`,
+                            fecha: o.fechaProgramada || 'Sin fecha prog.',
+                            prioridad: 8
+                        });
+                    }
+                });
+                
+                datosTrabajos.forEach(t => {
+                    if (t.incidencia.trim()) {
+                        alertas.push({
+                            tipo: 'incidencia',
+                            titulo: `Incidencia en trabajo: ${t.nroOT || 'Sin OT'}`,
+                            detalle: t.incidencia,
+                            fecha: t.fechaHoraInicio || 'Sin fecha',
+                            prioridad: 5
+                        });
+                    }
+                });
+                
+                alertas.sort((a, b) => b.prioridad - a.prioridad);
+                const top8 = alertas.slice(0, 8);
+                const cont = document.getElementById('contenidoIncidencias');
+                
+                if (top8.length === 0) {
+                    cont.innerHTML = '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden — sin incidencias registradas.</p>';
+                } else {
+                    cont.innerHTML = top8.map(a => `
+                        <div class="alerta-item">
+                            <div class="alerta-icono"><i class="fa-solid ${a.tipo === 'atraso' ? 'fa-clock' : a.tipo === 'criticidad' ? 'fa-skull' : 'fa-triangle-exclamation'}"></i></div>
+                            <div class="alerta-contenido">
+                                <div class="alerta-titulo">${escapeHTML(a.titulo)}</div>
+                                <div class="alerta-detalle">${escapeHTML(a.detalle)}</div>
+                            </div>
+                            <div class="alerta-fecha">${escapeHTML(a.fecha)}</div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo);
+            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id => 
+                document.getElementById(id).addEventListener('change', () => {
+                    actualizarTablaOTs();
+                    actualizarGraficosOTs();
+                })
+            );
+            document.getElementById('busquedaOTs').addEventListener('input', () => {
+                actualizarTablaOTs();
+                actualizarGraficosOTs();
+            });
+            ['filtroNroOT','filtroOperarioTrab'].forEach(id => 
+                document.getElementById(id).addEventListener('change', () => {
+                    actualizarTablaTrabajos();
+                    actualizarGraficosTrabajos();
+                })
+            );
+            document.getElementById('busquedaTrabajos').addEventListener('input', () => {
+                actualizarTablaTrabajos();
+                actualizarGraficosTrabajos();
+            });
+
+            function inicializar() {
+                actualizarFechasUI();
+                actualizarTarjetasOTs();
+                actualizarTarjetasTrabajos();
+                actualizarTablaOTs();
+                actualizarTablaTrabajos();
+                actualizarPanelIncidencias();
+                setTimeout(cargarTodo, 600);
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', inicializar);
+            } else {
+                inicializar();
+            }
+        })();
+    </script>
+</body>
+</html>

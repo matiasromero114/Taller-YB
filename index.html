@@ -4,128 +4,418 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taller Yerba Buena — Dashboard OTs y Ejecución</title>
+
+    <!-- Font Awesome 6 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <!-- Chart.js 4 (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
+    </script>
+    <!-- Google Fonts: Inter + Roboto Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --azul-oscuro: #0f2b46; --azul-medio: #1a3f63; --naranja: #e8750c; --naranja-claro: #f7941d;
-            --gris-fondo: #f4f5f7; --gris-claro: #e2e4e7; --gris-medio: #8b8f95; --gris-oscuro: #3c4043;
-            --blanco: #ffffff; --verde: #1e8449; --verde-claro: #e8f5e9; --rojo: #c0392b;
-            --rojo-claro: #fdecea; --amarillo: #b8860b; --amarillo-claro: #fff8e1; --azul-claro: #e3f0fa;
-            --sombra-sm: 0 1px 3px rgba(0,0,0,0.08); --sombra-md: 0 4px 12px rgba(0,0,0,0.1);
-            --sombra-lg: 0 8px 24px rgba(0,0,0,0.12); --radio: 10px; --radio-sm: 6px; --transicion: 0.2s ease;
+            --azul-oscuro: #0f2b46;
+            --azul-medio: #1a3f63;
+            --naranja: #e8750c;
+            --naranja-claro: #f7941d;
+            --gris-fondo: #f4f5f7;
+            --gris-claro: #e2e4e7;
+            --gris-medio: #8b8f95;
+            --gris-oscuro: #3c4043;
+            --blanco: #ffffff;
+            --verde: #1e8449;
+            --verde-claro: #e8f5e9;
+            --rojo: #c0392b;
+            --rojo-claro: #fdecea;
+            --amarillo: #b8860b;
+            --amarillo-claro: #fff8e1;
+            --azul-claro: #e3f0fa;
+            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radio: 10px;
+            --radio-sm: 6px;
+            --transicion: 0.2s ease;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif; background: #e8ecf0; color: var(--gris-oscuro);
-            min-height: 100vh; line-height: 1.5; -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e8ecf0;
+            color: var(--gris-oscuro);
+            min-height: 100vh;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
-        .dashboard-container { max-width: 1440px; margin: 0 auto; padding: 16px 20px 32px; }
+
+        /* ========== CONTENEDOR PRINCIPAL ========== */
+        .dashboard-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 16px 20px 32px;
+        }
+
+        /* ========== HEADER ========== */
         .header {
-            background: var(--blanco); border-radius: var(--radio); padding: 18px 24px;
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
-            box-shadow: var(--sombra-md); margin-bottom: 20px; border-left: 5px solid var(--naranja);
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: var(--sombra-md);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--naranja);
         }
-        .header-izq { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .header-izq {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
         .logo-escudo {
-            width: 60px; height: 60px; border-radius: 50%; object-fit: cover;
-            border: 3px solid var(--azul-oscuro); box-shadow: var(--sombra-sm); flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--azul-oscuro);
+            box-shadow: var(--sombra-sm);
+            flex-shrink: 0;
         }
-        .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); margin: 0; line-height: 1.2; }
-        .header-titulos .subtitulo { font-size: 0.82rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
-        .header-der { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-titulos h1 {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            letter-spacing: -0.3px;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .header-titulos .subtitulo {
+            font-size: 0.82rem;
+            color: var(--gris-medio);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .header-der {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
         .fecha-actual {
-            background: var(--gris-fondo); padding: 8px 14px; border-radius: 20px; font-weight: 600;
-            font-size: 0.9rem; color: var(--gris-oscuro); white-space: nowrap; border: 1px solid var(--gris-claro);
+            background: var(--gris-fondo);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--gris-oscuro);
+            white-space: nowrap;
+            border: 1px solid var(--gris-claro);
         }
         .btn-carga {
-            padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco);
-            color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem;
-            transition: all var(--transicion); white-space: nowrap; font-family: 'Inter', sans-serif;
-            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--azul-medio);
+            background: var(--blanco);
+            color: var(--azul-medio);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all var(--transicion);
+            white-space: nowrap;
+            font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); }
-        .btn-carga i { font-size: 0.9rem; }
+        .btn-carga:hover {
+            background: var(--azul-medio);
+            color: var(--blanco);
+            box-shadow: var(--sombra-sm);
+        }
+        .btn-carga i {
+            font-size: 0.9rem;
+        }
+
+        /* ========== TARJETAS DE RESUMEN ========== */
         .seccion-titulo {
-            font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;
-            color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 700;
+            color: var(--gris-medio);
+            margin-bottom: 10px;
+            padding-left: 4px;
         }
-        .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
+        .tarjetas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
+        }
         .tarjeta {
-            background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm);
-            display: flex; align-items: center; gap: 14px; transition: transform var(--transicion), box-shadow var(--transicion);
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 16px 18px;
+            box-shadow: var(--sombra-sm);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform var(--transicion), box-shadow var(--transicion);
             border-left: 4px solid transparent;
         }
-        .tarjeta:hover { transform: translateY(-2px); box-shadow: var(--sombra-md); }
+        .tarjeta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--sombra-md);
+        }
         .tarjeta.azul { border-left-color: var(--azul-medio); }
         .tarjeta.naranja { border-left-color: var(--naranja); }
         .tarjeta.verde { border-left-color: var(--verde); }
         .tarjeta.rojo { border-left-color: var(--rojo); }
         .tarjeta-icono {
-            width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
         }
         .tarjeta.azul .tarjeta-icono { background: var(--azul-claro); color: var(--azul-medio); }
         .tarjeta.naranja .tarjeta-icono { background: #fef3e6; color: var(--naranja); }
         .tarjeta.verde .tarjeta-icono { background: var(--verde-claro); color: var(--verde); }
         .tarjeta.rojo .tarjeta-icono { background: var(--rojo-claro); color: var(--rojo); }
-        .tarjeta-info .tarjeta-numero { font-size: 1.7rem; font-weight: 800; color: var(--gris-oscuro); line-height: 1; }
-        .tarjeta-info .tarjeta-label { font-size: 0.75rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
+        .tarjeta-info .tarjeta-numero {
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1;
+            color: var(--gris-oscuro);
+        }
+        .tarjeta-info .tarjeta-label {
+            font-size: 0.75rem;
+            color: var(--gris-medio);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* ========== FILTROS ========== */
         .filtros-bar {
-            background: var(--blanco); border-radius: var(--radio); padding: 14px 18px;
-            display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--sombra-sm); margin-bottom: 14px;
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 14px 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            box-shadow: var(--sombra-sm);
+            margin-bottom: 14px;
         }
-        .filtros-bar label { font-weight: 600; font-size: 0.78rem; color: var(--gris-oscuro); }
-        .filtros-bar select, .filtros-bar input[type="text"] {
-            padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro);
-            font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--gris-fondo);
-            color: var(--gris-oscuro); transition: border var(--transicion); min-width: 100px;
+        .filtros-bar label {
+            font-weight: 600;
+            font-size: 0.78rem;
+            color: var(--gris-oscuro);
+            white-space: nowrap;
         }
-        .filtros-bar select:focus, .filtros-bar input[type="text"]:focus {
-            outline: none; border-color: var(--azul-medio); background: var(--blanco);
+        .filtros-bar select,
+        .filtros-bar input[type="text"] {
+            padding: 7px 10px;
+            border-radius: var(--radio-sm);
+            border: 1.5px solid var(--gris-claro);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            background: var(--gris-fondo);
+            color: var(--gris-oscuro);
+            transition: border var(--transicion);
+            min-width: 100px;
         }
-        .filtros-bar input[type="text"] { flex: 1; min-width: 180px; max-width: 320px; }
+        .filtros-bar select:focus,
+        .filtros-bar input[type="text"]:focus {
+            outline: none;
+            border-color: var(--azul-medio);
+            background: var(--blanco);
+        }
+        .filtros-bar input[type="text"] {
+            flex: 1;
+            min-width: 180px;
+            max-width: 320px;
+        }
+
+        /* ========== TABLAS ========== */
         .tabla-contenedor {
-            background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-sm);
-            overflow-x: auto; margin-bottom: 20px; max-height: 480px; overflow-y: auto; border: 1px solid var(--gris-claro);
+            background: var(--blanco);
+            border-radius: var(--radio);
+            box-shadow: var(--sombra-sm);
+            overflow-x: auto;
+            margin-bottom: 20px;
+            max-height: 480px;
+            overflow-y: auto;
+            border: 1px solid var(--gris-claro);
         }
-        .tabla-contenedor table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 1100px; white-space: nowrap; }
-        .tabla-contenedor thead { position: sticky; top: 0; z-index: 10; }
+        .tabla-contenedor table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.78rem;
+            min-width: 1100px;
+            white-space: nowrap;
+        }
+        .tabla-contenedor thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
         .tabla-contenedor thead th {
-            background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px;
-            font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;
+            background: var(--azul-oscuro);
+            color: var(--blanco);
+            padding: 10px 8px;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
         }
-        .tabla-contenedor tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); color: var(--gris-oscuro); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
+        .tabla-contenedor tbody td {
+            padding: 8px;
+            border-bottom: 1px solid var(--gris-claro);
+            color: var(--gris-oscuro);
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .tabla-contenedor tbody tr:hover { background: #f8fafb; }
-        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
         .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
         .badge-entregado { background: var(--verde-claro); color: var(--verde); }
         .badge-baja { background: #e9ecef; color: #495057; }
         .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
-        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; }
+        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; cursor: default; font-size: 0.68rem; padding: 2px 8px; }
         .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
-        .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
-        .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; display: flex; flex-direction: column; }
-        .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 8px; }
+
+        /* ========== GRÁFICOS ========== */
+        .graficos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .grafico-card {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 16px;
+            box-shadow: var(--sombra-sm);
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+        }
+        .grafico-card h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--azul-oscuro);
+            margin-bottom: 8px;
+        }
         .grafico-card canvas { flex: 1; max-height: 300px; }
-        .incidencias-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); margin-bottom: 20px; border-left: 5px solid var(--rojo); }
-        .incidencias-panel h2 { font-size: 1rem; font-weight: 700; color: var(--rojo); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
-        .alerta-icono { width: 28px; height: 28px; border-radius: 50%; background: var(--rojo-claro); display: flex; align-items: center; justify-content: center; color: var(--rojo); font-size: 0.75rem; flex-shrink: 0; }
+
+        /* ========== PANEL INCIDENCIAS ========== */
+        .incidencias-panel {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 18px 20px;
+            box-shadow: var(--sombra-sm);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--rojo);
+        }
+        .incidencias-panel h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--rojo);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alerta-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radio-sm);
+            background: #fff5f5;
+            border-left: 3px solid var(--rojo);
+            font-size: 0.8rem;
+        }
+        .alerta-icono {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--rojo-claro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rojo);
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
         .alerta-contenido { flex: 1; }
         .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
         .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
         .alerta-fecha { font-weight: 600; color: var(--rojo); font-size: 0.7rem; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
         .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
-        .footer { text-align: center; padding: 14px; font-size: 0.75rem; color: var(--gris-medio); border-top: 1px solid var(--gris-claro); margin-top: 8px; }
-        .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); animation: slideIn 0.35s ease; display: none; }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            padding: 14px;
+            font-size: 0.75rem;
+            color: var(--gris-medio);
+            border-top: 1px solid var(--gris-claro);
+            margin-top: 8px;
+        }
+
+        /* ========== TOAST ========== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--azul-oscuro);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            z-index: 1000;
+            box-shadow: var(--sombra-lg);
+            animation: slideIn 0.35s ease;
+            display: none;
+        }
         .toast.mostrar { display: block; }
-        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes slideIn {
+            from { transform: translateX(120%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
         @media (max-width: 768px) {
             .header { flex-direction: column; align-items: flex-start; }
             .header-der { width: 100%; justify-content: flex-start; }
@@ -138,128 +428,211 @@
     </style>
 </head>
 <body>
-<div class="toast" id="toast"></div>
-<div class="dashboard-container">
-    <header class="header">
-        <div class="header-izq">
-            <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
-            <div class="header-titulos"><h1>TALLER</h1><p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p></div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="dashboard-container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-izq">
+                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
+                <div class="header-titulos">
+                    <h1>TALLER</h1>
+                    <p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p>
+                </div>
+            </div>
+            <div class="header-der">
+                <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;">
+                    <i class="fa-brands fa-google"></i> Google Sheets
+                </button>
+            </div>
+        </header>
+
+        <!-- TARJETAS OTs -->
+        <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
+        <div class="tarjetas-grid">
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
+            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
-        <div class="header-der">
-            <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-            <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;"><i class="fa-brands fa-google"></i> Google Sheets</button>
+
+        <!-- TARJETAS TRABAJOS -->
+        <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
+        <div class="tarjetas-grid">
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
+            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
         </div>
-    </header>
 
-    <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
-    <div class="tarjetas-grid">
-        <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
-        <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
-        <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
-        <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
+        <!-- GRÁFICOS OTs -->
+        <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
+        <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
+        </div>
+
+        <!-- GRÁFICOS TRABAJOS -->
+        <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
+        <div class="graficos-grid">
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
+        </div>
+
+        <!-- FILTROS OTs -->
+        <div class="filtros-bar">
+            <label>Estado:</label>
+            <select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperario"><option value="Todos">Todos</option></select>
+            <label>Tipo:</label>
+            <select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
+            <label>Sector:</label>
+            <select id="filtroSector"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
+        </div>
+
+        <!-- TABLA OTs -->
+        <div class="tabla-contenedor">
+            <table id="tablaOTs">
+                <thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- FILTROS TRABAJOS -->
+        <div class="filtros-bar">
+            <label>N° OT:</label>
+            <select id="filtroNroOT"><option value="Todos">Todos</option></select>
+            <label>Operario:</label>
+            <select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
+            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
+        </div>
+
+        <!-- TABLA TRABAJOS -->
+        <div class="tabla-contenedor">
+            <table id="tablaTrabajos">
+                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- PANEL INCIDENCIAS -->
+        <div class="incidencias-panel">
+            <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
+            <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
+        </div>
+
+        <footer class="footer">
+            Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span>
+        </footer>
     </div>
 
-    <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
-    <div class="tarjetas-grid">
-        <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
-        <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
-        <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
-    </div>
+    <script>
+        (function() {
+            let datosOTs = [];
+            let datosTrabajos = [];
+            let masterOperarios = []; 
+            let charts = {};
 
-    <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
-    <div class="graficos-grid">
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> OTs por Operario</h3><canvas id="graficoOperario"></canvas></div>
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
-    </div>
+            const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
+            const SHEET_OTS = 'O.T. Taller de YB';
+            const SHEET_TRAB = 'TrabajosRealizados';
+            const SHEET_OPERARIOS = 'Operarios';
 
-    <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
-    <div class="graficos-grid">
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Trabajos por Máquina (Rol)</h3><canvas id="graficoMaquina"></canvas></div>
-        <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
-    </div>
+            function toast(msg, dur=3000) {
+                const t = document.getElementById('toast');
+                t.textContent = msg; t.classList.add('mostrar');
+                clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('mostrar'), dur);
+            }
 
-    <div class="filtros-bar">
-        <label>Estado:</label><select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
-        <label>Operario:</label><select id="filtroOperario"><option value="Todos">Todos</option></select>
-        <label>Tipo:</label><select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
-        <label>Sector:</label><select id="filtroSector"><option value="Todos">Todos</option></select>
-        <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
-    </div>
-    <div class="tabla-contenedor">
-        <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead><tbody></tbody></table>
-    </div>
-    <div class="filtros-bar">
-        <label>N° OT:</label><select id="filtroNroOT"><option value="Todos">Todos</option></select>
-        <label>Operario:</label><select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
-        <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
-    </div>
-    <div class="tabla-contenedor">
-        <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
-    </div>
-    <div class="incidencias-panel">
-        <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
-        <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
-    </div>
-    <footer class="footer">Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span></footer>
-</div>
+            function fechaHoy() {
+                const d = new Date();
+                return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+            }
+            function actualizarFechasUI() {
+                const f = fechaHoy();
+                document.getElementById('fechaActual').innerHTML = `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
+                document.getElementById('fechaFooter').textContent = f;
+            }
 
-<script>
-(function() {
-    let datosOTs = [], datosTrabajos = [], masterOperarios = [], charts = {};
-    const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
-    const SHEET_OTS = 'O.T. Taller de YB', SHEET_TRAB = 'TrabajosRealizados', SHEET_OPERARIOS = 'Operarios';
+            function parseFechaDMY(str) {
+                if (!str) return null;
+                str = str.trim();
+                const m = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
+                if (!m) return null;
+                let d = parseInt(m[1]), mes = parseInt(m[2])-1, a = parseInt(m[3]);
+                if (a < 100) a += 2000;
+                const dt = new Date(a, mes, d);
+                return (dt.getDate()===d && dt.getMonth()===mes) ? dt : null;
+            }
 
-    function toast(m,d=3000){const t=document.getElementById('toast');t.textContent=m;t.classList.add('mostrar');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('mostrar'),d);}
-    function fechaHoy(){const d=new Date();return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;}
-    function actualizarFechasUI(){const f=fechaHoy();document.getElementById('fechaActual').innerHTML=`<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;document.getElementById('fechaFooter').textContent=f;}
-    function parseFechaDMY(s){if(!s)return null;s=s.trim();const m=s.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);if(!m)return null;let d=parseInt(m[1]),me=parseInt(m[2])-1,a=parseInt(m[3]);if(a<100)a+=2000;const dt=new Date(a,me,d);return(dt.getDate()===d&&dt.getMonth()===me)?dt:null;}
-    function parseDuracionHHMMSS(s){if(!s)return 0;const p=s.trim().split(':');if(p.length===3)return parseInt(p[0])+parseInt(p[1])/60+parseInt(p[2])/3600;const n=parseFloat(s.replace(',','.'));return isNaN(n)?0:n;}
+            function parseDuracionHHMMSS(str) {
+                if (!str) return 0;
+                const parts = str.trim().split(':');
+                if (parts.length === 3) {
+                    return parseInt(parts[0]) + parseInt(parts[1])/60 + parseInt(parts[2])/3600;
+                }
+                const n = parseFloat(str.replace(',','.'));
+                return isNaN(n) ? 0 : n;
+            }
 
-    function encontrarColumna(enc,palabras,excluir=[]){for(let i=0;i<enc.length;i++){if(excluir.includes(i))continue;const h=enc[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');for(const p of palabras){const c=p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');if(h.includes(c))return i;}}return -1;}
+            // ---------- MAPEO FLEXIBLE ----------
+            function encontrarColumna(encabezados, palabras, excluir=[]) {
+                for (let i=0; i<encabezados.length; i++) {
+                    if (excluir.includes(i)) continue;
+                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                    for (const p of palabras) {
+                        const c = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                        if (h.includes(c)) return i;
+                    }
+                }
+                return -1;
+            }
 
-    function mapearOTs(enc,fila){return{
-        fechaProgramada:(fila[encontrarColumna(enc,['fecha programada','fechaprogramada','fecha prog'])]||'').trim(),
-        nroOT:(fila[encontrarColumna(enc,['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot'])]||'').trim(),
-        descripcionTarea:(fila[encontrarColumna(enc,['descripcion de tarea','descripcion','descripción','tarea'])]||'').trim(),
-        solicitante:(fila[encontrarColumna(enc,['solicitante'])]||'').trim(),
-        maquinaRol:(fila[encontrarColumna(enc,['maquina','máquina'],encontrarColumna(enc,['maquina/equipo','máquina/equipo','maquina equipo'])>=0?[encontrarColumna(enc,['maquina/equipo','máquina/equipo','maquina equipo'])]:[])]||'').trim(),
-        operarioAsignado:(fila[encontrarColumna(enc,['operario asignado','operario','operarioasignado'])]||'').trim(),
-        equipoTrabajo:(fila[encontrarColumna(enc,['equipo de trabajo','equipo','equipotrabajo'])]||'').trim(),
-        sector:(fila[encontrarColumna(enc,['sector'])]||'').trim(),
-        maquinaEquipo:(fila[encontrarColumna(enc,['maquina/equipo','máquina/equipo','maquina equipo'])]||'').trim(),
-        piezas:(fila[encontrarColumna(enc,['piezas','pieza'])]||'').trim(),
-        tipoTrabajo:(fila[encontrarColumna(enc,['tipo de trabajo','tipo','tipodetrabajo'])]||'').trim(),
-        criticidad:(fila[encontrarColumna(enc,['criticidad','prioridad'])]||'').trim(),
-        lugarTrabajo:(fila[encontrarColumna(enc,['lugar de trabajo','lugar','lugartrabajo'])]||'').trim(),
-        otMantAsoc:(fila[encontrarColumna(enc,['ot mant asoc','ot mant','otmant','mant asoc'])]||'').trim(),
-        estado:(fila[encontrarColumna(enc,['estado','situacion'])]||'').trim()
-    };}
+            function mapearOTs(encabezados, fila) {
+                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada']);
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','tarea']);
+                const idxSol = encontrarColumna(encabezados, ['solicitante']);
+                const idxMaqEq = encontrarColumna(encabezados, ['maquina/equipo','máquina/equipo','maquina equipo']);
+                const idxMaqRol = encontrarColumna(encabezados, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
+                const idxOp = encontrarColumna(encabezados, ['operario asignado','operario','operarioasignado']);
+                const idxEq = encontrarColumna(encabezados, ['equipo de trabajo','equipo','equipotrabajo']);
+                const idxSec = encontrarColumna(encabezados, ['sector']);
+                const idxPie = encontrarColumna(encabezados, ['piezas','pieza']);
+                const idxTip = encontrarColumna(encabezados, ['tipo de trabajo','tipo','tipodetrabajo']);
+                const idxCrit = encontrarColumna(encabezados, ['criticidad','prioridad']);
+                const idxLug = encontrarColumna(encabezados, ['lugar de trabajo','lugar','lugartrabajo']);
+                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant']);
+                const idxEst = encontrarColumna(encabezados, ['estado','situacion']);
 
-    function mapearTrabajos(enc,fila){return{
-        nroOT:(fila[encontrarColumna(enc,['n° ot','nº ot','numero ot','nro ot'])]||'').trim(),
-        maquinaRol:(fila[encontrarColumna(enc,['maquina','máquina'])]||'').trim(),
-        operario:(fila[encontrarColumna(enc,['operario'])]||'').trim(),
-        descripcion:(fila[encontrarColumna(enc,['descripcion del trabajo realizado','descripcion','trabajo realizado'])]||'').trim(),
-        materiales:(fila[encontrarColumna(enc,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos'])]||'').trim(),
-        cantidad:(fila[encontrarColumna(enc,['cantidad','cant'])]||'').trim(),
-        incidencia:(fila[encontrarColumna(enc,['incidencia o dificulta','incidencia','dificulta'])]||'').trim(),
-        fechaHoraInicio:(fila[encontrarColumna(enc,['fecha hora inicio','hora inicio','fechahora inicio'])]||'').trim(),
-        fechaHoraFin:(fila[encontrarColumna(enc,['fecha hora fin','hora fin','fechahora fin'])]||'').trim(),
-        tiempoTotal:(fila[encontrarColumna(enc,['tiempo total','tiempototal','duracion'])]||'').trim()
-    };}
+                return {
+                    fechaProgramada: idxFecha>=0 ? (fila[idxFecha]||'').trim() : '',
+                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
+                    descripcionTarea: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
+                    solicitante: idxSol>=0 ? (fila[idxSol]||'').trim() : '',
+                    maquinaRol: idxMaqRol>=0 ? (fila[idxMaqRol]||'').trim() : '',
+                    operarioAsignado: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
+                    equipoTrabajo: idxEq>=0 ? (fila[idxEq]||'').trim() : '',
+                    sector: idxSec>=0 ? (fila[idxSec]||'').trim() : '',
+                    maquinaEquipo: idxMaqEq>=0 ? (fila[idxMaqEq]||'').trim() : '',
+                    piezas: idxPie>=0 ? (fila[idxPie]||'').trim() : '',
+                    tipoTrabajo: idxTip>=0 ? (fila[idxTip]||'').trim() : '',
+                    criticidad: idxCrit>=0 ? (fila[idxCrit]||'').trim() : '',
+                    lugarTrabajo: idxLug>=0 ? (fila[idxLug]||'').trim() : '',
+                    otMantAsoc: idxMant>=0 ? (fila[idxMant]||'').trim() : '',
+                    estado: idxEst>=0 ? (fila[idxEst]||'').trim() : ''
+                };
+            }
 
-    function parsearCSV(t){const l=t.split(/\r?\n/).filter(l=>l.trim());if(l.length===0)return{enc:[],filas:[]};const pl=(l)=>{const r=[];let a='',c=false;for(let i=0;i<l.length;i++){const ch=l[i];if(ch==='"')c=!c;else if(ch===','&&!c){r.push(a);a='';}else a+=ch;}r.push(a);return r;};const enc=pl(l[0]);const filas=[];for(let i=1;i<l.length;i++){const f=pl(l[i]);if(f.some(c=>c.trim()))filas.push(f);}return{enc,filas};}
-    async function fetchSheet(n){const u=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(n)}`;const r=await fetch(u);if(!r.ok)throw new Error(`Error ${r.status}`);return await r.text();}
-
-    async function cargarMasterOperarios(){const t=await fetchSheet(SHEET_OPERARIOS);const{filas}=parsearCSV(t);const n=filas.map(f=>(f[0]||'').trim()).filter(n=>{const lo=n.toLowerCase();return lo!=='cantidad'&&lo!=='promedio'&&lo!=='operario'&&n!=='';});masterOperarios=[...new Set(n)].sort();toast(`📋 Operarios maestros: ${masterOperarios.length}`);actualizarTodoOTs();}
-    async function cargarOTs(){const t=await fetchSheet(SHEET_OTS);const{enc,filas}=parsearCSV(t);datosOTs=filas.map(f=>mapearOTs(enc,f));toast(`✅ OTs: ${datosOTs.length}`);actualizarTodoOTs();}
-    async function cargarTrabajos(){const t=await fetchSheet(SHEET_TRAB);const{enc,filas}=parsearCSV(t);datosTrabajos=filas.map(f=>mapearTrabajos(enc,f));toast(`✅ Trabajos: ${datosTrabajos.length}`);actualizarTodoTrabajos();}
-    async function cargarTodo(){await cargarMasterOperarios();try{await cargarOTs();}catch(e){toast('⚠️ Error OTs');}try{await cargarTrabajos();}catch(e){toast('⚠️ Error Trabajos');}}
-
-    function actualizarTodoOTs(){poblarFiltrosOTs();actualizarTarjetasOTs();actualizarTablaOTs();actualizarGraficosOTs();actualizarPanelIncidencias();}
-    function actualizarTodoTrabajos(){poblarFiltrosTrabajos();actualizarTarjetasTrabajos();actualizarTablaTrabajos();actualizarGraficosTrabajos();actualizarPanelIncidencias();}
-
-    function actualizarTarjetasOTs(){document.getElementById('totalOTs').textContent=datosOTs.length;document.getElementById('enCursoOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;document.getElementById('pendientesOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;document.getElementById('operariosActivos').textContent=masterOperarios.length;}
-    function actualizarTarjetasTrabajos(){const oe=new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT));document.getElementById('trabajosTerminados').textContent=datosTrabaj
+            function mapearTrabajos(encabezados, fila) {
+                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
+                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']);
+                const idxOp = encontrarColumna(encabezados, ['operario']);
+                const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
+                const idxMat = encontrar

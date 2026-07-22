@@ -10,9 +10,6 @@
     <!-- Chart.js 4 (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
     </script>
-    <!-- Chart.js plugin para etiquetas dentro de la torta -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js">
-    </script>
     <!-- Google Fonts: Inter + Roboto Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -470,7 +467,7 @@
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
         </div>
 
-        <!-- GRÁFICOS OTs (gráfico de estado modificado) -->
+        <!-- GRÁFICOS OTs -->
         <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
@@ -635,9 +632,7 @@
 
             function mapearTrabajos(encabezados, fila) {
                 const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']); // rol
+                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']);
                 const idxOp = encontrarColumna(encabezados, ['operario']);
                 const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
-                const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
-                const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
-               
+                const idxMat = encontrar

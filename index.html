@@ -536,6 +536,7 @@
         (function() {
             let datosOTs = [];
             let datosTrabajos = [];
+            let datosRegistroProgreso = []; // NUEVO: datos de la hoja RegistroProgresoDiario
             let masterOperarios = []; 
             let charts = {};
 
@@ -543,6 +544,7 @@
             const SHEET_OTS = 'O.T. Taller de YB';
             const SHEET_TRAB = 'TrabajosRealizados';
             const SHEET_OPERARIOS = 'Operarios';
+            const SHEET_PROGRESO = 'RegistroProgresoDiario'; // NUEVA HOJA
 
             function toast(msg, dur=3000) {
                 const t = document.getElementById('toast');
@@ -579,6 +581,33 @@
                 }
                 const n = parseFloat(str.replace(',','.'));
                 return isNaN(n) ? 0 : n;
+            }
+
+            // NUEVA FUNCIÓN: convertir hora formato "h:mm:ss a. m./p. m." a objeto Date
+            function parseHoraAMPM(str) {
+                if (!str) return null;
+                str = str.trim().toLowerCase();
+                // Limpiar puntos y espacios extras
+                str = str.replace(/\./g, '').replace(/\s+/g, ' ');
+                const match = str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/);
+                if (!match) return null;
+                let hours = parseInt(match[1]);
+                const minutes = parseInt(match[2]);
+                const seconds = parseInt(match[3]);
+                const ampm = match[4].replace(/\s/g, '');
+                if (ampm.startsWith('p') && hours < 12) hours += 12;
+                if (ampm.startsWith('a') && hours === 12) hours = 0;
+                const d = new Date();
+                d.setHours(hours, minutes, seconds, 0);
+                return d;
+            }
+
+            function calcularHorasEntre(inicioStr, finStr) {
+                const ini = parseHoraAMPM(inicioStr);
+                const fin = parseHoraAMPM(finStr);
+                if (!ini || !fin) return 0;
+                if (fin <= ini) return 0; // Evitar horas negativas
+                return (fin - ini) / (1000 * 60 * 60); // Convertir ms a horas decimales
             }
 
             // ---------- MAPEO FLEXIBLE ----------
@@ -656,6 +685,19 @@
                 };
             }
 
+            // NUEVO: Mapeo para la hoja RegistroProgresoDiario
+            function mapearRegistroProgreso(encabezados, fila) {
+                const idxOperario = encontrarColumna(encabezados, ['operario']); // Columna F
+                const idxHoraInicio = encontrarColumna(encabezados, ['hora incio', 'hora inicio', 'horainicio']); // Columna H (nota: "Incio" con error de tipeo)
+                const idxHoraParada = encontrarColumna(encabezados, ['hora parada', 'horaparada']); // Columna J
+
+                return {
+                    operario: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
+                    horaInicio: idxHoraInicio >= 0 ? (fila[idxHoraInicio] || '').trim() : '',
+                    horaParada: idxHoraParada >= 0 ? (fila[idxHoraParada] || '').trim() : ''
+                };
+            }
+
             function parsearCSV(texto) {
                 const lineas = texto.split(/\r?\n/).filter(l => l.trim());
                 if (lineas.length===0) return { enc: [], filas: [] };
@@ -716,10 +758,20 @@
                 actualizarTodoTrabajos();
             }
 
+            // NUEVO: Cargar RegistroProgresoDiario
+            async function cargarRegistroProgreso() {
+                const texto = await fetchSheet(SHEET_PROGRESO);
+                const {enc, filas} = parsearCSV(texto);
+                datosRegistroProgreso = filas.map(f => mapearRegistroProgreso(enc, f));
+                toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`);
+                actualizarGraficosTrabajos(); // Solo actualiza los gráficos de esta sección
+            }
+
             async function cargarTodo() {
                 await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
+                try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
             }
 
             function actualizarTodoOTs() {
@@ -849,7 +901,6 @@
                 const filt = filtrarOTs();
                 destruirGraficos(['estado','operario','tipo']);
                 if (filt.length) {
-                    // GRÁFICO DE TORTA (Entregado = VERDE)
                     const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
                     if (ctx1) {
                         const conteo = {};
@@ -862,7 +913,7 @@
                         const total = data.reduce((a, b) => a + b, 0);
                         const bgColors = labels.map(l => {
                             const lo = l.toLowerCase();
-                            if (lo === 'entregado') return '#1e8449';  // Verde
+                            if (lo === 'entregado') return '#1e8449';
                             if (lo === 'en curso') return '#e8750c';
                             if (lo === 'pendiente') return '#c0392b';
                             return '#8b8f95';
@@ -894,7 +945,6 @@
                         });
                     }
 
-                    // BARRAS APILADAS (Entregado = VERDE)
                     const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
                     if (ctx2) {
                         const operariosSet = new Set(filt.map(o => o.operarioAsignado || 'Sin asignar'));
@@ -949,17 +999,53 @@
             function actualizarGraficosTrabajos() {
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
-                if (filt.length) {
-                    const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
-                    if (ctx1) {
-                        const horas = {};
-                        filt.forEach(t => { const op = t.operario || 'Sin responsable'; horas[op] = (horas[op] || 0) + parseDuracionHHMMSS(t.tiempoTotal); });
-                        const sorted = Object.entries(horas).sort((a, b) => b[1] - a[1]);
+                
+                // *** NUEVO GRÁFICO: Horas por Operario desde RegistroProgresoDiario ***
+                const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
+                if (ctx1) {
+                    const horasPorOperario = {};
+                    datosRegistroProgreso.forEach(reg => {
+                        if (!reg.operario || !reg.horaInicio || !reg.horaParada) return; // Sin hora de parada = en curso, no se cuenta
+                        const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
+                        if (horas > 0) {
+                            horasPorOperario[reg.operario] = (horasPorOperario[reg.operario] || 0) + horas;
+                        }
+                    });
+                    const operariosConHoras = Object.keys(horasPorOperario).sort();
+                    if (operariosConHoras.length > 0) {
+                        const sorted = operariosConHoras.map(op => ({ operario: op, horas: horasPorOperario[op] })).sort((a, b) => b.horas - a.horas);
                         charts['horasResp'] = new Chart(ctx1, {
-                            type: 'bar', data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Horas', data: sorted.map(e => e[1]), backgroundColor: COL.verde, borderRadius: 4 }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } }, title: { display: true, text: 'Horas', font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } } }
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e.operario),
+                                datasets: [{
+                                    label: 'Horas trabajadas',
+                                    data: sorted.map(e => e.horas),
+                                    backgroundColor: COL.verde,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { beginAtZero: true, ticks: { font: { size: 10 } }, title: { display: true, text: 'Horas', font: { size: 10 } } },
+                                    x: { ticks: { font: { size: 9 } } }
+                                }
+                            }
+                        });
+                    } else {
+                        charts['horasResp'] = new Chart(ctx1, {
+                            type: 'bar',
+                            data: { labels: ['Sin datos'], datasets: [{ data: [0], backgroundColor: '#ccc' }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                         });
                     }
+                }
+                
+                // Los otros dos gráficos siguen usando TrabajosRealizados
+                if (filt.length) {
                     const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
                     if (ctx2) {
                         const conteo = {}; filt.forEach(t => { const m = t.maquinaRol || 'Sin máquina'; conteo[m] = (conteo[m] || 0) + 1; });

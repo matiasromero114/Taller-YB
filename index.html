@@ -608,7 +608,6 @@
                 return (fin - ini) / (1000 * 60 * 60);
             }
 
-            // Función para convertir horas decimales a formato HH:MM
             function formatoHoras(horasDecimales) {
                 const horas = Math.floor(horasDecimales);
                 const minutos = Math.round((horasDecimales - horas) * 60);
@@ -812,8 +811,9 @@
             function actualizarTarjetasTrabajos() {
                 const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
                 document.getElementById('trabajosTerminados').textContent = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
-                const horas = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
-                document.getElementById('horasTotales').textContent = horas.toFixed(1);
+                const horasDecimales = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
+                // Mostrar en formato HH:MM
+                document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
                 document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
             }
 
@@ -1013,7 +1013,6 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
-                // GRÁFICO: Horas por Operario (AHORA CON FORMATO HH:MM)
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
                     const horasPorOperario = {};

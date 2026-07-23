@@ -894,14 +894,14 @@
                         });
                     }
 
-                    // *** NUEVO GRÁFICO DE BARRAS APILADAS POR OPERARIO ***
+                    // *** GRÁFICO DE BARRAS APILADAS POR OPERARIO (Entregado = verde) ***
                     const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
                     if (ctx2) {
                         const operariosSet = new Set(filt.map(o => o.operarioAsignado || 'Sin asignar'));
                         const operarios = Array.from(operariosSet).sort();
                         const estados = ['Entregado', 'En curso', 'Pendiente'];
                         const coloresEstados = {
-                            'Entregado': '#1a3f63',
+                            'Entregado': '#1e8449',  // Cambiado a verde
                             'En curso': '#e8750c',
                             'Pendiente': '#c0392b'
                         };

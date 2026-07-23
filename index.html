@@ -608,6 +608,13 @@
                 return (fin - ini) / (1000 * 60 * 60);
             }
 
+            // Función para convertir horas decimales a formato HH:MM
+            function formatoHoras(horasDecimales) {
+                const horas = Math.floor(horasDecimales);
+                const minutos = Math.round((horasDecimales - horas) * 60);
+                return `${horas}:${String(minutos).padStart(2, '0')}`;
+            }
+
             // ---------- MAPEO FLEXIBLE ----------
             function encontrarColumna(encabezados, palabras, excluir=[]) {
                 for (let i=0; i<encabezados.length; i++) {
@@ -683,15 +690,11 @@
                 };
             }
 
-            // CORREGIDO: Ahora busca "operario" excluyendo "asignado"
             function mapearRegistroProgreso(encabezados, fila) {
-                // Buscar columna que contenga "operario" pero NO contenga "asignado"
                 let idxOperario = -1;
                 for (let i = 0; i < encabezados.length; i++) {
                     const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
-                    // Buscar que contenga "operario"
                     if (h.includes('operario')) {
-                        // Verificar que NO contenga "asignado"
                         if (!h.includes('asignado')) {
                             idxOperario = i;
                             break;
@@ -1010,7 +1013,7 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
-                // GRÁFICO CORREGIDO: Horas por Operario desde RegistroProgresoDiario (Columna F)
+                // GRÁFICO: Horas por Operario (AHORA CON FORMATO HH:MM)
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
                     const horasPorOperario = {};
@@ -1038,9 +1041,27 @@
                             options: {
                                 responsive: true,
                                 maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(ctx) {
+                                                return `${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;
+                                            }
+                                        }
+                                    }
+                                },
                                 scales: {
-                                    y: { beginAtZero: true, ticks: { font: { size: 10 } }, title: { display: true, text: 'Horas', font: { size: 10 } } },
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            font: { size: 10 },
+                                            callback: function(value) {
+                                                return formatoHoras(value);
+                                            }
+                                        },
+                                        title: { display: true, text: 'Horas', font: { size: 10 } }
+                                    },
                                     x: { ticks: { font: { size: 9 } } }
                                 }
                             }

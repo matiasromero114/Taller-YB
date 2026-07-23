@@ -536,7 +536,7 @@
         (function() {
             let datosOTs = [];
             let datosTrabajos = [];
-            let datosRegistroProgreso = []; // NUEVO: datos de la hoja RegistroProgresoDiario
+            let datosRegistroProgreso = [];
             let masterOperarios = []; 
             let charts = {};
 
@@ -544,7 +544,7 @@
             const SHEET_OTS = 'O.T. Taller de YB';
             const SHEET_TRAB = 'TrabajosRealizados';
             const SHEET_OPERARIOS = 'Operarios';
-            const SHEET_PROGRESO = 'RegistroProgresoDiario'; // NUEVA HOJA
+            const SHEET_PROGRESO = 'RegistroProgresoDiario';
 
             function toast(msg, dur=3000) {
                 const t = document.getElementById('toast');
@@ -583,11 +583,9 @@
                 return isNaN(n) ? 0 : n;
             }
 
-            // NUEVA FUNCIÓN: convertir hora formato "h:mm:ss a. m./p. m." a objeto Date
             function parseHoraAMPM(str) {
                 if (!str) return null;
                 str = str.trim().toLowerCase();
-                // Limpiar puntos y espacios extras
                 str = str.replace(/\./g, '').replace(/\s+/g, ' ');
                 const match = str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/);
                 if (!match) return null;
@@ -606,8 +604,8 @@
                 const ini = parseHoraAMPM(inicioStr);
                 const fin = parseHoraAMPM(finStr);
                 if (!ini || !fin) return 0;
-                if (fin <= ini) return 0; // Evitar horas negativas
-                return (fin - ini) / (1000 * 60 * 60); // Convertir ms a horas decimales
+                if (fin <= ini) return 0;
+                return (fin - ini) / (1000 * 60 * 60);
             }
 
             // ---------- MAPEO FLEXIBLE ----------
@@ -685,11 +683,24 @@
                 };
             }
 
-            // NUEVO: Mapeo para la hoja RegistroProgresoDiario
+            // CORREGIDO: Ahora busca "operario" excluyendo "asignado"
             function mapearRegistroProgreso(encabezados, fila) {
-                const idxOperario = encontrarColumna(encabezados, ['operario']); // Columna F
-                const idxHoraInicio = encontrarColumna(encabezados, ['hora incio', 'hora inicio', 'horainicio']); // Columna H (nota: "Incio" con error de tipeo)
-                const idxHoraParada = encontrarColumna(encabezados, ['hora parada', 'horaparada']); // Columna J
+                // Buscar columna que contenga "operario" pero NO contenga "asignado"
+                let idxOperario = -1;
+                for (let i = 0; i < encabezados.length; i++) {
+                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
+                    // Buscar que contenga "operario"
+                    if (h.includes('operario')) {
+                        // Verificar que NO contenga "asignado"
+                        if (!h.includes('asignado')) {
+                            idxOperario = i;
+                            break;
+                        }
+                    }
+                }
+                
+                const idxHoraInicio = encontrarColumna(encabezados, ['hora incio', 'hora inicio', 'horainicio']);
+                const idxHoraParada = encontrarColumna(encabezados, ['hora parada', 'horaparada']);
 
                 return {
                     operario: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
@@ -758,13 +769,12 @@
                 actualizarTodoTrabajos();
             }
 
-            // NUEVO: Cargar RegistroProgresoDiario
             async function cargarRegistroProgreso() {
                 const texto = await fetchSheet(SHEET_PROGRESO);
                 const {enc, filas} = parsearCSV(texto);
                 datosRegistroProgreso = filas.map(f => mapearRegistroProgreso(enc, f));
                 toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`);
-                actualizarGraficosTrabajos(); // Solo actualiza los gráficos de esta sección
+                actualizarGraficosTrabajos();
             }
 
             async function cargarTodo() {
@@ -1000,12 +1010,12 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
-                // *** NUEVO GRÁFICO: Horas por Operario desde RegistroProgresoDiario ***
+                // GRÁFICO CORREGIDO: Horas por Operario desde RegistroProgresoDiario (Columna F)
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
                     const horasPorOperario = {};
                     datosRegistroProgreso.forEach(reg => {
-                        if (!reg.operario || !reg.horaInicio || !reg.horaParada) return; // Sin hora de parada = en curso, no se cuenta
+                        if (!reg.operario || !reg.horaInicio || !reg.horaParada) return;
                         const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
                         if (horas > 0) {
                             horasPorOperario[reg.operario] = (horasPorOperario[reg.operario] || 0) + horas;
@@ -1044,7 +1054,6 @@
                     }
                 }
                 
-                // Los otros dos gráficos siguen usando TrabajosRealizados
                 if (filt.length) {
                     const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
                     if (ctx2) {

@@ -537,7 +537,7 @@
             let datosOTs = [];
             let datosTrabajos = [];
             let datosRegistroProgreso = [];
-            let motivosParadas = []; // NUEVO: para identificar incidencias
+            let motivosParadas = [];
             let masterOperarios = []; 
             let charts = {};
 
@@ -546,7 +546,7 @@
             const SHEET_TRAB = 'TrabajosRealizados';
             const SHEET_OPERARIOS = 'Operarios';
             const SHEET_PROGRESO = 'RegistroProgresoDiario';
-            const SHEET_MOTIVOS = 'MotivosParadas'; // NUEVA HOJA
+            const SHEET_MOTIVOS = 'MotivosParadas';
 
             function toast(msg, dur=3000) {
                 const t = document.getElementById('toast');
@@ -745,7 +745,6 @@
                 return await res.text();
             }
 
-            // NUEVO: Cargar motivos de parada para identificar incidencias
             async function cargarMotivosParadas() {
                 const texto = await fetchSheet(SHEET_MOTIVOS);
                 const { enc, filas } = parsearCSV(texto);
@@ -801,14 +800,13 @@
             }
 
             async function cargarTodo() {
-                await cargarMotivosParadas(); // Cargar primero para tener los tipos de incidencia
+                await cargarMotivosParadas();
                 await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
                 try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
             }
 
-            // NUEVO: Función para obtener incidencias desde RegistroProgresoDiario
             function obtenerIncidencias() {
                 const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
                 return datosRegistroProgreso.filter(reg => 
@@ -843,7 +841,6 @@
                 document.getElementById('trabajosTerminados').textContent = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
                 const horasDecimales = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
                 document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
-                // NUEVO: Con incidencia desde RegistroProgresoDiario
                 document.getElementById('conIncidencia').textContent = obtenerIncidencias().length;
             }
 
@@ -1116,27 +1113,119 @@
                     }
                 }
                 
-                // NUEVO: Gráfico de incidencias desde RegistroProgresoDiario
+                // GRÁFICO DE INCIDENCIAS MEJORADO
                 const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                 if (ctx3) {
                     const incidencias = obtenerIncidencias();
+                    // Agrupar por N° OT y guardar los motivos
                     const incsPorOT = {};
                     incidencias.forEach(reg => {
                         if (reg.nroOT) {
-                            incsPorOT[reg.nroOT] = (incsPorOT[reg.nroOT] || 0) + 1;
+                            if (!incsPorOT[reg.nroOT]) {
+                                incsPorOT[reg.nroOT] = { count: 0, motivos: [] };
+                            }
+                            incsPorOT[reg.nroOT].count++;
+                            if (reg.motivoParada && !incsPorOT[reg.nroOT].motivos.includes(reg.motivoParada)) {
+                                incsPorOT[reg.nroOT].motivos.push(reg.motivoParada);
+                            }
                         }
                     });
-                    const sorted = Object.entries(incsPorOT).sort((a, b) => b[1] - a[1]);
+                    const sorted = Object.entries(incsPorOT).sort((a, b) => b[1].count - a[1].count);
+                    
                     if (sorted.length) {
+                        // Crear gradientes para cada barra
+                        const barColors = sorted.map((_, i) => {
+                            const alpha = 0.7 + (i * 0.05);
+                            return `rgba(192, 57, 43, ${Math.min(alpha, 1)})`;
+                        });
+                        
                         charts['incidencias'] = new Chart(ctx3, {
                             type: 'bar',
                             data: {
                                 labels: sorted.map(e => e[0]),
                                 datasets: [{
                                     label: 'Cantidad de incidencias',
-                                    data: sorted.map(e => e[1]),
-                                    backgroundColor: COL.rojo,
-                                    borderRadius: 4
+                                    data: sorted.map(e => e[1].count),
+                                    backgroundColor: barColors,
+                                    borderColor: '#c0392b',
+                                    borderWidth: 2,
+                                    borderRadius: 8,
+                                    borderSkipped: false,
+                                    hoverBackgroundColor: '#e74c3c'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        backgroundColor: 'rgba(15, 43, 70, 0.95)',
+                                        titleFont: { size: 12, weight: 'bold' },
+                                        bodyFont: { size: 11 },
+                                        padding: 12,
+                                        cornerRadius: 8,
+                                        displayColors: false,
+                                        callbacks: {
+                                            title: function(ctx) {
+                                                return `OT: ${ctx[0].label}`;
+                                            },
+                                            label: function(ctx) {
+                                                const otData = sorted[ctx.dataIndex];
+                                                const count = otData[1].count;
+                                                const motivos = otData[1].motivos.join(', ');
+                                                return [
+                                                    `Incidencias: ${count}`,
+                                                    `Tipo: ${motivos}`
+                                                ];
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            stepSize: 1,
+                                            font: { size: 10 },
+                                            color: '#666'
+                                        },
+                                        grid: {
+                                            color: 'rgba(0,0,0,0.05)',
+                                            drawBorder: false
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: 'Cantidad',
+                                            font: { size: 10, weight: 'bold' }
+                                        }
+                                    },
+                                    x: {
+                                        ticks: {
+                                            font: { size: 8 },
+                                            color: '#666'
+                                        },
+                                        grid: { display: false }
+                                    }
+                                },
+                                animation: {
+                                    duration: 1000,
+                                    easing: 'easeOutQuart'
+                                },
+                                layout: {
+                                    padding: { top: 10, bottom: 5 }
+                                }
+                            }
+                        });
+                    } else {
+                        charts['incidencias'] = new Chart(ctx3, {
+                            type: 'bar',
+                            data: {
+                                labels: ['Sin incidencias'],
+                                datasets: [{
+                                    data: [0],
+                                    backgroundColor: '#e0e0e0',
+                                    borderRadius: 8
                                 }]
                             },
                             options: {
@@ -1144,16 +1233,10 @@
                                 maintainAspectRatio: false,
                                 plugins: { legend: { display: false } },
                                 scales: {
-                                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
-                                    x: { ticks: { font: { size: 8 } } }
+                                    y: { display: false },
+                                    x: { grid: { display: false } }
                                 }
                             }
-                        });
-                    } else {
-                        charts['incidencias'] = new Chart(ctx3, {
-                            type: 'bar',
-                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#ccc' }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                         });
                     }
                 }
@@ -1163,7 +1246,6 @@
                 const alertas = [];
                 const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
                 
-                // OTs atrasadas
                 datosOTs.forEach(o => {
                     if (o.estado.toLowerCase() === 'entregado') return;
                     const fp = parseFechaDMY(o.fechaProgramada);
@@ -1173,14 +1255,12 @@
                     }
                 });
                 
-                // Criticidad alta
                 datosOTs.forEach(o => {
                     if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
                         alertas.push({ tipo: 'criticidad', titulo: `Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - Estado: ${o.estado}`, fecha: o.fechaProgramada || 'Sin fecha', prioridad: 8 });
                     }
                 });
                 
-                // Incidencias desde RegistroProgresoDiario
                 const incidencias = obtenerIncidencias();
                 incidencias.forEach(reg => {
                     if (reg.motivoParada) {

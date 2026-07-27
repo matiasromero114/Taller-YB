@@ -510,13 +510,13 @@
             <select id="filtroNroOT"><option value="Todos">Todos</option></select>
             <label>Operario:</label>
             <select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
-            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales, Incidencia...">
+            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales...">
         </div>
 
-        <!-- TABLA TRABAJOS -->
+        <!-- TABLA TRABAJOS (nuevo orden, sin columna Incidencia) -->
         <div class="tabla-contenedor">
             <table id="tablaTrabajos">
-                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Incidencia</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
+                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
                 <tbody></tbody>
             </table>
         </div>
@@ -537,6 +537,7 @@
             let datosOTs = [];
             let datosTrabajos = [];
             let datosRegistroProgreso = [];
+            let motivosParadas = []; // NUEVO: para identificar incidencias
             let masterOperarios = []; 
             let charts = {};
 
@@ -545,6 +546,7 @@
             const SHEET_TRAB = 'TrabajosRealizados';
             const SHEET_OPERARIOS = 'Operarios';
             const SHEET_PROGRESO = 'RegistroProgresoDiario';
+            const SHEET_MOTIVOS = 'MotivosParadas'; // NUEVA HOJA
 
             function toast(msg, dur=3000) {
                 const t = document.getElementById('toast');
@@ -670,7 +672,6 @@
                 const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
                 const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
                 const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
-                const idxInc = encontrarColumna(encabezados, ['incidencia o dificulta','incidencia','dificulta']);
                 const idxIni = encontrarColumna(encabezados, ['fecha hora inicio','hora inicio','fechahora inicio']);
                 const idxFin = encontrarColumna(encabezados, ['fecha hora fin','hora fin','fechahora fin']);
                 const idxDur = encontrarColumna(encabezados, ['tiempo total','tiempototal','duracion']);
@@ -682,7 +683,6 @@
                     descripcion: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
                     materiales: idxMat>=0 ? (fila[idxMat]||'').trim() : '',
                     cantidad: idxCant>=0 ? (fila[idxCant]||'').trim() : '',
-                    incidencia: idxInc>=0 ? (fila[idxInc]||'').trim() : '',
                     fechaHoraInicio: idxIni>=0 ? (fila[idxIni]||'').trim() : '',
                     fechaHoraFin: idxFin>=0 ? (fila[idxFin]||'').trim() : '',
                     tiempoTotal: idxDur>=0 ? (fila[idxDur]||'').trim() : ''
@@ -701,13 +701,17 @@
                     }
                 }
                 
+                const idxNroOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
                 const idxHoraInicio = encontrarColumna(encabezados, ['hora incio', 'hora inicio', 'horainicio']);
                 const idxHoraParada = encontrarColumna(encabezados, ['hora parada', 'horaparada']);
+                const idxMotivoParada = encontrarColumna(encabezados, ['motivo parada', 'motivoparada', 'motivo']);
 
                 return {
+                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
                     operario: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
                     horaInicio: idxHoraInicio >= 0 ? (fila[idxHoraInicio] || '').trim() : '',
-                    horaParada: idxHoraParada >= 0 ? (fila[idxHoraParada] || '').trim() : ''
+                    horaParada: idxHoraParada >= 0 ? (fila[idxHoraParada] || '').trim() : '',
+                    motivoParada: idxMotivoParada >= 0 ? (fila[idxMotivoParada] || '').trim() : ''
                 };
             }
 
@@ -739,6 +743,23 @@
                 const res = await fetch(url);
                 if (!res.ok) throw new Error(`Error ${res.status}`);
                 return await res.text();
+            }
+
+            // NUEVO: Cargar motivos de parada para identificar incidencias
+            async function cargarMotivosParadas() {
+                const texto = await fetchSheet(SHEET_MOTIVOS);
+                const { enc, filas } = parsearCSV(texto);
+                const idxMotivo = encontrarColumna(enc, ['motivo']);
+                const idxTipo = encontrarColumna(enc, ['tipo']);
+                
+                motivosParadas = filas
+                    .map(f => ({
+                        motivo: idxMotivo >= 0 ? (f[idxMotivo] || '').trim() : '',
+                        tipo: idxTipo >= 0 ? (f[idxTipo] || '').trim() : ''
+                    }))
+                    .filter(m => m.tipo.toLowerCase() === 'incidencia' && m.motivo !== '');
+                
+                toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`);
             }
 
             async function cargarMasterOperarios() {
@@ -776,14 +797,23 @@
                 const {enc, filas} = parsearCSV(texto);
                 datosRegistroProgreso = filas.map(f => mapearRegistroProgreso(enc, f));
                 toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`);
-                actualizarGraficosTrabajos();
+                actualizarTodoTrabajos();
             }
 
             async function cargarTodo() {
+                await cargarMotivosParadas(); // Cargar primero para tener los tipos de incidencia
                 await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
                 try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
+            }
+
+            // NUEVO: Función para obtener incidencias desde RegistroProgresoDiario
+            function obtenerIncidencias() {
+                const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
+                return datosRegistroProgreso.filter(reg => 
+                    reg.motivoParada && motivosIncidencia.has(reg.motivoParada.toLowerCase())
+                );
             }
 
             function actualizarTodoOTs() {
@@ -812,9 +842,9 @@
                 const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
                 document.getElementById('trabajosTerminados').textContent = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
                 const horasDecimales = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
-                // Mostrar en formato HH:MM
                 document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
-                document.getElementById('conIncidencia').textContent = datosTrabajos.filter(t=>t.incidencia.trim()!=='').length;
+                // NUEVO: Con incidencia desde RegistroProgresoDiario
+                document.getElementById('conIncidencia').textContent = obtenerIncidencias().length;
             }
 
             function poblarFiltrosOTs() {
@@ -855,7 +885,7 @@
                 return datosTrabajos.filter(t=>{
                     if (ot!=='Todos' && t.nroOT!==ot) return false;
                     if (op!=='Todos' && t.operario!==op) return false;
-                    if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales} ${t.incidencia}`.toLowerCase().includes(q)) return false;
+                    if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales}`.toLowerCase().includes(q)) return false;
                     return true;
                 });
             }
@@ -891,11 +921,10 @@
             function actualizarTablaTrabajos() {
                 const tbody = document.querySelector('#tablaTrabajos tbody');
                 tbody.innerHTML = filtrarTrabajos().map(t=>{
-                    const inc = t.incidencia.trim() ? `<span class="badge badge-incidencia">${escapeHTML(t.incidencia)}</span>` : '<span class="celda-vacia">—</span>';
                     return `<tr>
                         <td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td>
                         <td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td>
-                        <td>${inc}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td>
+                        <td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td>
                     </tr>`;
                 }).join('');
             }
@@ -1013,6 +1042,7 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
+                // GRÁFICO: Horas por Operario
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
                     const horasPorOperario = {};
@@ -1084,18 +1114,47 @@
                             options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, padding: 12 } } } }
                         });
                     }
-                    const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
-                    if (ctx3) {
-                        const incs = {}; filt.forEach(t => { if (t.incidencia.trim()) { const ot = t.nroOT || 'Sin OT'; incs[ot] = (incs[ot] || 0) + 1; } });
-                        const sorted = Object.entries(incs).sort((a, b) => b[1] - a[1]);
-                        if (sorted.length) {
-                            charts['incidencias'] = new Chart(ctx3, {
-                                type: 'bar', data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Incidencias', data: sorted.map(e => e[1]), backgroundColor: COL.rojo, borderRadius: 4 }] },
-                                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 8 } } } } }
-                            });
-                        } else {
-                            charts['incidencias'] = new Chart(ctx3, { type: 'bar', data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#ccc' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+                }
+                
+                // NUEVO: Gráfico de incidencias desde RegistroProgresoDiario
+                const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
+                if (ctx3) {
+                    const incidencias = obtenerIncidencias();
+                    const incsPorOT = {};
+                    incidencias.forEach(reg => {
+                        if (reg.nroOT) {
+                            incsPorOT[reg.nroOT] = (incsPorOT[reg.nroOT] || 0) + 1;
                         }
+                    });
+                    const sorted = Object.entries(incsPorOT).sort((a, b) => b[1] - a[1]);
+                    if (sorted.length) {
+                        charts['incidencias'] = new Chart(ctx3, {
+                            type: 'bar',
+                            data: {
+                                labels: sorted.map(e => e[0]),
+                                datasets: [{
+                                    label: 'Cantidad de incidencias',
+                                    data: sorted.map(e => e[1]),
+                                    backgroundColor: COL.rojo,
+                                    borderRadius: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: { legend: { display: false } },
+                                scales: {
+                                    y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } },
+                                    x: { ticks: { font: { size: 8 } } }
+                                }
+                            }
+                        });
+                    } else {
+                        charts['incidencias'] = new Chart(ctx3, {
+                            type: 'bar',
+                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#ccc' }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                        });
                     }
                 }
             }
@@ -1103,6 +1162,8 @@
             function actualizarPanelIncidencias() {
                 const alertas = [];
                 const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
+                
+                // OTs atrasadas
                 datosOTs.forEach(o => {
                     if (o.estado.toLowerCase() === 'entregado') return;
                     const fp = parseFechaDMY(o.fechaProgramada);
@@ -1111,16 +1172,22 @@
                         alertas.push({ tipo: 'atraso', titulo: `OT Atrasada: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha: `${dias} día(s) (prog:${o.fechaProgramada})`, prioridad: 10+dias });
                     }
                 });
+                
+                // Criticidad alta
                 datosOTs.forEach(o => {
                     if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
                         alertas.push({ tipo: 'criticidad', titulo: `Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - Estado: ${o.estado}`, fecha: o.fechaProgramada || 'Sin fecha', prioridad: 8 });
                     }
                 });
-                datosTrabajos.forEach(t => {
-                    if (t.incidencia.trim()) {
-                        alertas.push({ tipo: 'incidencia', titulo: `Incidencia: ${t.nroOT||'Sin'}`, detalle: t.incidencia, fecha: t.fechaHoraInicio || 'Sin fecha', prioridad: 5 });
+                
+                // Incidencias desde RegistroProgresoDiario
+                const incidencias = obtenerIncidencias();
+                incidencias.forEach(reg => {
+                    if (reg.motivoParada) {
+                        alertas.push({ tipo: 'incidencia', titulo: `Incidencia: ${reg.nroOT||'Sin OT'}`, detalle: reg.motivoParada, fecha: '', prioridad: 5 });
                     }
                 });
+                
                 alertas.sort((a,b) => b.prioridad - a.prioridad);
                 const top = alertas.slice(0, 8);
                 const cont = document.getElementById('contenidoIncidencias');

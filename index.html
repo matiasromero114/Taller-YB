@@ -1113,20 +1113,23 @@
                     }
                 }
                 
-                // GRÁFICO DE INCIDENCIAS MEJORADO
+                // GRÁFICO DE INCIDENCIAS MEJORADO CON TOOLTIP EN ORDEN SOLICITADO
                 const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                 if (ctx3) {
                     const incidencias = obtenerIncidencias();
-                    // Agrupar por N° OT y guardar los motivos
+                    // Agrupar por N° OT y guardar motivos y operarios
                     const incsPorOT = {};
                     incidencias.forEach(reg => {
                         if (reg.nroOT) {
                             if (!incsPorOT[reg.nroOT]) {
-                                incsPorOT[reg.nroOT] = { count: 0, motivos: [] };
+                                incsPorOT[reg.nroOT] = { count: 0, motivos: [], operarios: [] };
                             }
                             incsPorOT[reg.nroOT].count++;
                             if (reg.motivoParada && !incsPorOT[reg.nroOT].motivos.includes(reg.motivoParada)) {
                                 incsPorOT[reg.nroOT].motivos.push(reg.motivoParada);
+                            }
+                            if (reg.operario && !incsPorOT[reg.nroOT].operarios.includes(reg.operario)) {
+                                incsPorOT[reg.nroOT].operarios.push(reg.operario);
                             }
                         }
                     });
@@ -1172,9 +1175,11 @@
                                             },
                                             label: function(ctx) {
                                                 const otData = sorted[ctx.dataIndex];
+                                                const operarios = otData[1].operarios.join(', ');
                                                 const count = otData[1].count;
                                                 const motivos = otData[1].motivos.join(', ');
                                                 return [
+                                                    `Operario: ${operarios}`,
                                                     `Incidencias: ${count}`,
                                                     `Tipo: ${motivos}`
                                                 ];

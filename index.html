@@ -814,7 +814,6 @@
                 );
             }
 
-            // Verifica si un registro es de tipo incidencia
             function esIncidencia(motivoParada) {
                 if (!motivoParada) return false;
                 const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
@@ -1046,7 +1045,7 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
-                // *** GRÁFICO: Horas por Operario (AHORA APILADO: VERDE SIN INCIDENCIA, ROJO CON INCIDENCIA) ***
+                // GRÁFICO: Horas por Operario (APILADO VERDE/ROJO)
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
                     const horasSinIncidencia = {};
@@ -1074,7 +1073,6 @@
                         const dataSinIncidencia = operariosArray.map(op => horasSinIncidencia[op] || 0);
                         const dataConIncidencia = operariosArray.map(op => horasConIncidencia[op] || 0);
                         
-                        // Ordenar por total de horas (descendente)
                         const combined = operariosArray.map((op, i) => ({
                             operario: op,
                             sinIncidencia: dataSinIncidencia[i],
@@ -1109,19 +1107,12 @@
                                 plugins: {
                                     legend: {
                                         position: 'bottom',
-                                        labels: {
-                                            font: { size: 10 },
-                                            usePointStyle: true,
-                                            pointStyleWidth: 8,
-                                            padding: 12
-                                        }
+                                        labels: { font: { size: 10 }, usePointStyle: true, pointStyleWidth: 8, padding: 12 }
                                     },
                                     tooltip: {
                                         callbacks: {
                                             label: function(ctx) {
-                                                const value = ctx.raw;
-                                                const label = ctx.dataset.label;
-                                                return `${label}: ${formatoHoras(value)} hs`;
+                                                return `${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;
                                             },
                                             footer: function(items) {
                                                 const total = items.reduce((sum, item) => sum + item.raw, 0);
@@ -1131,28 +1122,18 @@
                                     }
                                 },
                                 scales: {
-                                    x: {
-                                        stacked: true,
-                                        ticks: { font: { size: 9 } },
-                                        grid: { display: false }
-                                    },
+                                    x: { stacked: true, ticks: { font: { size: 9 } }, grid: { display: false } },
                                     y: {
                                         stacked: true,
                                         beginAtZero: true,
                                         ticks: {
                                             font: { size: 10 },
-                                            callback: function(value) {
-                                                return formatoHoras(value);
-                                            }
+                                            callback: function(value) { return formatoHoras(value); }
                                         },
                                         title: { display: true, text: 'Horas', font: { size: 10 } }
                                     }
                                 },
-                                interaction: {
-                                    mode: 'nearest',
-                                    axis: 'x',
-                                    intersect: true
-                                }
+                                interaction: { mode: 'nearest', axis: 'x', intersect: true }
                             }
                         });
                     } else {
@@ -1176,7 +1157,7 @@
                     }
                 }
                 
-                // GRÁFICO DE INCIDENCIAS
+                // *** NUEVO GRÁFICO DE INCIDENCIAS: BARRAS HORIZONTALES CON PORCENTAJE ***
                 const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                 if (ctx3) {
                     const incidencias = obtenerIncidencias();
@@ -1196,11 +1177,14 @@
                         }
                     });
                     const sorted = Object.entries(incsPorOT).sort((a, b) => b[1].count - a[1].count);
+                    const totalIncidencias = sorted.reduce((sum, e) => sum + e[1].count, 0);
                     
                     if (sorted.length) {
-                        const barColors = sorted.map((_, i) => {
-                            const alpha = 0.7 + (i * 0.05);
-                            return `rgba(192, 57, 43, ${Math.min(alpha, 1)})`;
+                        // Degradado de rojos: más intenso = más incidencias
+                        const maxCount = sorted[0][1].count;
+                        const barColors = sorted.map(e => {
+                            const intensity = 0.4 + (e[1].count / maxCount) * 0.6;
+                            return `rgba(192, 57, 43, ${intensity})`;
                         });
                         
                         charts['incidencias'] = new Chart(ctx3, {
@@ -1208,7 +1192,7 @@
                             data: {
                                 labels: sorted.map(e => e[0]),
                                 datasets: [{
-                                    label: 'Cantidad de incidencias',
+                                    label: 'Incidencias',
                                     data: sorted.map(e => e[1].count),
                                     backgroundColor: barColors,
                                     borderColor: '#c0392b',
@@ -1219,6 +1203,7 @@
                                 }]
                             },
                             options: {
+                                indexAxis: 'y',
                                 responsive: true,
                                 maintainAspectRatio: false,
                                 plugins: {
@@ -1238,10 +1223,11 @@
                                                 const otData = sorted[ctx.dataIndex];
                                                 const operarios = otData[1].operarios.join(', ');
                                                 const count = otData[1].count;
+                                                const pct = ((count / totalIncidencias) * 100).toFixed(1);
                                                 const motivos = otData[1].motivos.join(', ');
                                                 return [
                                                     `Operario: ${operarios}`,
-                                                    `Incidencias: ${count}`,
+                                                    `Incidencias: ${count} (${pct}%)`,
                                                     `Tipo: ${motivos}`
                                                 ];
                                             }
@@ -1249,14 +1235,21 @@
                                     }
                                 },
                                 scales: {
-                                    y: {
-                                        beginAtZero: true,
-                                        ticks: { stepSize: 1, font: { size: 10 }, color: '#666' },
-                                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
-                                        title: { display: true, text: 'Cantidad', font: { size: 10, weight: 'bold' } }
-                                    },
                                     x: {
-                                        ticks: { font: { size: 8 }, color: '#666' },
+                                        beginAtZero: true,
+                                        ticks: {
+                                            stepSize: 1,
+                                            font: { size: 10 },
+                                            color: '#666'
+                                        },
+                                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                                        title: { display: true, text: 'Cantidad de incidencias', font: { size: 10, weight: 'bold' } }
+                                    },
+                                    y: {
+                                        ticks: {
+                                            font: { size: 10 },
+                                            color: '#666'
+                                        },
                                         grid: { display: false }
                                     }
                                 },
@@ -1268,7 +1261,7 @@
                         charts['incidencias'] = new Chart(ctx3, {
                             type: 'bar',
                             data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#e0e0e0', borderRadius: 8 }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
+                            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
                         });
                     }
                 }

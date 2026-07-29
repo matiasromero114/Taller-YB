@@ -513,7 +513,7 @@
             <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales...">
         </div>
 
-        <!-- TABLA TRABAJOS (nuevo orden, sin columna Incidencia) -->
+        <!-- TABLA TRABAJOS -->
         <div class="tabla-contenedor">
             <table id="tablaTrabajos">
                 <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
@@ -814,6 +814,13 @@
                 );
             }
 
+            // Verifica si un registro es de tipo incidencia
+            function esIncidencia(motivoParada) {
+                if (!motivoParada) return false;
+                const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
+                return motivosIncidencia.has(motivoParada.toLowerCase());
+            }
+
             function actualizarTodoOTs() {
                 poblarFiltrosOTs();
                 actualizarTarjetasOTs();
@@ -1039,46 +1046,98 @@
                 const filt = filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
-                // GRÁFICO: Horas por Operario
+                // *** GRÁFICO: Horas por Operario (AHORA APILADO: VERDE SIN INCIDENCIA, ROJO CON INCIDENCIA) ***
                 const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
                 if (ctx1) {
-                    const horasPorOperario = {};
+                    const horasSinIncidencia = {};
+                    const horasConIncidencia = {};
+                    
                     datosRegistroProgreso.forEach(reg => {
                         if (!reg.operario || !reg.horaInicio || !reg.horaParada) return;
                         const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
                         if (horas > 0) {
-                            horasPorOperario[reg.operario] = (horasPorOperario[reg.operario] || 0) + horas;
+                            if (esIncidencia(reg.motivoParada)) {
+                                horasConIncidencia[reg.operario] = (horasConIncidencia[reg.operario] || 0) + horas;
+                            } else {
+                                horasSinIncidencia[reg.operario] = (horasSinIncidencia[reg.operario] || 0) + horas;
+                            }
                         }
                     });
-                    const operariosConHoras = Object.keys(horasPorOperario).sort();
-                    if (operariosConHoras.length > 0) {
-                        const sorted = operariosConHoras.map(op => ({ operario: op, horas: horasPorOperario[op] })).sort((a, b) => b.horas - a.horas);
+                    
+                    const todosOperarios = new Set([
+                        ...Object.keys(horasSinIncidencia),
+                        ...Object.keys(horasConIncidencia)
+                    ]);
+                    const operariosArray = Array.from(todosOperarios).sort();
+                    
+                    if (operariosArray.length > 0) {
+                        const dataSinIncidencia = operariosArray.map(op => horasSinIncidencia[op] || 0);
+                        const dataConIncidencia = operariosArray.map(op => horasConIncidencia[op] || 0);
+                        
+                        // Ordenar por total de horas (descendente)
+                        const combined = operariosArray.map((op, i) => ({
+                            operario: op,
+                            sinIncidencia: dataSinIncidencia[i],
+                            conIncidencia: dataConIncidencia[i],
+                            total: dataSinIncidencia[i] + dataConIncidencia[i]
+                        })).sort((a, b) => b.total - a.total);
+                        
                         charts['horasResp'] = new Chart(ctx1, {
                             type: 'bar',
                             data: {
-                                labels: sorted.map(e => e.operario),
-                                datasets: [{
-                                    label: 'Horas trabajadas',
-                                    data: sorted.map(e => e.horas),
-                                    backgroundColor: COL.verde,
-                                    borderRadius: 4
-                                }]
+                                labels: combined.map(e => e.operario),
+                                datasets: [
+                                    {
+                                        label: 'Horas sin incidencia',
+                                        data: combined.map(e => e.sinIncidencia),
+                                        backgroundColor: '#1e8449',
+                                        borderRadius: 4,
+                                        borderSkipped: false
+                                    },
+                                    {
+                                        label: 'Horas con incidencia',
+                                        data: combined.map(e => e.conIncidencia),
+                                        backgroundColor: '#c0392b',
+                                        borderRadius: 4,
+                                        borderSkipped: false
+                                    }
+                                ]
                             },
                             options: {
                                 responsive: true,
                                 maintainAspectRatio: false,
                                 plugins: {
-                                    legend: { display: false },
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            font: { size: 10 },
+                                            usePointStyle: true,
+                                            pointStyleWidth: 8,
+                                            padding: 12
+                                        }
+                                    },
                                     tooltip: {
                                         callbacks: {
                                             label: function(ctx) {
-                                                return `${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;
+                                                const value = ctx.raw;
+                                                const label = ctx.dataset.label;
+                                                return `${label}: ${formatoHoras(value)} hs`;
+                                            },
+                                            footer: function(items) {
+                                                const total = items.reduce((sum, item) => sum + item.raw, 0);
+                                                return `Total: ${formatoHoras(total)} hs`;
                                             }
                                         }
                                     }
                                 },
                                 scales: {
+                                    x: {
+                                        stacked: true,
+                                        ticks: { font: { size: 9 } },
+                                        grid: { display: false }
+                                    },
                                     y: {
+                                        stacked: true,
                                         beginAtZero: true,
                                         ticks: {
                                             font: { size: 10 },
@@ -1087,8 +1146,12 @@
                                             }
                                         },
                                         title: { display: true, text: 'Horas', font: { size: 10 } }
-                                    },
-                                    x: { ticks: { font: { size: 9 } } }
+                                    }
+                                },
+                                interaction: {
+                                    mode: 'nearest',
+                                    axis: 'x',
+                                    intersect: true
                                 }
                             }
                         });
@@ -1113,11 +1176,10 @@
                     }
                 }
                 
-                // GRÁFICO DE INCIDENCIAS MEJORADO CON TOOLTIP EN ORDEN SOLICITADO
+                // GRÁFICO DE INCIDENCIAS
                 const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                 if (ctx3) {
                     const incidencias = obtenerIncidencias();
-                    // Agrupar por N° OT y guardar motivos y operarios
                     const incsPorOT = {};
                     incidencias.forEach(reg => {
                         if (reg.nroOT) {
@@ -1136,7 +1198,6 @@
                     const sorted = Object.entries(incsPorOT).sort((a, b) => b[1].count - a[1].count);
                     
                     if (sorted.length) {
-                        // Crear gradientes para cada barra
                         const barColors = sorted.map((_, i) => {
                             const alpha = 0.7 + (i * 0.05);
                             return `rgba(192, 57, 43, ${Math.min(alpha, 1)})`;
@@ -1190,58 +1251,24 @@
                                 scales: {
                                     y: {
                                         beginAtZero: true,
-                                        ticks: {
-                                            stepSize: 1,
-                                            font: { size: 10 },
-                                            color: '#666'
-                                        },
-                                        grid: {
-                                            color: 'rgba(0,0,0,0.05)',
-                                            drawBorder: false
-                                        },
-                                        title: {
-                                            display: true,
-                                            text: 'Cantidad',
-                                            font: { size: 10, weight: 'bold' }
-                                        }
+                                        ticks: { stepSize: 1, font: { size: 10 }, color: '#666' },
+                                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
+                                        title: { display: true, text: 'Cantidad', font: { size: 10, weight: 'bold' } }
                                     },
                                     x: {
-                                        ticks: {
-                                            font: { size: 8 },
-                                            color: '#666'
-                                        },
+                                        ticks: { font: { size: 8 }, color: '#666' },
                                         grid: { display: false }
                                     }
                                 },
-                                animation: {
-                                    duration: 1000,
-                                    easing: 'easeOutQuart'
-                                },
-                                layout: {
-                                    padding: { top: 10, bottom: 5 }
-                                }
+                                animation: { duration: 1000, easing: 'easeOutQuart' },
+                                layout: { padding: { top: 10, bottom: 5 } }
                             }
                         });
                     } else {
                         charts['incidencias'] = new Chart(ctx3, {
                             type: 'bar',
-                            data: {
-                                labels: ['Sin incidencias'],
-                                datasets: [{
-                                    data: [0],
-                                    backgroundColor: '#e0e0e0',
-                                    borderRadius: 8
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: { legend: { display: false } },
-                                scales: {
-                                    y: { display: false },
-                                    x: { grid: { display: false } }
-                                }
-                            }
+                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#e0e0e0', borderRadius: 8 }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } }
                         });
                     }
                 }

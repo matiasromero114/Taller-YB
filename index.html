@@ -30,7 +30,7 @@
             --verde-claro: #e8f5e9;
             --rojo: #c0392b;
             --rojo-claro: #fdecea;
-            --amarillo: #b8860b;
+            --amarillo: #d4a017;
             --amarillo-claro: #fff8e1;
             --azul-claro: #e3f0fa;
             --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
@@ -480,7 +480,7 @@
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Horas de máquina</h3><canvas id="graficoMaquina"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-column"></i> Incidencias por N° OT</h3><canvas id="graficoIncidencias"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Incidencia por Categoría</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
         <!-- FILTROS OTs -->
@@ -940,6 +940,7 @@
                 naranja: '#e8750c',
                 verde: '#1e8449',
                 rojo: '#c0392b',
+                amarillo: '#d4a017',
                 paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
                 paletaMaquinas: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017','#2c5f8a','#f0a040','#3da061','#d96060','#6c3483','#17a589','#b7950b']
             };
@@ -1147,7 +1148,7 @@
                     }
                 }
                 
-                // *** NUEVO GRÁFICO: Horas de máquina (PIE CHART desde RegistroProgresoDiario) ***
+                // GRÁFICO: Horas de máquina (PIE CHART)
                 const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
                 if (ctx2) {
                     const horasPorMaquina = {};
@@ -1216,103 +1217,96 @@
                     }
                 }
                 
-                // GRÁFICO DE INCIDENCIAS
+                // *** NUEVO GRÁFICO: Incidencia por Categoría (DOUGHNUT CON PARETO) ***
                 const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
                 if (ctx3) {
                     const incidencias = obtenerIncidencias();
-                    const incsPorOT = {};
+                    
+                    // Contar frecuencias de cada motivo
+                    const freqMotivos = {};
                     incidencias.forEach(reg => {
-                        if (reg.nroOT) {
-                            if (!incsPorOT[reg.nroOT]) {
-                                incsPorOT[reg.nroOT] = { count: 0, motivos: [], operarios: [] };
-                            }
-                            incsPorOT[reg.nroOT].count++;
-                            if (reg.motivoParada && !incsPorOT[reg.nroOT].motivos.includes(reg.motivoParada)) {
-                                incsPorOT[reg.nroOT].motivos.push(reg.motivoParada);
-                            }
-                            if (reg.operario && !incsPorOT[reg.nroOT].operarios.includes(reg.operario)) {
-                                incsPorOT[reg.nroOT].operarios.push(reg.operario);
-                            }
+                        if (reg.motivoParada) {
+                            freqMotivos[reg.motivoParada] = (freqMotivos[reg.motivoParada] || 0) + 1;
                         }
                     });
-                    const sorted = Object.entries(incsPorOT).sort((a, b) => b[1].count - a[1].count);
-                    const totalIncidencias = sorted.reduce((sum, e) => sum + e[1].count, 0);
                     
-                    if (sorted.length) {
-                        const maxCount = sorted[0][1].count;
-                        const barColors = sorted.map(e => {
-                            const intensity = 0.4 + (e[1].count / maxCount) * 0.6;
-                            return `rgba(192, 57, 43, ${intensity})`;
+                    // Ordenar de mayor a menor
+                    const sortedMotivos = Object.entries(freqMotivos).sort((a, b) => b[1] - a[1]);
+                    
+                    if (sortedMotivos.length > 0) {
+                        // Top 3 + Otros
+                        const top3 = sortedMotivos.slice(0, 3);
+                        const otros = sortedMotivos.slice(3);
+                        const sumaOtros = otros.reduce((sum, m) => sum + m[1], 0);
+                        
+                        const labels = [];
+                        const data = [];
+                        const bgColors = [];
+                        
+                        // Colores: Rojo, Naranja, Amarillo, Gris
+                        const coloresTop = ['#c0392b', '#e8750c', '#d4a017'];
+                        
+                        top3.forEach((motivo, i) => {
+                            labels.push(`Top ${i+1} - ${motivo[0]}`);
+                            data.push(motivo[1]);
+                            bgColors.push(coloresTop[i]);
                         });
                         
+                        if (sumaOtros > 0) {
+                            labels.push('Otros');
+                            data.push(sumaOtros);
+                            bgColors.push('#8b8f95');
+                        }
+                        
+                        const totalIncidencias = data.reduce((a, b) => a + b, 0);
+                        
                         charts['incidencias'] = new Chart(ctx3, {
-                            type: 'bar',
+                            type: 'doughnut',
                             data: {
-                                labels: sorted.map(e => e[0]),
+                                labels: labels,
                                 datasets: [{
-                                    label: 'Incidencias',
-                                    data: sorted.map(e => e[1].count),
-                                    backgroundColor: barColors,
-                                    borderColor: '#c0392b',
-                                    borderWidth: 2,
-                                    borderRadius: 8,
-                                    borderSkipped: false,
-                                    hoverBackgroundColor: '#e74c3c'
+                                    data: data,
+                                    backgroundColor: bgColors,
+                                    borderColor: '#fff',
+                                    borderWidth: 3,
+                                    borderRadius: 6,
+                                    offset: 10,
+                                    hoverOffset: 18
                                 }]
                             },
                             options: {
-                                indexAxis: 'y',
                                 responsive: true,
                                 maintainAspectRatio: false,
+                                cutout: '55%',
                                 plugins: {
-                                    legend: { display: false },
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            font: { size: 10 },
+                                            padding: 12,
+                                            usePointStyle: true,
+                                            pointStyleWidth: 8
+                                        }
+                                    },
                                     tooltip: {
-                                        backgroundColor: 'rgba(15, 43, 70, 0.95)',
-                                        titleFont: { size: 12, weight: 'bold' },
-                                        bodyFont: { size: 11 },
-                                        padding: 12,
-                                        cornerRadius: 8,
-                                        displayColors: false,
                                         callbacks: {
-                                            title: function(ctx) {
-                                                return `OT: ${ctx[0].label}`;
-                                            },
                                             label: function(ctx) {
-                                                const otData = sorted[ctx.dataIndex];
-                                                const operarios = otData[1].operarios.join(', ');
-                                                const count = otData[1].count;
-                                                const pct = ((count / totalIncidencias) * 100).toFixed(1);
-                                                const motivos = otData[1].motivos.join(', ');
-                                                return [
-                                                    `Operario: ${operarios}`,
-                                                    `Incidencias: ${count} (${pct}%)`,
-                                                    `Tipo: ${motivos}`
-                                                ];
+                                                const value = ctx.raw;
+                                                const pct = ((value / totalIncidencias) * 100).toFixed(1);
+                                                return `Cantidad: ${value} incidencias (${pct}%)`;
                                             }
                                         }
                                     }
                                 },
-                                scales: {
-                                    x: {
-                                        beginAtZero: true,
-                                        ticks: { stepSize: 1, font: { size: 10 }, color: '#666' },
-                                        grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
-                                        title: { display: true, text: 'Cantidad de incidencias', font: { size: 10, weight: 'bold' } }
-                                    },
-                                    y: {
-                                        ticks: { font: { size: 10 }, color: '#666' },
-                                        grid: { display: false }
-                                    }
-                                },
-                                animation: { duration: 1000, easing: 'easeOutQuart' },
-                                layout: { padding: { top: 10, bottom: 5 } }
+                                animation: { animateRotate: true, animateScale: true },
+                                layout: { padding: 10 }
                             }
                         });
                     } else {
                         charts['incidencias'] = new Chart(ctx3, {
-                            type: 'bar',
-                            data: { labels: ['Sin incidencias'], datasets: [{ data: [0], backgroundColor: '#e0e0e0', borderRadius: 8 }] },
-                            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { grid: { display: false } } } }
+                            type: 'doughnut',
+                            data: { labels: ['Sin incidencias'], datasets: [{ data: [1], backgroundColor: '#e0e0e0' }] },
+                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
                         });
                     }
                 }

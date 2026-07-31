@@ -77,307 +77,68 @@
             margin-bottom: 20px;
             border-left: 5px solid var(--naranja);
         }
-        .header-izq {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        .logo-escudo {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--azul-oscuro);
-            box-shadow: var(--sombra-sm);
-            flex-shrink: 0;
-        }
-        .header-titulos h1 {
-            font-size: 1.45rem;
-            font-weight: 700;
-            color: var(--azul-oscuro);
-            letter-spacing: -0.3px;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .header-titulos .subtitulo {
-            font-size: 0.82rem;
-            color: var(--gris-medio);
-            font-weight: 500;
-            margin-top: 2px;
-        }
-        .header-der {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .fecha-actual {
-            background: var(--gris-fondo);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--gris-oscuro);
-            white-space: nowrap;
-            border: 1px solid var(--gris-claro);
-        }
-        .btn-carga {
-            padding: 9px 16px;
-            border-radius: 20px;
-            border: 2px solid var(--azul-medio);
-            background: var(--blanco);
-            color: var(--azul-medio);
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all var(--transicion);
-            white-space: nowrap;
-            font-family: 'Inter', sans-serif;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .btn-carga:hover {
-            background: var(--azul-medio);
-            color: var(--blanco);
-            box-shadow: var(--sombra-sm);
-        }
-        .btn-carga i {
-            font-size: 0.9rem;
-        }
+        .header-izq { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+        .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); box-shadow: var(--sombra-sm); flex-shrink: 0; }
+        .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); margin: 0; line-height: 1.2; }
+        .header-titulos .subtitulo { font-size: 0.82rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
+        .header-der { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .fecha-actual { background: var(--gris-fondo); padding: 8px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; color: var(--gris-oscuro); white-space: nowrap; border: 1px solid var(--gris-claro); }
+        .btn-carga { padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco); color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all var(--transicion); white-space: nowrap; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); }
+        .btn-carga i { font-size: 0.9rem; }
 
         /* ========== TARJETAS DE RESUMEN ========== */
-        .seccion-titulo {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            font-weight: 700;
-            color: var(--gris-medio);
-            margin-bottom: 10px;
-            padding-left: 4px;
-        }
-        .tarjetas-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-        .tarjeta {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 16px 18px;
-            box-shadow: var(--sombra-sm);
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            transition: transform var(--transicion), box-shadow var(--transicion);
-            border-left: 4px solid transparent;
-        }
-        .tarjeta:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--sombra-md);
-        }
+        .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px; }
+        .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
+        .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; transition: transform var(--transicion), box-shadow var(--transicion); border-left: 4px solid transparent; }
+        .tarjeta:hover { transform: translateY(-2px); box-shadow: var(--sombra-md); }
         .tarjeta.azul { border-left-color: var(--azul-medio); }
         .tarjeta.naranja { border-left-color: var(--naranja); }
         .tarjeta.verde { border-left-color: var(--verde); }
         .tarjeta.rojo { border-left-color: var(--rojo); }
-        .tarjeta-icono {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
-        }
+        .tarjeta-icono { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
         .tarjeta.azul .tarjeta-icono { background: var(--azul-claro); color: var(--azul-medio); }
         .tarjeta.naranja .tarjeta-icono { background: #fef3e6; color: var(--naranja); }
         .tarjeta.verde .tarjeta-icono { background: var(--verde-claro); color: var(--verde); }
         .tarjeta.rojo .tarjeta-icono { background: var(--rojo-claro); color: var(--rojo); }
-        .tarjeta-info .tarjeta-numero {
-            font-size: 1.7rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            line-height: 1;
-            color: var(--gris-oscuro);
-        }
-        .tarjeta-info .tarjeta-label {
-            font-size: 0.75rem;
-            color: var(--gris-medio);
-            font-weight: 500;
-            margin-top: 2px;
-        }
+        .tarjeta-info .tarjeta-numero { font-size: 1.7rem; font-weight: 800; color: var(--gris-oscuro); line-height: 1; }
+        .tarjeta-info .tarjeta-label { font-size: 0.75rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
 
         /* ========== FILTROS ========== */
-        .filtros-bar {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 14px 18px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            box-shadow: var(--sombra-sm);
-            margin-bottom: 14px;
-        }
-        .filtros-bar label {
-            font-weight: 600;
-            font-size: 0.78rem;
-            color: var(--gris-oscuro);
-            white-space: nowrap;
-        }
-        .filtros-bar select,
-        .filtros-bar input[type="text"] {
-            padding: 7px 10px;
-            border-radius: var(--radio-sm);
-            border: 1.5px solid var(--gris-claro);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.82rem;
-            background: var(--gris-fondo);
-            color: var(--gris-oscuro);
-            transition: border var(--transicion);
-            min-width: 100px;
-        }
-        .filtros-bar select:focus,
-        .filtros-bar input[type="text"]:focus {
-            outline: none;
-            border-color: var(--azul-medio);
-            background: var(--blanco);
-        }
-        .filtros-bar input[type="text"] {
-            flex: 1;
-            min-width: 180px;
-            max-width: 320px;
-        }
+        .filtros-bar { background: var(--blanco); border-radius: var(--radio); padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--sombra-sm); margin-bottom: 14px; }
+        .filtros-bar label { font-weight: 600; font-size: 0.78rem; color: var(--gris-oscuro); }
+        .filtros-bar select, .filtros-bar input[type="text"] { padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro); font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--gris-fondo); color: var(--gris-oscuro); transition: border var(--transicion); min-width: 100px; }
+        .filtros-bar select:focus, .filtros-bar input[type="text"]:focus { outline: none; border-color: var(--azul-medio); background: var(--blanco); }
+        .filtros-bar input[type="text"] { flex: 1; min-width: 180px; max-width: 320px; }
 
         /* ========== TABLAS ========== */
-        .tabla-contenedor {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            box-shadow: var(--sombra-sm);
-            overflow-x: auto;
-            margin-bottom: 20px;
-            max-height: 480px;
-            overflow-y: auto;
-            border: 1px solid var(--gris-claro);
-        }
-        .tabla-contenedor table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.78rem;
-            min-width: 1100px;
-            white-space: nowrap;
-        }
-        .tabla-contenedor thead {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .tabla-contenedor thead th {
-            background: var(--azul-oscuro);
-            color: var(--blanco);
-            padding: 10px 8px;
-            font-weight: 600;
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-align: left;
-        }
-        .tabla-contenedor tbody td {
-            padding: 8px;
-            border-bottom: 1px solid var(--gris-claro);
-            color: var(--gris-oscuro);
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .tabla-contenedor { background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-sm); overflow-x: auto; margin-bottom: 20px; max-height: 480px; overflow-y: auto; border: 1px solid var(--gris-claro); }
+        .tabla-contenedor table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 1100px; white-space: nowrap; }
+        .tabla-contenedor thead { position: sticky; top: 0; z-index: 10; }
+        .tabla-contenedor thead th { background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
+        .tabla-contenedor tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); color: var(--gris-oscuro); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
         .tabla-contenedor tbody tr:hover { background: #f8fafb; }
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
         .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
         .badge-entregado { background: var(--verde-claro); color: var(--verde); }
         .badge-baja { background: #e9ecef; color: #495057; }
         .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
-        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; cursor: default; font-size: 0.68rem; padding: 2px 8px; }
+        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; }
         .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
         /* ========== GRÁFICOS ========== */
-        .graficos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        .grafico-card {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 16px;
-            box-shadow: var(--sombra-sm);
-            min-height: 320px;
-            display: flex;
-            flex-direction: column;
-        }
-        .grafico-card h3 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--azul-oscuro);
-            margin-bottom: 8px;
-        }
+        .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; display: flex; flex-direction: column; }
+        .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 8px; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
         /* ========== PANEL INCIDENCIAS ========== */
-        .incidencias-panel {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 18px 20px;
-            box-shadow: var(--sombra-sm);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--rojo);
-        }
-        .incidencias-panel h2 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--rojo);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .alerta-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            border-radius: var(--radio-sm);
-            background: #fff5f5;
-            border-left: 3px solid var(--rojo);
-            font-size: 0.8rem;
-        }
-        .alerta-icono {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--rojo-claro);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--rojo);
-            font-size: 0.75rem;
-            flex-shrink: 0;
-        }
+        .incidencias-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); margin-bottom: 20px; border-left: 5px solid var(--rojo); }
+        .incidencias-panel h2 { font-size: 1rem; font-weight: 700; color: var(--rojo); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
+        .alerta-icono { width: 28px; height: 28px; border-radius: 50%; background: var(--rojo-claro); display: flex; align-items: center; justify-content: center; color: var(--rojo); font-size: 0.75rem; flex-shrink: 0; }
         .alerta-contenido { flex: 1; }
         .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
         .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
@@ -385,36 +146,12 @@
         .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
 
         /* ========== FOOTER ========== */
-        .footer {
-            text-align: center;
-            padding: 14px;
-            font-size: 0.75rem;
-            color: var(--gris-medio);
-            border-top: 1px solid var(--gris-claro);
-            margin-top: 8px;
-        }
+        .footer { text-align: center; padding: 14px; font-size: 0.75rem; color: var(--gris-medio); border-top: 1px solid var(--gris-claro); margin-top: 8px; }
 
         /* ========== TOAST ========== */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--azul-oscuro);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            z-index: 1000;
-            box-shadow: var(--sombra-lg);
-            animation: slideIn 0.35s ease;
-            display: none;
-        }
+        .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); animation: slideIn 0.35s ease; display: none; }
         .toast.mostrar { display: block; }
-        @keyframes slideIn {
-            from { transform: translateX(120%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
+        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         @media (max-width: 768px) {
             .header { flex-direction: column; align-items: flex-start; }
@@ -437,16 +174,11 @@
         <header class="header">
             <div class="header-izq">
                 <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
-                <div class="header-titulos">
-                    <h1>TALLER</h1>
-                    <p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p>
-                </div>
+                <div class="header-titulos"><h1>TALLER</h1><p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p></div>
             </div>
             <div class="header-der">
                 <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;">
-                    <i class="fa-brands fa-google"></i> Google Sheets
-                </button>
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;"><i class="fa-brands fa-google"></i> Google Sheets</button>
             </div>
         </header>
 
@@ -479,46 +211,34 @@
         <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
-            <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Horas de máquina</h3><canvas id="graficoMaquina"></canvas></div>
+            <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas de máquina</h3><canvas id="graficoMaquina"></canvas></div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Incidencia por Categoría</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
         <!-- FILTROS OTs -->
         <div class="filtros-bar">
-            <label>Estado:</label>
-            <select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
-            <label>Operario:</label>
-            <select id="filtroOperario"><option value="Todos">Todos</option></select>
-            <label>Tipo:</label>
-            <select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
-            <label>Sector:</label>
-            <select id="filtroSector"><option value="Todos">Todos</option></select>
+            <label>Estado:</label><select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option></select>
+            <label>Operario:</label><select id="filtroOperario"><option value="Todos">Todos</option></select>
+            <label>Tipo:</label><select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
+            <label>Sector:</label><select id="filtroSector"><option value="Todos">Todos</option></select>
             <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
         </div>
 
         <!-- TABLA OTs -->
         <div class="tabla-contenedor">
-            <table id="tablaOTs">
-                <thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead>
-                <tbody></tbody>
-            </table>
+            <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead><tbody></tbody></table>
         </div>
 
         <!-- FILTROS TRABAJOS -->
         <div class="filtros-bar">
-            <label>N° OT:</label>
-            <select id="filtroNroOT"><option value="Todos">Todos</option></select>
-            <label>Operario:</label>
-            <select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
+            <label>N° OT:</label><select id="filtroNroOT"><option value="Todos">Todos</option></select>
+            <label>Operario:</label><select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
             <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales...">
         </div>
 
         <!-- TABLA TRABAJOS -->
         <div class="tabla-contenedor">
-            <table id="tablaTrabajos">
-                <thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead>
-                <tbody></tbody>
-            </table>
+            <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
         </div>
 
         <!-- PANEL INCIDENCIAS -->
@@ -527,9 +247,7 @@
             <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
         </div>
 
-        <footer class="footer">
-            Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span>
-        </footer>
+        <footer class="footer">Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span></footer>
     </div>
 
     <script>
@@ -548,818 +266,254 @@
             const SHEET_PROGRESO = 'RegistroProgresoDiario';
             const SHEET_MOTIVOS = 'MotivosParadas';
 
-            function toast(msg, dur=3000) {
-                const t = document.getElementById('toast');
-                t.textContent = msg; t.classList.add('mostrar');
-                clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('mostrar'), dur);
-            }
+            // Límites de mantenimiento trimestral (en horas)
+            const LIMITES_MANTENIMIENTO = {
+                'Fresadora': 480,
+                'Limadora': 500,
+                'Mortajadora': 420,
+                'Perforadora de Banco': 550,
+                'Prensa': 600,
+                'Soldador': 350,
+                'Torno GR YB': 480,
+                'Torno Ch YB': 480,
+                'Torno CH Cevil': 480
+            };
 
-            function fechaHoy() {
-                const d = new Date();
-                return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-            }
-            function actualizarFechasUI() {
-                const f = fechaHoy();
-                document.getElementById('fechaActual').innerHTML = `<i class="fa-regular fa-calendar"></i> &nbsp;${f}`;
-                document.getElementById('fechaFooter').textContent = f;
-            }
+            // Lista completa de máquinas para mostrar siempre en el eje Y
+            const TODAS_LAS_MAQUINAS = [
+                'Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco',
+                'Prensa', 'Soldador', 'Torno GR YB', 'Torno Ch YB', 'Torno CH Cevil'
+            ];
 
-            function parseFechaDMY(str) {
-                if (!str) return null;
-                str = str.trim();
-                const m = str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/);
-                if (!m) return null;
-                let d = parseInt(m[1]), mes = parseInt(m[2])-1, a = parseInt(m[3]);
-                if (a < 100) a += 2000;
-                const dt = new Date(a, mes, d);
-                return (dt.getDate()===d && dt.getMonth()===mes) ? dt : null;
-            }
+            function toast(msg, dur=3000) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); }
+            function fechaHoy() { const d=new Date(); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+            function actualizarFechasUI() { const f=fechaHoy(); document.getElementById('fechaActual').innerHTML=`<i class="fa-regular fa-calendar"></i> &nbsp;${f}`; document.getElementById('fechaFooter').textContent=f; }
+            function parseFechaDMY(str) { if(!str) return null; str=str.trim(); const m=str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/); if(!m) return null; let d=parseInt(m[1]), mes=parseInt(m[2])-1, a=parseInt(m[3]); if(a<100) a+=2000; const dt=new Date(a,mes,d); return (dt.getDate()===d&&dt.getMonth()===mes)?dt:null; }
+            function parseDuracionHHMMSS(str) { if(!str) return 0; const parts=str.trim().split(':'); if(parts.length===3) return parseInt(parts[0])+parseInt(parts[1])/60+parseInt(parts[2])/3600; const n=parseFloat(str.replace(',','.')); return isNaN(n)?0:n; }
+            function parseHoraAMPM(str) { if(!str) return null; str=str.trim().toLowerCase(); str=str.replace(/\./g,'').replace(/\s+/g,' '); const match=str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/); if(!match) return null; let hours=parseInt(match[1]); const minutes=parseInt(match[2]); const seconds=parseInt(match[3]); const ampm=match[4].replace(/\s/g,''); if(ampm.startsWith('p')&&hours<12) hours+=12; if(ampm.startsWith('a')&&hours===12) hours=0; const d=new Date(); d.setHours(hours,minutes,seconds,0); return d; }
+            function calcularHorasEntre(inicioStr, finStr) { const ini=parseHoraAMPM(inicioStr); const fin=parseHoraAMPM(finStr); if(!ini||!fin) return 0; if(fin<=ini) return 0; return (fin-ini)/(1000*60*60); }
+            function formatoHoras(horasDecimales) { const horas=Math.floor(horasDecimales); const minutos=Math.round((horasDecimales-horas)*60); return `${horas}:${String(minutos).padStart(2,'0')}`; }
 
-            function parseDuracionHHMMSS(str) {
-                if (!str) return 0;
-                const parts = str.trim().split(':');
-                if (parts.length === 3) {
-                    return parseInt(parts[0]) + parseInt(parts[1])/60 + parseInt(parts[2])/3600;
+            // Color según porcentaje de avance
+            function colorPorAvance(porcentaje) {
+                if (porcentaje >= 100) return '#c0392b'; // Rojo
+                if (porcentaje >= 80) {
+                    // Degradado amarillo a rojo (80% a 100%)
+                    const t = (porcentaje - 80) / 20;
+                    const r = 212 + Math.round((192 - 212) * t);
+                    const g = 160 - Math.round(160 * t);
+                    const b = 23 - Math.round(23 * t);
+                    return `rgb(${r},${g},${b})`;
                 }
-                const n = parseFloat(str.replace(',','.'));
-                return isNaN(n) ? 0 : n;
-            }
-
-            function parseHoraAMPM(str) {
-                if (!str) return null;
-                str = str.trim().toLowerCase();
-                str = str.replace(/\./g, '').replace(/\s+/g, ' ');
-                const match = str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/);
-                if (!match) return null;
-                let hours = parseInt(match[1]);
-                const minutes = parseInt(match[2]);
-                const seconds = parseInt(match[3]);
-                const ampm = match[4].replace(/\s/g, '');
-                if (ampm.startsWith('p') && hours < 12) hours += 12;
-                if (ampm.startsWith('a') && hours === 12) hours = 0;
-                const d = new Date();
-                d.setHours(hours, minutes, seconds, 0);
-                return d;
-            }
-
-            function calcularHorasEntre(inicioStr, finStr) {
-                const ini = parseHoraAMPM(inicioStr);
-                const fin = parseHoraAMPM(finStr);
-                if (!ini || !fin) return 0;
-                if (fin <= ini) return 0;
-                return (fin - ini) / (1000 * 60 * 60);
-            }
-
-            function formatoHoras(horasDecimales) {
-                const horas = Math.floor(horasDecimales);
-                const minutos = Math.round((horasDecimales - horas) * 60);
-                return `${horas}:${String(minutos).padStart(2, '0')}`;
-            }
-
-            // ---------- MAPEO FLEXIBLE ----------
-            function encontrarColumna(encabezados, palabras, excluir=[]) {
-                for (let i=0; i<encabezados.length; i++) {
-                    if (excluir.includes(i)) continue;
-                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-                    for (const p of palabras) {
-                        const c = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-                        if (h.includes(c)) return i;
-                    }
+                if (porcentaje >= 60) {
+                    // Degradado verde a amarillo (60% a 80%)
+                    const t = (porcentaje - 60) / 20;
+                    const r = 30 + Math.round((212 - 30) * t);
+                    const g = 132 - Math.round((132 - 160) * t);
+                    const b = 73 - Math.round((73 - 23) * t);
+                    return `rgb(${r},${g},${b})`;
                 }
-                return -1;
+                return '#1e8449'; // Verde
             }
+
+            function encontrarColumna(encabezados, palabras, excluir=[]) { for(let i=0;i<encabezados.length;i++) { if(excluir.includes(i)) continue; const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); for(const p of palabras) { const c=p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes(c)) return i; } } return -1; }
 
             function mapearOTs(encabezados, fila) {
-                const idxFecha = encontrarColumna(encabezados, ['fecha programada','fechaprogramada','fecha prog']);
-                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']);
-                const idxDesc = encontrarColumna(encabezados, ['descripcion de tarea','descripcion','descripción','tarea']);
-                const idxSol = encontrarColumna(encabezados, ['solicitante']);
-                const idxMaqEq = encontrarColumna(encabezados, ['maquina/equipo','máquina/equipo','maquina equipo']);
-                const idxMaqRol = encontrarColumna(encabezados, ['maquina','máquina'], idxMaqEq>=0 ? [idxMaqEq] : []);
-                const idxOp = encontrarColumna(encabezados, ['operario asignado','operario','operarioasignado']);
-                const idxEq = encontrarColumna(encabezados, ['equipo de trabajo','equipo','equipotrabajo']);
-                const idxSec = encontrarColumna(encabezados, ['sector']);
-                const idxPie = encontrarColumna(encabezados, ['piezas','pieza']);
-                const idxTip = encontrarColumna(encabezados, ['tipo de trabajo','tipo','tipodetrabajo']);
-                const idxCrit = encontrarColumna(encabezados, ['criticidad','prioridad']);
-                const idxLug = encontrarColumna(encabezados, ['lugar de trabajo','lugar','lugartrabajo']);
-                const idxMant = encontrarColumna(encabezados, ['ot mant asoc','ot mant','otmant','mant asoc']);
-                const idxEst = encontrarColumna(encabezados, ['estado','situacion']);
-
-                return {
-                    fechaProgramada: idxFecha>=0 ? (fila[idxFecha]||'').trim() : '',
-                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
-                    descripcionTarea: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
-                    solicitante: idxSol>=0 ? (fila[idxSol]||'').trim() : '',
-                    maquinaRol: idxMaqRol>=0 ? (fila[idxMaqRol]||'').trim() : '',
-                    operarioAsignado: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
-                    equipoTrabajo: idxEq>=0 ? (fila[idxEq]||'').trim() : '',
-                    sector: idxSec>=0 ? (fila[idxSec]||'').trim() : '',
-                    maquinaEquipo: idxMaqEq>=0 ? (fila[idxMaqEq]||'').trim() : '',
-                    piezas: idxPie>=0 ? (fila[idxPie]||'').trim() : '',
-                    tipoTrabajo: idxTip>=0 ? (fila[idxTip]||'').trim() : '',
-                    criticidad: idxCrit>=0 ? (fila[idxCrit]||'').trim() : '',
-                    lugarTrabajo: idxLug>=0 ? (fila[idxLug]||'').trim() : '',
-                    otMantAsoc: idxMant>=0 ? (fila[idxMant]||'').trim() : '',
-                    estado: idxEst>=0 ? (fila[idxEst]||'').trim() : ''
-                };
+                const idxFecha=encontrarColumna(encabezados,['fecha programada','fechaprogramada','fecha prog']);
+                const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']);
+                const idxDesc=encontrarColumna(encabezados,['descripcion de tarea','descripcion','descripción','tarea']);
+                const idxSol=encontrarColumna(encabezados,['solicitante']);
+                const idxMaqEq=encontrarColumna(encabezados,['maquina/equipo','máquina/equipo','maquina equipo']);
+                const idxMaqRol=encontrarColumna(encabezados,['maquina','máquina'],idxMaqEq>=0?[idxMaqEq]:[]);
+                const idxOp=encontrarColumna(encabezados,['operario asignado','operario','operarioasignado']);
+                const idxEq=encontrarColumna(encabezados,['equipo de trabajo','equipo','equipotrabajo']);
+                const idxSec=encontrarColumna(encabezados,['sector']);
+                const idxPie=encontrarColumna(encabezados,['piezas','pieza']);
+                const idxTip=encontrarColumna(encabezados,['tipo de trabajo','tipo','tipodetrabajo']);
+                const idxCrit=encontrarColumna(encabezados,['criticidad','prioridad']);
+                const idxLug=encontrarColumna(encabezados,['lugar de trabajo','lugar','lugartrabajo']);
+                const idxMant=encontrarColumna(encabezados,['ot mant asoc','ot mant','otmant','mant asoc']);
+                const idxEst=encontrarColumna(encabezados,['estado','situacion']);
+                return { fechaProgramada:idxFecha>=0?(fila[idxFecha]||'').trim():'', nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', descripcionTarea:idxDesc>=0?(fila[idxDesc]||'').trim():'', solicitante:idxSol>=0?(fila[idxSol]||'').trim():'', maquinaRol:idxMaqRol>=0?(fila[idxMaqRol]||'').trim():'', operarioAsignado:idxOp>=0?(fila[idxOp]||'').trim():'', equipoTrabajo:idxEq>=0?(fila[idxEq]||'').trim():'', sector:idxSec>=0?(fila[idxSec]||'').trim():'', maquinaEquipo:idxMaqEq>=0?(fila[idxMaqEq]||'').trim():'', piezas:idxPie>=0?(fila[idxPie]||'').trim():'', tipoTrabajo:idxTip>=0?(fila[idxTip]||'').trim():'', criticidad:idxCrit>=0?(fila[idxCrit]||'').trim():'', lugarTrabajo:idxLug>=0?(fila[idxLug]||'').trim():'', otMantAsoc:idxMant>=0?(fila[idxMant]||'').trim():'', estado:idxEst>=0?(fila[idxEst]||'').trim():'' };
             }
 
             function mapearTrabajos(encabezados, fila) {
-                const idxOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxMaq = encontrarColumna(encabezados, ['maquina','máquina']);
-                const idxOp = encontrarColumna(encabezados, ['operario']);
-                const idxDesc = encontrarColumna(encabezados, ['descripcion del trabajo realizado','descripcion','trabajo realizado']);
-                const idxMat = encontrarColumna(encabezados, ['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
-                const idxCant = encontrarColumna(encabezados, ['cantidad','cant']);
-                const idxIni = encontrarColumna(encabezados, ['fecha hora inicio','hora inicio','fechahora inicio']);
-                const idxFin = encontrarColumna(encabezados, ['fecha hora fin','hora fin','fechahora fin']);
-                const idxDur = encontrarColumna(encabezados, ['tiempo total','tiempototal','duracion']);
-
-                return {
-                    nroOT: idxOT>=0 ? (fila[idxOT]||'').trim() : '',
-                    maquinaRol: idxMaq>=0 ? (fila[idxMaq]||'').trim() : '',
-                    operario: idxOp>=0 ? (fila[idxOp]||'').trim() : '',
-                    descripcion: idxDesc>=0 ? (fila[idxDesc]||'').trim() : '',
-                    materiales: idxMat>=0 ? (fila[idxMat]||'').trim() : '',
-                    cantidad: idxCant>=0 ? (fila[idxCant]||'').trim() : '',
-                    fechaHoraInicio: idxIni>=0 ? (fila[idxIni]||'').trim() : '',
-                    fechaHoraFin: idxFin>=0 ? (fila[idxFin]||'').trim() : '',
-                    tiempoTotal: idxDur>=0 ? (fila[idxDur]||'').trim() : ''
-                };
+                const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
+                const idxMaq=encontrarColumna(encabezados,['maquina','máquina']);
+                const idxOp=encontrarColumna(encabezados,['operario']);
+                const idxDesc=encontrarColumna(encabezados,['descripcion del trabajo realizado','descripcion','trabajo realizado']);
+                const idxMat=encontrarColumna(encabezados,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
+                const idxCant=encontrarColumna(encabezados,['cantidad','cant']);
+                const idxIni=encontrarColumna(encabezados,['fecha hora inicio','hora inicio','fechahora inicio']);
+                const idxFin=encontrarColumna(encabezados,['fecha hora fin','hora fin','fechahora fin']);
+                const idxDur=encontrarColumna(encabezados,['tiempo total','tiempototal','duracion']);
+                return { nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', maquinaRol:idxMaq>=0?(fila[idxMaq]||'').trim():'', operario:idxOp>=0?(fila[idxOp]||'').trim():'', descripcion:idxDesc>=0?(fila[idxDesc]||'').trim():'', materiales:idxMat>=0?(fila[idxMat]||'').trim():'', cantidad:idxCant>=0?(fila[idxCant]||'').trim():'', fechaHoraInicio:idxIni>=0?(fila[idxIni]||'').trim():'', fechaHoraFin:idxFin>=0?(fila[idxFin]||'').trim():'', tiempoTotal:idxDur>=0?(fila[idxDur]||'').trim():'' };
             }
 
             function mapearRegistroProgreso(encabezados, fila) {
-                let idxOperario = -1;
-                for (let i = 0; i < encabezados.length; i++) {
-                    const h = encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '');
-                    if (h.includes('operario')) {
-                        if (!h.includes('asignado')) {
-                            idxOperario = i;
-                            break;
-                        }
-                    }
-                }
-                
-                const idxNroOT = encontrarColumna(encabezados, ['n° ot','nº ot','numero ot','nro ot']);
-                const idxHoraInicio = encontrarColumna(encabezados, ['hora incio', 'hora inicio', 'horainicio']);
-                const idxHoraParada = encontrarColumna(encabezados, ['hora parada', 'horaparada']);
-                const idxMotivoParada = encontrarColumna(encabezados, ['motivo parada', 'motivoparada', 'motivo']);
-                const idxMaquinaUsada = encontrarColumna(encabezados, ['maquina usada', 'máquina usada', 'maquinausada']);
-
-                return {
-                    nroOT: idxNroOT >= 0 ? (fila[idxNroOT] || '').trim() : '',
-                    operario: idxOperario >= 0 ? (fila[idxOperario] || '').trim() : '',
-                    horaInicio: idxHoraInicio >= 0 ? (fila[idxHoraInicio] || '').trim() : '',
-                    horaParada: idxHoraParada >= 0 ? (fila[idxHoraParada] || '').trim() : '',
-                    motivoParada: idxMotivoParada >= 0 ? (fila[idxMotivoParada] || '').trim() : '',
-                    maquinaUsada: idxMaquinaUsada >= 0 ? (fila[idxMaquinaUsada] || '').trim() : ''
-                };
+                let idxOperario=-1;
+                for(let i=0;i<encabezados.length;i++) { const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes('operario')) { if(!h.includes('asignado')) { idxOperario=i; break; } } }
+                const idxNroOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
+                const idxHoraInicio=encontrarColumna(encabezados,['hora incio','hora inicio','horainicio']);
+                const idxHoraParada=encontrarColumna(encabezados,['hora parada','horaparada']);
+                const idxMotivoParada=encontrarColumna(encabezados,['motivo parada','motivoparada','motivo']);
+                const idxMaquinaUsada=encontrarColumna(encabezados,['maquina usada','máquina usada','maquinausada']);
+                return { nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'', operario:idxOperario>=0?(fila[idxOperario]||'').trim():'', horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'', horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'', motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'', maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'' };
             }
 
-            function parsearCSV(texto) {
-                const lineas = texto.split(/\r?\n/).filter(l => l.trim());
-                if (lineas.length===0) return { enc: [], filas: [] };
-                const parseLinea = (l) => {
-                    const res = []; let act='', comillas=false;
-                    for (let i=0; i<l.length; i++) {
-                        const ch = l[i];
-                        if (ch==='"') comillas=!comillas;
-                        else if (ch===',' && !comillas) { res.push(act); act=''; }
-                        else act += ch;
-                    }
-                    res.push(act);
-                    return res;
-                };
-                const enc = parseLinea(lineas[0]);
-                const filas = [];
-                for (let i=1; i<lineas.length; i++) {
-                    const f = parseLinea(lineas[i]);
-                    if (f.some(c=>c.trim())) filas.push(f);
-                }
-                return { enc, filas };
-            }
+            function parsearCSV(texto) { const lineas=texto.split(/\r?\n/).filter(l=>l.trim()); if(lineas.length===0) return {enc:[],filas:[]}; const parseLinea=(l)=>{ const res=[]; let act='',comillas=false; for(let i=0;i<l.length;i++) { const ch=l[i]; if(ch==='"') comillas=!comillas; else if(ch===','&&!comillas) { res.push(act); act=''; } else act+=ch; } res.push(act); return res; }; const enc=parseLinea(lineas[0]); const filas=[]; for(let i=1;i<lineas.length;i++) { const f=parseLinea(lineas[i]); if(f.some(c=>c.trim())) filas.push(f); } return {enc,filas}; }
+            async function fetchSheet(sheetName) { const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`; const res=await fetch(url); if(!res.ok) throw new Error(`Error ${res.status}`); return await res.text(); }
 
-            async function fetchSheet(sheetName) {
-                const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
-                const res = await fetch(url);
-                if (!res.ok) throw new Error(`Error ${res.status}`);
-                return await res.text();
-            }
+            async function cargarMotivosParadas() { const texto=await fetchSheet(SHEET_MOTIVOS); const {enc,filas}=parsearCSV(texto); const idxMotivo=encontrarColumna(enc,['motivo']); const idxTipo=encontrarColumna(enc,['tipo']); motivosParadas=filas.map(f=>({motivo:idxMotivo>=0?(f[idxMotivo]||'').trim():'', tipo:idxTipo>=0?(f[idxTipo]||'').trim():''})).filter(m=>m.tipo.toLowerCase()==='incidencia'&&m.motivo!==''); toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`); }
+            async function cargarMasterOperarios() { const texto=await fetchSheet(SHEET_OPERARIOS); const {enc,filas}=parsearCSV(texto); const nombres=filas.map(f=>(f[0]||'').trim()).filter(nombre=>{ const lower=nombre.toLowerCase(); return lower!=='cantidad'&&lower!=='promedio'&&lower!=='operario'&&nombre!==''; }); masterOperarios=[...new Set(nombres)].sort(); toast(`📋 Operarios maestros: ${masterOperarios.length} registros`); actualizarTodoOTs(); }
+            async function cargarOTs() { const texto=await fetchSheet(SHEET_OTS); const {enc,filas}=parsearCSV(texto); datosOTs=filas.map(f=>mapearOTs(enc,f)); toast(`✅ OTs: ${datosOTs.length} registros`); actualizarTodoOTs(); }
+            async function cargarTrabajos() { const texto=await fetchSheet(SHEET_TRAB); const {enc,filas}=parsearCSV(texto); datosTrabajos=filas.map(f=>mapearTrabajos(enc,f)); toast(`✅ Trabajos: ${datosTrabajos.length} registros`); actualizarTodoTrabajos(); }
+            async function cargarRegistroProgreso() { const texto=await fetchSheet(SHEET_PROGRESO); const {enc,filas}=parsearCSV(texto); datosRegistroProgreso=filas.map(f=>mapearRegistroProgreso(enc,f)); toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`); actualizarTodoTrabajos(); }
+            async function cargarTodo() { await cargarMotivosParadas(); await cargarMasterOperarios(); try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); } try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); } try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); } }
 
-            async function cargarMotivosParadas() {
-                const texto = await fetchSheet(SHEET_MOTIVOS);
-                const { enc, filas } = parsearCSV(texto);
-                const idxMotivo = encontrarColumna(enc, ['motivo']);
-                const idxTipo = encontrarColumna(enc, ['tipo']);
-                
-                motivosParadas = filas
-                    .map(f => ({
-                        motivo: idxMotivo >= 0 ? (f[idxMotivo] || '').trim() : '',
-                        tipo: idxTipo >= 0 ? (f[idxTipo] || '').trim() : ''
-                    }))
-                    .filter(m => m.tipo.toLowerCase() === 'incidencia' && m.motivo !== '');
-                
-                toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`);
-            }
+            function obtenerIncidencias() { const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return datosRegistroProgreso.filter(reg=>reg.motivoParada&&motivosIncidencia.has(reg.motivoParada.toLowerCase())); }
+            function esIncidencia(motivoParada) { if(!motivoParada) return false; const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return motivosIncidencia.has(motivoParada.toLowerCase()); }
 
-            async function cargarMasterOperarios() {
-                const texto = await fetchSheet(SHEET_OPERARIOS);
-                const { enc, filas } = parsearCSV(texto);
-                const nombres = filas
-                    .map(f => (f[0] || '').trim())
-                    .filter(nombre => {
-                        const lower = nombre.toLowerCase();
-                        return lower !== 'cantidad' && lower !== 'promedio' && lower !== 'operario' && nombre !== '';
-                    });
-                masterOperarios = [...new Set(nombres)].sort();
-                toast(`📋 Operarios maestros: ${masterOperarios.length} registros`);
-                actualizarTodoOTs();
-            }
+            function actualizarTodoOTs() { poblarFiltrosOTs(); actualizarTarjetasOTs(); actualizarTablaOTs(); actualizarGraficosOTs(); actualizarPanelIncidencias(); }
+            function actualizarTodoTrabajos() { poblarFiltrosTrabajos(); actualizarTarjetasTrabajos(); actualizarTablaTrabajos(); actualizarGraficosTrabajos(); actualizarPanelIncidencias(); }
 
-            async function cargarOTs() {
-                const texto = await fetchSheet(SHEET_OTS);
-                const {enc, filas} = parsearCSV(texto);
-                datosOTs = filas.map(f => mapearOTs(enc, f));
-                toast(`✅ OTs: ${datosOTs.length} registros`);
-                actualizarTodoOTs();
-            }
+            function actualizarTarjetasOTs() { document.getElementById('totalOTs').textContent=datosOTs.length; document.getElementById('enCursoOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length; document.getElementById('pendientesOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length; document.getElementById('operariosActivos').textContent=masterOperarios.length; }
+            function actualizarTarjetasTrabajos() { const otsEntregadas=new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT)); document.getElementById('trabajosTerminados').textContent=datosTrabajos.filter(t=>otsEntregadas.has(t.nroOT)).length; const horasDecimales=datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0); document.getElementById('horasTotales').textContent=formatoHoras(horasDecimales); document.getElementById('conIncidencia').textContent=obtenerIncidencias().length; }
 
-            async function cargarTrabajos() {
-                const texto = await fetchSheet(SHEET_TRAB);
-                const {enc, filas} = parsearCSV(texto);
-                datosTrabajos = filas.map(f => mapearTrabajos(enc, f));
-                toast(`✅ Trabajos: ${datosTrabajos.length} registros`);
-                actualizarTodoTrabajos();
-            }
+            function poblarFiltrosOTs() { const selOp=document.getElementById('filtroOperario'); selOp.innerHTML='<option value="Todos">Todos</option>'+masterOperarios.map(o=>`<option value="${o}">${o}</option>`).join(''); const sectores=[...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort(); const selSec=document.getElementById('filtroSector'); selSec.innerHTML='<option value="Todos">Todos</option>'+sectores.map(s=>`<option value="${s}">${s}</option>`).join(''); }
+            function poblarFiltrosTrabajos() { const ots=[...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort(); const ops=[...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort(); document.getElementById('filtroNroOT').innerHTML='<option value="Todos">Todos</option>'+ots.map(o=>`<option value="${o}">${o}</option>`).join(''); document.getElementById('filtroOperarioTrab').innerHTML='<option value="Todos">Todos</option>'+ops.map(o=>`<option value="${o}">${o}</option>`).join(''); }
 
-            async function cargarRegistroProgreso() {
-                const texto = await fetchSheet(SHEET_PROGRESO);
-                const {enc, filas} = parsearCSV(texto);
-                datosRegistroProgreso = filas.map(f => mapearRegistroProgreso(enc, f));
-                toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`);
-                actualizarTodoTrabajos();
-            }
-
-            async function cargarTodo() {
-                await cargarMotivosParadas();
-                await cargarMasterOperarios();
-                try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
-                try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
-                try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
-            }
-
-            function obtenerIncidencias() {
-                const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
-                return datosRegistroProgreso.filter(reg => 
-                    reg.motivoParada && motivosIncidencia.has(reg.motivoParada.toLowerCase())
-                );
-            }
-
-            function esIncidencia(motivoParada) {
-                if (!motivoParada) return false;
-                const motivosIncidencia = new Set(motivosParadas.map(m => m.motivo.toLowerCase()));
-                return motivosIncidencia.has(motivoParada.toLowerCase());
-            }
-
-            function actualizarTodoOTs() {
-                poblarFiltrosOTs();
-                actualizarTarjetasOTs();
-                actualizarTablaOTs();
-                actualizarGraficosOTs();
-                actualizarPanelIncidencias();
-            }
-            function actualizarTodoTrabajos() {
-                poblarFiltrosTrabajos();
-                actualizarTarjetasTrabajos();
-                actualizarTablaTrabajos();
-                actualizarGraficosTrabajos();
-                actualizarPanelIncidencias();
-            }
-
-            function actualizarTarjetasOTs() {
-                document.getElementById('totalOTs').textContent = datosOTs.length;
-                document.getElementById('enCursoOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
-                document.getElementById('pendientesOTs').textContent = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
-                document.getElementById('operariosActivos').textContent = masterOperarios.length;
-            }
-
-            function actualizarTarjetasTrabajos() {
-                const otsEntregadas = new Set(datosOTs.filter(o => o.estado.toLowerCase() === 'entregado').map(o => o.nroOT));
-                document.getElementById('trabajosTerminados').textContent = datosTrabajos.filter(t => otsEntregadas.has(t.nroOT)).length;
-                const horasDecimales = datosTrabajos.reduce((s,t)=> s + parseDuracionHHMMSS(t.tiempoTotal), 0);
-                document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
-                document.getElementById('conIncidencia').textContent = obtenerIncidencias().length;
-            }
-
-            function poblarFiltrosOTs() {
-                const selOp = document.getElementById('filtroOperario');
-                selOp.innerHTML = '<option value="Todos">Todos</option>' + masterOperarios.map(o => `<option value="${o}">${o}</option>`).join('');
-                const sectores = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
-                const selSec = document.getElementById('filtroSector');
-                selSec.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s => `<option value="${s}">${s}</option>`).join('');
-            }
-
-            function poblarFiltrosTrabajos() {
-                const ots = [...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort();
-                const ops = [...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort();
-                document.getElementById('filtroNroOT').innerHTML = '<option value="Todos">Todos</option>' + ots.map(o => `<option value="${o}">${o}</option>`).join('');
-                document.getElementById('filtroOperarioTrab').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o => `<option value="${o}">${o}</option>`).join('');
-            }
-
-            function filtrarOTs() {
-                const est = document.getElementById('filtroEstado').value;
-                const op = document.getElementById('filtroOperario').value;
-                const tip = document.getElementById('filtroTipo').value;
-                const sec = document.getElementById('filtroSector').value;
-                const q = document.getElementById('busquedaOTs').value.toLowerCase().trim();
-                return datosOTs.filter(o=>{
-                    if (est!=='Todos' && o.estado.toLowerCase()!==est.toLowerCase()) return false;
-                    if (op!=='Todos' && o.operarioAsignado !== op) return false;
-                    if (tip!=='Todos' && o.tipoTrabajo !== tip) return false;
-                    if (sec!=='Todos' && o.sector !== sec) return false;
-                    if (q && !`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false;
-                    return true;
-                });
-            }
-
-            function filtrarTrabajos() {
-                const ot = document.getElementById('filtroNroOT').value;
-                const op = document.getElementById('filtroOperarioTrab').value;
-                const q = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
-                return datosTrabajos.filter(t=>{
-                    if (ot!=='Todos' && t.nroOT!==ot) return false;
-                    if (op!=='Todos' && t.operario!==op) return false;
-                    if (q && !`${t.nroOT} ${t.descripcion} ${t.materiales}`.toLowerCase().includes(q)) return false;
-                    return true;
-                });
-            }
+            function filtrarOTs() { const est=document.getElementById('filtroEstado').value; const op=document.getElementById('filtroOperario').value; const tip=document.getElementById('filtroTipo').value; const sec=document.getElementById('filtroSector').value; const q=document.getElementById('busquedaOTs').value.toLowerCase().trim(); return datosOTs.filter(o=>{ if(est!=='Todos'&&o.estado.toLowerCase()!==est.toLowerCase()) return false; if(op!=='Todos'&&o.operarioAsignado!==op) return false; if(tip!=='Todos'&&o.tipoTrabajo!==tip) return false; if(sec!=='Todos'&&o.sector!==sec) return false; if(q&&!`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false; return true; }); }
+            function filtrarTrabajos() { const ot=document.getElementById('filtroNroOT').value; const op=document.getElementById('filtroOperarioTrab').value; const q=document.getElementById('busquedaTrabajos').value.toLowerCase().trim(); return datosTrabajos.filter(t=>{ if(ot!=='Todos'&&t.nroOT!==ot) return false; if(op!=='Todos'&&t.operario!==op) return false; if(q&&!`${t.nroOT} ${t.descripcion} ${t.materiales}`.toLowerCase().includes(q)) return false; return true; }); }
 
             function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-            function celda(v) { return v ? escapeHTML(v) : '<span class="celda-vacia">—</span>'; }
+            function celda(v) { return v?escapeHTML(v):'<span class="celda-vacia">—</span>'; }
 
-            function actualizarTablaOTs() {
-                const tbody = document.querySelector('#tablaOTs tbody');
-                tbody.innerHTML = filtrarOTs().map(o=>{
-                    let badgeEst = '';
-                    const e = o.estado.toLowerCase();
-                    if (e==='pendiente') badgeEst = '<span class="badge badge-pendiente">Pendiente</span>';
-                    else if (e==='en curso') badgeEst = '<span class="badge badge-en-curso">En curso</span>';
-                    else if (e==='entregado') badgeEst = '<span class="badge badge-entregado">Entregado</span>';
-                    else badgeEst = escapeHTML(o.estado);
-                    let badgeCrit = '';
-                    const c = o.criticidad.toLowerCase();
-                    if (c==='baja') badgeCrit = '<span class="badge badge-baja">Baja</span>';
-                    else if (c==='media') badgeCrit = '<span class="badge badge-media">Media</span>';
-                    else if (c==='alta') badgeCrit = '<span class="badge badge-alta">Alta</span>';
-                    else badgeCrit = escapeHTML(o.criticidad);
-                    return `<tr>
-                        <td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td>
-                        <td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td>
-                        <td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td>
-                        <td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td>
-                        <td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td>
-                    </tr>`;
-                }).join('');
-            }
-
-            function actualizarTablaTrabajos() {
-                const tbody = document.querySelector('#tablaTrabajos tbody');
-                tbody.innerHTML = filtrarTrabajos().map(t=>{
-                    return `<tr>
-                        <td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td>
-                        <td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td>
-                        <td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td>
-                    </tr>`;
-                }).join('');
-            }
+            function actualizarTablaOTs() { const tbody=document.querySelector('#tablaOTs tbody'); tbody.innerHTML=filtrarOTs().map(o=>{ let badgeEst=''; const e=o.estado.toLowerCase(); if(e==='pendiente') badgeEst='<span class="badge badge-pendiente">Pendiente</span>'; else if(e==='en curso') badgeEst='<span class="badge badge-en-curso">En curso</span>'; else if(e==='entregado') badgeEst='<span class="badge badge-entregado">Entregado</span>'; else badgeEst=escapeHTML(o.estado); let badgeCrit=''; const c=o.criticidad.toLowerCase(); if(c==='baja') badgeCrit='<span class="badge badge-baja">Baja</span>'; else if(c==='media') badgeCrit='<span class="badge badge-media">Media</span>'; else if(c==='alta') badgeCrit='<span class="badge badge-alta">Alta</span>'; else badgeCrit=escapeHTML(o.criticidad); return `<tr><td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td><td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td><td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td><td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td><td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td></tr>`; }).join(''); }
+            function actualizarTablaTrabajos() { const tbody=document.querySelector('#tablaTrabajos tbody'); tbody.innerHTML=filtrarTrabajos().map(t=>{ return `<tr><td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td><td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td></tr>`; }).join(''); }
 
             function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
-            const COL = {
-                azulMedio: '#1a3f63',
-                naranja: '#e8750c',
-                verde: '#1e8449',
-                rojo: '#c0392b',
-                amarillo: '#d4a017',
-                paletaTorta: ['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'],
-                paletaMaquinas: ['#1a3f63','#e8750c','#1e8449','#c0392b','#8b8f95','#d4a017','#2c5f8a','#f0a040','#3da061','#d96060','#6c3483','#17a589','#b7950b']
-            };
+            const COL = { azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b', amarillo:'#d4a017', paletaTorta:['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'] };
 
             function actualizarGraficosOTs() {
-                const filt = filtrarOTs();
+                const filt=filtrarOTs();
                 destruirGraficos(['estado','operario','tipo']);
-                if (filt.length) {
-                    const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
-                    if (ctx1) {
-                        const conteo = {};
-                        filt.forEach(o => {
-                            const e = o.estado || 'Sin estado';
-                            conteo[e] = (conteo[e] || 0) + 1;
-                        });
-                        const labels = Object.keys(conteo);
-                        const data = Object.values(conteo);
-                        const total = data.reduce((a, b) => a + b, 0);
-                        const bgColors = labels.map(l => {
-                            const lo = l.toLowerCase();
-                            if (lo === 'entregado') return '#1e8449';
-                            if (lo === 'en curso') return '#e8750c';
-                            if (lo === 'pendiente') return '#c0392b';
-                            return '#8b8f95';
-                        });
-                        charts['estado'] = new Chart(ctx1, {
-                            type: 'pie',
-                            data: {
-                                labels,
-                                datasets: [{
-                                    data,
-                                    backgroundColor: bgColors,
-                                    borderColor: '#fff',
-                                    borderWidth: 3,
-                                    borderRadius: 6,
-                                    offset: 10,
-                                    hoverOffset: 18
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 16, usePointStyle: true, pointStyleWidth: 10 } },
-                                    tooltip: { callbacks: { label: ctx => `${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%` } }
-                                },
-                                animation: { animateRotate: true, animateScale: true },
-                                layout: { padding: 10 }
-                            }
-                        });
-                    }
+                if(filt.length) {
+                    const ctx1=document.getElementById('graficoEstado')?.getContext('2d');
+                    if(ctx1) { const conteo={}; filt.forEach(o=>{ const e=o.estado||'Sin estado'; conteo[e]=(conteo[e]||0)+1; }); const labels=Object.keys(conteo),data=Object.values(conteo),total=data.reduce((a,b)=>a+b,0); const bgColors=labels.map(l=>{ const lo=l.toLowerCase(); if(lo==='entregado') return'#1e8449'; if(lo==='en curso') return'#e8750c'; if(lo==='pendiente') return'#c0392b'; return'#8b8f95'; }); charts['estado']=new Chart(ctx1,{ type:'pie',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16,usePointStyle:true,pointStyleWidth:10}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%`}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); }
 
-                    const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
-                    if (ctx2) {
-                        const operariosSet = new Set(filt.map(o => o.operarioAsignado || 'Sin asignar'));
-                        const operarios = Array.from(operariosSet).sort();
-                        const estados = ['Entregado', 'En curso', 'Pendiente'];
-                        const coloresEstados = {
-                            'Entregado': '#1e8449',
-                            'En curso': '#e8750c',
-                            'Pendiente': '#c0392b'
-                        };
-                        const datasets = estados.map(est => ({
-                            label: est,
-                            data: operarios.map(op => filt.filter(o => (o.operarioAsignado || 'Sin asignar') === op && o.estado.toLowerCase() === est.toLowerCase()).length),
-                            backgroundColor: coloresEstados[est],
-                            borderRadius: 4,
-                            borderSkipped: false
-                        }));
-                        charts['operario'] = new Chart(ctx2, {
-                            type: 'bar',
-                            data: { labels: operarios, datasets },
-                            options: {
-                                indexAxis: 'y',
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: { position: 'bottom', labels: { font: { size: 10 }, usePointStyle: true, pointStyleWidth: 8 } },
-                                    tooltip: { mode: 'index', intersect: false }
-                                },
-                                scales: {
-                                    x: { stacked: true, beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } }, title: { display: true, text: 'Cantidad de OTs', font: { size: 10 } } },
-                                    y: { stacked: true, ticks: { font: { size: 10 } } }
-                                },
-                                interaction: { mode: 'nearest', axis: 'y', intersect: true }
-                            }
-                        });
-                    }
+                    const ctx2=document.getElementById('graficoOperario')?.getContext('2d');
+                    if(ctx2) { const operariosSet=new Set(filt.map(o=>o.operarioAsignado||'Sin asignar')); const operarios=Array.from(operariosSet).sort(); const estados=['Entregado','En curso','Pendiente']; const coloresEstados={ 'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b' }; const datasets=estados.map(est=>({ label:est,data:operarios.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length),backgroundColor:coloresEstados[est],borderRadius:4,borderSkipped:false })); charts['operario']=new Chart(ctx2,{ type:'bar',data:{labels:operarios,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8}},tooltip:{mode:'index',intersect:false}},scales:{x:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:10}},title:{display:true,text:'Cantidad de OTs',font:{size:10}}},y:{stacked:true,ticks:{font:{size:10}}}},interaction:{mode:'nearest',axis:'y',intersect:true}} }); }
 
-                    const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
-                    if (ctx3) {
-                        const conteo = {};
-                        filt.forEach(o => { const t = o.tipoTrabajo || 'Sin tipo'; conteo[t] = (conteo[t] || 0) + 1; });
-                        const sorted = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
-                        charts['tipo'] = new Chart(ctx3, {
-                            type: 'bar',
-                            data: { labels: sorted.map(e => e[0]), datasets: [{ label: 'Cantidad', data: sorted.map(e => e[1]), backgroundColor: COL.naranja, borderRadius: 4 }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 10 } } }, x: { ticks: { font: { size: 9 } } } } }
-                        });
-                    }
+                    const ctx3=document.getElementById('graficoTipo')?.getContext('2d');
+                    if(ctx3) { const conteo={}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin tipo'; conteo[t]=(conteo[t]||0)+1; }); const sorted=Object.entries(conteo).sort((a,b)=>b[1]-a[1]); charts['tipo']=new Chart(ctx3,{ type:'bar',data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}}},x:{ticks:{font:{size:9}}}}} }); }
                 }
             }
 
             function actualizarGraficosTrabajos() {
-                const filt = filtrarTrabajos();
+                const filt=filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
                 // GRÁFICO: Horas por Operario (APILADO VERDE/ROJO)
-                const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
-                if (ctx1) {
-                    const horasSinIncidencia = {};
-                    const horasConIncidencia = {};
+                const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
+                if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
+                
+                // *** NUEVO GRÁFICO: Horas de máquina (BARRAS HORIZONTALES CON LÍMITES) ***
+                const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
+                if(ctx2) {
+                    const horasPorMaquina={};
+                    datosRegistroProgreso.forEach(reg=>{ if(!reg.maquinaUsada||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) horasPorMaquina[reg.maquinaUsada]=(horasPorMaquina[reg.maquinaUsada]||0)+horas; });
                     
-                    datosRegistroProgreso.forEach(reg => {
-                        if (!reg.operario || !reg.horaInicio || !reg.horaParada) return;
-                        const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
-                        if (horas > 0) {
-                            if (esIncidencia(reg.motivoParada)) {
-                                horasConIncidencia[reg.operario] = (horasConIncidencia[reg.operario] || 0) + horas;
-                            } else {
-                                horasSinIncidencia[reg.operario] = (horasSinIncidencia[reg.operario] || 0) + horas;
-                            }
-                        }
+                    // Preparar datos para todas las máquinas
+                    const datosMaquinas=TODAS_LAS_MAQUINAS.map(maq=>{
+                        const horasTrabajadas=horasPorMaquina[maq]||0;
+                        const limite=LIMITES_MANTENIMIENTO[maq]||400;
+                        const porcentaje=Math.min((horasTrabajadas/limite)*100,120); // Cap a 120% para visualización
+                        const color=colorPorAvance(porcentaje);
+                        const horasFaltantes=Math.max(limite-horasTrabajadas,0);
+                        const excedente=Math.max(horasTrabajadas-limite,0);
+                        return {maquina:maq, horasTrabajadas, limite, porcentaje, color, horasFaltantes, excedente};
                     });
                     
-                    const todosOperarios = new Set([
-                        ...Object.keys(horasSinIncidencia),
-                        ...Object.keys(horasConIncidencia)
-                    ]);
-                    const operariosArray = Array.from(todosOperarios).sort();
+                    // Ordenar por porcentaje descendente (las más cercanas al límite primero)
+                    datosMaquinas.sort((a,b)=>b.porcentaje-a.porcentaje);
                     
-                    if (operariosArray.length > 0) {
-                        const dataSinIncidencia = operariosArray.map(op => horasSinIncidencia[op] || 0);
-                        const dataConIncidencia = operariosArray.map(op => horasConIncidencia[op] || 0);
-                        
-                        const combined = operariosArray.map((op, i) => ({
-                            operario: op,
-                            sinIncidencia: dataSinIncidencia[i],
-                            conIncidencia: dataConIncidencia[i],
-                            total: dataSinIncidencia[i] + dataConIncidencia[i]
-                        })).sort((a, b) => b.total - a.total);
-                        
-                        charts['horasResp'] = new Chart(ctx1, {
-                            type: 'bar',
-                            data: {
-                                labels: combined.map(e => e.operario),
-                                datasets: [
-                                    {
-                                        label: 'Horas sin incidencia',
-                                        data: combined.map(e => e.sinIncidencia),
-                                        backgroundColor: '#1e8449',
-                                        borderRadius: 4,
-                                        borderSkipped: false
-                                    },
-                                    {
-                                        label: 'Horas con incidencia',
-                                        data: combined.map(e => e.conIncidencia),
-                                        backgroundColor: '#c0392b',
-                                        borderRadius: 4,
-                                        borderSkipped: false
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: { font: { size: 10 }, usePointStyle: true, pointStyleWidth: 8, padding: 12 }
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(ctx) {
-                                                return `${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;
-                                            },
-                                            footer: function(items) {
-                                                const total = items.reduce((sum, item) => sum + item.raw, 0);
-                                                return `Total: ${formatoHoras(total)} hs`;
+                    charts['maquina']=new Chart(ctx2,{
+                        type:'bar',
+                        data:{
+                            labels:datosMaquinas.map(d=>d.maquina),
+                            datasets:[{
+                                label:'Horas trabajadas',
+                                data:datosMaquinas.map(d=>Math.min(d.porcentaje,100)),
+                                backgroundColor:datosMaquinas.map(d=>d.color),
+                                borderColor:datosMaquinas.map(d=>d.porcentaje>=100?'#a93226':'transparent'),
+                                borderWidth:datosMaquinas.map(d=>d.porcentaje>=100?2:0),
+                                borderRadius:6,
+                                borderSkipped:false
+                            }]
+                        },
+                        options:{
+                            indexAxis:'y',
+                            responsive:true,
+                            maintainAspectRatio:false,
+                            plugins:{
+                                legend:{display:false},
+                                tooltip:{
+                                    callbacks:{
+                                        label:function(ctx){
+                                            const d=datosMaquinas[ctx.dataIndex];
+                                            const lineas=[`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`];
+                                            lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`);
+                                            lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`);
+                                            if(d.porcentaje>=100){
+                                                lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`);
+                                                lineas.push('⚠️ MANTENIMIENTO REQUERIDO');
+                                            }else{
+                                                lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`);
+                                                lineas.push(d.porcentaje>=80?'⚠️ Próximo a mantenimiento':'✅ En rango');
                                             }
+                                            return lineas;
                                         }
                                     }
+                                }
+                            },
+                            scales:{
+                                x:{
+                                    beginAtZero:true,
+                                    max:110,
+                                    ticks:{
+                                        font:{size:10},
+                                        callback:function(v){return v+'%';}
+                                    },
+                                    grid:{color:'rgba(0,0,0,0.05)',drawBorder:false},
+                                    title:{display:true,text:'Avance hacia límite de mantenimiento',font:{size:10,weight:'bold'}}
                                 },
-                                scales: {
-                                    x: { stacked: true, ticks: { font: { size: 9 } }, grid: { display: false } },
-                                    y: {
-                                        stacked: true,
-                                        beginAtZero: true,
-                                        ticks: {
-                                            font: { size: 10 },
-                                            callback: function(value) { return formatoHoras(value); }
-                                        },
-                                        title: { display: true, text: 'Horas', font: { size: 10 } }
-                                    }
-                                },
-                                interaction: { mode: 'nearest', axis: 'x', intersect: true }
-                            }
-                        });
-                    } else {
-                        charts['horasResp'] = new Chart(ctx1, {
-                            type: 'bar',
-                            data: { labels: ['Sin datos'], datasets: [{ data: [0], backgroundColor: '#ccc' }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                        });
-                    }
-                }
-                
-                // GRÁFICO: Horas de máquina (PIE CHART)
-                const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
-                if (ctx2) {
-                    const horasPorMaquina = {};
-                    
-                    datosRegistroProgreso.forEach(reg => {
-                        if (!reg.maquinaUsada || !reg.horaInicio || !reg.horaParada) return;
-                        const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
-                        if (horas > 0) {
-                            horasPorMaquina[reg.maquinaUsada] = (horasPorMaquina[reg.maquinaUsada] || 0) + horas;
+                                y:{
+                                    ticks:{font:{size:10}},
+                                    grid:{display:false}
+                                }
+                            },
+                            animation:{duration:1000,easing:'easeOutQuart'},
+                            layout:{padding:{top:10,bottom:5}}
                         }
                     });
-                    
-                    const maquinas = Object.keys(horasPorMaquina).sort();
-                    
-                    if (maquinas.length > 0) {
-                        const data = maquinas.map(m => horasPorMaquina[m]);
-                        const totalHoras = data.reduce((a, b) => a + b, 0);
-                        
-                        charts['maquina'] = new Chart(ctx2, {
-                            type: 'pie',
-                            data: {
-                                labels: maquinas,
-                                datasets: [{
-                                    data: data,
-                                    backgroundColor: COL.paletaMaquinas.slice(0, maquinas.length),
-                                    borderColor: '#fff',
-                                    borderWidth: 3,
-                                    borderRadius: 6,
-                                    offset: 8,
-                                    hoverOffset: 16
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: {
-                                            font: { size: 10 },
-                                            padding: 12,
-                                            usePointStyle: true,
-                                            pointStyleWidth: 8
-                                        }
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(ctx) {
-                                                const horas = ctx.raw;
-                                                const pct = ((horas / totalHoras) * 100).toFixed(1);
-                                                return `Horas de uso: ${formatoHoras(horas)} hs (${pct}%)`;
-                                            }
-                                        }
-                                    }
-                                },
-                                animation: { animateRotate: true, animateScale: true },
-                                layout: { padding: 10 }
-                            }
-                        });
-                    } else {
-                        charts['maquina'] = new Chart(ctx2, {
-                            type: 'pie',
-                            data: { labels: ['Sin datos'], datasets: [{ data: [1], backgroundColor: '#e0e0e0' }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                        });
-                    }
                 }
                 
-                // *** NUEVO GRÁFICO: Incidencia por Categoría (DOUGHNUT CON PARETO) ***
-                const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
-                if (ctx3) {
-                    const incidencias = obtenerIncidencias();
-                    
-                    // Contar frecuencias de cada motivo
-                    const freqMotivos = {};
-                    incidencias.forEach(reg => {
-                        if (reg.motivoParada) {
-                            freqMotivos[reg.motivoParada] = (freqMotivos[reg.motivoParada] || 0) + 1;
-                        }
-                    });
-                    
-                    // Ordenar de mayor a menor
-                    const sortedMotivos = Object.entries(freqMotivos).sort((a, b) => b[1] - a[1]);
-                    
-                    if (sortedMotivos.length > 0) {
-                        // Top 3 + Otros
-                        const top3 = sortedMotivos.slice(0, 3);
-                        const otros = sortedMotivos.slice(3);
-                        const sumaOtros = otros.reduce((sum, m) => sum + m[1], 0);
-                        
-                        const labels = [];
-                        const data = [];
-                        const bgColors = [];
-                        
-                        // Colores: Rojo, Naranja, Amarillo, Gris
-                        const coloresTop = ['#c0392b', '#e8750c', '#d4a017'];
-                        
-                        top3.forEach((motivo, i) => {
-                            labels.push(`Top ${i+1} - ${motivo[0]}`);
-                            data.push(motivo[1]);
-                            bgColors.push(coloresTop[i]);
-                        });
-                        
-                        if (sumaOtros > 0) {
-                            labels.push('Otros');
-                            data.push(sumaOtros);
-                            bgColors.push('#8b8f95');
-                        }
-                        
-                        const totalIncidencias = data.reduce((a, b) => a + b, 0);
-                        
-                        charts['incidencias'] = new Chart(ctx3, {
-                            type: 'doughnut',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    data: data,
-                                    backgroundColor: bgColors,
-                                    borderColor: '#fff',
-                                    borderWidth: 3,
-                                    borderRadius: 6,
-                                    offset: 10,
-                                    hoverOffset: 18
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                cutout: '55%',
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                        labels: {
-                                            font: { size: 10 },
-                                            padding: 12,
-                                            usePointStyle: true,
-                                            pointStyleWidth: 8
-                                        }
-                                    },
-                                    tooltip: {
-                                        callbacks: {
-                                            label: function(ctx) {
-                                                const value = ctx.raw;
-                                                const pct = ((value / totalIncidencias) * 100).toFixed(1);
-                                                return `Cantidad: ${value} incidencias (${pct}%)`;
-                                            }
-                                        }
-                                    }
-                                },
-                                animation: { animateRotate: true, animateScale: true },
-                                layout: { padding: 10 }
-                            }
-                        });
-                    } else {
-                        charts['incidencias'] = new Chart(ctx3, {
-                            type: 'doughnut',
-                            data: { labels: ['Sin incidencias'], datasets: [{ data: [1], backgroundColor: '#e0e0e0' }] },
-                            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                        });
-                    }
-                }
+                // GRÁFICO: Incidencia por Categoría (DOUGHNUT CON PARETO)
+                const ctx3=document.getElementById('graficoIncidencias')?.getContext('2d');
+                if(ctx3) { const incidencias=obtenerIncidencias(); const freq={}; incidencias.forEach(reg=>{ if(reg.motivoParada) freq[reg.motivoParada]=(freq[reg.motivoParada]||0)+1; }); const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]); if(sorted.length>0) { const top3=sorted.slice(0,3); const otros=sorted.slice(3); const sumaOtros=otros.reduce((s,m)=>s+m[1],0); const labels=[],data=[],bgColors=[]; const coloresTop=['#c0392b','#e8750c','#d4a017']; top3.forEach((m,i)=>{ labels.push(`Top ${i+1} - ${m[0]}`); data.push(m[1]); bgColors.push(coloresTop[i]); }); if(sumaOtros>0){ labels.push('Otros'); data.push(sumaOtros); bgColors.push('#8b8f95'); } const total=data.reduce((a,b)=>a+b,0); charts['incidencias']=new Chart(ctx3,{ type:'doughnut',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}},tooltip:{callbacks:{label:function(ctx){const v=ctx.raw;const p=((v/total)*100).toFixed(1);return`Cantidad: ${v} incidencias (${p}%)`;}}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); } else { charts['incidencias']=new Chart(ctx3,{ type:'doughnut',data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
             }
 
-            function actualizarPanelIncidencias() {
-                const alertas = [];
-                const hoy = new Date(); hoy.setHours(0, 0, 0, 0);
-                
-                datosOTs.forEach(o => {
-                    if (o.estado.toLowerCase() === 'entregado') return;
-                    const fp = parseFechaDMY(o.fechaProgramada);
-                    if (fp && fp < hoy) {
-                        const dias = Math.floor((hoy - fp) / 86400000);
-                        alertas.push({ tipo: 'atraso', titulo: `OT Atrasada: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha: `${dias} día(s) (prog:${o.fechaProgramada})`, prioridad: 10+dias });
-                    }
-                });
-                
-                datosOTs.forEach(o => {
-                    if (o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado') {
-                        alertas.push({ tipo: 'criticidad', titulo: `Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle: `${o.descripcionTarea} - Estado: ${o.estado}`, fecha: o.fechaProgramada || 'Sin fecha', prioridad: 8 });
-                    }
-                });
-                
-                const incidencias = obtenerIncidencias();
-                incidencias.forEach(reg => {
-                    if (reg.motivoParada) {
-                        alertas.push({ tipo: 'incidencia', titulo: `Incidencia: ${reg.nroOT||'Sin OT'}`, detalle: reg.motivoParada, fecha: '', prioridad: 5 });
-                    }
-                });
-                
-                alertas.sort((a,b) => b.prioridad - a.prioridad);
-                const top = alertas.slice(0, 8);
-                const cont = document.getElementById('contenidoIncidencias');
-                cont.innerHTML = top.length ? top.map(a => `<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
-            }
+            function actualizarPanelIncidencias() { const alertas=[]; const hoy=new Date(); hoy.setHours(0,0,0,0); datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } }); datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); }); const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); }); alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias'); cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>'; }
 
-            document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo);
-            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaOTs(); actualizarGraficosOTs(); }));
-            document.getElementById('busquedaOTs').addEventListener('input', () => { actualizarTablaOTs(); actualizarGraficosOTs(); });
-            ['filtroNroOT','filtroOperarioTrab'].forEach(id => document.getElementById(id).addEventListener('change', () => { actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
-            document.getElementById('busquedaTrabajos').addEventListener('input', () => { actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
+            document.getElementById('btnRecargarGoogle').addEventListener('click',cargarTodo);
+            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
+            document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); });
+            ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
+            document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
-            function inicializar() {
-                actualizarFechasUI();
-                actualizarTarjetasOTs(); actualizarTarjetasTrabajos();
-                actualizarTablaOTs(); actualizarTablaTrabajos();
-                actualizarPanelIncidencias();
-                setTimeout(cargarTodo, 600);
-            }
-
-            if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inicializar);
-            else inicializar();
+            function inicializar() { actualizarFechasUI(); actualizarTarjetasOTs(); actualizarTarjetasTrabajos(); actualizarTablaOTs(); actualizarTablaTrabajos(); actualizarPanelIncidencias(); setTimeout(cargarTodo,600); }
+            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',inicializar); else inicializar();
         })();
     </script>
 </body>

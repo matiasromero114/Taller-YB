@@ -266,7 +266,7 @@
             const SHEET_PROGRESO = 'RegistroProgresoDiario';
             const SHEET_MOTIVOS = 'MotivosParadas';
 
-            // Límites de mantenimiento trimestral (en horas)
+            // Límites de mantenimiento trimestral (en horas) - CORREGIDOS
             const LIMITES_MANTENIMIENTO = {
                 'Fresadora': 480,
                 'Limadora': 500,
@@ -274,15 +274,22 @@
                 'Perforadora de Banco': 550,
                 'Prensa': 600,
                 'Soldador': 350,
-                'Torno GR YB': 480,
-                'Torno Ch YB': 480,
-                'Torno CH Cevil': 480
+                'Torno Gr. YB': 480,
+                'Torno Ch. YB': 480,
+                'Torno Ch. Cevil': 480
             };
 
-            // Lista completa de máquinas para mostrar siempre en el eje Y
+            // Lista completa de máquinas - CORREGIDA
             const TODAS_LAS_MAQUINAS = [
-                'Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco',
-                'Prensa', 'Soldador', 'Torno GR YB', 'Torno Ch YB', 'Torno CH Cevil'
+                'Fresadora',
+                'Limadora',
+                'Mortajadora',
+                'Perforadora de Banco',
+                'Prensa',
+                'Soldador',
+                'Torno Gr. YB',
+                'Torno Ch. YB',
+                'Torno Ch. Cevil'
             ];
 
             function toast(msg, dur=3000) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); }
@@ -296,9 +303,8 @@
 
             // Color según porcentaje de avance
             function colorPorAvance(porcentaje) {
-                if (porcentaje >= 100) return '#c0392b'; // Rojo
+                if (porcentaje >= 100) return '#c0392b';
                 if (porcentaje >= 80) {
-                    // Degradado amarillo a rojo (80% a 100%)
                     const t = (porcentaje - 80) / 20;
                     const r = 212 + Math.round((192 - 212) * t);
                     const g = 160 - Math.round(160 * t);
@@ -306,60 +312,22 @@
                     return `rgb(${r},${g},${b})`;
                 }
                 if (porcentaje >= 60) {
-                    // Degradado verde a amarillo (60% a 80%)
                     const t = (porcentaje - 60) / 20;
                     const r = 30 + Math.round((212 - 30) * t);
                     const g = 132 - Math.round((132 - 160) * t);
                     const b = 73 - Math.round((73 - 23) * t);
                     return `rgb(${r},${g},${b})`;
                 }
-                return '#1e8449'; // Verde
+                return '#1e8449';
             }
 
             function encontrarColumna(encabezados, palabras, excluir=[]) { for(let i=0;i<encabezados.length;i++) { if(excluir.includes(i)) continue; const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); for(const p of palabras) { const c=p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes(c)) return i; } } return -1; }
 
-            function mapearOTs(encabezados, fila) {
-                const idxFecha=encontrarColumna(encabezados,['fecha programada','fechaprogramada','fecha prog']);
-                const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']);
-                const idxDesc=encontrarColumna(encabezados,['descripcion de tarea','descripcion','descripción','tarea']);
-                const idxSol=encontrarColumna(encabezados,['solicitante']);
-                const idxMaqEq=encontrarColumna(encabezados,['maquina/equipo','máquina/equipo','maquina equipo']);
-                const idxMaqRol=encontrarColumna(encabezados,['maquina','máquina'],idxMaqEq>=0?[idxMaqEq]:[]);
-                const idxOp=encontrarColumna(encabezados,['operario asignado','operario','operarioasignado']);
-                const idxEq=encontrarColumna(encabezados,['equipo de trabajo','equipo','equipotrabajo']);
-                const idxSec=encontrarColumna(encabezados,['sector']);
-                const idxPie=encontrarColumna(encabezados,['piezas','pieza']);
-                const idxTip=encontrarColumna(encabezados,['tipo de trabajo','tipo','tipodetrabajo']);
-                const idxCrit=encontrarColumna(encabezados,['criticidad','prioridad']);
-                const idxLug=encontrarColumna(encabezados,['lugar de trabajo','lugar','lugartrabajo']);
-                const idxMant=encontrarColumna(encabezados,['ot mant asoc','ot mant','otmant','mant asoc']);
-                const idxEst=encontrarColumna(encabezados,['estado','situacion']);
-                return { fechaProgramada:idxFecha>=0?(fila[idxFecha]||'').trim():'', nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', descripcionTarea:idxDesc>=0?(fila[idxDesc]||'').trim():'', solicitante:idxSol>=0?(fila[idxSol]||'').trim():'', maquinaRol:idxMaqRol>=0?(fila[idxMaqRol]||'').trim():'', operarioAsignado:idxOp>=0?(fila[idxOp]||'').trim():'', equipoTrabajo:idxEq>=0?(fila[idxEq]||'').trim():'', sector:idxSec>=0?(fila[idxSec]||'').trim():'', maquinaEquipo:idxMaqEq>=0?(fila[idxMaqEq]||'').trim():'', piezas:idxPie>=0?(fila[idxPie]||'').trim():'', tipoTrabajo:idxTip>=0?(fila[idxTip]||'').trim():'', criticidad:idxCrit>=0?(fila[idxCrit]||'').trim():'', lugarTrabajo:idxLug>=0?(fila[idxLug]||'').trim():'', otMantAsoc:idxMant>=0?(fila[idxMant]||'').trim():'', estado:idxEst>=0?(fila[idxEst]||'').trim():'' };
-            }
+            function mapearOTs(encabezados, fila) { const idxFecha=encontrarColumna(encabezados,['fecha programada','fechaprogramada','fecha prog']); const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']); const idxDesc=encontrarColumna(encabezados,['descripcion de tarea','descripcion','descripción','tarea']); const idxSol=encontrarColumna(encabezados,['solicitante']); const idxMaqEq=encontrarColumna(encabezados,['maquina/equipo','máquina/equipo','maquina equipo']); const idxMaqRol=encontrarColumna(encabezados,['maquina','máquina'],idxMaqEq>=0?[idxMaqEq]:[]); const idxOp=encontrarColumna(encabezados,['operario asignado','operario','operarioasignado']); const idxEq=encontrarColumna(encabezados,['equipo de trabajo','equipo','equipotrabajo']); const idxSec=encontrarColumna(encabezados,['sector']); const idxPie=encontrarColumna(encabezados,['piezas','pieza']); const idxTip=encontrarColumna(encabezados,['tipo de trabajo','tipo','tipodetrabajo']); const idxCrit=encontrarColumna(encabezados,['criticidad','prioridad']); const idxLug=encontrarColumna(encabezados,['lugar de trabajo','lugar','lugartrabajo']); const idxMant=encontrarColumna(encabezados,['ot mant asoc','ot mant','otmant','mant asoc']); const idxEst=encontrarColumna(encabezados,['estado','situacion']); return { fechaProgramada:idxFecha>=0?(fila[idxFecha]||'').trim():'', nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', descripcionTarea:idxDesc>=0?(fila[idxDesc]||'').trim():'', solicitante:idxSol>=0?(fila[idxSol]||'').trim():'', maquinaRol:idxMaqRol>=0?(fila[idxMaqRol]||'').trim():'', operarioAsignado:idxOp>=0?(fila[idxOp]||'').trim():'', equipoTrabajo:idxEq>=0?(fila[idxEq]||'').trim():'', sector:idxSec>=0?(fila[idxSec]||'').trim():'', maquinaEquipo:idxMaqEq>=0?(fila[idxMaqEq]||'').trim():'', piezas:idxPie>=0?(fila[idxPie]||'').trim():'', tipoTrabajo:idxTip>=0?(fila[idxTip]||'').trim():'', criticidad:idxCrit>=0?(fila[idxCrit]||'').trim():'', lugarTrabajo:idxLug>=0?(fila[idxLug]||'').trim():'', otMantAsoc:idxMant>=0?(fila[idxMant]||'').trim():'', estado:idxEst>=0?(fila[idxEst]||'').trim():'' }; }
 
-            function mapearTrabajos(encabezados, fila) {
-                const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
-                const idxMaq=encontrarColumna(encabezados,['maquina','máquina']);
-                const idxOp=encontrarColumna(encabezados,['operario']);
-                const idxDesc=encontrarColumna(encabezados,['descripcion del trabajo realizado','descripcion','trabajo realizado']);
-                const idxMat=encontrarColumna(encabezados,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
-                const idxCant=encontrarColumna(encabezados,['cantidad','cant']);
-                const idxIni=encontrarColumna(encabezados,['fecha hora inicio','hora inicio','fechahora inicio']);
-                const idxFin=encontrarColumna(encabezados,['fecha hora fin','hora fin','fechahora fin']);
-                const idxDur=encontrarColumna(encabezados,['tiempo total','tiempototal','duracion']);
-                return { nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', maquinaRol:idxMaq>=0?(fila[idxMaq]||'').trim():'', operario:idxOp>=0?(fila[idxOp]||'').trim():'', descripcion:idxDesc>=0?(fila[idxDesc]||'').trim():'', materiales:idxMat>=0?(fila[idxMat]||'').trim():'', cantidad:idxCant>=0?(fila[idxCant]||'').trim():'', fechaHoraInicio:idxIni>=0?(fila[idxIni]||'').trim():'', fechaHoraFin:idxFin>=0?(fila[idxFin]||'').trim():'', tiempoTotal:idxDur>=0?(fila[idxDur]||'').trim():'' };
-            }
+            function mapearTrabajos(encabezados, fila) { const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']); const idxMaq=encontrarColumna(encabezados,['maquina','máquina']); const idxOp=encontrarColumna(encabezados,['operario']); const idxDesc=encontrarColumna(encabezados,['descripcion del trabajo realizado','descripcion','trabajo realizado']); const idxMat=encontrarColumna(encabezados,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']); const idxCant=encontrarColumna(encabezados,['cantidad','cant']); const idxIni=encontrarColumna(encabezados,['fecha hora inicio','hora inicio','fechahora inicio']); const idxFin=encontrarColumna(encabezados,['fecha hora fin','hora fin','fechahora fin']); const idxDur=encontrarColumna(encabezados,['tiempo total','tiempototal','duracion']); return { nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', maquinaRol:idxMaq>=0?(fila[idxMaq]||'').trim():'', operario:idxOp>=0?(fila[idxOp]||'').trim():'', descripcion:idxDesc>=0?(fila[idxDesc]||'').trim():'', materiales:idxMat>=0?(fila[idxMat]||'').trim():'', cantidad:idxCant>=0?(fila[idxCant]||'').trim():'', fechaHoraInicio:idxIni>=0?(fila[idxIni]||'').trim():'', fechaHoraFin:idxFin>=0?(fila[idxFin]||'').trim():'', tiempoTotal:idxDur>=0?(fila[idxDur]||'').trim():'' }; }
 
-            function mapearRegistroProgreso(encabezados, fila) {
-                let idxOperario=-1;
-                for(let i=0;i<encabezados.length;i++) { const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes('operario')) { if(!h.includes('asignado')) { idxOperario=i; break; } } }
-                const idxNroOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
-                const idxHoraInicio=encontrarColumna(encabezados,['hora incio','hora inicio','horainicio']);
-                const idxHoraParada=encontrarColumna(encabezados,['hora parada','horaparada']);
-                const idxMotivoParada=encontrarColumna(encabezados,['motivo parada','motivoparada','motivo']);
-                const idxMaquinaUsada=encontrarColumna(encabezados,['maquina usada','máquina usada','maquinausada']);
-                return { nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'', operario:idxOperario>=0?(fila[idxOperario]||'').trim():'', horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'', horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'', motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'', maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'' };
-            }
+            function mapearRegistroProgreso(encabezados, fila) { let idxOperario=-1; for(let i=0;i<encabezados.length;i++) { const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes('operario')) { if(!h.includes('asignado')) { idxOperario=i; break; } } } const idxNroOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']); const idxHoraInicio=encontrarColumna(encabezados,['hora incio','hora inicio','horainicio']); const idxHoraParada=encontrarColumna(encabezados,['hora parada','horaparada']); const idxMotivoParada=encontrarColumna(encabezados,['motivo parada','motivoparada','motivo']); const idxMaquinaUsada=encontrarColumna(encabezados,['maquina usada','máquina usada','maquinausada']); return { nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'', operario:idxOperario>=0?(fila[idxOperario]||'').trim():'', horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'', horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'', motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'', maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'' }; }
 
             function parsearCSV(texto) { const lineas=texto.split(/\r?\n/).filter(l=>l.trim()); if(lineas.length===0) return {enc:[],filas:[]}; const parseLinea=(l)=>{ const res=[]; let act='',comillas=false; for(let i=0;i<l.length;i++) { const ch=l[i]; if(ch==='"') comillas=!comillas; else if(ch===','&&!comillas) { res.push(act); act=''; } else act+=ch; } res.push(act); return res; }; const enc=parseLinea(lineas[0]); const filas=[]; for(let i=1;i<lineas.length;i++) { const f=parseLinea(lineas[i]); if(f.some(c=>c.trim())) filas.push(f); } return {enc,filas}; }
             async function fetchSheet(sheetName) { const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`; const res=await fetch(url); if(!res.ok) throw new Error(`Error ${res.status}`); return await res.text(); }
@@ -418,7 +386,7 @@
                 const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
                 if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
                 
-                // *** NUEVO GRÁFICO: Horas de máquina (BARRAS HORIZONTALES CON LÍMITES) ***
+                // *** GRÁFICO: Horas de máquina (BARRAS HORIZONTALES CON LÍMITES) - CORREGIDO ***
                 const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
                 if(ctx2) {
                     const horasPorMaquina={};
@@ -428,14 +396,14 @@
                     const datosMaquinas=TODAS_LAS_MAQUINAS.map(maq=>{
                         const horasTrabajadas=horasPorMaquina[maq]||0;
                         const limite=LIMITES_MANTENIMIENTO[maq]||400;
-                        const porcentaje=Math.min((horasTrabajadas/limite)*100,120); // Cap a 120% para visualización
+                        const porcentaje=Math.min((horasTrabajadas/limite)*100,120);
                         const color=colorPorAvance(porcentaje);
                         const horasFaltantes=Math.max(limite-horasTrabajadas,0);
                         const excedente=Math.max(horasTrabajadas-limite,0);
                         return {maquina:maq, horasTrabajadas, limite, porcentaje, color, horasFaltantes, excedente};
                     });
                     
-                    // Ordenar por porcentaje descendente (las más cercanas al límite primero)
+                    // Ordenar por porcentaje descendente
                     datosMaquinas.sort((a,b)=>b.porcentaje-a.porcentaje);
                     
                     charts['maquina']=new Chart(ctx2,{
@@ -481,17 +449,11 @@
                                 x:{
                                     beginAtZero:true,
                                     max:110,
-                                    ticks:{
-                                        font:{size:10},
-                                        callback:function(v){return v+'%';}
-                                    },
+                                    ticks:{font:{size:10},callback:function(v){return v+'%';}},
                                     grid:{color:'rgba(0,0,0,0.05)',drawBorder:false},
                                     title:{display:true,text:'Avance hacia límite de mantenimiento',font:{size:10,weight:'bold'}}
                                 },
-                                y:{
-                                    ticks:{font:{size:10}},
-                                    grid:{display:false}
-                                }
+                                y:{ticks:{font:{size:10}},grid:{display:false}}
                             },
                             animation:{duration:1000,easing:'easeOutQuart'},
                             layout:{padding:{top:10,bottom:5}}

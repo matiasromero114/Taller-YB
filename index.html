@@ -56,14 +56,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ========== CONTENEDOR PRINCIPAL ========== */
         .dashboard-container {
             max-width: 1440px;
             margin: 0 auto;
             padding: 16px 20px 32px;
         }
 
-        /* ========== HEADER ========== */
         .header {
             background: var(--blanco);
             border-radius: var(--radio);
@@ -87,7 +85,6 @@
         .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); }
         .btn-carga i { font-size: 0.9rem; }
 
-        /* ========== TARJETAS DE RESUMEN ========== */
         .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px; }
         .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
         .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; transition: transform var(--transicion), box-shadow var(--transicion); border-left: 4px solid transparent; }
@@ -104,14 +101,12 @@
         .tarjeta-info .tarjeta-numero { font-size: 1.7rem; font-weight: 800; color: var(--gris-oscuro); line-height: 1; }
         .tarjeta-info .tarjeta-label { font-size: 0.75rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
 
-        /* ========== FILTROS ========== */
         .filtros-bar { background: var(--blanco); border-radius: var(--radio); padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--sombra-sm); margin-bottom: 14px; }
         .filtros-bar label { font-weight: 600; font-size: 0.78rem; color: var(--gris-oscuro); }
         .filtros-bar select, .filtros-bar input[type="text"] { padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro); font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--gris-fondo); color: var(--gris-oscuro); transition: border var(--transicion); min-width: 100px; }
         .filtros-bar select:focus, .filtros-bar input[type="text"]:focus { outline: none; border-color: var(--azul-medio); background: var(--blanco); }
         .filtros-bar input[type="text"] { flex: 1; min-width: 180px; max-width: 320px; }
 
-        /* ========== TABLAS ========== */
         .tabla-contenedor { background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-sm); overflow-x: auto; margin-bottom: 20px; max-height: 480px; overflow-y: auto; border: 1px solid var(--gris-claro); }
         .tabla-contenedor table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 1100px; white-space: nowrap; }
         .tabla-contenedor thead { position: sticky; top: 0; z-index: 10; }
@@ -128,13 +123,11 @@
         .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; }
         .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
-        /* ========== GRÁFICOS ========== */
         .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
         .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; display: flex; flex-direction: column; }
         .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 8px; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
-        /* ========== PANEL INCIDENCIAS ========== */
         .incidencias-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); margin-bottom: 20px; border-left: 5px solid var(--rojo); }
         .incidencias-panel h2 { font-size: 1rem; font-weight: 700; color: var(--rojo); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
@@ -145,10 +138,8 @@
         .alerta-fecha { font-weight: 600; color: var(--rojo); font-size: 0.7rem; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
         .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
 
-        /* ========== FOOTER ========== */
         .footer { text-align: center; padding: 14px; font-size: 0.75rem; color: var(--gris-medio); border-top: 1px solid var(--gris-claro); margin-top: 8px; }
 
-        /* ========== TOAST ========== */
         .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); animation: slideIn 0.35s ease; display: none; }
         .toast.mostrar { display: block; }
         @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -257,7 +248,7 @@
             let datosRegistroProgreso = [];
             let motivosParadas = [];
             let masterOperarios = [];
-            let listaMaquinas = []; // NUEVO: se cargará desde la hoja "Maquinas"
+            let listaMaquinas = [];
             let charts = {};
 
             const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
@@ -266,9 +257,8 @@
             const SHEET_OPERARIOS = 'Operarios';
             const SHEET_PROGRESO = 'RegistroProgresoDiario';
             const SHEET_MOTIVOS = 'MotivosParadas';
-            const SHEET_MAQUINAS = 'Maquinas'; // NUEVA HOJA
+            const SHEET_MAQUINAS = 'Maquinas';
 
-            // Límites de mantenimiento trimestral (en horas)
             const LIMITES_MANTENIMIENTO = {
                 'Fresadora': 480,
                 'Limadora': 500,
@@ -283,7 +273,7 @@
                 'Amoladora': 350
             };
 
-            const LIMITE_POR_DEFECTO = 400; // Para máquinas nuevas sin límite definido
+            const LIMITE_POR_DEFECTO = 400;
 
             function toast(msg, dur=3000) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); }
             function fechaHoy() { const d=new Date(); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
@@ -294,7 +284,6 @@
             function calcularHorasEntre(inicioStr, finStr) { const ini=parseHoraAMPM(inicioStr); const fin=parseHoraAMPM(finStr); if(!ini||!fin) return 0; if(fin<=ini) return 0; return (fin-ini)/(1000*60*60); }
             function formatoHoras(horasDecimales) { const horas=Math.floor(horasDecimales); const minutos=Math.round((horasDecimales-horas)*60); return `${horas}:${String(minutos).padStart(2,'0')}`; }
 
-            // Color según porcentaje de avance
             function colorPorAvance(porcentaje) {
                 if (porcentaje >= 100) return '#c0392b';
                 if (porcentaje >= 80) {
@@ -325,20 +314,15 @@
             function parsearCSV(texto) { const lineas=texto.split(/\r?\n/).filter(l=>l.trim()); if(lineas.length===0) return {enc:[],filas:[]}; const parseLinea=(l)=>{ const res=[]; let act='',comillas=false; for(let i=0;i<l.length;i++) { const ch=l[i]; if(ch==='"') comillas=!comillas; else if(ch===','&&!comillas) { res.push(act); act=''; } else act+=ch; } res.push(act); return res; }; const enc=parseLinea(lineas[0]); const filas=[]; for(let i=1;i<lineas.length;i++) { const f=parseLinea(lineas[i]); if(f.some(c=>c.trim())) filas.push(f); } return {enc,filas}; }
             async function fetchSheet(sheetName) { const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`; const res=await fetch(url); if(!res.ok) throw new Error(`Error ${res.status}`); return await res.text(); }
 
-            // NUEVO: Cargar lista de máquinas desde la hoja "Maquinas"
             async function cargarMaquinas() {
                 const texto = await fetchSheet(SHEET_MAQUINAS);
                 const { enc, filas } = parsearCSV(texto);
-                // La columna A contiene los nombres de las máquinas
                 listaMaquinas = filas
                     .map(f => (f[0] || '').trim())
                     .filter(nombre => nombre !== '' && nombre.toLowerCase() !== 'máquinas' && nombre.toLowerCase() !== 'maquinas');
-                
-                // Ordenar alfabéticamente
                 listaMaquinas.sort();
-                
                 toast(`📋 Máquinas cargadas: ${listaMaquinas.length} equipos`);
-                actualizarGraficosTrabajos(); // Actualizar el gráfico de horas de máquina
+                actualizarGraficosTrabajos();
             }
 
             async function cargarMotivosParadas() { const texto=await fetchSheet(SHEET_MOTIVOS); const {enc,filas}=parsearCSV(texto); const idxMotivo=encontrarColumna(enc,['motivo']); const idxTipo=encontrarColumna(enc,['tipo']); motivosParadas=filas.map(f=>({motivo:idxMotivo>=0?(f[idxMotivo]||'').trim():'', tipo:idxTipo>=0?(f[idxTipo]||'').trim():''})).filter(m=>m.tipo.toLowerCase()==='incidencia'&&m.motivo!==''); toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`); }
@@ -346,10 +330,10 @@
             async function cargarOTs() { const texto=await fetchSheet(SHEET_OTS); const {enc,filas}=parsearCSV(texto); datosOTs=filas.map(f=>mapearOTs(enc,f)); toast(`✅ OTs: ${datosOTs.length} registros`); actualizarTodoOTs(); }
             async function cargarTrabajos() { const texto=await fetchSheet(SHEET_TRAB); const {enc,filas}=parsearCSV(texto); datosTrabajos=filas.map(f=>mapearTrabajos(enc,f)); toast(`✅ Trabajos: ${datosTrabajos.length} registros`); actualizarTodoTrabajos(); }
             async function cargarRegistroProgreso() { const texto=await fetchSheet(SHEET_PROGRESO); const {enc,filas}=parsearCSV(texto); datosRegistroProgreso=filas.map(f=>mapearRegistroProgreso(enc,f)); toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`); actualizarTodoTrabajos(); }
-            
+
             async function cargarTodo() {
                 await cargarMotivosParadas();
-                await cargarMaquinas(); // NUEVO: cargar lista de máquinas
+                await cargarMaquinas();
                 await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
@@ -406,7 +390,6 @@
                 // *** GRÁFICO: Horas de máquina (CARGA AUTOMÁTICA DESDE HOJA "Maquinas") ***
                 const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
                 if(ctx2) {
-                    // Si no hay máquinas cargadas desde la hoja, usar lista por defecto
                     const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : [
                         'Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco',
                         'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'
@@ -415,7 +398,6 @@
                     const horasPorMaquina={};
                     datosRegistroProgreso.forEach(reg=>{ if(!reg.maquinaUsada||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) horasPorMaquina[reg.maquinaUsada]=(horasPorMaquina[reg.maquinaUsada]||0)+horas; });
                     
-                    // Preparar datos para todas las máquinas
                     const datosMaquinas=maquinasAMostrar.map(maq=>{
                         const horasTrabajadas=horasPorMaquina[maq]||0;
                         const limite=LIMITES_MANTENIMIENTO[maq]||LIMITE_POR_DEFECTO;
@@ -426,7 +408,6 @@
                         return {maquina:maq, horasTrabajadas, limite, porcentaje:Math.min(porcentaje,100), color, horasFaltantes, excedente};
                     });
                     
-                    // Ordenar por porcentaje descendente
                     datosMaquinas.sort((a,b)=>b.porcentaje-a.porcentaje);
                     
                     charts['maquina']=new Chart(ctx2,{
@@ -484,9 +465,101 @@
                     });
                 }
                 
-                // GRÁFICO: Incidencia por Categoría (DOUGHNUT CON PARETO)
+                // GRÁFICO: Incidencia por Categoría (DOUGHNUT CON PARETO Y HORAS)
                 const ctx3=document.getElementById('graficoIncidencias')?.getContext('2d');
-                if(ctx3) { const incidencias=obtenerIncidencias(); const freq={}; incidencias.forEach(reg=>{ if(reg.motivoParada) freq[reg.motivoParada]=(freq[reg.motivoParada]||0)+1; }); const sorted=Object.entries(freq).sort((a,b)=>b[1]-a[1]); if(sorted.length>0) { const top3=sorted.slice(0,3); const otros=sorted.slice(3); const sumaOtros=otros.reduce((s,m)=>s+m[1],0); const labels=[],data=[],bgColors=[]; const coloresTop=['#c0392b','#e8750c','#d4a017']; top3.forEach((m,i)=>{ labels.push(`Top ${i+1} - ${m[0]}`); data.push(m[1]); bgColors.push(coloresTop[i]); }); if(sumaOtros>0){ labels.push('Otros'); data.push(sumaOtros); bgColors.push('#8b8f95'); } const total=data.reduce((a,b)=>a+b,0); charts['incidencias']=new Chart(ctx3,{ type:'doughnut',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}},tooltip:{callbacks:{label:function(ctx){const v=ctx.raw;const p=((v/total)*100).toFixed(1);return`Cantidad: ${v} incidencias (${p}%)`;}}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); } else { charts['incidencias']=new Chart(ctx3,{ type:'doughnut',data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
+                if(ctx3) {
+                    const incidencias=obtenerIncidencias();
+                    // Ahora acumulamos count y horas por motivo
+                    const datosPorMotivo={};
+                    incidencias.forEach(reg=>{
+                        if(reg.motivoParada){
+                            const horas=calcularHorasEntre(reg.horaInicio, reg.horaParada);
+                            if(!datosPorMotivo[reg.motivoParada]) datosPorMotivo[reg.motivoParada]={count:0, horas:0};
+                            datosPorMotivo[reg.motivoParada].count++;
+                            datosPorMotivo[reg.motivoParada].horas += horas;
+                        }
+                    });
+                    
+                    const sorted=Object.entries(datosPorMotivo).sort((a,b)=>b[1].count-a[1].count);
+                    
+                    if(sorted.length>0) {
+                        const top3=sorted.slice(0,3);
+                        const otros=sorted.slice(3);
+                        
+                        let labels=[], data=[], horasCategoria=[], bgColors=[];
+                        const coloresTop=['#c0392b','#e8750c','#d4a017'];
+                        
+                        top3.forEach((entry,i)=>{
+                            const motivo=entry[0];
+                            const count=entry[1].count;
+                            const horas=entry[1].horas;
+                            labels.push(`Top ${i+1} - ${motivo}`);
+                            data.push(count);
+                            horasCategoria.push(horas);
+                            bgColors.push(coloresTop[i]);
+                        });
+                        
+                        const sumaOtrosCount = otros.reduce((s,entry)=>s+entry[1].count,0);
+                        const sumaOtrosHoras = otros.reduce((s,entry)=>s+entry[1].horas,0);
+                        
+                        if(sumaOtrosCount>0){
+                            labels.push('Otros');
+                            data.push(sumaOtrosCount);
+                            horasCategoria.push(sumaOtrosHoras);
+                            bgColors.push('#8b8f95');
+                        }
+                        
+                        const total=data.reduce((a,b)=>a+b,0);
+                        
+                        charts['incidencias']=new Chart(ctx3,{
+                            type:'doughnut',
+                            data:{
+                                labels:labels,
+                                datasets:[{
+                                    data:data,
+                                    backgroundColor:bgColors,
+                                    borderColor:'#fff',
+                                    borderWidth:3,
+                                    borderRadius:6,
+                                    offset:10,
+                                    hoverOffset:18
+                                }]
+                            },
+                            options:{
+                                responsive:true,
+                                maintainAspectRatio:false,
+                                cutout:'55%',
+                                plugins:{
+                                    legend:{
+                                        position:'bottom',
+                                        labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}
+                                    },
+                                    tooltip:{
+                                        callbacks:{
+                                            label:function(ctx){
+                                                const v=ctx.raw;
+                                                const p=((v/total)*100).toFixed(1);
+                                                const horas=horasCategoria[ctx.dataIndex];
+                                                return [
+                                                    `Cantidad: ${v} incidencias (${p}%)`,
+                                                    `Horas totales: ${formatoHoras(horas)} hs`
+                                                ];
+                                            }
+                                        }
+                                    }
+                                },
+                                animation:{animateRotate:true,animateScale:true},
+                                layout:{padding:10}
+                            }
+                        });
+                    } else {
+                        charts['incidencias']=new Chart(ctx3,{
+                            type:'doughnut',
+                            data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]},
+                            options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+                        });
+                    }
+                }
             }
 
             function actualizarPanelIncidencias() { const alertas=[]; const hoy=new Date(); hoy.setHours(0,0,0,0); datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } }); datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); }); const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); }); alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias'); cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>'; }

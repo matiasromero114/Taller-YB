@@ -117,6 +117,7 @@
         .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
         .badge-entregado { background: var(--verde-claro); color: var(--verde); }
+        .badge-no-entregado { background: #e9ecef; color: #495057; }
         .badge-baja { background: #e9ecef; color: #495057; }
         .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
@@ -128,10 +129,76 @@
         .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 8px; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
-        .incidencias-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); margin-bottom: 20px; border-left: 5px solid var(--rojo); }
-        .incidencias-panel h2 { font-size: 1rem; font-weight: 700; color: var(--rojo); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
-        .alerta-icono { width: 28px; height: 28px; border-radius: 50%; background: var(--rojo-claro); display: flex; align-items: center; justify-content: center; color: var(--rojo); font-size: 0.75rem; flex-shrink: 0; }
+        /* ========== PANELES INFERIORES ========== */
+        .paneles-inferiores {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 900px) {
+            .paneles-inferiores {
+                grid-template-columns: 1fr;
+            }
+        }
+        .incidencias-panel, .no-entregados-panel {
+            background: var(--blanco);
+            border-radius: var(--radio);
+            padding: 18px 20px;
+            box-shadow: var(--sombra-sm);
+            border-left: 5px solid var(--rojo);
+        }
+        .no-entregados-panel {
+            border-left-color: var(--gris-medio);
+        }
+        .incidencias-panel h2, .no-entregados-panel h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .incidencias-panel h2 { color: var(--rojo); }
+        .no-entregados-panel h2 { color: var(--gris-oscuro); }
+        .alerta-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radio-sm);
+            background: #fff5f5;
+            border-left: 3px solid var(--rojo);
+            font-size: 0.8rem;
+        }
+        .no-entregado-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radio-sm);
+            background: #f8f9fa;
+            border-left: 3px solid var(--gris-medio);
+            font-size: 0.8rem;
+        }
+        .no-entregado-item .titulo {
+            font-weight: 700;
+            color: var(--gris-oscuro);
+        }
+        .alerta-icono {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--rojo-claro);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--rojo);
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
         .alerta-contenido { flex: 1; }
         .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
         .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
@@ -232,10 +299,18 @@
             <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- PANEL INCIDENCIAS -->
-        <div class="incidencias-panel">
-            <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
-            <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
+        <!-- PANELES INFERIORES DIVIDIDOS -->
+        <div class="paneles-inferiores">
+            <!-- Panel de Incidencias y Alertas -->
+            <div class="incidencias-panel" id="panelIncidencias">
+                <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
+                <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
+            </div>
+            <!-- Panel de Trabajos No entregados -->
+            <div class="no-entregados-panel" id="panelNoEntregados">
+                <h2><i class="fa-solid fa-rotate-left"></i> Trabajos No entregados</h2>
+                <div id="contenidoNoEntregados"><p class="todo-ok">Sin trabajos no entregados.</p></div>
+            </div>
         </div>
 
         <footer class="footer">Cerámica Marcos Paz · Taller Yerba Buena · Datos actualizados al día <span id="fechaFooter"></span></footer>
@@ -343,7 +418,7 @@
             function obtenerIncidencias() { const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return datosRegistroProgreso.filter(reg=>reg.motivoParada&&motivosIncidencia.has(reg.motivoParada.toLowerCase())); }
             function esIncidencia(motivoParada) { if(!motivoParada) return false; const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return motivosIncidencia.has(motivoParada.toLowerCase()); }
 
-            function actualizarTodoOTs() { poblarFiltrosOTs(); actualizarTarjetasOTs(); actualizarTablaOTs(); actualizarGraficosOTs(); actualizarPanelIncidencias(); }
+            function actualizarTodoOTs() { poblarFiltrosOTs(); actualizarTarjetasOTs(); actualizarTablaOTs(); actualizarGraficosOTs(); actualizarPanelIncidencias(); actualizarPanelNoEntregados(); }
             function actualizarTodoTrabajos() { poblarFiltrosTrabajos(); actualizarTarjetasTrabajos(); actualizarTablaTrabajos(); actualizarGraficosTrabajos(); actualizarPanelIncidencias(); }
 
             function actualizarTarjetasOTs() { document.getElementById('totalOTs').textContent=datosOTs.length; document.getElementById('enCursoOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length; document.getElementById('pendientesOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length; document.getElementById('operariosActivos').textContent=masterOperarios.length; }
@@ -383,183 +458,73 @@
                 const filt=filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
                 
+                // Horas por Operario
                 const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
                 if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
                 
+                // Horas de máquina
                 const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
                 if(ctx2) {
-                    const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : [
-                        'Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco',
-                        'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'
-                    ];
-                    
+                    const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : ['Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco', 'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'];
                     const horasPorMaquina={};
                     datosRegistroProgreso.forEach(reg=>{ if(!reg.maquinaUsada||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) horasPorMaquina[reg.maquinaUsada]=(horasPorMaquina[reg.maquinaUsada]||0)+horas; });
-                    
-                    const datosMaquinas=maquinasAMostrar.map(maq=>{
-                        const horasTrabajadas=horasPorMaquina[maq]||0;
-                        const limite=LIMITES_MANTENIMIENTO[maq]||LIMITE_POR_DEFECTO;
-                        const porcentaje=Math.min((horasTrabajadas/limite)*100,120);
-                        const color=colorPorAvance(Math.min(porcentaje,100));
-                        const horasFaltantes=Math.max(limite-horasTrabajadas,0);
-                        const excedente=Math.max(horasTrabajadas-limite,0);
-                        return {maquina:maq, horasTrabajadas, limite, porcentaje:Math.min(porcentaje,100), color, horasFaltantes, excedente};
-                    });
-                    
+                    const datosMaquinas=maquinasAMostrar.map(maq=>{ const horasTrabajadas=horasPorMaquina[maq]||0; const limite=LIMITES_MANTENIMIENTO[maq]||LIMITE_POR_DEFECTO; const porcentaje=Math.min((horasTrabajadas/limite)*100,120); const color=colorPorAvance(Math.min(porcentaje,100)); const horasFaltantes=Math.max(limite-horasTrabajadas,0); const excedente=Math.max(horasTrabajadas-limite,0); return {maquina:maq, horasTrabajadas, limite, porcentaje:Math.min(porcentaje,100), color, horasFaltantes, excedente}; });
                     datosMaquinas.sort((a,b)=>b.porcentaje-a.porcentaje);
-                    
-                    charts['maquina']=new Chart(ctx2,{
-                        type:'bar',
-                        data:{
-                            labels:datosMaquinas.map(d=>d.maquina),
-                            datasets:[{
-                                label:'Horas trabajadas',
-                                data:datosMaquinas.map(d=>d.porcentaje),
-                                backgroundColor:datosMaquinas.map(d=>d.color),
-                                borderColor:datosMaquinas.map(d=>d.porcentaje>=100?'#a93226':'transparent'),
-                                borderWidth:datosMaquinas.map(d=>d.porcentaje>=100?2:0),
-                                borderRadius:6,
-                                borderSkipped:false
-                            }]
-                        },
-                        options:{
-                            indexAxis:'y',
-                            responsive:true,
-                            maintainAspectRatio:false,
-                            plugins:{
-                                legend:{display:false},
-                                tooltip:{
-                                    callbacks:{
-                                        label:function(ctx){
-                                            const d=datosMaquinas[ctx.dataIndex];
-                                            const lineas=[`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`];
-                                            lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`);
-                                            lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`);
-                                            if(d.porcentaje>=100){
-                                                lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`);
-                                                lineas.push('⚠️ MANTENIMIENTO REQUERIDO');
-                                            }else{
-                                                lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`);
-                                                lineas.push(d.porcentaje>=80?'⚠️ Próximo a mantenimiento':'✅ En rango');
-                                            }
-                                            return lineas;
-                                        }
-                                    }
-                                }
-                            },
-                            scales:{
-                                x:{
-                                    beginAtZero:true,
-                                    max:100,
-                                    ticks:{font:{size:10},callback:function(v){return v+'%';}},
-                                    grid:{color:'rgba(0,0,0,0.05)',drawBorder:false},
-                                    title:{display:true,text:'Avance hacia límite de mantenimiento',font:{size:10,weight:'bold'}}
-                                },
-                                y:{ticks:{font:{size:10}},grid:{display:false}}
-                            },
-                            animation:{duration:1000,easing:'easeOutQuart'},
-                            layout:{padding:{top:10,bottom:5}}
-                        }
-                    });
+                    charts['maquina']=new Chart(ctx2,{ type:'bar', data:{labels:datosMaquinas.map(d=>d.maquina),datasets:[{label:'Horas trabajadas',data:datosMaquinas.map(d=>d.porcentaje),backgroundColor:datosMaquinas.map(d=>d.color),borderColor:datosMaquinas.map(d=>d.porcentaje>=100?'#a93226':'transparent'),borderWidth:datosMaquinas.map(d=>d.porcentaje>=100?2:0),borderRadius:6,borderSkipped:false}]}, options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){const d=datosMaquinas[ctx.dataIndex]; const lineas=[`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`]; lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`); lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`); if(d.porcentaje>=100){lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`); lineas.push('⚠️ MANTENIMIENTO REQUERIDO');}else{lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`); lineas.push(d.porcentaje>=80?'⚠️ Próximo a mantenimiento':'✅ En rango');} return lineas;}}}},scales:{x:{beginAtZero:true,max:100,ticks:{font:{size:10},callback:function(v){return v+'%';}},grid:{color:'rgba(0,0,0,0.05)',drawBorder:false},title:{display:true,text:'Avance hacia límite de mantenimiento',font:{size:10,weight:'bold'}}},y:{ticks:{font:{size:10}},grid:{display:false}}},animation:{duration:1000,easing:'easeOutQuart'},layout:{padding:{top:10,bottom:5}}} });
                 }
                 
-                // GRÁFICO: Incidencia por Categoría (con horas)
+                // Incidencia por Categoría
                 const ctx3=document.getElementById('graficoIncidencias')?.getContext('2d');
                 if(ctx3) {
                     const incidencias=obtenerIncidencias();
                     const datosPorMotivo={};
-                    incidencias.forEach(reg=>{
-                        if(reg.motivoParada){
-                            const horas=calcularHorasEntre(reg.horaInicio, reg.horaParada);
-                            if(!datosPorMotivo[reg.motivoParada]) datosPorMotivo[reg.motivoParada]={count:0, horas:0};
-                            datosPorMotivo[reg.motivoParada].count++;
-                            datosPorMotivo[reg.motivoParada].horas += horas;
-                        }
-                    });
-                    
+                    incidencias.forEach(reg=>{ if(reg.motivoParada){ const horas=calcularHorasEntre(reg.horaInicio, reg.horaParada); if(!datosPorMotivo[reg.motivoParada]) datosPorMotivo[reg.motivoParada]={count:0, horas:0}; datosPorMotivo[reg.motivoParada].count++; datosPorMotivo[reg.motivoParada].horas += horas; } });
                     const sorted=Object.entries(datosPorMotivo).sort((a,b)=>b[1].count-a[1].count);
-                    
                     if(sorted.length>0) {
-                        const top3=sorted.slice(0,3);
-                        const otros=sorted.slice(3);
-                        
-                        let labels=[], data=[], horasCategoria=[], bgColors=[];
-                        const coloresTop=['#c0392b','#e8750c','#d4a017'];
-                        
-                        top3.forEach((entry,i)=>{
-                            const motivo=entry[0];
-                            const count=entry[1].count;
-                            const horas=entry[1].horas;
-                            labels.push(`Top ${i+1} - ${motivo}`);
-                            data.push(count);
-                            horasCategoria.push(horas);
-                            bgColors.push(coloresTop[i]);
-                        });
-                        
-                        const sumaOtrosCount = otros.reduce((s,entry)=>s+entry[1].count,0);
-                        const sumaOtrosHoras = otros.reduce((s,entry)=>s+entry[1].horas,0);
-                        
-                        if(sumaOtrosCount>0){
-                            labels.push('Otros');
-                            data.push(sumaOtrosCount);
-                            horasCategoria.push(sumaOtrosHoras);
-                            bgColors.push('#8b8f95');
-                        }
-                        
+                        const top3=sorted.slice(0,3); const otros=sorted.slice(3);
+                        let labels=[], data=[], horasCategoria=[], bgColors=[]; const coloresTop=['#c0392b','#e8750c','#d4a017'];
+                        top3.forEach((entry,i)=>{ labels.push(`Top ${i+1} - ${entry[0]}`); data.push(entry[1].count); horasCategoria.push(entry[1].horas); bgColors.push(coloresTop[i]); });
+                        const sumaOtrosCount = otros.reduce((s,entry)=>s+entry[1].count,0); const sumaOtrosHoras = otros.reduce((s,entry)=>s+entry[1].horas,0);
+                        if(sumaOtrosCount>0){ labels.push('Otros'); data.push(sumaOtrosCount); horasCategoria.push(sumaOtrosHoras); bgColors.push('#8b8f95'); }
                         const total=data.reduce((a,b)=>a+b,0);
-                        
-                        charts['incidencias']=new Chart(ctx3,{
-                            type:'doughnut',
-                            data:{
-                                labels:labels,
-                                datasets:[{
-                                    data:data,
-                                    backgroundColor:bgColors,
-                                    borderColor:'#fff',
-                                    borderWidth:3,
-                                    borderRadius:6,
-                                    offset:10,
-                                    hoverOffset:18
-                                }]
-                            },
-                            options:{
-                                responsive:true,
-                                maintainAspectRatio:false,
-                                cutout:'55%',
-                                plugins:{
-                                    legend:{
-                                        position:'bottom',
-                                        labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}
-                                    },
-                                    tooltip:{
-                                        callbacks:{
-                                            label:function(ctx){
-                                                const v=ctx.raw;
-                                                const p=((v/total)*100).toFixed(1);
-                                                const horas=horasCategoria[ctx.dataIndex];
-                                                return [
-                                                    `Cantidad: ${v} incidencias (${p}%)`,
-                                                    `Horas totales: ${formatoHoras(horas)} hs`
-                                                ];
-                                            }
-                                        }
-                                    }
-                                },
-                                animation:{animateRotate:true,animateScale:true},
-                                layout:{padding:10}
-                            }
-                        });
+                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}},tooltip:{callbacks:{label:function(ctx){ const v=ctx.raw; const p=((v/total)*100).toFixed(1); const horas=horasCategoria[ctx.dataIndex]; return [`Cantidad: ${v} incidencias (${p}%)`,`Horas totales: ${formatoHoras(horas)} hs`]; }}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} });
                     } else {
-                        charts['incidencias']=new Chart(ctx3,{
-                            type:'doughnut',
-                            data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]},
-                            options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
-                        });
+                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} });
                     }
                 }
             }
 
-            function actualizarPanelIncidencias() { const alertas=[]; const hoy=new Date(); hoy.setHours(0,0,0,0); datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } }); datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); }); const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); }); alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias'); cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>'; }
+            function actualizarPanelIncidencias() {
+                const alertas=[];
+                const hoy=new Date(); hoy.setHours(0,0,0,0);
+                datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } });
+                datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); });
+                const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); });
+                alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias');
+                cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
+            }
+
+            function actualizarPanelNoEntregados() {
+                const noEntregados = datosOTs.filter(o => o.estado.toLowerCase() === 'no entregado');
+                const cont = document.getElementById('contenidoNoEntregados');
+                if (noEntregados.length === 0) {
+                    cont.innerHTML = '<p class="todo-ok">Sin trabajos no entregados.</p>';
+                    return;
+                }
+                const items = noEntregados.map(o => {
+                    // Buscar OT nueva en descripción de otras OTs que contenga el número de OT no entregada
+                    const otNueva = datosOTs.find(x => x.descripcionTarea && x.descripcionTarea.includes(o.nroOT) && x.nroOT !== o.nroOT);
+                    const otNuevaTexto = otNueva ? escapeHTML(otNueva.nroOT) : '<span class="celda-vacia">Sin OT nueva</span>';
+                    const operarioNueva = otNueva ? escapeHTML(otNueva.operarioAsignado) : '<span class="celda-vacia">—</span>';
+                    return `<div class="no-entregado-item">
+                        <div class="titulo">OT no realizada: ${escapeHTML(o.nroOT)}</div>
+                        <div>Responsable original: ${escapeHTML(o.operarioAsignado)}</div>
+                        <div>OT nueva: ${otNuevaTexto}</div>
+                        <div>Operario de fabricación: ${operarioNueva}</div>
+                    </div>`;
+                }).join('');
+                cont.innerHTML = items;
+            }
 
             document.getElementById('btnRecargarGoogle').addEventListener('click',cargarTodo);
             ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
@@ -567,7 +532,7 @@
             ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
             document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
-            function inicializar() { actualizarFechasUI(); actualizarTarjetasOTs(); actualizarTarjetasTrabajos(); actualizarTablaOTs(); actualizarTablaTrabajos(); actualizarPanelIncidencias(); setTimeout(cargarTodo,600); }
+            function inicializar() { actualizarFechasUI(); actualizarTarjetasOTs(); actualizarTarjetasTrabajos(); actualizarTablaOTs(); actualizarTablaTrabajos(); actualizarPanelIncidencias(); actualizarPanelNoEntregados(); setTimeout(cargarTodo,600); }
             if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',inicializar); else inicializar();
         })();
     </script>

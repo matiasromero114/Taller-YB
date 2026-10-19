@@ -41,11 +41,7 @@
             --transicion: 0.2s ease;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -56,24 +52,12 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .dashboard-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 16px 20px 32px;
-        }
+        .dashboard-container { max-width: 1440px; margin: 0 auto; padding: 16px 20px 32px; }
 
         .header {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 18px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            box-shadow: var(--sombra-md);
-            margin-bottom: 20px;
-            border-left: 5px solid var(--naranja);
+            background: var(--blanco); border-radius: var(--radio); padding: 18px 24px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+            box-shadow: var(--sombra-md); margin-bottom: 20px; border-left: 5px solid var(--naranja);
         }
         .header-izq { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); box-shadow: var(--sombra-sm); flex-shrink: 0; }
@@ -130,76 +114,17 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
-        /* ========== PANELES INFERIORES ========== */
-        .paneles-inferiores {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        @media (max-width: 900px) {
-            .paneles-inferiores {
-                grid-template-columns: 1fr;
-            }
-        }
-        .incidencias-panel, .no-entregados-panel {
-            background: var(--blanco);
-            border-radius: var(--radio);
-            padding: 18px 20px;
-            box-shadow: var(--sombra-sm);
-            border-left: 5px solid var(--rojo);
-        }
-        .no-entregados-panel {
-            border-left-color: var(--gris-medio);
-        }
-        .incidencias-panel h2, .no-entregados-panel h2 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .paneles-inferiores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        @media (max-width: 900px) { .paneles-inferiores { grid-template-columns: 1fr; } }
+        .incidencias-panel, .no-entregados-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); border-left: 5px solid var(--rojo); }
+        .no-entregados-panel { border-left-color: var(--gris-medio); }
+        .incidencias-panel h2, .no-entregados-panel h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .incidencias-panel h2 { color: var(--rojo); }
         .no-entregados-panel h2 { color: var(--gris-oscuro); }
-        .alerta-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            border-radius: var(--radio-sm);
-            background: #fff5f5;
-            border-left: 3px solid var(--rojo);
-            font-size: 0.8rem;
-        }
-        .no-entregado-item {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            border-radius: var(--radio-sm);
-            background: #f8f9fa;
-            border-left: 3px solid var(--gris-medio);
-            font-size: 0.8rem;
-        }
-        .no-entregado-item .titulo {
-            font-weight: 700;
-            color: var(--gris-oscuro);
-        }
-        .alerta-icono {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--rojo-claro);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--rojo);
-            font-size: 0.75rem;
-            flex-shrink: 0;
-        }
+        .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
+        .no-entregado-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #f8f9fa; border-left: 3px solid var(--gris-medio); font-size: 0.8rem; }
+        .no-entregado-item .titulo { font-weight: 700; color: var(--gris-oscuro); }
+        .alerta-icono { width: 28px; height: 28px; border-radius: 50%; background: var(--rojo-claro); display: flex; align-items: center; justify-content: center; color: var(--rojo); font-size: 0.75rem; flex-shrink: 0; }
         .alerta-contenido { flex: 1; }
         .alerta-titulo { font-weight: 700; color: var(--gris-oscuro); margin-bottom: 2px; }
         .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
@@ -363,22 +288,25 @@
             function formatoHoras(horasDecimales) { const horas=Math.floor(horasDecimales); const minutos=Math.round((horasDecimales-horas)*60); return `${horas}:${String(minutos).padStart(2,'0')}`; }
             function formatoFecha(d) { return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
 
-            // NUEVO: detecta si un motivo de parada corresponde a mantenimiento
             function esMantenimiento(motivo) {
                 if (!motivo) return false;
                 const m = motivo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                 return m.includes('mantenimiento');
             }
 
-            // NUEVO: obtiene el último mantenimiento por máquina
+            // NUEVA VERSIÓN: devuelve objeto con fecha y horaParada del último mantenimiento
             function obtenerUltimosMantenimientos() {
                 const result = {};
                 datosRegistroProgreso.forEach(reg => {
                     if (!reg.maquinaUsada || !esMantenimiento(reg.motivoParada)) return;
                     const fecha = parseFechaDMY(reg.fecha);
                     if (!fecha) return;
-                    if (!result[reg.maquinaUsada] || fecha > result[reg.maquinaUsada]) {
-                        result[reg.maquinaUsada] = fecha;
+                    if (!result[reg.maquinaUsada] || fecha > result[reg.maquinaUsada].fecha) {
+                        result[reg.maquinaUsada] = {
+                            fecha: fecha,
+                            horaInicio: reg.horaInicio,
+                            horaParada: reg.horaParada
+                        };
                     }
                 });
                 return result;
@@ -409,7 +337,6 @@
 
             function mapearTrabajos(encabezados, fila) { const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']); const idxMaq=encontrarColumna(encabezados,['maquina','máquina']); const idxOp=encontrarColumna(encabezados,['operario']); const idxDesc=encontrarColumna(encabezados,['descripcion del trabajo realizado','descripcion','trabajo realizado']); const idxMat=encontrarColumna(encabezados,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']); const idxCant=encontrarColumna(encabezados,['cantidad','cant']); const idxIni=encontrarColumna(encabezados,['fecha hora inicio','hora inicio','fechahora inicio']); const idxFin=encontrarColumna(encabezados,['fecha hora fin','hora fin','fechahora fin']); const idxDur=encontrarColumna(encabezados,['tiempo total','tiempototal','duracion']); return { nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', maquinaRol:idxMaq>=0?(fila[idxMaq]||'').trim():'', operario:idxOp>=0?(fila[idxOp]||'').trim():'', descripcion:idxDesc>=0?(fila[idxDesc]||'').trim():'', materiales:idxMat>=0?(fila[idxMat]||'').trim():'', cantidad:idxCant>=0?(fila[idxCant]||'').trim():'', fechaHoraInicio:idxIni>=0?(fila[idxIni]||'').trim():'', fechaHoraFin:idxFin>=0?(fila[idxFin]||'').trim():'', tiempoTotal:idxDur>=0?(fila[idxDur]||'').trim():'' }; }
 
-            // MODIFICADO: ahora incluye el campo 'fecha' (columna G)
             function mapearRegistroProgreso(encabezados, fila) {
                 let idxOperario=-1;
                 for(let i=0;i<encabezados.length;i++) {
@@ -509,7 +436,7 @@
                 const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
                 if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
                 
-                // *** Horas de máquina (con reinicio tras mantenimiento) ***
+                // *** Horas de máquina (con reinicio tras mantenimiento CORREGIDO) ***
                 const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
                 if(ctx2) {
                     const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : ['Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco', 'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'];
@@ -518,14 +445,25 @@
                     
                     datosRegistroProgreso.forEach(reg => {
                         if (!reg.maquinaUsada || !reg.horaInicio || !reg.horaParada) return;
-                        // Omitir el propio registro de mantenimiento (no es uso)
+                        // Omitir el propio registro de mantenimiento
                         if (esMantenimiento(reg.motivoParada)) return;
-                        // Omitir registros anteriores o en la fecha del último mantenimiento
-                        const ultMant = ultimosMant[reg.maquinaUsada];
-                        if (ultMant) {
+                        
+                        const ultMantInfo = ultimosMant[reg.maquinaUsada];
+                        if (ultMantInfo) {
                             const fechaReg = parseFechaDMY(reg.fecha);
-                            if (fechaReg && fechaReg <= ultMant) return;
+                            if (fechaReg) {
+                                // Si es de un día ANTERIOR al mantenimiento: excluir
+                                if (fechaReg < ultMantInfo.fecha) return;
+                                // Si es del MISMO día: verificar hora de inicio vs hora fin del mantenimiento
+                                if (fechaReg.getTime() === ultMantInfo.fecha.getTime()) {
+                                    const workIni = parseHoraAMPM(reg.horaInicio);
+                                    const mantFin = parseHoraAMPM(ultMantInfo.horaParada);
+                                    // Solo excluir si el trabajo empezó ANTES de que terminara el mantenimiento
+                                    if (workIni && mantFin && workIni < mantFin) return;
+                                }
+                            }
                         }
+                        
                         const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
                         if (horas > 0) horasPorMaquina[reg.maquinaUsada] = (horasPorMaquina[reg.maquinaUsada] || 0) + horas;
                     });
@@ -569,8 +507,8 @@
                                             const lineas = [`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`];
                                             lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`);
                                             lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`);
-                                            const um = ultimosMant[d.maquina];
-                                            if (um) lineas.push(`🔧 Último mantenimiento: ${formatoFecha(um)}`);
+                                            const umInfo = ultimosMant[d.maquina];
+                                            if (umInfo) lineas.push(`🔧 Último mantenimiento: ${formatoFecha(umInfo.fecha)}`);
                                             else lineas.push('🔧 Último mantenimiento: Sin registro');
                                             if (d.porcentaje >= 100) {
                                                 lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`);
@@ -599,12 +537,12 @@
                         }
                     });
                     
-                    // Actualizar subtítulo con el mantenimiento más reciente global
+                    // Actualizar subtítulo con el mantenimiento más reciente
                     const subtitulo = document.getElementById('subtituloMantenimiento');
                     if (subtitulo) {
                         let masReciente = null;
-                        Object.values(ultimosMant).forEach(f => {
-                            if (!masReciente || f > masReciente) masReciente = f;
+                        Object.values(ultimosMant).forEach(info => {
+                            if (!masReciente || info.fecha > masReciente) masReciente = info.fecha;
                         });
                         if (masReciente) {
                             subtitulo.textContent = `🔧 Último mantenimiento registrado: ${formatoFecha(masReciente)}`;

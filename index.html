@@ -5,12 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taller Yerba Buena — Dashboard OTs y Ejecución</title>
 
-    <!-- Font Awesome 6 (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Chart.js 4 (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js">
-    </script>
-    <!-- Google Fonts: Inter + Roboto Mono -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -39,17 +35,41 @@
             --radio: 10px;
             --radio-sm: 6px;
             --transicion: 0.2s ease;
+            --bg-body: #e8ecf0;
         }
+
+        /* ============ MODO OSCURO ============ */
+        body.dark-mode {
+            --blanco: #1e293b;
+            --gris-fondo: #0f172a;
+            --gris-claro: #334155;
+            --gris-oscuro: #e2e8f0;
+            --gris-medio: #94a3b8;
+            --azul-oscuro: #60a5fa;
+            --azul-medio: #3b82f6;
+            --azul-claro: #1e3a5f;
+            --verde-claro: #14532d;
+            --rojo-claro: #4c1d1d;
+            --amarillo-claro: #4a3a0d;
+            --bg-body: #0f172a;
+            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+        body.dark-mode { background: var(--bg-body); }
+        body.dark-mode .tabla-contenedor thead th { background: #0a1628; }
+        body.dark-mode .badge-no-entregado { background: #334155; color: #cbd5e1; }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #e8ecf0;
+            background: var(--bg-body);
             color: var(--gris-oscuro);
             min-height: 100vh;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .dashboard-container { max-width: 1440px; margin: 0 auto; padding: 16px 20px 32px; }
@@ -58,21 +78,82 @@
             background: var(--blanco); border-radius: var(--radio); padding: 18px 24px;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
             box-shadow: var(--sombra-md); margin-bottom: 20px; border-left: 5px solid var(--naranja);
+            transition: background 0.3s ease;
         }
         .header-izq { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
         .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); box-shadow: var(--sombra-sm); flex-shrink: 0; }
         .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); margin: 0; line-height: 1.2; }
         .header-titulos .subtitulo { font-size: 0.82rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
-        .header-der { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-der { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .fecha-actual { background: var(--gris-fondo); padding: 8px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; color: var(--gris-oscuro); white-space: nowrap; border: 1px solid var(--gris-claro); }
         .btn-carga { padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco); color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all var(--transicion); white-space: nowrap; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); }
+        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); transform: translateY(-1px); }
         .btn-carga i { font-size: 0.9rem; }
+        .btn-icon { padding: 9px 12px; }
+
+        /* ========== EXECUTIVE SUMMARY ========== */
+        .executive-summary {
+            background: linear-gradient(135deg, var(--blanco) 0%, var(--gris-fondo) 100%);
+            border-radius: var(--radio); padding: 20px 24px; box-shadow: var(--sombra-md); margin-bottom: 20px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+            border: 1px solid var(--gris-claro);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .semaforo {
+            display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-radius: 30px;
+            background: rgba(74, 222, 128, 0.1); border: 2px solid #4ade80;
+            transition: all 0.4s ease;
+        }
+        .semaforo-texto { display: flex; flex-direction: column; }
+        .semaforo-texto strong { font-size: 0.95rem; }
+        .semaforo-texto span { font-size: 0.78rem; color: var(--gris-medio); }
+        .mini-kpis { display: flex; gap: 24px; flex-wrap: wrap; }
+        .mini-kpi { display: flex; flex-direction: column; text-align: center; }
+        .mini-valor { font-size: 1.8rem; font-weight: 800; color: var(--azul-oscuro); line-height: 1; }
+        .mini-label { font-size: 0.68rem; color: var(--gris-medio); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+        .last-update { font-size: 0.7rem; color: var(--gris-medio); display: flex; align-items: center; gap: 6px; }
+
+        /* ========== TOGGLE VISTA ========== */
+        .toggle-vista {
+            display: flex; gap: 6px; background: var(--blanco); padding: 5px; border-radius: 20px;
+            box-shadow: var(--sombra-sm); margin-bottom: 20px; width: fit-content;
+            border: 1px solid var(--gris-claro);
+        }
+        .toggle-vista button {
+            padding: 8px 18px; border-radius: 15px; border: none; background: transparent;
+            cursor: pointer; font-weight: 600; font-size: 0.8rem; color: var(--gris-medio);
+            transition: all 0.2s; font-family: 'Inter', sans-serif;
+        }
+        .toggle-vista button.activo { background: var(--azul-medio); color: white; }
+        .toggle-vista button:hover:not(.activo) { color: var(--azul-medio); }
+
+        /* Vista resumen oculta tablas y paneles */
+        body.vista-resumen .tabla-contenedor,
+        body.vista-resumen .filtros-bar,
+        body.vista-resumen .paneles-inferiores,
+        body.vista-resumen .seccion-titulo-tablas { display: none; }
+
+        /* ========== CHIPS FILTROS ========== */
+        .chips-filtros { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+        .chip {
+            padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--gris-claro);
+            background: var(--blanco); cursor: pointer; font-weight: 600; font-size: 0.8rem;
+            transition: all 0.2s; font-family: 'Inter', sans-serif; color: var(--gris-oscuro);
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        .chip:hover { border-color: var(--azul-medio); transform: translateY(-1px); }
+        .chip.activo { background: var(--azul-medio); color: white; border-color: var(--azul-medio); }
 
         .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px; }
         .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; transition: transform var(--transicion), box-shadow var(--transicion); border-left: 4px solid transparent; }
-        .tarjeta:hover { transform: translateY(-2px); box-shadow: var(--sombra-md); }
+        .tarjeta {
+            background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm);
+            display: flex; align-items: center; gap: 14px; transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid transparent; cursor: pointer;
+            animation: fadeInUp 0.4s ease-out;
+        }
+        .tarjeta:hover { transform: translateY(-3px); box-shadow: var(--sombra-md); }
+        .tarjeta:active { transform: translateY(-1px); }
         .tarjeta.azul { border-left-color: var(--azul-medio); }
         .tarjeta.naranja { border-left-color: var(--naranja); }
         .tarjeta.verde { border-left-color: var(--verde); }
@@ -96,12 +177,18 @@
         .tabla-contenedor thead { position: sticky; top: 0; z-index: 10; }
         .tabla-contenedor thead th { background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
         .tabla-contenedor tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); color: var(--gris-oscuro); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-        .tabla-contenedor tbody tr:hover { background: #f8fafb; }
-        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
+        .tabla-contenedor tbody tr { transition: all 0.15s ease; }
+        .tabla-contenedor tbody tr:hover { background: var(--gris-fondo); box-shadow: inset 4px 0 0 var(--azul-medio); }
+        .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
+        .badge::before { content: '●'; font-size: 0.9em; }
         .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
+        .badge-pendiente::before { color: #fbbf24; }
         .badge-en-curso { background: var(--azul-claro); color: var(--azul-medio); }
+        .badge-en-curso::before { color: #3b82f6; }
         .badge-entregado { background: var(--verde-claro); color: var(--verde); }
+        .badge-entregado::before { color: #4ade80; }
         .badge-no-entregado { background: #e9ecef; color: #495057; }
+        .badge-no-entregado::before { color: #94a3b8; }
         .badge-baja { background: #e9ecef; color: #495057; }
         .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
@@ -109,20 +196,31 @@
         .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
         .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
-        .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; display: flex; flex-direction: column; }
+        .grafico-card {
+            background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm);
+            min-height: 320px; display: flex; flex-direction: column;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        .grafico-card:nth-child(1) { animation-delay: 0.05s; }
+        .grafico-card:nth-child(2) { animation-delay: 0.1s; }
+        .grafico-card:nth-child(3) { animation-delay: 0.15s; }
         .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 4px; }
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
         .paneles-inferiores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
         @media (max-width: 900px) { .paneles-inferiores { grid-template-columns: 1fr; } }
-        .incidencias-panel, .no-entregados-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); border-left: 5px solid var(--rojo); }
+        .incidencias-panel, .no-entregados-panel {
+            background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm);
+            border-left: 5px solid var(--rojo); animation: fadeInUp 0.5s ease-out;
+        }
         .no-entregados-panel { border-left-color: var(--gris-medio); }
         .incidencias-panel h2, .no-entregados-panel h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .incidencias-panel h2 { color: var(--rojo); }
         .no-entregados-panel h2 { color: var(--gris-oscuro); }
         .alerta-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #fff5f5; border-left: 3px solid var(--rojo); font-size: 0.8rem; }
-        .no-entregado-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: #f8f9fa; border-left: 3px solid var(--gris-medio); font-size: 0.8rem; }
+        body.dark-mode .alerta-item { background: #2d1b1b; }
+        .no-entregado-item { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radio-sm); background: var(--gris-fondo); border-left: 3px solid var(--gris-medio); font-size: 0.8rem; }
         .no-entregado-item .titulo { font-weight: 700; color: var(--gris-oscuro); }
         .alerta-icono { width: 28px; height: 28px; border-radius: 50%; background: var(--rojo-claro); display: flex; align-items: center; justify-content: center; color: var(--rojo); font-size: 0.75rem; flex-shrink: 0; }
         .alerta-contenido { flex: 1; }
@@ -136,6 +234,7 @@
         .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); animation: slideIn 0.35s ease; display: none; }
         .toast.mostrar { display: block; }
         @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
             .header { flex-direction: column; align-items: flex-start; }
@@ -145,6 +244,16 @@
             .filtros-bar { flex-direction: column; align-items: stretch; }
             .filtros-bar input[type="text"] { max-width: 100%; }
             .tabla-contenedor { max-height: 350px; }
+            .executive-summary { flex-direction: column; align-items: flex-start; }
+            .mini-kpis { width: 100%; justify-content: space-between; }
+        }
+
+        @media print {
+            .btn-carga, .filtros-bar, .toast, .toggle-vista, .chips-filtros, .header-der { display: none !important; }
+            .tabla-contenedor { max-height: none; overflow: visible; page-break-inside: avoid; }
+            body { background: white !important; color: black !important; }
+            body.dark-mode { background: white !important; }
+            .grafico-card { page-break-inside: avoid; }
         }
     </style>
 </head>
@@ -157,28 +266,69 @@
         <!-- HEADER -->
         <header class="header">
             <div class="header-izq">
-                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" style="width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--azul-oscuro);">
+                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" onerror="this.style.display='none'">
                 <div class="header-titulos"><h1>TALLER</h1><p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p></div>
             </div>
             <div class="header-der">
                 <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;"><i class="fa-brands fa-google"></i> Google Sheets</button>
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;" title="Recargar datos"><i class="fa-brands fa-google"></i> Google Sheets</button>
+                <button class="btn-carga btn-icon" id="btnTheme" title="Modo oscuro/claro"><i class="fa-solid fa-moon"></i></button>
+                <button class="btn-carga btn-icon" id="btnExportar" title="Exportar / Imprimir"><i class="fa-solid fa-print"></i></button>
             </div>
         </header>
+
+        <!-- EXECUTIVE SUMMARY -->
+        <div class="executive-summary" id="executiveSummary">
+            <div class="semaforo" id="semaforo">
+                <i class="fa-solid fa-circle" style="font-size: 1.5rem; color: #4ade80;"></i>
+                <div class="semaforo-texto">
+                    <strong id="semaforoTitulo">Cargando...</strong>
+                    <span id="semaforoDetalle">Esperando datos</span>
+                </div>
+            </div>
+            <div class="mini-kpis">
+                <div class="mini-kpi">
+                    <span class="mini-valor" id="miniOTs">0</span>
+                    <span class="mini-label">OTs activas</span>
+                </div>
+                <div class="mini-kpi">
+                    <span class="mini-valor" id="miniAtrasadas">0%</span>
+                    <span class="mini-label">Atrasadas</span>
+                </div>
+                <div class="mini-kpi">
+                    <span class="mini-valor" id="miniCriticas">0</span>
+                    <span class="mini-label">Críticas</span>
+                </div>
+                <div class="mini-kpi">
+                    <span class="mini-valor" id="miniHoras">0</span>
+                    <span class="mini-label">Horas trabajadas</span>
+                </div>
+            </div>
+            <div class="last-update">
+                <i class="fa-solid fa-circle" style="color: #4ade80; font-size: 0.5rem;"></i>
+                Actualizado hace <span id="tiempoTranscurrido">0</span>s
+            </div>
+        </div>
+
+        <!-- TOGGLE VISTA -->
+        <div class="toggle-vista">
+            <button class="activo" data-vista="detallado">🔍 Vista Detallada</button>
+            <button data-vista="resumen">📊 Resumen Ejecutivo</button>
+        </div>
 
         <!-- TARJETAS OTs -->
         <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
         <div class="tarjetas-grid">
-            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
-            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
-            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
-            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
+            <div class="tarjeta azul" data-filtro-tipo="total"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
+            <div class="tarjeta naranja" data-filtro-estado="En curso"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
+            <div class="tarjeta rojo" data-filtro-estado="Pendiente"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
+            <div class="tarjeta verde" data-filtro-tipo="operarios"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
         <!-- TARJETAS TRABAJOS -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
-            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
+            <div class="tarjeta azul" data-filtro-estado="Entregado"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
             <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
         </div>
@@ -201,6 +351,15 @@
                 <canvas id="graficoMaquina"></canvas>
             </div>
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Incidencia por Categoría</h3><canvas id="graficoIncidencias"></canvas></div>
+        </div>
+
+        <!-- CHIPS FILTROS -->
+        <div class="chips-filtros" id="chipsFiltros">
+            <button class="chip activo" data-estado="Todos">Todos</button>
+            <button class="chip" data-estado="Pendiente">🟡 Pendientes</button>
+            <button class="chip" data-estado="En curso">🔵 En curso</button>
+            <button class="chip" data-estado="Entregado">🟢 Entregadas</button>
+            <button class="chip" data-estado="No entregado">⚫ No entregadas</button>
         </div>
 
         <!-- FILTROS OTs -->
@@ -229,7 +388,7 @@
             <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- PANELES INFERIORES DIVIDIDOS -->
+        <!-- PANELES INFERIORES -->
         <div class="paneles-inferiores">
             <div class="incidencias-panel" id="panelIncidencias">
                 <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
@@ -253,6 +412,7 @@
             let masterOperarios = [];
             let listaMaquinas = [];
             let charts = {};
+            let ultimaCarga = new Date();
 
             const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
             const SHEET_OTS = 'O.T. Taller de YB';
@@ -263,19 +423,10 @@
             const SHEET_MAQUINAS = 'Maquinas';
 
             const LIMITES_MANTENIMIENTO = {
-                'Fresadora': 480,
-                'Limadora': 500,
-                'Mortajadora': 420,
-                'Perforadora de Banco': 550,
-                'Prensa': 600,
-                'Soldador': 350,
-                'Torno Gr. YB': 480,
-                'Torno Ch. YB': 480,
-                'Torno Ch. Cevil': 480,
-                'Sierra sin Fin': 300,
-                'Amoladora': 350
+                'Fresadora': 480, 'Limadora': 500, 'Mortajadora': 420, 'Perforadora de Banco': 550,
+                'Prensa': 600, 'Soldador': 350, 'Torno Gr. YB': 480, 'Torno Ch. YB': 480,
+                'Torno Ch. Cevil': 480, 'Sierra sin Fin': 300, 'Amoladora': 350
             };
-
             const LIMITE_POR_DEFECTO = 400;
 
             function toast(msg, dur=3000) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); }
@@ -288,13 +439,25 @@
             function formatoHoras(horasDecimales) { const horas=Math.floor(horasDecimales); const minutos=Math.round((horasDecimales-horas)*60); return `${horas}:${String(minutos).padStart(2,'0')}`; }
             function formatoFecha(d) { return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
 
+            function animarNumero(elemento, valorFinal, duracion=800) {
+                const valorInicial = parseInt(elemento.textContent) || 0;
+                if (valorInicial === valorFinal) { elemento.textContent = valorFinal; return; }
+                const inicio = performance.now();
+                function animar(tiempo) {
+                    const progreso = Math.min((tiempo - inicio) / duracion, 1);
+                    const eased = 1 - Math.pow(1 - progreso, 3);
+                    elemento.textContent = Math.round(valorInicial + (valorFinal - valorInicial) * eased);
+                    if (progreso < 1) requestAnimationFrame(animar);
+                }
+                requestAnimationFrame(animar);
+            }
+
             function esMantenimiento(motivo) {
                 if (!motivo) return false;
                 const m = motivo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
                 return m.includes('mantenimiento');
             }
 
-            // NUEVA VERSIÓN: devuelve objeto con fecha y horaParada del último mantenimiento
             function obtenerUltimosMantenimientos() {
                 const result = {};
                 datosRegistroProgreso.forEach(reg => {
@@ -302,11 +465,7 @@
                     const fecha = parseFechaDMY(reg.fecha);
                     if (!fecha) return;
                     if (!result[reg.maquinaUsada] || fecha > result[reg.maquinaUsada].fecha) {
-                        result[reg.maquinaUsada] = {
-                            fecha: fecha,
-                            horaInicio: reg.horaInicio,
-                            horaParada: reg.horaParada
-                        };
+                        result[reg.maquinaUsada] = { fecha: fecha, horaInicio: reg.horaInicio, horaParada: reg.horaParada };
                     }
                 });
                 return result;
@@ -314,20 +473,8 @@
 
             function colorPorAvance(porcentaje) {
                 if (porcentaje >= 100) return '#c0392b';
-                if (porcentaje >= 80) {
-                    const t = (porcentaje - 80) / 20;
-                    const r = 212 + Math.round((192 - 212) * t);
-                    const g = 160 - Math.round(160 * t);
-                    const b = 23 - Math.round(23 * t);
-                    return `rgb(${r},${g},${b})`;
-                }
-                if (porcentaje >= 60) {
-                    const t = (porcentaje - 60) / 20;
-                    const r = 30 + Math.round((212 - 30) * t);
-                    const g = 132 - Math.round((132 - 160) * t);
-                    const b = 73 - Math.round((73 - 23) * t);
-                    return `rgb(${r},${g},${b})`;
-                }
+                if (porcentaje >= 80) { const t=(porcentaje-80)/20; return `rgb(${212+Math.round((192-212)*t)},${160-Math.round(160*t)},${23-Math.round(23*t)})`; }
+                if (porcentaje >= 60) { const t=(porcentaje-60)/20; return `rgb(${30+Math.round((212-30)*t)},${132-Math.round((132-160)*t)},${73-Math.round((73-23)*t)})`; }
                 return '#1e8449';
             }
 
@@ -339,41 +486,20 @@
 
             function mapearRegistroProgreso(encabezados, fila) {
                 let idxOperario=-1;
-                for(let i=0;i<encabezados.length;i++) {
-                    const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
-                    if(h.includes('operario') && !h.includes('asignado')) { idxOperario=i; break; }
-                }
+                for(let i=0;i<encabezados.length;i++) { const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes('operario') && !h.includes('asignado')) { idxOperario=i; break; } }
                 const idxNroOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
                 const idxHoraInicio=encontrarColumna(encabezados,['hora incio','hora inicio','horainicio']);
                 const idxHoraParada=encontrarColumna(encabezados,['hora parada','horaparada']);
                 const idxMotivoParada=encontrarColumna(encabezados,['motivo parada','motivoparada','motivo']);
                 const idxMaquinaUsada=encontrarColumna(encabezados,['maquina usada','máquina usada','maquinausada']);
                 const idxFecha=encontrarColumna(encabezados,['fecha']);
-                return {
-                    nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'',
-                    operario:idxOperario>=0?(fila[idxOperario]||'').trim():'',
-                    horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'',
-                    horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'',
-                    motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'',
-                    maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'',
-                    fecha:idxFecha>=0?(fila[idxFecha]||'').trim():''
-                };
+                return { nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'', operario:idxOperario>=0?(fila[idxOperario]||'').trim():'', horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'', horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'', motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'', maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'', fecha:idxFecha>=0?(fila[idxFecha]||'').trim():'' };
             }
 
             function parsearCSV(texto) { const lineas=texto.split(/\r?\n/).filter(l=>l.trim()); if(lineas.length===0) return {enc:[],filas:[]}; const parseLinea=(l)=>{ const res=[]; let act='',comillas=false; for(let i=0;i<l.length;i++) { const ch=l[i]; if(ch==='"') comillas=!comillas; else if(ch===','&&!comillas) { res.push(act); act=''; } else act+=ch; } res.push(act); return res; }; const enc=parseLinea(lineas[0]); const filas=[]; for(let i=1;i<lineas.length;i++) { const f=parseLinea(lineas[i]); if(f.some(c=>c.trim())) filas.push(f); } return {enc,filas}; }
             async function fetchSheet(sheetName) { const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`; const res=await fetch(url); if(!res.ok) throw new Error(`Error ${res.status}`); return await res.text(); }
 
-            async function cargarMaquinas() {
-                const texto = await fetchSheet(SHEET_MAQUINAS);
-                const { enc, filas } = parsearCSV(texto);
-                listaMaquinas = filas
-                    .map(f => (f[0] || '').trim())
-                    .filter(nombre => nombre !== '' && nombre.toLowerCase() !== 'máquinas' && nombre.toLowerCase() !== 'maquinas');
-                listaMaquinas.sort();
-                toast(`📋 Máquinas cargadas: ${listaMaquinas.length} equipos`);
-                actualizarGraficosTrabajos();
-            }
-
+            async function cargarMaquinas() { const texto=await fetchSheet(SHEET_MAQUINAS); const {enc,filas}=parsearCSV(texto); listaMaquinas=filas.map(f=>(f[0]||'').trim()).filter(n=>n&&n.toLowerCase()!=='máquinas'&&n.toLowerCase()!=='maquinas').sort(); toast(`📋 Máquinas cargadas: ${listaMaquinas.length} equipos`); actualizarGraficosTrabajos(); }
             async function cargarMotivosParadas() { const texto=await fetchSheet(SHEET_MOTIVOS); const {enc,filas}=parsearCSV(texto); const idxMotivo=encontrarColumna(enc,['motivo']); const idxTipo=encontrarColumna(enc,['tipo']); motivosParadas=filas.map(f=>({motivo:idxMotivo>=0?(f[idxMotivo]||'').trim():'', tipo:idxTipo>=0?(f[idxTipo]||'').trim():''})).filter(m=>m.tipo.toLowerCase()==='incidencia'&&m.motivo!==''); toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`); }
             async function cargarMasterOperarios() { const texto=await fetchSheet(SHEET_OPERARIOS); const {enc,filas}=parsearCSV(texto); const nombres=filas.map(f=>(f[0]||'').trim()).filter(nombre=>{ const lower=nombre.toLowerCase(); return lower!=='cantidad'&&lower!=='promedio'&&lower!=='operario'&&nombre!==''; }); masterOperarios=[...new Set(nombres)].sort(); toast(`📋 Operarios maestros: ${masterOperarios.length} registros`); actualizarTodoOTs(); }
             async function cargarOTs() { const texto=await fetchSheet(SHEET_OTS); const {enc,filas}=parsearCSV(texto); datosOTs=filas.map(f=>mapearOTs(enc,f)); toast(`✅ OTs: ${datosOTs.length} registros`); actualizarTodoOTs(); }
@@ -381,22 +507,90 @@
             async function cargarRegistroProgreso() { const texto=await fetchSheet(SHEET_PROGRESO); const {enc,filas}=parsearCSV(texto); datosRegistroProgreso=filas.map(f=>mapearRegistroProgreso(enc,f)); toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`); actualizarTodoTrabajos(); }
 
             async function cargarTodo() {
+                ultimaCarga = new Date();
                 await cargarMotivosParadas();
                 await cargarMaquinas();
                 await cargarMasterOperarios();
                 try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
                 try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
                 try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
+                document.getElementById('tiempoTranscurrido').textContent = '0';
             }
 
             function obtenerIncidencias() { const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return datosRegistroProgreso.filter(reg=>reg.motivoParada&&motivosIncidencia.has(reg.motivoParada.toLowerCase())); }
             function esIncidencia(motivoParada) { if(!motivoParada) return false; const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return motivosIncidencia.has(motivoParada.toLowerCase()); }
 
-            function actualizarTodoOTs() { poblarFiltrosOTs(); actualizarTarjetasOTs(); actualizarTablaOTs(); actualizarGraficosOTs(); actualizarPanelIncidencias(); actualizarPanelNoEntregados(); }
-            function actualizarTodoTrabajos() { poblarFiltrosTrabajos(); actualizarTarjetasTrabajos(); actualizarTablaTrabajos(); actualizarGraficosTrabajos(); actualizarPanelIncidencias(); }
+            function actualizarTodoOTs() {
+                poblarFiltrosOTs();
+                actualizarTarjetasOTs();
+                actualizarTablaOTs();
+                actualizarGraficosOTs();
+                actualizarPanelIncidencias();
+                actualizarPanelNoEntregados();
+                actualizarSemaforo();
+            }
+            function actualizarTodoTrabajos() {
+                poblarFiltrosTrabajos();
+                actualizarTarjetasTrabajos();
+                actualizarTablaTrabajos();
+                actualizarGraficosTrabajos();
+                actualizarPanelIncidencias();
+                actualizarSemaforo();
+            }
 
-            function actualizarTarjetasOTs() { document.getElementById('totalOTs').textContent=datosOTs.length; document.getElementById('enCursoOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length; document.getElementById('pendientesOTs').textContent=datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length; document.getElementById('operariosActivos').textContent=masterOperarios.length; }
-            function actualizarTarjetasTrabajos() { const otsEntregadas=new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT)); document.getElementById('trabajosTerminados').textContent=datosTrabajos.filter(t=>otsEntregadas.has(t.nroOT)).length; const horasDecimales=datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0); document.getElementById('horasTotales').textContent=formatoHoras(horasDecimales); document.getElementById('conIncidencia').textContent=obtenerIncidencias().length; }
+            function actualizarTarjetasOTs() {
+                const total = datosOTs.length;
+                const enCurso = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
+                const pendientes = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
+                animarNumero(document.getElementById('totalOTs'), total);
+                animarNumero(document.getElementById('enCursoOTs'), enCurso);
+                animarNumero(document.getElementById('pendientesOTs'), pendientes);
+                animarNumero(document.getElementById('operariosActivos'), masterOperarios.length);
+            }
+            function actualizarTarjetasTrabajos() {
+                const otsEntregadas=new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT));
+                const terminados = datosTrabajos.filter(t=>otsEntregadas.has(t.nroOT)).length;
+                const horasDecimales = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
+                animarNumero(document.getElementById('trabajosTerminados'), terminados);
+                document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
+                animarNumero(document.getElementById('conIncidencia'), obtenerIncidencias().length);
+            }
+
+            function actualizarSemaforo() {
+                const hoy = new Date(); hoy.setHours(0,0,0,0);
+                const atrasadas = datosOTs.filter(o => {
+                    if (o.estado.toLowerCase() === 'entregado' || o.estado.toLowerCase() === 'no entregado') return false;
+                    const fp = parseFechaDMY(o.fechaProgramada);
+                    return fp && fp < hoy;
+                }).length;
+                const criticas = datosOTs.filter(o => o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado' && o.estado.toLowerCase() !== 'no entregado').length;
+                const activas = datosOTs.filter(o => o.estado.toLowerCase() !== 'entregado' && o.estado.toLowerCase() !== 'no entregado').length;
+                const horasTotal = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
+
+                document.getElementById('miniOTs').textContent = activas;
+                document.getElementById('miniAtrasadas').textContent = activas > 0 ? Math.round(atrasadas / activas * 100) + '%' : '0%';
+                document.getElementById('miniCriticas').textContent = criticas;
+                document.getElementById('miniHoras').textContent = Math.round(horasTotal);
+
+                const semaforo = document.getElementById('semaforo');
+                const icono = semaforo.querySelector('i');
+                if (criticas > 2 || atrasadas > 10) {
+                    semaforo.style.background = 'rgba(239, 68, 68, 0.1)'; semaforo.style.borderColor = '#ef4444';
+                    icono.style.color = '#ef4444';
+                    document.getElementById('semaforoTitulo').textContent = '⚠️ Acción urgente';
+                    document.getElementById('semaforoDetalle').textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
+                } else if (criticas > 0 || atrasadas > 5) {
+                    semaforo.style.background = 'rgba(245, 158, 11, 0.1)'; semaforo.style.borderColor = '#f59e0b';
+                    icono.style.color = '#f59e0b';
+                    document.getElementById('semaforoTitulo').textContent = '🟡 Atención requerida';
+                    document.getElementById('semaforoDetalle').textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
+                } else {
+                    semaforo.style.background = 'rgba(74, 222, 128, 0.1)'; semaforo.style.borderColor = '#4ade80';
+                    icono.style.color = '#4ade80';
+                    document.getElementById('semaforoTitulo').textContent = 'Todo en orden';
+                    document.getElementById('semaforoDetalle').textContent = 'Sin alertas críticas activas';
+                }
+            }
 
             function poblarFiltrosOTs() { const selOp=document.getElementById('filtroOperario'); selOp.innerHTML='<option value="Todos">Todos</option>'+masterOperarios.map(o=>`<option value="${o}">${o}</option>`).join(''); const sectores=[...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort(); const selSec=document.getElementById('filtroSector'); selSec.innerHTML='<option value="Todos">Todos</option>'+sectores.map(s=>`<option value="${s}">${s}</option>`).join(''); }
             function poblarFiltrosTrabajos() { const ots=[...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort(); const ops=[...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort(); document.getElementById('filtroNroOT').innerHTML='<option value="Todos">Todos</option>'+ots.map(o=>`<option value="${o}">${o}</option>`).join(''); document.getElementById('filtroOperarioTrab').innerHTML='<option value="Todos">Todos</option>'+ops.map(o=>`<option value="${o}">${o}</option>`).join(''); }
@@ -411,148 +605,62 @@
             function actualizarTablaTrabajos() { const tbody=document.querySelector('#tablaTrabajos tbody'); tbody.innerHTML=filtrarTrabajos().map(t=>{ return `<tr><td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td><td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td></tr>`; }).join(''); }
 
             function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
-            const COL = { azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b', amarillo:'#d4a017', paletaTorta:['#1e8449','#1a3f63','#d4a017','#e8750c','#8b8f95'] };
+            const COL = { azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b', amarillo:'#d4a017' };
 
             function actualizarGraficosOTs() {
                 const filt=filtrarOTs();
                 destruirGraficos(['estado','operario','tipo']);
+                const textColor = document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043';
                 if(filt.length) {
                     const ctx1=document.getElementById('graficoEstado')?.getContext('2d');
-                    if(ctx1) { const conteo={}; filt.forEach(o=>{ const e=o.estado||'Sin estado'; conteo[e]=(conteo[e]||0)+1; }); const labels=Object.keys(conteo),data=Object.values(conteo),total=data.reduce((a,b)=>a+b,0); const bgColors=labels.map(l=>{ const lo=l.toLowerCase(); if(lo==='entregado') return'#1e8449'; if(lo==='en curso') return'#e8750c'; if(lo==='pendiente') return'#c0392b'; if(lo==='no entregado') return'#5d6d7e'; return'#8b8f95'; }); charts['estado']=new Chart(ctx1,{ type:'pie',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16,usePointStyle:true,pointStyleWidth:10}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%`}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); }
+                    if(ctx1) { const conteo={}; filt.forEach(o=>{ const e=o.estado||'Sin estado'; conteo[e]=(conteo[e]||0)+1; }); const labels=Object.keys(conteo),data=Object.values(conteo),total=data.reduce((a,b)=>a+b,0); const bgColors=labels.map(l=>{ const lo=l.toLowerCase(); if(lo==='entregado') return'#1e8449'; if(lo==='en curso') return'#e8750c'; if(lo==='pendiente') return'#c0392b'; if(lo==='no entregado') return'#5d6d7e'; return'#8b8f95'; }); charts['estado']=new Chart(ctx1,{ type:'pie',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16,usePointStyle:true,pointStyleWidth:10,color:textColor}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%`}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); }
 
                     const ctx2=document.getElementById('graficoOperario')?.getContext('2d');
-                    if(ctx2) { const operariosSet=new Set(filt.map(o=>o.operarioAsignado||'Sin asignar')); const operarios=Array.from(operariosSet).sort(); const estados=['Entregado','En curso','Pendiente','No entregado']; const coloresEstados={ 'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b','No entregado':'#5d6d7e' }; const datasets=estados.map(est=>({ label:est,data:operarios.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length),backgroundColor:coloresEstados[est],borderRadius:4,borderSkipped:false })); charts['operario']=new Chart(ctx2,{ type:'bar',data:{labels:operarios,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8}},tooltip:{mode:'index',intersect:false}},scales:{x:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:10}},title:{display:true,text:'Cantidad de OTs',font:{size:10}}},y:{stacked:true,ticks:{font:{size:10}}}},interaction:{mode:'nearest',axis:'y',intersect:true}} }); }
+                    if(ctx2) { const operariosSet=new Set(filt.map(o=>o.operarioAsignado||'Sin asignar')); const operarios=Array.from(operariosSet).sort(); const estados=['Entregado','En curso','Pendiente','No entregado']; const coloresEstados={'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b','No entregado':'#5d6d7e'}; const datasets=estados.map(est=>({label:est,data:operarios.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length),backgroundColor:coloresEstados[est],borderRadius:4,borderSkipped:false})); charts['operario']=new Chart(ctx2,{ type:'bar',data:{labels:operarios,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,color:textColor}},tooltip:{mode:'index',intersect:false}},scales:{x:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:10},color:textColor},title:{display:true,text:'Cantidad de OTs',font:{size:10},color:textColor}},y:{stacked:true,ticks:{font:{size:10},color:textColor}}},interaction:{mode:'nearest',axis:'y',intersect:true}} }); }
 
                     const ctx3=document.getElementById('graficoTipo')?.getContext('2d');
-                    if(ctx3) { const conteo={}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin tipo'; conteo[t]=(conteo[t]||0)+1; }); const sorted=Object.entries(conteo).sort((a,b)=>b[1]-a[1]); charts['tipo']=new Chart(ctx3,{ type:'bar',data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10}}},x:{ticks:{font:{size:9}}}}} }); }
+                    if(ctx3) { const conteo={}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin tipo'; conteo[t]=(conteo[t]||0)+1; }); const sorted=Object.entries(conteo).sort((a,b)=>b[1]-a[1]); charts['tipo']=new Chart(ctx3,{ type:'bar',data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10},color:textColor}},x:{ticks:{font:{size:9},color:textColor}}}} }); }
                 }
             }
 
             function actualizarGraficosTrabajos() {
                 const filt=filtrarTrabajos();
                 destruirGraficos(['horasResp','maquina','incidencias']);
-                
-                // Horas por Operario
+                const textColor = document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043';
+
                 const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
-                if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9}},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
-                
-                // *** Horas de máquina (con reinicio tras mantenimiento CORREGIDO) ***
+                if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12,color:textColor}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9},color:textColor},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},color:textColor,callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10},color:textColor}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
+
                 const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
                 if(ctx2) {
                     const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : ['Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco', 'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'];
                     const ultimosMant = obtenerUltimosMantenimientos();
                     const horasPorMaquina = {};
-                    
                     datosRegistroProgreso.forEach(reg => {
                         if (!reg.maquinaUsada || !reg.horaInicio || !reg.horaParada) return;
-                        // Omitir el propio registro de mantenimiento
                         if (esMantenimiento(reg.motivoParada)) return;
-                        
                         const ultMantInfo = ultimosMant[reg.maquinaUsada];
                         if (ultMantInfo) {
                             const fechaReg = parseFechaDMY(reg.fecha);
                             if (fechaReg) {
-                                // Si es de un día ANTERIOR al mantenimiento: excluir
                                 if (fechaReg < ultMantInfo.fecha) return;
-                                // Si es del MISMO día: verificar hora de inicio vs hora fin del mantenimiento
                                 if (fechaReg.getTime() === ultMantInfo.fecha.getTime()) {
                                     const workIni = parseHoraAMPM(reg.horaInicio);
                                     const mantFin = parseHoraAMPM(ultMantInfo.horaParada);
-                                    // Solo excluir si el trabajo empezó ANTES de que terminara el mantenimiento
                                     if (workIni && mantFin && workIni < mantFin) return;
                                 }
                             }
                         }
-                        
                         const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
                         if (horas > 0) horasPorMaquina[reg.maquinaUsada] = (horasPorMaquina[reg.maquinaUsada] || 0) + horas;
                     });
-                    
-                    const datosMaquinas = maquinasAMostrar.map(maq => {
-                        const horasTrabajadas = horasPorMaquina[maq] || 0;
-                        const limite = LIMITES_MANTENIMIENTO[maq] || LIMITE_POR_DEFECTO;
-                        const porcentaje = Math.min((horasTrabajadas / limite) * 100, 120);
-                        const color = colorPorAvance(Math.min(porcentaje, 100));
-                        const horasFaltantes = Math.max(limite - horasTrabajadas, 0);
-                        const excedente = Math.max(horasTrabajadas - limite, 0);
-                        return { maquina: maq, horasTrabajadas, limite, porcentaje: Math.min(porcentaje, 100), color, horasFaltantes, excedente };
-                    });
-                    
+                    const datosMaquinas = maquinasAMostrar.map(maq => { const horasTrabajadas = horasPorMaquina[maq] || 0; const limite = LIMITES_MANTENIMIENTO[maq] || LIMITE_POR_DEFECTO; const porcentaje = Math.min((horasTrabajadas / limite) * 100, 120); const color = colorPorAvance(Math.min(porcentaje, 100)); const horasFaltantes = Math.max(limite - horasTrabajadas, 0); const excedente = Math.max(horasTrabajadas - limite, 0); return { maquina: maq, horasTrabajadas, limite, porcentaje: Math.min(porcentaje, 100), color, horasFaltantes, excedente }; });
                     datosMaquinas.sort((a, b) => b.porcentaje - a.porcentaje);
-                    
-                    charts['maquina'] = new Chart(ctx2, {
-                        type: 'bar',
-                        data: {
-                            labels: datosMaquinas.map(d => d.maquina),
-                            datasets: [{
-                                label: 'Horas trabajadas',
-                                data: datosMaquinas.map(d => d.porcentaje),
-                                backgroundColor: datosMaquinas.map(d => d.color),
-                                borderColor: datosMaquinas.map(d => d.porcentaje >= 100 ? '#a93226' : 'transparent'),
-                                borderWidth: datosMaquinas.map(d => d.porcentaje >= 100 ? 2 : 0),
-                                borderRadius: 6,
-                                borderSkipped: false
-                            }]
-                        },
-                        options: {
-                            indexAxis: 'y',
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: { display: false },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(ctx) {
-                                            const d = datosMaquinas[ctx.dataIndex];
-                                            const lineas = [`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`];
-                                            lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`);
-                                            lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`);
-                                            const umInfo = ultimosMant[d.maquina];
-                                            if (umInfo) lineas.push(`🔧 Último mantenimiento: ${formatoFecha(umInfo.fecha)}`);
-                                            else lineas.push('🔧 Último mantenimiento: Sin registro');
-                                            if (d.porcentaje >= 100) {
-                                                lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`);
-                                                lineas.push('⚠️ MANTENIMIENTO REQUERIDO');
-                                            } else {
-                                                lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`);
-                                                lineas.push(d.porcentaje >= 80 ? '⚠️ Próximo a mantenimiento' : '✅ En rango');
-                                            }
-                                            return lineas;
-                                        }
-                                    }
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    beginAtZero: true,
-                                    max: 100,
-                                    ticks: { font: { size: 10 }, callback: function(v) { return v + '%'; } },
-                                    grid: { color: 'rgba(0,0,0,0.05)', drawBorder: false },
-                                    title: { display: true, text: 'Avance hacia límite de mantenimiento', font: { size: 10, weight: 'bold' } }
-                                },
-                                y: { ticks: { font: { size: 10 } }, grid: { display: false } }
-                            },
-                            animation: { duration: 1000, easing: 'easeOutQuart' },
-                            layout: { padding: { top: 10, bottom: 5 } }
-                        }
-                    });
-                    
-                    // Actualizar subtítulo con el mantenimiento más reciente
+                    charts['maquina'] = new Chart(ctx2, { type: 'bar', data: { labels: datosMaquinas.map(d => d.maquina), datasets: [{ label: 'Horas trabajadas', data: datosMaquinas.map(d => d.porcentaje), backgroundColor: datosMaquinas.map(d => d.color), borderColor: datosMaquinas.map(d => d.porcentaje >= 100 ? '#a93226' : 'transparent'), borderWidth: datosMaquinas.map(d => d.porcentaje >= 100 ? 2 : 0), borderRadius: 6, borderSkipped: false }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { const d = datosMaquinas[ctx.dataIndex]; const lineas = [`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`]; lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`); lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`); const umInfo = ultimosMant[d.maquina]; if (umInfo) lineas.push(`🔧 Último mantenimiento: ${formatoFecha(umInfo.fecha)}`); else lineas.push('🔧 Último mantenimiento: Sin registro'); if (d.porcentaje >= 100) { lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`); lineas.push('⚠️ MANTENIMIENTO REQUERIDO'); } else { lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`); lineas.push(d.porcentaje >= 80 ? '⚠️ Próximo a mantenimiento' : '✅ En rango'); } return lineas; } } } }, scales: { x: { beginAtZero: true, max: 100, ticks: { font: { size: 10 }, color:textColor, callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(128,128,128,0.1)', drawBorder: false }, title: { display: true, text: 'Avance hacia límite de mantenimiento', font: { size: 10, weight: 'bold' }, color: textColor } }, y: { ticks: { font: { size: 10 }, color:textColor }, grid: { display: false } } }, animation: { duration: 1000, easing: 'easeOutQuart' }, layout: { padding: { top: 10, bottom: 5 } } } });
                     const subtitulo = document.getElementById('subtituloMantenimiento');
-                    if (subtitulo) {
-                        let masReciente = null;
-                        Object.values(ultimosMant).forEach(info => {
-                            if (!masReciente || info.fecha > masReciente) masReciente = info.fecha;
-                        });
-                        if (masReciente) {
-                            subtitulo.textContent = `🔧 Último mantenimiento registrado: ${formatoFecha(masReciente)}`;
-                        } else {
-                            subtitulo.textContent = '🔧 Los contadores se reinician tras un mantenimiento';
-                        }
-                    }
+                    if (subtitulo) { let masReciente = null; Object.values(ultimosMant).forEach(info => { if (!masReciente || info.fecha > masReciente) masReciente = info.fecha; }); if (masReciente) { subtitulo.textContent = `🔧 Último mantenimiento registrado: ${formatoFecha(masReciente)}`; } else { subtitulo.textContent = '🔧 Los contadores se reinician tras un mantenimiento'; } }
                 }
-                
-                // Incidencia por Categoría
+
                 const ctx3=document.getElementById('graficoIncidencias')?.getContext('2d');
                 if(ctx3) {
                     const incidencias=obtenerIncidencias();
@@ -566,7 +674,7 @@
                         const sumaOtrosCount = otros.reduce((s,entry)=>s+entry[1].count,0); const sumaOtrosHoras = otros.reduce((s,entry)=>s+entry[1].horas,0);
                         if(sumaOtrosCount>0){ labels.push('Otros'); data.push(sumaOtrosCount); horasCategoria.push(sumaOtrosHoras); bgColors.push('#8b8f95'); }
                         const total=data.reduce((a,b)=>a+b,0);
-                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8}},tooltip:{callbacks:{label:function(ctx){ const v=ctx.raw; const p=((v/total)*100).toFixed(1); const horas=horasCategoria[ctx.dataIndex]; return [`Cantidad: ${v} incidencias (${p}%)`,`Horas totales: ${formatoHoras(horas)} hs`]; }}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} });
+                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8,color:textColor}},tooltip:{callbacks:{label:function(ctx){ const v=ctx.raw; const p=((v/total)*100).toFixed(1); const horas=horasCategoria[ctx.dataIndex]; return [`Cantidad: ${v} incidencias (${p}%)`,`Horas totales: ${formatoHoras(horas)} hs`]; }}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} });
                     } else {
                         charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} });
                     }
@@ -574,10 +682,9 @@
             }
 
             function actualizarPanelIncidencias() {
-                const alertas=[];
-                const hoy=new Date(); hoy.setHours(0,0,0,0);
-                datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } });
-                datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); });
+                const alertas=[]; const hoy=new Date(); hoy.setHours(0,0,0,0);
+                datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } });
+                datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado'&&o.estado.toLowerCase()!=='no entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); });
                 const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); });
                 alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias');
                 cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
@@ -586,31 +693,101 @@
             function actualizarPanelNoEntregados() {
                 const noEntregados = datosOTs.filter(o => o.estado.toLowerCase() === 'no entregado');
                 const cont = document.getElementById('contenidoNoEntregados');
-                if (noEntregados.length === 0) {
-                    cont.innerHTML = '<p class="todo-ok">Sin trabajos no entregados.</p>';
-                    return;
-                }
-                const items = noEntregados.map(o => {
+                if (noEntregados.length === 0) { cont.innerHTML = '<p class="todo-ok">Sin trabajos no entregados.</p>'; return; }
+                cont.innerHTML = noEntregados.map(o => {
                     const otNueva = datosOTs.find(x => x.descripcionTarea && x.descripcionTarea.includes(o.nroOT) && x.nroOT !== o.nroOT);
                     const otNuevaTexto = otNueva ? escapeHTML(otNueva.nroOT) : '<span class="celda-vacia">Sin OT nueva</span>';
                     const operarioNueva = otNueva ? escapeHTML(otNueva.operarioAsignado) : '<span class="celda-vacia">—</span>';
-                    return `<div class="no-entregado-item">
-                        <div class="titulo">OT no realizada: ${escapeHTML(o.nroOT)}</div>
-                        <div>Responsable original: ${escapeHTML(o.operarioAsignado)}</div>
-                        <div>OT nueva: ${otNuevaTexto}</div>
-                        <div>Operario de fabricación: ${operarioNueva}</div>
-                    </div>`;
+                    return `<div class="no-entregado-item"><div class="titulo">OT no realizada: ${escapeHTML(o.nroOT)}</div><div>Responsable original: ${escapeHTML(o.operarioAsignado)}</div><div>OT nueva: ${otNuevaTexto}</div><div>Operario de fabricación: ${operarioNueva}</div></div>`;
                 }).join('');
-                cont.innerHTML = items;
             }
 
+            // ========== EVENTOS ==========
             document.getElementById('btnRecargarGoogle').addEventListener('click',cargarTodo);
-            ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
+
+            // Modo oscuro
+            document.getElementById('btnTheme').addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                const esOscuro = document.body.classList.contains('dark-mode');
+                document.querySelector('#btnTheme i').className = esOscuro ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                localStorage.setItem('darkMode', esOscuro ? '1' : '0');
+                actualizarGraficosOTs();
+                actualizarGraficosTrabajos();
+            });
+            if (localStorage.getItem('darkMode') === '1') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('#btnTheme i').className = 'fa-solid fa-sun';
+            }
+
+            // Exportar/Imprimir
+            document.getElementById('btnExportar').addEventListener('click', () => window.print());
+
+            // Toggle vista
+            document.querySelectorAll('.toggle-vista button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.toggle-vista button').forEach(b => b.classList.remove('activo'));
+                    btn.classList.add('activo');
+                    document.body.classList.toggle('vista-resumen', btn.dataset.vista === 'resumen');
+                });
+            });
+
+            // Chips filtros
+            document.querySelectorAll('#chipsFiltros .chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('#chipsFiltros .chip').forEach(c => c.classList.remove('activo'));
+                    chip.classList.add('activo');
+                    document.getElementById('filtroEstado').value = chip.dataset.estado;
+                    actualizarTablaOTs();
+                    actualizarGraficosOTs();
+                });
+            });
+
+            // Sincronizar chips con select
+            document.getElementById('filtroEstado').addEventListener('change', (e) => {
+                document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
+                    c.classList.toggle('activo', c.dataset.estado === e.target.value);
+                });
+                actualizarTablaOTs();
+                actualizarGraficosOTs();
+            });
+
+            // Tarjetas clickeables
+            document.querySelectorAll('.tarjeta[data-filtro-estado]').forEach(tarjeta => {
+                tarjeta.addEventListener('click', () => {
+                    const estado = tarjeta.dataset.filtroEstado;
+                    document.getElementById('filtroEstado').value = estado;
+                    document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
+                        c.classList.toggle('activo', c.dataset.estado === estado);
+                    });
+                    actualizarTablaOTs();
+                    actualizarGraficosOTs();
+                    toast(`Filtrando por: ${estado}`);
+                });
+            });
+
+            // Otros filtros
+            ['filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
             document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); });
             ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
             document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
 
-            function inicializar() { actualizarFechasUI(); actualizarTarjetasOTs(); actualizarTarjetasTrabajos(); actualizarTablaOTs(); actualizarTablaTrabajos(); actualizarPanelIncidencias(); actualizarPanelNoEntregados(); setTimeout(cargarTodo,600); }
+            // Contador tiempo transcurrido
+            setInterval(() => {
+                const seg = Math.floor((new Date() - ultimaCarga) / 1000);
+                const el = document.getElementById('tiempoTranscurrido');
+                if (el) el.textContent = seg < 60 ? seg : Math.floor(seg/60) + 'm';
+            }, 1000);
+
+            function inicializar() {
+                actualizarFechasUI();
+                actualizarTarjetasOTs();
+                actualizarTarjetasTrabajos();
+                actualizarTablaOTs();
+                actualizarTablaTrabajos();
+                actualizarPanelIncidencias();
+                actualizarPanelNoEntregados();
+                setTimeout(cargarTodo, 600);
+            }
             if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',inicializar); else inicializar();
         })();
     </script>

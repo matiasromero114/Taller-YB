@@ -9,68 +9,31 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --azul-oscuro: #0f2b46;
-            --azul-medio: #1a3f63;
-            --naranja: #e8750c;
-            --naranja-claro: #f7941d;
-            --gris-fondo: #f4f5f7;
-            --gris-claro: #e2e4e7;
-            --gris-medio: #8b8f95;
-            --gris-oscuro: #3c4043;
-            --blanco: #ffffff;
-            --verde: #1e8449;
-            --verde-claro: #e8f5e9;
-            --rojo: #c0392b;
-            --rojo-claro: #fdecea;
-            --amarillo: #d4a017;
-            --amarillo-claro: #fff8e1;
-            --azul-claro: #e3f0fa;
-            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-            --radio: 10px;
-            --radio-sm: 6px;
-            --transicion: 0.2s ease;
-            --bg-body: #e8ecf0;
+            --azul-oscuro: #0f2b46; --azul-medio: #1a3f63; --naranja: #e8750c; --naranja-claro: #f7941d;
+            --gris-fondo: #f4f5f7; --gris-claro: #e2e4e7; --gris-medio: #8b8f95; --gris-oscuro: #3c4043;
+            --blanco: #ffffff; --verde: #1e8449; --verde-claro: #e8f5e9; --rojo: #c0392b; --rojo-claro: #fdecea;
+            --amarillo: #d4a017; --amarillo-claro: #fff8e1; --azul-claro: #e3f0fa;
+            --sombra-sm: 0 1px 3px rgba(0,0,0,0.08); --sombra-md: 0 4px 12px rgba(0,0,0,0.1);
+            --sombra-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --radio: 10px; --radio-sm: 6px; --transicion: 0.2s ease; --bg-body: #e8ecf0;
         }
-
-        /* ============ MODO OSCURO ============ */
         body.dark-mode {
-            --blanco: #1e293b;
-            --gris-fondo: #0f172a;
-            --gris-claro: #334155;
-            --gris-oscuro: #e2e8f0;
-            --gris-medio: #94a3b8;
-            --azul-oscuro: #60a5fa;
-            --azul-medio: #3b82f6;
-            --azul-claro: #1e3a5f;
-            --verde-claro: #14532d;
-            --rojo-claro: #4c1d1d;
-            --amarillo-claro: #4a3a0d;
-            --bg-body: #0f172a;
-            --sombra-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-            --sombra-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-            --sombra-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+            --blanco: #1e293b; --gris-fondo: #0f172a; --gris-claro: #334155; --gris-oscuro: #e2e8f0;
+            --gris-medio: #94a3b8; --azul-oscuro: #60a5fa; --azul-medio: #3b82f6; --azul-claro: #1e3a5f;
+            --verde-claro: #14532d; --rojo-claro: #4c1d1d; --amarillo-claro: #4a3a0d; --bg-body: #0f172a;
+            --sombra-sm: 0 1px 3px rgba(0,0,0,0.3); --sombra-md: 0 4px 12px rgba(0,0,0,0.4);
+            --sombra-lg: 0 8px 24px rgba(0,0,0,0.5);
         }
         body.dark-mode { background: var(--bg-body); }
         body.dark-mode .tabla-contenedor thead th { background: #0a1628; }
         body.dark-mode .badge-no-entregado { background: #334155; color: #cbd5e1; }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-body);
-            color: var(--gris-oscuro);
-            min-height: 100vh;
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-body); color: var(--gris-oscuro); min-height: 100vh; line-height: 1.5; transition: background 0.3s; }
 
         .dashboard-container { max-width: 1440px; margin: 0 auto; padding: 16px 20px 32px; }
 
@@ -78,32 +41,24 @@
             background: var(--blanco); border-radius: var(--radio); padding: 18px 24px;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
             box-shadow: var(--sombra-md); margin-bottom: 20px; border-left: 5px solid var(--naranja);
-            transition: background 0.3s ease;
         }
         .header-izq { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-        .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); box-shadow: var(--sombra-sm); flex-shrink: 0; }
-        .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); margin: 0; line-height: 1.2; }
+        .logo-escudo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--azul-oscuro); }
+        .header-titulos h1 { font-size: 1.45rem; font-weight: 700; color: var(--azul-oscuro); margin: 0; }
         .header-titulos .subtitulo { font-size: 0.82rem; color: var(--gris-medio); font-weight: 500; margin-top: 2px; }
         .header-der { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         .fecha-actual { background: var(--gris-fondo); padding: 8px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; color: var(--gris-oscuro); white-space: nowrap; border: 1px solid var(--gris-claro); }
-        .btn-carga { padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco); color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all var(--transicion); white-space: nowrap; font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; }
-        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); box-shadow: var(--sombra-sm); transform: translateY(-1px); }
-        .btn-carga i { font-size: 0.9rem; }
+        .btn-carga { padding: 9px 16px; border-radius: 20px; border: 2px solid var(--azul-medio); background: var(--blanco); color: var(--azul-medio); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all var(--transicion); font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-carga:hover { background: var(--azul-medio); color: var(--blanco); transform: translateY(-1px); }
         .btn-icon { padding: 9px 12px; }
 
-        /* ========== EXECUTIVE SUMMARY ========== */
         .executive-summary {
             background: linear-gradient(135deg, var(--blanco) 0%, var(--gris-fondo) 100%);
             border-radius: var(--radio); padding: 20px 24px; box-shadow: var(--sombra-md); margin-bottom: 20px;
             display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
             border: 1px solid var(--gris-claro);
-            animation: fadeInUp 0.5s ease-out;
         }
-        .semaforo {
-            display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-radius: 30px;
-            background: rgba(74, 222, 128, 0.1); border: 2px solid #4ade80;
-            transition: all 0.4s ease;
-        }
+        .semaforo { display: flex; align-items: center; gap: 14px; padding: 12px 20px; border-radius: 30px; background: rgba(74,222,128,0.1); border: 2px solid #4ade80; transition: all 0.4s; }
         .semaforo-texto { display: flex; flex-direction: column; }
         .semaforo-texto strong { font-size: 0.95rem; }
         .semaforo-texto span { font-size: 0.78rem; color: var(--gris-medio); }
@@ -113,47 +68,20 @@
         .mini-label { font-size: 0.68rem; color: var(--gris-medio); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
         .last-update { font-size: 0.7rem; color: var(--gris-medio); display: flex; align-items: center; gap: 6px; }
 
-        /* ========== TOGGLE VISTA ========== */
-        .toggle-vista {
-            display: flex; gap: 6px; background: var(--blanco); padding: 5px; border-radius: 20px;
-            box-shadow: var(--sombra-sm); margin-bottom: 20px; width: fit-content;
-            border: 1px solid var(--gris-claro);
-        }
-        .toggle-vista button {
-            padding: 8px 18px; border-radius: 15px; border: none; background: transparent;
-            cursor: pointer; font-weight: 600; font-size: 0.8rem; color: var(--gris-medio);
-            transition: all 0.2s; font-family: 'Inter', sans-serif;
-        }
+        .toggle-vista { display: flex; gap: 6px; background: var(--blanco); padding: 5px; border-radius: 20px; box-shadow: var(--sombra-sm); margin-bottom: 20px; width: fit-content; border: 1px solid var(--gris-claro); }
+        .toggle-vista button { padding: 8px 18px; border-radius: 15px; border: none; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.8rem; color: var(--gris-medio); font-family: 'Inter', sans-serif; }
         .toggle-vista button.activo { background: var(--azul-medio); color: white; }
-        .toggle-vista button:hover:not(.activo) { color: var(--azul-medio); }
+        body.vista-resumen .tabla-contenedor, body.vista-resumen .filtros-bar, body.vista-resumen .paneles-inferiores { display: none; }
 
-        /* Vista resumen oculta tablas y paneles */
-        body.vista-resumen .tabla-contenedor,
-        body.vista-resumen .filtros-bar,
-        body.vista-resumen .paneles-inferiores,
-        body.vista-resumen .seccion-titulo-tablas { display: none; }
-
-        /* ========== CHIPS FILTROS ========== */
         .chips-filtros { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-        .chip {
-            padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--gris-claro);
-            background: var(--blanco); cursor: pointer; font-weight: 600; font-size: 0.8rem;
-            transition: all 0.2s; font-family: 'Inter', sans-serif; color: var(--gris-oscuro);
-            display: inline-flex; align-items: center; gap: 6px;
-        }
-        .chip:hover { border-color: var(--azul-medio); transform: translateY(-1px); }
+        .chip { padding: 8px 16px; border-radius: 20px; border: 1.5px solid var(--gris-claro); background: var(--blanco); cursor: pointer; font-weight: 600; font-size: 0.8rem; color: var(--gris-oscuro); font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 6px; }
+        .chip:hover { border-color: var(--azul-medio); }
         .chip.activo { background: var(--azul-medio); color: white; border-color: var(--azul-medio); }
 
         .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px; }
         .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
-        .tarjeta {
-            background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm);
-            display: flex; align-items: center; gap: 14px; transition: transform 0.2s, box-shadow 0.2s;
-            border-left: 4px solid transparent; cursor: pointer;
-            animation: fadeInUp 0.4s ease-out;
-        }
+        .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; border-left: 4px solid transparent; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .tarjeta:hover { transform: translateY(-3px); box-shadow: var(--sombra-md); }
-        .tarjeta:active { transform: translateY(-1px); }
         .tarjeta.azul { border-left-color: var(--azul-medio); }
         .tarjeta.naranja { border-left-color: var(--naranja); }
         .tarjeta.verde { border-left-color: var(--verde); }
@@ -168,17 +96,15 @@
 
         .filtros-bar { background: var(--blanco); border-radius: var(--radio); padding: 14px 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; box-shadow: var(--sombra-sm); margin-bottom: 14px; }
         .filtros-bar label { font-weight: 600; font-size: 0.78rem; color: var(--gris-oscuro); }
-        .filtros-bar select, .filtros-bar input[type="text"] { padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro); font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--gris-fondo); color: var(--gris-oscuro); transition: border var(--transicion); min-width: 100px; }
-        .filtros-bar select:focus, .filtros-bar input[type="text"]:focus { outline: none; border-color: var(--azul-medio); background: var(--blanco); }
+        .filtros-bar select, .filtros-bar input[type="text"] { padding: 7px 10px; border-radius: var(--radio-sm); border: 1.5px solid var(--gris-claro); font-family: 'Inter', sans-serif; font-size: 0.82rem; background: var(--gris-fondo); color: var(--gris-oscuro); min-width: 100px; }
         .filtros-bar input[type="text"] { flex: 1; min-width: 180px; max-width: 320px; }
 
         .tabla-contenedor { background: var(--blanco); border-radius: var(--radio); box-shadow: var(--sombra-sm); overflow-x: auto; margin-bottom: 20px; max-height: 480px; overflow-y: auto; border: 1px solid var(--gris-claro); }
         .tabla-contenedor table { width: 100%; border-collapse: collapse; font-size: 0.78rem; min-width: 1100px; white-space: nowrap; }
         .tabla-contenedor thead { position: sticky; top: 0; z-index: 10; }
-        .tabla-contenedor thead th { background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left; }
-        .tabla-contenedor tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); color: var(--gris-oscuro); max-width: 200px; overflow: hidden; text-overflow: ellipsis; }
-        .tabla-contenedor tbody tr { transition: all 0.15s ease; }
-        .tabla-contenedor tbody tr:hover { background: var(--gris-fondo); box-shadow: inset 4px 0 0 var(--azul-medio); }
+        .tabla-contenedor thead th { background: var(--azul-oscuro); color: var(--blanco); padding: 10px 8px; font-weight: 600; font-size: 0.72rem; text-transform: uppercase; text-align: left; }
+        .tabla-contenedor tbody td { padding: 8px; border-bottom: 1px solid var(--gris-claro); color: var(--gris-oscuro); }
+        .tabla-contenedor tbody tr:hover { background: var(--gris-fondo); }
         .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; white-space: nowrap; }
         .badge::before { content: '●'; font-size: 0.9em; }
         .badge-pendiente { background: var(--amarillo-claro); color: var(--amarillo); }
@@ -192,28 +118,17 @@
         .badge-baja { background: #e9ecef; color: #495057; }
         .badge-media { background: var(--amarillo-claro); color: var(--amarillo); }
         .badge-alta { background: var(--rojo-claro); color: var(--rojo); }
-        .badge-incidencia { background: var(--rojo-claro); color: var(--rojo); font-weight: 700; font-size: 0.68rem; padding: 2px 8px; }
         .celda-vacia { color: #c0c4c8; font-style: italic; font-size: 0.7rem; }
 
         .graficos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 16px; margin-bottom: 20px; }
-        .grafico-card {
-            background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm);
-            min-height: 320px; display: flex; flex-direction: column;
-            animation: fadeInUp 0.5s ease-out;
-        }
-        .grafico-card:nth-child(1) { animation-delay: 0.05s; }
-        .grafico-card:nth-child(2) { animation-delay: 0.1s; }
-        .grafico-card:nth-child(3) { animation-delay: 0.15s; }
+        .grafico-card { background: var(--blanco); border-radius: var(--radio); padding: 16px; box-shadow: var(--sombra-sm); min-height: 320px; display: flex; flex-direction: column; }
         .grafico-card h3 { font-size: 0.85rem; font-weight: 700; color: var(--azul-oscuro); margin-bottom: 4px; }
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
 
         .paneles-inferiores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
         @media (max-width: 900px) { .paneles-inferiores { grid-template-columns: 1fr; } }
-        .incidencias-panel, .no-entregados-panel {
-            background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm);
-            border-left: 5px solid var(--rojo); animation: fadeInUp 0.5s ease-out;
-        }
+        .incidencias-panel, .no-entregados-panel { background: var(--blanco); border-radius: var(--radio); padding: 18px 20px; box-shadow: var(--sombra-sm); border-left: 5px solid var(--rojo); }
         .no-entregados-panel { border-left-color: var(--gris-medio); }
         .incidencias-panel h2, .no-entregados-panel h2 { font-size: 1rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
         .incidencias-panel h2 { color: var(--rojo); }
@@ -228,13 +143,10 @@
         .alerta-detalle { color: var(--gris-medio); font-size: 0.75rem; }
         .alerta-fecha { font-weight: 600; color: var(--rojo); font-size: 0.7rem; white-space: nowrap; margin-left: auto; flex-shrink: 0; }
         .todo-ok { text-align: center; padding: 20px; color: var(--verde); font-weight: 600; font-size: 0.95rem; }
-
         .footer { text-align: center; padding: 14px; font-size: 0.75rem; color: var(--gris-medio); border-top: 1px solid var(--gris-claro); margin-top: 8px; }
 
-        .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); animation: slideIn 0.35s ease; display: none; }
+        .toast { position: fixed; top: 20px; right: 20px; background: var(--azul-oscuro); color: #fff; padding: 12px 20px; border-radius: 20px; font-weight: 600; font-size: 0.85rem; z-index: 1000; box-shadow: var(--sombra-lg); display: none; }
         .toast.mostrar { display: block; }
-        @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
             .header { flex-direction: column; align-items: flex-start; }
@@ -242,18 +154,13 @@
             .tarjetas-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
             .graficos-grid { grid-template-columns: 1fr; }
             .filtros-bar { flex-direction: column; align-items: stretch; }
-            .filtros-bar input[type="text"] { max-width: 100%; }
-            .tabla-contenedor { max-height: 350px; }
             .executive-summary { flex-direction: column; align-items: flex-start; }
             .mini-kpis { width: 100%; justify-content: space-between; }
         }
-
         @media print {
             .btn-carga, .filtros-bar, .toast, .toggle-vista, .chips-filtros, .header-der { display: none !important; }
-            .tabla-contenedor { max-height: none; overflow: visible; page-break-inside: avoid; }
+            .tabla-contenedor { max-height: none; overflow: visible; }
             body { background: white !important; color: black !important; }
-            body.dark-mode { background: white !important; }
-            .grafico-card { page-break-inside: avoid; }
         }
     </style>
 </head>
@@ -263,21 +170,19 @@
 
     <div class="dashboard-container">
 
-        <!-- HEADER -->
         <header class="header">
             <div class="header-izq">
-                <img src="logo-ceramica.png" alt="Cerámica Marcos Paz" class="logo-escudo" onerror="this.style.display='none'">
+                <img src="logo-ceramica.png" alt="Logo" class="logo-escudo" onerror="this.style.display='none'">
                 <div class="header-titulos"><h1>TALLER</h1><p class="subtitulo">Dashboard de Órdenes de Trabajo y Ejecución</p></div>
             </div>
             <div class="header-der">
                 <span class="fecha-actual" id="fechaActual"><i class="fa-regular fa-calendar"></i> &nbsp;Cargando...</span>
-                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;" title="Recargar datos"><i class="fa-brands fa-google"></i> Google Sheets</button>
-                <button class="btn-carga btn-icon" id="btnTheme" title="Modo oscuro/claro"><i class="fa-solid fa-moon"></i></button>
-                <button class="btn-carga btn-icon" id="btnExportar" title="Exportar / Imprimir"><i class="fa-solid fa-print"></i></button>
+                <button class="btn-carga" id="btnRecargarGoogle" style="border-color:#34a853;color:#34a853;"><i class="fa-brands fa-google"></i> Google Sheets</button>
+                <button class="btn-carga btn-icon" id="btnTheme"><i class="fa-solid fa-moon"></i></button>
+                <button class="btn-carga btn-icon" id="btnExportar"><i class="fa-solid fa-print"></i></button>
             </div>
         </header>
 
-        <!-- EXECUTIVE SUMMARY -->
         <div class="executive-summary" id="executiveSummary">
             <div class="semaforo" id="semaforo">
                 <i class="fa-solid fa-circle" style="font-size: 1.5rem; color: #4ade80;"></i>
@@ -287,22 +192,10 @@
                 </div>
             </div>
             <div class="mini-kpis">
-                <div class="mini-kpi">
-                    <span class="mini-valor" id="miniOTs">0</span>
-                    <span class="mini-label">OTs activas</span>
-                </div>
-                <div class="mini-kpi">
-                    <span class="mini-valor" id="miniAtrasadas">0%</span>
-                    <span class="mini-label">Atrasadas</span>
-                </div>
-                <div class="mini-kpi">
-                    <span class="mini-valor" id="miniCriticas">0</span>
-                    <span class="mini-label">Críticas</span>
-                </div>
-                <div class="mini-kpi">
-                    <span class="mini-valor" id="miniHoras">0</span>
-                    <span class="mini-label">Horas trabajadas</span>
-                </div>
+                <div class="mini-kpi"><span class="mini-valor" id="miniOTs">0</span><span class="mini-label">OTs activas</span></div>
+                <div class="mini-kpi"><span class="mini-valor" id="miniAtrasadas">0%</span><span class="mini-label">Atrasadas</span></div>
+                <div class="mini-kpi"><span class="mini-valor" id="miniCriticas">0</span><span class="mini-label">Críticas</span></div>
+                <div class="mini-kpi"><span class="mini-valor" id="miniHoras">0</span><span class="mini-label">Horas trabajadas</span></div>
             </div>
             <div class="last-update">
                 <i class="fa-solid fa-circle" style="color: #4ade80; font-size: 0.5rem;"></i>
@@ -310,22 +203,19 @@
             </div>
         </div>
 
-        <!-- TOGGLE VISTA -->
         <div class="toggle-vista">
             <button class="activo" data-vista="detallado">🔍 Vista Detallada</button>
             <button data-vista="resumen">📊 Resumen Ejecutivo</button>
         </div>
 
-        <!-- TARJETAS OTs -->
         <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
         <div class="tarjetas-grid">
-            <div class="tarjeta azul" data-filtro-tipo="total"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
             <div class="tarjeta naranja" data-filtro-estado="En curso"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
             <div class="tarjeta rojo" data-filtro-estado="Pendiente"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
-            <div class="tarjeta verde" data-filtro-tipo="operarios"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
         </div>
 
-        <!-- TARJETAS TRABAJOS -->
         <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
         <div class="tarjetas-grid">
             <div class="tarjeta azul" data-filtro-estado="Entregado"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
@@ -333,7 +223,6 @@
             <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
         </div>
 
-        <!-- GRÁFICOS OTs -->
         <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Distribución por Estado</h3><canvas id="graficoEstado"></canvas></div>
@@ -341,7 +230,6 @@
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-simple"></i> OTs por Tipo</h3><canvas id="graficoTipo"></canvas></div>
         </div>
 
-        <!-- GRÁFICOS TRABAJOS -->
         <p class="seccion-titulo">📊 Gráficos — Trabajos Realizados</p>
         <div class="graficos-grid">
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-bar"></i> Horas por Operario</h3><canvas id="graficoHorasResp"></canvas></div>
@@ -353,7 +241,6 @@
             <div class="grafico-card"><h3><i class="fa-solid fa-chart-pie"></i> Incidencia por Categoría</h3><canvas id="graficoIncidencias"></canvas></div>
         </div>
 
-        <!-- CHIPS FILTROS -->
         <div class="chips-filtros" id="chipsFiltros">
             <button class="chip activo" data-estado="Todos">Todos</button>
             <button class="chip" data-estado="Pendiente">🟡 Pendientes</button>
@@ -362,39 +249,34 @@
             <button class="chip" data-estado="No entregado">⚫ No entregadas</button>
         </div>
 
-        <!-- FILTROS OTs -->
         <div class="filtros-bar">
             <label>Estado:</label><select id="filtroEstado"><option value="Todos">Todos</option><option value="Pendiente">Pendiente</option><option value="En curso">En curso</option><option value="Entregado">Entregado</option><option value="No entregado">No entregado</option></select>
             <label>Operario:</label><select id="filtroOperario"><option value="Todos">Todos</option></select>
             <label>Tipo:</label><select id="filtroTipo"><option value="Todos">Todos</option><option value="Fabricación">Fabricación</option><option value="Reparación">Reparación</option><option value="Mecanizado">Mecanizado</option><option value="Modificación">Modificación</option></select>
             <label>Sector:</label><select id="filtroSector"><option value="Todos">Todos</option></select>
-            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar en N° OT, Máquina, Piezas, Descripción...">
+            <input type="text" id="busquedaOTs" placeholder="🔍 Buscar...">
         </div>
 
-        <!-- TABLA OTs -->
         <div class="tabla-contenedor">
             <table id="tablaOTs"><thead><tr><th>Fecha Prog.</th><th>N° OT</th><th>Descripción</th><th>Solicitante</th><th>Máquina (Rol)</th><th>Operario</th><th>Equipo</th><th>Sector</th><th>Máquina/Equipo</th><th>Piezas</th><th>Tipo</th><th>Criticidad</th><th>Lugar</th><th>OT Mant</th><th>Estado</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- FILTROS TRABAJOS -->
         <div class="filtros-bar">
             <label>N° OT:</label><select id="filtroNroOT"><option value="Todos">Todos</option></select>
             <label>Operario:</label><select id="filtroOperarioTrab"><option value="Todos">Todos</option></select>
-            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar en N° OT, Descripción, Materiales...">
+            <input type="text" id="busquedaTrabajos" placeholder="🔍 Buscar...">
         </div>
 
-        <!-- TABLA TRABAJOS -->
         <div class="tabla-contenedor">
             <table id="tablaTrabajos"><thead><tr><th>N° OT</th><th>Máquina (Rol)</th><th>Operario</th><th>Descripción</th><th>Materiales</th><th>Cant.</th><th>Fecha Hora Inicio</th><th>Fecha Hora Fin</th><th>Tiempo Total</th></tr></thead><tbody></tbody></table>
         </div>
 
-        <!-- PANELES INFERIORES -->
         <div class="paneles-inferiores">
-            <div class="incidencias-panel" id="panelIncidencias">
+            <div class="incidencias-panel">
                 <h2><i class="fa-solid fa-circle-exclamation"></i> Panel de Incidencias y Alertas</h2>
                 <div id="contenidoIncidencias"><p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p></div>
             </div>
-            <div class="no-entregados-panel" id="panelNoEntregados">
+            <div class="no-entregados-panel">
                 <h2><i class="fa-solid fa-rotate-left"></i> Trabajos No entregados</h2>
                 <div id="contenidoNoEntregados"><p class="todo-ok">Sin trabajos no entregados.</p></div>
             </div>
@@ -404,392 +286,720 @@
     </div>
 
     <script>
-        (function() {
-            let datosOTs = [];
-            let datosTrabajos = [];
-            let datosRegistroProgreso = [];
-            let motivosParadas = [];
-            let masterOperarios = [];
-            let listaMaquinas = [];
-            let charts = {};
-            let ultimaCarga = new Date();
+    (function() {
+        'use strict';
 
-            const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
-            const SHEET_OTS = 'O.T. Taller de YB';
-            const SHEET_TRAB = 'TrabajosRealizados';
-            const SHEET_OPERARIOS = 'Operarios';
-            const SHEET_PROGRESO = 'RegistroProgresoDiario';
-            const SHEET_MOTIVOS = 'MotivosParadas';
-            const SHEET_MAQUINAS = 'Maquinas';
+        let datosOTs = [];
+        let datosTrabajos = [];
+        let datosRegistroProgreso = [];
+        let motivosParadas = [];
+        let masterOperarios = [];
+        let listaMaquinas = [];
+        let charts = {};
+        let ultimaCarga = new Date();
 
-            const LIMITES_MANTENIMIENTO = {
-                'Fresadora': 480, 'Limadora': 500, 'Mortajadora': 420, 'Perforadora de Banco': 550,
-                'Prensa': 600, 'Soldador': 350, 'Torno Gr. YB': 480, 'Torno Ch. YB': 480,
-                'Torno Ch. Cevil': 480, 'Sierra sin Fin': 300, 'Amoladora': 350
-            };
-            const LIMITE_POR_DEFECTO = 400;
+        const SPREADSHEET_ID = '1C00X7ChR4XwCWE7bybkesxmf5i2PiFAIWFyEmnHNCPw';
+        const SHEET_OTS = 'O.T. Taller de YB';
+        const SHEET_TRAB = 'TrabajosRealizados';
+        const SHEET_OPERARIOS = 'Operarios';
+        const SHEET_PROGRESO = 'RegistroProgresoDiario';
+        const SHEET_MOTIVOS = 'MotivosParadas';
+        const SHEET_MAQUINAS = 'Maquinas';
 
-            function toast(msg, dur=3000) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); }
-            function fechaHoy() { const d=new Date(); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
-            function actualizarFechasUI() { const f=fechaHoy(); document.getElementById('fechaActual').innerHTML=`<i class="fa-regular fa-calendar"></i> &nbsp;${f}`; document.getElementById('fechaFooter').textContent=f; }
-            function parseFechaDMY(str) { if(!str) return null; str=str.trim(); const m=str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/); if(!m) return null; let d=parseInt(m[1]), mes=parseInt(m[2])-1, a=parseInt(m[3]); if(a<100) a+=2000; const dt=new Date(a,mes,d); return (dt.getDate()===d&&dt.getMonth()===mes)?dt:null; }
-            function parseDuracionHHMMSS(str) { if(!str) return 0; const parts=str.trim().split(':'); if(parts.length===3) return parseInt(parts[0])+parseInt(parts[1])/60+parseInt(parts[2])/3600; const n=parseFloat(str.replace(',','.')); return isNaN(n)?0:n; }
-            function parseHoraAMPM(str) { if(!str) return null; str=str.trim().toLowerCase(); str=str.replace(/\./g,'').replace(/\s+/g,' '); const match=str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/); if(!match) return null; let hours=parseInt(match[1]); const minutes=parseInt(match[2]); const seconds=parseInt(match[3]); const ampm=match[4].replace(/\s/g,''); if(ampm.startsWith('p')&&hours<12) hours+=12; if(ampm.startsWith('a')&&hours===12) hours=0; const d=new Date(); d.setHours(hours,minutes,seconds,0); return d; }
-            function calcularHorasEntre(inicioStr, finStr) { const ini=parseHoraAMPM(inicioStr); const fin=parseHoraAMPM(finStr); if(!ini||!fin) return 0; if(fin<=ini) return 0; return (fin-ini)/(1000*60*60); }
-            function formatoHoras(horasDecimales) { const horas=Math.floor(horasDecimales); const minutos=Math.round((horasDecimales-horas)*60); return `${horas}:${String(minutos).padStart(2,'0')}`; }
-            function formatoFecha(d) { return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+        const LIMITES_MANTENIMIENTO = { 'Fresadora':480,'Limadora':500,'Mortajadora':420,'Perforadora de Banco':550,'Prensa':600,'Soldador':350,'Torno Gr. YB':480,'Torno Ch. YB':480,'Torno Ch. Cevil':480,'Sierra sin Fin':300,'Amoladora':350 };
+        const LIMITE_POR_DEFECTO = 400;
 
-            function animarNumero(elemento, valorFinal, duracion=800) {
-                const valorInicial = parseInt(elemento.textContent) || 0;
-                if (valorInicial === valorFinal) { elemento.textContent = valorFinal; return; }
+        function toast(msg, dur=3000) { try { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('mostrar'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('mostrar'),dur); } catch(e) {} }
+        function fechaHoy() { const d=new Date(); return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+        function actualizarFechasUI() { const f=fechaHoy(); try { document.getElementById('fechaActual').innerHTML=`<i class="fa-regular fa-calendar"></i> &nbsp;${f}`; document.getElementById('fechaFooter').textContent=f; } catch(e) {} }
+        function parseFechaDMY(str) { if(!str) return null; str=str.trim(); const m=str.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})$/); if(!m) return null; let d=parseInt(m[1]), mes=parseInt(m[2])-1, a=parseInt(m[3]); if(a<100) a+=2000; const dt=new Date(a,mes,d); return (dt.getDate()===d&&dt.getMonth()===mes)?dt:null; }
+        function parseDuracionHHMMSS(str) { if(!str) return 0; const parts=str.trim().split(':'); if(parts.length===3) return parseInt(parts[0])+parseInt(parts[1])/60+parseInt(parts[2])/3600; const n=parseFloat(str.replace(',','.')); return isNaN(n)?0:n; }
+        function parseHoraAMPM(str) { if(!str) return null; str=str.trim().toLowerCase().replace(/\./g,'').replace(/\s+/g,' '); const m=str.match(/^(\d{1,2}):(\d{2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)$/); if(!m) return null; let h=parseInt(m[1]); const mi=parseInt(m[2]), se=parseInt(m[3]); const ap=m[4].replace(/\s/g,''); if(ap.startsWith('p')&&h<12) h+=12; if(ap.startsWith('a')&&h===12) h=0; const d=new Date(); d.setHours(h,mi,se,0); return d; }
+        function calcularHorasEntre(ini,fin) { const a=parseHoraAMPM(ini), b=parseHoraAMPM(fin); if(!a||!b) return 0; if(b<=a) return 0; return (b-a)/(1000*60*60); }
+        function formatoHoras(h) { const hh=Math.floor(h), mm=Math.round((h-hh)*60); return `${hh}:${String(mm).padStart(2,'0')}`; }
+        function formatoFecha(d) { return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+
+        function animarNumero(el, valorFinal, dur=800) {
+            try {
+                const valorInicial = parseInt(el.textContent) || 0;
+                if (valorInicial === valorFinal) { el.textContent = valorFinal; return; }
                 const inicio = performance.now();
                 function animar(tiempo) {
-                    const progreso = Math.min((tiempo - inicio) / duracion, 1);
+                    const progreso = Math.min((tiempo - inicio) / dur, 1);
                     const eased = 1 - Math.pow(1 - progreso, 3);
-                    elemento.textContent = Math.round(valorInicial + (valorFinal - valorInicial) * eased);
+                    el.textContent = Math.round(valorInicial + (valorFinal - valorInicial) * eased);
                     if (progreso < 1) requestAnimationFrame(animar);
                 }
                 requestAnimationFrame(animar);
+            } catch(e) { el.textContent = valorFinal; }
+        }
+
+        function esMantenimiento(motivo) { if (!motivo) return false; const m = motivo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); return m.includes('mantenimiento'); }
+
+        function obtenerUltimosMantenimientos() {
+            const r = {};
+            datosRegistroProgreso.forEach(reg => {
+                if (!reg.maquinaUsada || !esMantenimiento(reg.motivoParada)) return;
+                const fecha = parseFechaDMY(reg.fecha);
+                if (!fecha) return;
+                if (!r[reg.maquinaUsada] || fecha > r[reg.maquinaUsada].fecha) {
+                    r[reg.maquinaUsada] = { fecha, horaInicio: reg.horaInicio, horaParada: reg.horaParada };
+                }
+            });
+            return r;
+        }
+
+        function colorPorAvance(p) {
+            if (p >= 100) return '#c0392b';
+            if (p >= 80) { const t=(p-80)/20; return `rgb(${212+Math.round((192-212)*t)},${160-Math.round(160*t)},${23-Math.round(23*t)})`; }
+            if (p >= 60) { const t=(p-60)/20; return `rgb(${30+Math.round((212-30)*t)},${132-Math.round((132-160)*t)},${73-Math.round((73-23)*t)})`; }
+            return '#1e8449';
+        }
+
+        function encontrarColumna(enc, palabras, excluir=[]) {
+            for (let i=0; i<enc.length; i++) {
+                if (excluir.includes(i)) continue;
+                const h = enc[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                for (const p of palabras) {
+                    const c = p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                    if (h.includes(c)) return i;
+                }
+            }
+            return -1;
+        }
+
+        function mapearOTs(e,f) {
+            const iF=encontrarColumna(e,['fecha programada','fechaprogramada','fecha prog']);
+            const iOT=encontrarColumna(e,['n° ot','nº ot','numero ot','nro ot']);
+            const iD=encontrarColumna(e,['descripcion de tarea','descripcion','descripción','tarea']);
+            const iS=encontrarColumna(e,['solicitante']);
+            const iME=encontrarColumna(e,['maquina/equipo','máquina/equipo','maquina equipo']);
+            const iMR=encontrarColumna(e,['maquina','máquina'],iME>=0?[iME]:[]);
+            const iO=encontrarColumna(e,['operario asignado','operario','operarioasignado']);
+            const iEq=encontrarColumna(e,['equipo de trabajo','equipo','equipotrabajo']);
+            const iSec=encontrarColumna(e,['sector']);
+            const iP=encontrarColumna(e,['piezas','pieza']);
+            const iT=encontrarColumna(e,['tipo de trabajo','tipo','tipodetrabajo']);
+            const iC=encontrarColumna(e,['criticidad','prioridad']);
+            const iL=encontrarColumna(e,['lugar de trabajo','lugar','lugartrabajo']);
+            const iM=encontrarColumna(e,['ot mant asoc','ot mant','otmant','mant asoc']);
+            const iE=encontrarColumna(e,['estado','situacion']);
+            return {
+                fechaProgramada:iF>=0?(f[iF]||'').trim():'',
+                nroOT:iOT>=0?(f[iOT]||'').trim():'',
+                descripcionTarea:iD>=0?(f[iD]||'').trim():'',
+                solicitante:iS>=0?(f[iS]||'').trim():'',
+                maquinaRol:iMR>=0?(f[iMR]||'').trim():'',
+                operarioAsignado:iO>=0?(f[iO]||'').trim():'',
+                equipoTrabajo:iEq>=0?(f[iEq]||'').trim():'',
+                sector:iSec>=0?(f[iSec]||'').trim():'',
+                maquinaEquipo:iME>=0?(f[iME]||'').trim():'',
+                piezas:iP>=0?(f[iP]||'').trim():'',
+                tipoTrabajo:iT>=0?(f[iT]||'').trim():'',
+                criticidad:iC>=0?(f[iC]||'').trim():'',
+                lugarTrabajo:iL>=0?(f[iL]||'').trim():'',
+                otMantAsoc:iM>=0?(f[iM]||'').trim():'',
+                estado:iE>=0?(f[iE]||'').trim():''
+            };
+        }
+
+        function mapearTrabajos(e,f) {
+            const iOT=encontrarColumna(e,['n° ot','nº ot','numero ot','nro ot']);
+            const iM=encontrarColumna(e,['maquina','máquina']);
+            const iO=encontrarColumna(e,['operario']);
+            const iD=encontrarColumna(e,['descripcion del trabajo realizado','descripcion','trabajo realizado']);
+            const iMat=encontrarColumna(e,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']);
+            const iC=encontrarColumna(e,['cantidad','cant']);
+            const iI=encontrarColumna(e,['fecha hora inicio','hora inicio','fechahora inicio']);
+            const iF=encontrarColumna(e,['fecha hora fin','hora fin','fechahora fin']);
+            const iD2=encontrarColumna(e,['tiempo total','tiempototal','duracion']);
+            return {
+                nroOT:iOT>=0?(f[iOT]||'').trim():'',
+                maquinaRol:iM>=0?(f[iM]||'').trim():'',
+                operario:iO>=0?(f[iO]||'').trim():'',
+                descripcion:iD>=0?(f[iD]||'').trim():'',
+                materiales:iMat>=0?(f[iMat]||'').trim():'',
+                cantidad:iC>=0?(f[iC]||'').trim():'',
+                fechaHoraInicio:iI>=0?(f[iI]||'').trim():'',
+                fechaHoraFin:iF>=0?(f[iF]||'').trim():'',
+                tiempoTotal:iD2>=0?(f[iD2]||'').trim():''
+            };
+        }
+
+        function mapearRegistroProgreso(e,f) {
+            let iO=-1;
+            for (let i=0;i<e.length;i++) {
+                const h=e[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+                if (h.includes('operario')&&!h.includes('asignado')) { iO=i; break; }
+            }
+            const iOT=encontrarColumna(e,['n° ot','nº ot','numero ot','nro ot']);
+            const iHI=encontrarColumna(e,['hora incio','hora inicio','horainicio']);
+            const iHP=encontrarColumna(e,['hora parada','horaparada']);
+            const iMP=encontrarColumna(e,['motivo parada','motivoparada','motivo']);
+            const iMU=encontrarColumna(e,['maquina usada','máquina usada','maquinausada']);
+            const iF=encontrarColumna(e,['fecha']);
+            return {
+                nroOT:iOT>=0?(f[iOT]||'').trim():'',
+                operario:iO>=0?(f[iO]||'').trim():'',
+                horaInicio:iHI>=0?(f[iHI]||'').trim():'',
+                horaParada:iHP>=0?(f[iHP]||'').trim():'',
+                motivoParada:iMP>=0?(f[iMP]||'').trim():'',
+                maquinaUsada:iMU>=0?(f[iMU]||'').trim():'',
+                fecha:iF>=0?(f[iF]||'').trim():''
+            };
+        }
+
+        function parsearCSV(t) {
+            const l=t.split(/\r?\n/).filter(x=>x.trim());
+            if (!l.length) return {enc:[],filas:[]};
+            function pl(line) {
+                const r=[]; let a='',q=false;
+                for (let i=0;i<line.length;i++) {
+                    const c=line[i];
+                    if (c==='"') q=!q;
+                    else if (c===','&&!q) { r.push(a); a=''; }
+                    else a+=c;
+                }
+                r.push(a); return r;
+            }
+            const enc=pl(l[0]), filas=[];
+            for (let i=1;i<l.length;i++) { const f=pl(l[i]); if (f.some(c=>c.trim())) filas.push(f); }
+            return {enc,filas};
+        }
+
+        async function fetchSheet(name) {
+            const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(name)}`;
+            const r = await fetch(url);
+            if (!r.ok) throw new Error(`Error ${r.status}`);
+            return await r.text();
+        }
+
+        async function cargarMaquinas() {
+            try {
+                const t = await fetchSheet(SHEET_MAQUINAS);
+                const {filas} = parsearCSV(t);
+                listaMaquinas = filas.map(f=>(f[0]||'').trim()).filter(n=>n&&n.toLowerCase()!=='máquinas'&&n.toLowerCase()!=='maquinas').sort();
+                toast(`📋 Máquinas: ${listaMaquinas.length}`);
+            } catch(e) { console.warn('Error máquinas:', e); }
+        }
+
+        async function cargarMotivosParadas() {
+            try {
+                const t = await fetchSheet(SHEET_MOTIVOS);
+                const {enc,filas} = parsearCSV(t);
+                const iM = encontrarColumna(enc,['motivo']);
+                const iT = encontrarColumna(enc,['tipo']);
+                motivosParadas = filas.map(f=>({motivo:iM>=0?(f[iM]||'').trim():'', tipo:iT>=0?(f[iT]||'').trim():''})).filter(m=>m.tipo.toLowerCase()==='incidencia'&&m.motivo);
+                toast(`📋 Motivos incidencia: ${motivosParadas.length}`);
+            } catch(e) { console.warn('Error motivos:', e); }
+        }
+
+        async function cargarMasterOperarios() {
+            try {
+                const t = await fetchSheet(SHEET_OPERARIOS);
+                const {filas} = parsearCSV(t);
+                const nombres = filas.map(f=>(f[0]||'').trim()).filter(n=>{ const l=n.toLowerCase(); return l!=='cantidad'&&l!=='promedio'&&l!=='operario'&&n; });
+                masterOperarios = [...new Set(nombres)].sort();
+                toast(`📋 Operarios: ${masterOperarios.length}`);
+                actualizarTodoOTs();
+            } catch(e) { console.warn('Error operarios:', e); }
+        }
+
+        async function cargarOTs() {
+            try {
+                const t = await fetchSheet(SHEET_OTS);
+                const {enc,filas} = parsearCSV(t);
+                datosOTs = filas.map(f=>mapearOTs(enc,f));
+                toast(`✅ OTs: ${datosOTs.length}`);
+                actualizarTodoOTs();
+            } catch(e) { console.warn('Error OTs:', e); toast('⚠️ Error OTs'); }
+        }
+
+        async function cargarTrabajos() {
+            try {
+                const t = await fetchSheet(SHEET_TRAB);
+                const {enc,filas} = parsearCSV(t);
+                datosTrabajos = filas.map(f=>mapearTrabajos(enc,f));
+                toast(`✅ Trabajos: ${datosTrabajos.length}`);
+                actualizarTodoTrabajos();
+            } catch(e) { console.warn('Error trabajos:', e); toast('⚠️ Error Trabajos'); }
+        }
+
+        async function cargarRegistroProgreso() {
+            try {
+                const t = await fetchSheet(SHEET_PROGRESO);
+                const {enc,filas} = parsearCSV(t);
+                datosRegistroProgreso = filas.map(f=>mapearRegistroProgreso(enc,f));
+                toast(`✅ Registro Progreso: ${datosRegistroProgreso.length}`);
+                actualizarTodoTrabajos();
+            } catch(e) { console.warn('Error progreso:', e); toast('⚠️ Error Registro Progreso'); }
+        }
+
+        async function cargarTodo() {
+            ultimaCarga = new Date();
+            await cargarMotivosParadas();
+            await cargarMaquinas();
+            await cargarMasterOperarios();
+            await cargarOTs();
+            await cargarTrabajos();
+            await cargarRegistroProgreso();
+            const el = document.getElementById('tiempoTranscurrido');
+            if (el) el.textContent = '0';
+        }
+
+        function obtenerIncidencias() {
+            const set = new Set(motivosParadas.map(m=>m.motivo.toLowerCase()));
+            return datosRegistroProgreso.filter(r=>r.motivoParada&&set.has(r.motivoParada.toLowerCase()));
+        }
+        function esIncidencia(m) {
+            if (!m) return false;
+            const set = new Set(motivosParadas.map(x=>x.motivo.toLowerCase()));
+            return set.has(m.toLowerCase());
+        }
+
+        function actualizarTodoOTs() {
+            try { poblarFiltrosOTs(); } catch(e) {}
+            try { actualizarTarjetasOTs(); } catch(e) { console.warn(e); }
+            try { actualizarTablaOTs(); } catch(e) { console.warn(e); }
+            try { actualizarGraficosOTs(); } catch(e) { console.warn(e); }
+            try { actualizarPanelIncidencias(); } catch(e) { console.warn(e); }
+            try { actualizarPanelNoEntregados(); } catch(e) { console.warn(e); }
+            try { actualizarSemaforo(); } catch(e) { console.warn(e); }
+        }
+        function actualizarTodoTrabajos() {
+            try { poblarFiltrosTrabajos(); } catch(e) {}
+            try { actualizarTarjetasTrabajos(); } catch(e) { console.warn(e); }
+            try { actualizarTablaTrabajos(); } catch(e) { console.warn(e); }
+            try { actualizarGraficosTrabajos(); } catch(e) { console.warn(e); }
+            try { actualizarPanelIncidencias(); } catch(e) { console.warn(e); }
+            try { actualizarSemaforo(); } catch(e) { console.warn(e); }
+        }
+
+        function actualizarTarjetasOTs() {
+            const total = datosOTs.length;
+            const enCurso = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
+            const pendientes = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
+            animarNumero(document.getElementById('totalOTs'), total);
+            animarNumero(document.getElementById('enCursoOTs'), enCurso);
+            animarNumero(document.getElementById('pendientesOTs'), pendientes);
+            animarNumero(document.getElementById('operariosActivos'), masterOperarios.length);
+        }
+
+        function actualizarTarjetasTrabajos() {
+            const entregadas = new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT));
+            const terminados = datosTrabajos.filter(t=>entregadas.has(t.nroOT)).length;
+            const horas = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
+            animarNumero(document.getElementById('trabajosTerminados'), terminados);
+            document.getElementById('horasTotales').textContent = formatoHoras(horas);
+            animarNumero(document.getElementById('conIncidencia'), obtenerIncidencias().length);
+        }
+
+        function actualizarSemaforo() {
+            const hoy = new Date(); hoy.setHours(0,0,0,0);
+            const activasArr = datosOTs.filter(o=>o.estado.toLowerCase()!=='entregado'&&o.estado.toLowerCase()!=='no entregado');
+            const atrasadas = activasArr.filter(o=>{ const fp=parseFechaDMY(o.fechaProgramada); return fp&&fp<hoy; }).length;
+            const criticas = activasArr.filter(o=>o.criticidad.toLowerCase()==='alta').length;
+            const activas = activasArr.length;
+            const horasTotal = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
+
+            const e1 = document.getElementById('miniOTs'); if (e1) e1.textContent = activas;
+            const e2 = document.getElementById('miniAtrasadas'); if (e2) e2.textContent = activas>0 ? Math.round(atrasadas/activas*100)+'%' : '0%';
+            const e3 = document.getElementById('miniCriticas'); if (e3) e3.textContent = criticas;
+            const e4 = document.getElementById('miniHoras'); if (e4) e4.textContent = Math.round(horasTotal);
+
+            const sem = document.getElementById('semaforo');
+            if (!sem) return;
+            const ico = sem.querySelector('i');
+            const tit = document.getElementById('semaforoTitulo');
+            const det = document.getElementById('semaforoDetalle');
+            if (criticas > 2 || atrasadas > 10) {
+                sem.style.background = 'rgba(239,68,68,0.1)'; sem.style.borderColor = '#ef4444';
+                ico.style.color = '#ef4444';
+                if (tit) tit.textContent = '⚠️ Acción urgente';
+                if (det) det.textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
+            } else if (criticas > 0 || atrasadas > 5) {
+                sem.style.background = 'rgba(245,158,11,0.1)'; sem.style.borderColor = '#f59e0b';
+                ico.style.color = '#f59e0b';
+                if (tit) tit.textContent = '🟡 Atención requerida';
+                if (det) det.textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
+            } else {
+                sem.style.background = 'rgba(74,222,128,0.1)'; sem.style.borderColor = '#4ade80';
+                ico.style.color = '#4ade80';
+                if (tit) tit.textContent = 'Todo en orden';
+                if (det) det.textContent = 'Sin alertas críticas activas';
+            }
+        }
+
+        function poblarFiltrosOTs() {
+            const selOp = document.getElementById('filtroOperario');
+            selOp.innerHTML = '<option value="Todos">Todos</option>' + masterOperarios.map(o=>`<option value="${o}">${o}</option>`).join('');
+            const sectores = [...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort();
+            const selSec = document.getElementById('filtroSector');
+            selSec.innerHTML = '<option value="Todos">Todos</option>' + sectores.map(s=>`<option value="${s}">${s}</option>`).join('');
+        }
+
+        function poblarFiltrosTrabajos() {
+            const ots = [...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort();
+            const ops = [...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort();
+            document.getElementById('filtroNroOT').innerHTML = '<option value="Todos">Todos</option>' + ots.map(o=>`<option value="${o}">${o}</option>`).join('');
+            document.getElementById('filtroOperarioTrab').innerHTML = '<option value="Todos">Todos</option>' + ops.map(o=>`<option value="${o}">${o}</option>`).join('');
+        }
+
+        function filtrarOTs() {
+            const est = document.getElementById('filtroEstado').value;
+            const op = document.getElementById('filtroOperario').value;
+            const tip = document.getElementById('filtroTipo').value;
+            const sec = document.getElementById('filtroSector').value;
+            const q = document.getElementById('busquedaOTs').value.toLowerCase().trim();
+            return datosOTs.filter(o=>{
+                if (est!=='Todos'&&o.estado.toLowerCase()!==est.toLowerCase()) return false;
+                if (op!=='Todos'&&o.operarioAsignado!==op) return false;
+                if (tip!=='Todos'&&o.tipoTrabajo!==tip) return false;
+                if (sec!=='Todos'&&o.sector!==sec) return false;
+                if (q&&!`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false;
+                return true;
+            });
+        }
+
+        function filtrarTrabajos() {
+            const ot = document.getElementById('filtroNroOT').value;
+            const op = document.getElementById('filtroOperarioTrab').value;
+            const q = document.getElementById('busquedaTrabajos').value.toLowerCase().trim();
+            return datosTrabajos.filter(t=>{
+                if (ot!=='Todos'&&t.nroOT!==ot) return false;
+                if (op!=='Todos'&&t.operario!==op) return false;
+                if (q&&!`${t.nroOT} ${t.descripcion} ${t.materiales}`.toLowerCase().includes(q)) return false;
+                return true;
+            });
+        }
+
+        function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+        function celda(v) { return v?escapeHTML(v):'<span class="celda-vacia">—</span>'; }
+
+        function actualizarTablaOTs() {
+            const tbody = document.querySelector('#tablaOTs tbody');
+            tbody.innerHTML = filtrarOTs().map(o=>{
+                let be='';
+                const e=o.estado.toLowerCase();
+                if(e==='pendiente') be='<span class="badge badge-pendiente">Pendiente</span>';
+                else if(e==='en curso') be='<span class="badge badge-en-curso">En curso</span>';
+                else if(e==='entregado') be='<span class="badge badge-entregado">Entregado</span>';
+                else if(e==='no entregado') be='<span class="badge badge-no-entregado">No entregado</span>';
+                else be=escapeHTML(o.estado);
+                let bc='';
+                const c=o.criticidad.toLowerCase();
+                if(c==='baja') bc='<span class="badge badge-baja">Baja</span>';
+                else if(c==='media') bc='<span class="badge badge-media">Media</span>';
+                else if(c==='alta') bc='<span class="badge badge-alta">Alta</span>';
+                else bc=escapeHTML(o.criticidad);
+                return `<tr><td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td><td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td><td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td><td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${bc}</td><td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${be}</td></tr>`;
+            }).join('');
+        }
+
+        function actualizarTablaTrabajos() {
+            const tbody = document.querySelector('#tablaTrabajos tbody');
+            tbody.innerHTML = filtrarTrabajos().map(t=>`<tr><td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td><td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td></tr>`).join('');
+        }
+
+        function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
+
+        function getTextColor() { return document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043'; }
+
+        function actualizarGraficosOTs() {
+            const filt = filtrarOTs();
+            const tc = getTextColor();
+            destruirGraficos(['estado','operario','tipo']);
+
+            if (!filt.length) return;
+
+            const ctx1 = document.getElementById('graficoEstado')?.getContext('2d');
+            if (ctx1) {
+                const conteo = {};
+                filt.forEach(o=>{ const e=o.estado||'Sin estado'; conteo[e]=(conteo[e]||0)+1; });
+                const labels = Object.keys(conteo), data = Object.values(conteo), total = data.reduce((a,b)=>a+b,0);
+                const bg = labels.map(l=>{
+                    const lo=l.toLowerCase();
+                    if(lo==='entregado') return '#1e8449';
+                    if(lo==='en curso') return '#e8750c';
+                    if(lo==='pendiente') return '#c0392b';
+                    if(lo==='no entregado') return '#5d6d7e';
+                    return '#8b8f95';
+                });
+                charts['estado'] = new Chart(ctx1, {
+                    type: 'pie',
+                    data: { labels, datasets: [{ data, backgroundColor: bg, borderColor:'#fff', borderWidth:3, borderRadius:6, offset:10, hoverOffset:18 }] },
+                    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:11}, padding:16, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%` } } } }
+                });
             }
 
-            function esMantenimiento(motivo) {
-                if (!motivo) return false;
-                const m = motivo.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                return m.includes('mantenimiento');
+            const ctx2 = document.getElementById('graficoOperario')?.getContext('2d');
+            if (ctx2) {
+                const opsSet = new Set(filt.map(o=>o.operarioAsignado||'Sin asignar'));
+                const ops = Array.from(opsSet).sort();
+                const estados = ['Entregado','En curso','Pendiente','No entregado'];
+                const cols = { 'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b','No entregado':'#5d6d7e' };
+                const ds = estados.map(est=>({ label:est, data:ops.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length), backgroundColor:cols[est], borderRadius:4, borderSkipped:false }));
+                charts['operario'] = new Chart(ctx2, {
+                    type: 'bar',
+                    data: { labels:ops, datasets:ds },
+                    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc } }, y:{ stacked:true, ticks:{ font:{size:10}, color:tc } } } }
+                });
             }
 
-            function obtenerUltimosMantenimientos() {
-                const result = {};
-                datosRegistroProgreso.forEach(reg => {
-                    if (!reg.maquinaUsada || !esMantenimiento(reg.motivoParada)) return;
-                    const fecha = parseFechaDMY(reg.fecha);
-                    if (!fecha) return;
-                    if (!result[reg.maquinaUsada] || fecha > result[reg.maquinaUsada].fecha) {
-                        result[reg.maquinaUsada] = { fecha: fecha, horaInicio: reg.horaInicio, horaParada: reg.horaParada };
+            const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
+            if (ctx3) {
+                const conteo = {};
+                filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin tipo'; conteo[t]=(conteo[t]||0)+1; });
+                const sorted = Object.entries(conteo).sort((a,b)=>b[1]-a[1]);
+                charts['tipo'] = new Chart(ctx3, {
+                    type: 'bar',
+                    data: { labels:sorted.map(e=>e[0]), datasets:[{ label:'Cantidad', data:sorted.map(e=>e[1]), backgroundColor:'#e8750c', borderRadius:4 }] },
+                    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1, font:{size:10}, color:tc } }, x:{ ticks:{ font:{size:9}, color:tc } } } }
+                });
+            }
+        }
+
+        function actualizarGraficosTrabajos() {
+            const tc = getTextColor();
+            destruirGraficos(['horasResp','maquina','incidencias']);
+
+            const ctx1 = document.getElementById('graficoHorasResp')?.getContext('2d');
+            if (ctx1) {
+                const hSin={}, hCon={};
+                datosRegistroProgreso.forEach(r=>{
+                    if (!r.operario||!r.horaInicio||!r.horaParada) return;
+                    const h = calcularHorasEntre(r.horaInicio, r.horaParada);
+                    if (h>0) {
+                        if (esIncidencia(r.motivoParada)) hCon[r.operario]=(hCon[r.operario]||0)+h;
+                        else hSin[r.operario]=(hSin[r.operario]||0)+h;
                     }
                 });
-                return result;
-            }
-
-            function colorPorAvance(porcentaje) {
-                if (porcentaje >= 100) return '#c0392b';
-                if (porcentaje >= 80) { const t=(porcentaje-80)/20; return `rgb(${212+Math.round((192-212)*t)},${160-Math.round(160*t)},${23-Math.round(23*t)})`; }
-                if (porcentaje >= 60) { const t=(porcentaje-60)/20; return `rgb(${30+Math.round((212-30)*t)},${132-Math.round((132-160)*t)},${73-Math.round((73-23)*t)})`; }
-                return '#1e8449';
-            }
-
-            function encontrarColumna(encabezados, palabras, excluir=[]) { for(let i=0;i<encabezados.length;i++) { if(excluir.includes(i)) continue; const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); for(const p of palabras) { const c=p.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes(c)) return i; } } return -1; }
-
-            function mapearOTs(encabezados, fila) { const idxFecha=encontrarColumna(encabezados,['fecha programada','fechaprogramada','fecha prog']); const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot','not','n°ot','nºot']); const idxDesc=encontrarColumna(encabezados,['descripcion de tarea','descripcion','descripción','tarea']); const idxSol=encontrarColumna(encabezados,['solicitante']); const idxMaqEq=encontrarColumna(encabezados,['maquina/equipo','máquina/equipo','maquina equipo']); const idxMaqRol=encontrarColumna(encabezados,['maquina','máquina'],idxMaqEq>=0?[idxMaqEq]:[]); const idxOp=encontrarColumna(encabezados,['operario asignado','operario','operarioasignado']); const idxEq=encontrarColumna(encabezados,['equipo de trabajo','equipo','equipotrabajo']); const idxSec=encontrarColumna(encabezados,['sector']); const idxPie=encontrarColumna(encabezados,['piezas','pieza']); const idxTip=encontrarColumna(encabezados,['tipo de trabajo','tipo','tipodetrabajo']); const idxCrit=encontrarColumna(encabezados,['criticidad','prioridad']); const idxLug=encontrarColumna(encabezados,['lugar de trabajo','lugar','lugartrabajo']); const idxMant=encontrarColumna(encabezados,['ot mant asoc','ot mant','otmant','mant asoc']); const idxEst=encontrarColumna(encabezados,['estado','situacion']); return { fechaProgramada:idxFecha>=0?(fila[idxFecha]||'').trim():'', nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', descripcionTarea:idxDesc>=0?(fila[idxDesc]||'').trim():'', solicitante:idxSol>=0?(fila[idxSol]||'').trim():'', maquinaRol:idxMaqRol>=0?(fila[idxMaqRol]||'').trim():'', operarioAsignado:idxOp>=0?(fila[idxOp]||'').trim():'', equipoTrabajo:idxEq>=0?(fila[idxEq]||'').trim():'', sector:idxSec>=0?(fila[idxSec]||'').trim():'', maquinaEquipo:idxMaqEq>=0?(fila[idxMaqEq]||'').trim():'', piezas:idxPie>=0?(fila[idxPie]||'').trim():'', tipoTrabajo:idxTip>=0?(fila[idxTip]||'').trim():'', criticidad:idxCrit>=0?(fila[idxCrit]||'').trim():'', lugarTrabajo:idxLug>=0?(fila[idxLug]||'').trim():'', otMantAsoc:idxMant>=0?(fila[idxMant]||'').trim():'', estado:idxEst>=0?(fila[idxEst]||'').trim():'' }; }
-
-            function mapearTrabajos(encabezados, fila) { const idxOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']); const idxMaq=encontrarColumna(encabezados,['maquina','máquina']); const idxOp=encontrarColumna(encabezados,['operario']); const idxDesc=encontrarColumna(encabezados,['descripcion del trabajo realizado','descripcion','trabajo realizado']); const idxMat=encontrarColumna(encabezados,['repuestos, materiales e insumos consumidos','materiales','insumos','materiales consumidos']); const idxCant=encontrarColumna(encabezados,['cantidad','cant']); const idxIni=encontrarColumna(encabezados,['fecha hora inicio','hora inicio','fechahora inicio']); const idxFin=encontrarColumna(encabezados,['fecha hora fin','hora fin','fechahora fin']); const idxDur=encontrarColumna(encabezados,['tiempo total','tiempototal','duracion']); return { nroOT:idxOT>=0?(fila[idxOT]||'').trim():'', maquinaRol:idxMaq>=0?(fila[idxMaq]||'').trim():'', operario:idxOp>=0?(fila[idxOp]||'').trim():'', descripcion:idxDesc>=0?(fila[idxDesc]||'').trim():'', materiales:idxMat>=0?(fila[idxMat]||'').trim():'', cantidad:idxCant>=0?(fila[idxCant]||'').trim():'', fechaHoraInicio:idxIni>=0?(fila[idxIni]||'').trim():'', fechaHoraFin:idxFin>=0?(fila[idxFin]||'').trim():'', tiempoTotal:idxDur>=0?(fila[idxDur]||'').trim():'' }; }
-
-            function mapearRegistroProgreso(encabezados, fila) {
-                let idxOperario=-1;
-                for(let i=0;i<encabezados.length;i++) { const h=encabezados[i].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,''); if(h.includes('operario') && !h.includes('asignado')) { idxOperario=i; break; } }
-                const idxNroOT=encontrarColumna(encabezados,['n° ot','nº ot','numero ot','nro ot']);
-                const idxHoraInicio=encontrarColumna(encabezados,['hora incio','hora inicio','horainicio']);
-                const idxHoraParada=encontrarColumna(encabezados,['hora parada','horaparada']);
-                const idxMotivoParada=encontrarColumna(encabezados,['motivo parada','motivoparada','motivo']);
-                const idxMaquinaUsada=encontrarColumna(encabezados,['maquina usada','máquina usada','maquinausada']);
-                const idxFecha=encontrarColumna(encabezados,['fecha']);
-                return { nroOT:idxNroOT>=0?(fila[idxNroOT]||'').trim():'', operario:idxOperario>=0?(fila[idxOperario]||'').trim():'', horaInicio:idxHoraInicio>=0?(fila[idxHoraInicio]||'').trim():'', horaParada:idxHoraParada>=0?(fila[idxHoraParada]||'').trim():'', motivoParada:idxMotivoParada>=0?(fila[idxMotivoParada]||'').trim():'', maquinaUsada:idxMaquinaUsada>=0?(fila[idxMaquinaUsada]||'').trim():'', fecha:idxFecha>=0?(fila[idxFecha]||'').trim():'' };
-            }
-
-            function parsearCSV(texto) { const lineas=texto.split(/\r?\n/).filter(l=>l.trim()); if(lineas.length===0) return {enc:[],filas:[]}; const parseLinea=(l)=>{ const res=[]; let act='',comillas=false; for(let i=0;i<l.length;i++) { const ch=l[i]; if(ch==='"') comillas=!comillas; else if(ch===','&&!comillas) { res.push(act); act=''; } else act+=ch; } res.push(act); return res; }; const enc=parseLinea(lineas[0]); const filas=[]; for(let i=1;i<lineas.length;i++) { const f=parseLinea(lineas[i]); if(f.some(c=>c.trim())) filas.push(f); } return {enc,filas}; }
-            async function fetchSheet(sheetName) { const url=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`; const res=await fetch(url); if(!res.ok) throw new Error(`Error ${res.status}`); return await res.text(); }
-
-            async function cargarMaquinas() { const texto=await fetchSheet(SHEET_MAQUINAS); const {enc,filas}=parsearCSV(texto); listaMaquinas=filas.map(f=>(f[0]||'').trim()).filter(n=>n&&n.toLowerCase()!=='máquinas'&&n.toLowerCase()!=='maquinas').sort(); toast(`📋 Máquinas cargadas: ${listaMaquinas.length} equipos`); actualizarGraficosTrabajos(); }
-            async function cargarMotivosParadas() { const texto=await fetchSheet(SHEET_MOTIVOS); const {enc,filas}=parsearCSV(texto); const idxMotivo=encontrarColumna(enc,['motivo']); const idxTipo=encontrarColumna(enc,['tipo']); motivosParadas=filas.map(f=>({motivo:idxMotivo>=0?(f[idxMotivo]||'').trim():'', tipo:idxTipo>=0?(f[idxTipo]||'').trim():''})).filter(m=>m.tipo.toLowerCase()==='incidencia'&&m.motivo!==''); toast(`📋 Motivos de incidencia: ${motivosParadas.length} registros`); }
-            async function cargarMasterOperarios() { const texto=await fetchSheet(SHEET_OPERARIOS); const {enc,filas}=parsearCSV(texto); const nombres=filas.map(f=>(f[0]||'').trim()).filter(nombre=>{ const lower=nombre.toLowerCase(); return lower!=='cantidad'&&lower!=='promedio'&&lower!=='operario'&&nombre!==''; }); masterOperarios=[...new Set(nombres)].sort(); toast(`📋 Operarios maestros: ${masterOperarios.length} registros`); actualizarTodoOTs(); }
-            async function cargarOTs() { const texto=await fetchSheet(SHEET_OTS); const {enc,filas}=parsearCSV(texto); datosOTs=filas.map(f=>mapearOTs(enc,f)); toast(`✅ OTs: ${datosOTs.length} registros`); actualizarTodoOTs(); }
-            async function cargarTrabajos() { const texto=await fetchSheet(SHEET_TRAB); const {enc,filas}=parsearCSV(texto); datosTrabajos=filas.map(f=>mapearTrabajos(enc,f)); toast(`✅ Trabajos: ${datosTrabajos.length} registros`); actualizarTodoTrabajos(); }
-            async function cargarRegistroProgreso() { const texto=await fetchSheet(SHEET_PROGRESO); const {enc,filas}=parsearCSV(texto); datosRegistroProgreso=filas.map(f=>mapearRegistroProgreso(enc,f)); toast(`✅ Registro Progreso: ${datosRegistroProgreso.length} registros`); actualizarTodoTrabajos(); }
-
-            async function cargarTodo() {
-                ultimaCarga = new Date();
-                await cargarMotivosParadas();
-                await cargarMaquinas();
-                await cargarMasterOperarios();
-                try { await cargarOTs(); } catch(e) { toast('⚠️ Error OTs'); }
-                try { await cargarTrabajos(); } catch(e) { toast('⚠️ Error Trabajos'); }
-                try { await cargarRegistroProgreso(); } catch(e) { toast('⚠️ Error Registro Progreso'); }
-                document.getElementById('tiempoTranscurrido').textContent = '0';
-            }
-
-            function obtenerIncidencias() { const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return datosRegistroProgreso.filter(reg=>reg.motivoParada&&motivosIncidencia.has(reg.motivoParada.toLowerCase())); }
-            function esIncidencia(motivoParada) { if(!motivoParada) return false; const motivosIncidencia=new Set(motivosParadas.map(m=>m.motivo.toLowerCase())); return motivosIncidencia.has(motivoParada.toLowerCase()); }
-
-            function actualizarTodoOTs() {
-                poblarFiltrosOTs();
-                actualizarTarjetasOTs();
-                actualizarTablaOTs();
-                actualizarGraficosOTs();
-                actualizarPanelIncidencias();
-                actualizarPanelNoEntregados();
-                actualizarSemaforo();
-            }
-            function actualizarTodoTrabajos() {
-                poblarFiltrosTrabajos();
-                actualizarTarjetasTrabajos();
-                actualizarTablaTrabajos();
-                actualizarGraficosTrabajos();
-                actualizarPanelIncidencias();
-                actualizarSemaforo();
-            }
-
-            function actualizarTarjetasOTs() {
-                const total = datosOTs.length;
-                const enCurso = datosOTs.filter(o=>o.estado.toLowerCase()==='en curso').length;
-                const pendientes = datosOTs.filter(o=>o.estado.toLowerCase()==='pendiente').length;
-                animarNumero(document.getElementById('totalOTs'), total);
-                animarNumero(document.getElementById('enCursoOTs'), enCurso);
-                animarNumero(document.getElementById('pendientesOTs'), pendientes);
-                animarNumero(document.getElementById('operariosActivos'), masterOperarios.length);
-            }
-            function actualizarTarjetasTrabajos() {
-                const otsEntregadas=new Set(datosOTs.filter(o=>o.estado.toLowerCase()==='entregado').map(o=>o.nroOT));
-                const terminados = datosTrabajos.filter(t=>otsEntregadas.has(t.nroOT)).length;
-                const horasDecimales = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
-                animarNumero(document.getElementById('trabajosTerminados'), terminados);
-                document.getElementById('horasTotales').textContent = formatoHoras(horasDecimales);
-                animarNumero(document.getElementById('conIncidencia'), obtenerIncidencias().length);
-            }
-
-            function actualizarSemaforo() {
-                const hoy = new Date(); hoy.setHours(0,0,0,0);
-                const atrasadas = datosOTs.filter(o => {
-                    if (o.estado.toLowerCase() === 'entregado' || o.estado.toLowerCase() === 'no entregado') return false;
-                    const fp = parseFechaDMY(o.fechaProgramada);
-                    return fp && fp < hoy;
-                }).length;
-                const criticas = datosOTs.filter(o => o.criticidad.toLowerCase() === 'alta' && o.estado.toLowerCase() !== 'entregado' && o.estado.toLowerCase() !== 'no entregado').length;
-                const activas = datosOTs.filter(o => o.estado.toLowerCase() !== 'entregado' && o.estado.toLowerCase() !== 'no entregado').length;
-                const horasTotal = datosTrabajos.reduce((s,t)=>s+parseDuracionHHMMSS(t.tiempoTotal),0);
-
-                document.getElementById('miniOTs').textContent = activas;
-                document.getElementById('miniAtrasadas').textContent = activas > 0 ? Math.round(atrasadas / activas * 100) + '%' : '0%';
-                document.getElementById('miniCriticas').textContent = criticas;
-                document.getElementById('miniHoras').textContent = Math.round(horasTotal);
-
-                const semaforo = document.getElementById('semaforo');
-                const icono = semaforo.querySelector('i');
-                if (criticas > 2 || atrasadas > 10) {
-                    semaforo.style.background = 'rgba(239, 68, 68, 0.1)'; semaforo.style.borderColor = '#ef4444';
-                    icono.style.color = '#ef4444';
-                    document.getElementById('semaforoTitulo').textContent = '⚠️ Acción urgente';
-                    document.getElementById('semaforoDetalle').textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
-                } else if (criticas > 0 || atrasadas > 5) {
-                    semaforo.style.background = 'rgba(245, 158, 11, 0.1)'; semaforo.style.borderColor = '#f59e0b';
-                    icono.style.color = '#f59e0b';
-                    document.getElementById('semaforoTitulo').textContent = '🟡 Atención requerida';
-                    document.getElementById('semaforoDetalle').textContent = `${criticas} críticas · ${atrasadas} atrasadas`;
+                const ops = Array.from(new Set([...Object.keys(hSin),...Object.keys(hCon)])).sort();
+                if (ops.length) {
+                    const comb = ops.map(op=>({ operario:op, sin:hSin[op]||0, con:hCon[op]||0, total:(hSin[op]||0)+(hCon[op]||0) })).sort((a,b)=>b.total-a.total);
+                    charts['horasResp'] = new Chart(ctx1, {
+                        type: 'bar',
+                        data: { labels:comb.map(e=>e.operario), datasets:[{ label:'Sin incidencia', data:comb.map(e=>e.sin), backgroundColor:'#1e8449', borderRadius:4, borderSkipped:false },{ label:'Con incidencia', data:comb.map(e=>e.con), backgroundColor:'#c0392b', borderRadius:4, borderSkipped:false }] },
+                        options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs` } } }, scales:{ x:{ stacked:true, ticks:{ font:{size:9}, color:tc } }, y:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc, callback:v=>formatoHoras(v) } } } }
+                    });
                 } else {
-                    semaforo.style.background = 'rgba(74, 222, 128, 0.1)'; semaforo.style.borderColor = '#4ade80';
-                    icono.style.color = '#4ade80';
-                    document.getElementById('semaforoTitulo').textContent = 'Todo en orden';
-                    document.getElementById('semaforoDetalle').textContent = 'Sin alertas críticas activas';
+                    charts['horasResp'] = new Chart(ctx1, { type:'bar', data:{ labels:['Sin datos'], datasets:[{ data:[0], backgroundColor:'#ccc' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
                 }
             }
 
-            function poblarFiltrosOTs() { const selOp=document.getElementById('filtroOperario'); selOp.innerHTML='<option value="Todos">Todos</option>'+masterOperarios.map(o=>`<option value="${o}">${o}</option>`).join(''); const sectores=[...new Set(datosOTs.map(o=>o.sector).filter(n=>n))].sort(); const selSec=document.getElementById('filtroSector'); selSec.innerHTML='<option value="Todos">Todos</option>'+sectores.map(s=>`<option value="${s}">${s}</option>`).join(''); }
-            function poblarFiltrosTrabajos() { const ots=[...new Set(datosTrabajos.map(t=>t.nroOT).filter(n=>n))].sort(); const ops=[...new Set(datosTrabajos.map(t=>t.operario).filter(n=>n))].sort(); document.getElementById('filtroNroOT').innerHTML='<option value="Todos">Todos</option>'+ots.map(o=>`<option value="${o}">${o}</option>`).join(''); document.getElementById('filtroOperarioTrab').innerHTML='<option value="Todos">Todos</option>'+ops.map(o=>`<option value="${o}">${o}</option>`).join(''); }
+            const ctx2 = document.getElementById('graficoMaquina')?.getContext('2d');
+            if (ctx2) {
+                const maqs = listaMaquinas.length ? listaMaquinas : ['Fresadora','Limadora','Mortajadora','Perforadora de Banco','Prensa','Soldador','Torno Gr. YB','Torno Ch. YB','Torno Ch. Cevil','Sierra sin Fin'];
+                const ultMant = obtenerUltimosMantenimientos();
+                const hPorMaq = {};
 
-            function filtrarOTs() { const est=document.getElementById('filtroEstado').value; const op=document.getElementById('filtroOperario').value; const tip=document.getElementById('filtroTipo').value; const sec=document.getElementById('filtroSector').value; const q=document.getElementById('busquedaOTs').value.toLowerCase().trim(); return datosOTs.filter(o=>{ if(est!=='Todos'&&o.estado.toLowerCase()!==est.toLowerCase()) return false; if(op!=='Todos'&&o.operarioAsignado!==op) return false; if(tip!=='Todos'&&o.tipoTrabajo!==tip) return false; if(sec!=='Todos'&&o.sector!==sec) return false; if(q&&!`${o.nroOT} ${o.maquinaEquipo} ${o.piezas} ${o.descripcionTarea}`.toLowerCase().includes(q)) return false; return true; }); }
-            function filtrarTrabajos() { const ot=document.getElementById('filtroNroOT').value; const op=document.getElementById('filtroOperarioTrab').value; const q=document.getElementById('busquedaTrabajos').value.toLowerCase().trim(); return datosTrabajos.filter(t=>{ if(ot!=='Todos'&&t.nroOT!==ot) return false; if(op!=='Todos'&&t.operario!==op) return false; if(q&&!`${t.nroOT} ${t.descripcion} ${t.materiales}`.toLowerCase().includes(q)) return false; return true; }); }
-
-            function escapeHTML(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-            function celda(v) { return v?escapeHTML(v):'<span class="celda-vacia">—</span>'; }
-
-            function actualizarTablaOTs() { const tbody=document.querySelector('#tablaOTs tbody'); tbody.innerHTML=filtrarOTs().map(o=>{ let badgeEst=''; const e=o.estado.toLowerCase(); if(e==='pendiente') badgeEst='<span class="badge badge-pendiente">Pendiente</span>'; else if(e==='en curso') badgeEst='<span class="badge badge-en-curso">En curso</span>'; else if(e==='entregado') badgeEst='<span class="badge badge-entregado">Entregado</span>'; else if(e==='no entregado') badgeEst='<span class="badge badge-no-entregado">No entregado</span>'; else badgeEst=escapeHTML(o.estado); let badgeCrit=''; const c=o.criticidad.toLowerCase(); if(c==='baja') badgeCrit='<span class="badge badge-baja">Baja</span>'; else if(c==='media') badgeCrit='<span class="badge badge-media">Media</span>'; else if(c==='alta') badgeCrit='<span class="badge badge-alta">Alta</span>'; else badgeCrit=escapeHTML(o.criticidad); return `<tr><td>${celda(o.fechaProgramada)}</td><td>${celda(o.nroOT)}</td><td>${celda(o.descripcionTarea)}</td><td>${celda(o.solicitante)}</td><td>${celda(o.maquinaRol)}</td><td>${celda(o.operarioAsignado)}</td><td>${celda(o.equipoTrabajo)}</td><td>${celda(o.sector)}</td><td>${celda(o.maquinaEquipo)}</td><td>${celda(o.piezas)}</td><td>${celda(o.tipoTrabajo)}</td><td>${badgeCrit}</td><td>${celda(o.lugarTrabajo)}</td><td>${celda(o.otMantAsoc)}</td><td>${badgeEst}</td></tr>`; }).join(''); }
-            function actualizarTablaTrabajos() { const tbody=document.querySelector('#tablaTrabajos tbody'); tbody.innerHTML=filtrarTrabajos().map(t=>{ return `<tr><td>${celda(t.nroOT)}</td><td>${celda(t.maquinaRol)}</td><td>${celda(t.operario)}</td><td>${celda(t.descripcion)}</td><td>${celda(t.materiales)}</td><td>${celda(t.cantidad)}</td><td>${celda(t.fechaHoraInicio)}</td><td>${celda(t.fechaHoraFin)}</td><td>${celda(t.tiempoTotal)}</td></tr>`; }).join(''); }
-
-            function destruirGraficos(keys) { keys.forEach(k=>{ if(charts[k]){ charts[k].destroy(); delete charts[k]; } }); }
-            const COL = { azulMedio:'#1a3f63', naranja:'#e8750c', verde:'#1e8449', rojo:'#c0392b', amarillo:'#d4a017' };
-
-            function actualizarGraficosOTs() {
-                const filt=filtrarOTs();
-                destruirGraficos(['estado','operario','tipo']);
-                const textColor = document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043';
-                if(filt.length) {
-                    const ctx1=document.getElementById('graficoEstado')?.getContext('2d');
-                    if(ctx1) { const conteo={}; filt.forEach(o=>{ const e=o.estado||'Sin estado'; conteo[e]=(conteo[e]||0)+1; }); const labels=Object.keys(conteo),data=Object.values(conteo),total=data.reduce((a,b)=>a+b,0); const bgColors=labels.map(l=>{ const lo=l.toLowerCase(); if(lo==='entregado') return'#1e8449'; if(lo==='en curso') return'#e8750c'; if(lo==='pendiente') return'#c0392b'; if(lo==='no entregado') return'#5d6d7e'; return'#8b8f95'; }); charts['estado']=new Chart(ctx1,{ type:'pie',data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:16,usePointStyle:true,pointStyleWidth:10,color:textColor}},tooltip:{callbacks:{label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%`}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} }); }
-
-                    const ctx2=document.getElementById('graficoOperario')?.getContext('2d');
-                    if(ctx2) { const operariosSet=new Set(filt.map(o=>o.operarioAsignado||'Sin asignar')); const operarios=Array.from(operariosSet).sort(); const estados=['Entregado','En curso','Pendiente','No entregado']; const coloresEstados={'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b','No entregado':'#5d6d7e'}; const datasets=estados.map(est=>({label:est,data:operarios.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length),backgroundColor:coloresEstados[est],borderRadius:4,borderSkipped:false})); charts['operario']=new Chart(ctx2,{ type:'bar',data:{labels:operarios,datasets},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,color:textColor}},tooltip:{mode:'index',intersect:false}},scales:{x:{stacked:true,beginAtZero:true,ticks:{stepSize:1,font:{size:10},color:textColor},title:{display:true,text:'Cantidad de OTs',font:{size:10},color:textColor}},y:{stacked:true,ticks:{font:{size:10},color:textColor}}},interaction:{mode:'nearest',axis:'y',intersect:true}} }); }
-
-                    const ctx3=document.getElementById('graficoTipo')?.getContext('2d');
-                    if(ctx3) { const conteo={}; filt.forEach(o=>{ const t=o.tipoTrabajo||'Sin tipo'; conteo[t]=(conteo[t]||0)+1; }); const sorted=Object.entries(conteo).sort((a,b)=>b[1]-a[1]); charts['tipo']=new Chart(ctx3,{ type:'bar',data:{labels:sorted.map(e=>e[0]),datasets:[{label:'Cantidad',data:sorted.map(e=>e[1]),backgroundColor:COL.naranja,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1,font:{size:10},color:textColor}},x:{ticks:{font:{size:9},color:textColor}}}} }); }
-                }
-            }
-
-            function actualizarGraficosTrabajos() {
-                const filt=filtrarTrabajos();
-                destruirGraficos(['horasResp','maquina','incidencias']);
-                const textColor = document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043';
-
-                const ctx1=document.getElementById('graficoHorasResp')?.getContext('2d');
-                if(ctx1) { const horasSin={},horasCon={}; datosRegistroProgreso.forEach(reg=>{ if(!reg.operario||!reg.horaInicio||!reg.horaParada) return; const horas=calcularHorasEntre(reg.horaInicio,reg.horaParada); if(horas>0) { if(esIncidencia(reg.motivoParada)) horasCon[reg.operario]=(horasCon[reg.operario]||0)+horas; else horasSin[reg.operario]=(horasSin[reg.operario]||0)+horas; } }); const todosOp=new Set([...Object.keys(horasSin),...Object.keys(horasCon)]); const opsArray=Array.from(todosOp).sort(); if(opsArray.length>0) { const dSin=opsArray.map(op=>horasSin[op]||0); const dCon=opsArray.map(op=>horasCon[op]||0); const combined=opsArray.map((op,i)=>({operario:op,sinIncidencia:dSin[i],conIncidencia:dCon[i],total:dSin[i]+dCon[i]})).sort((a,b)=>b.total-a.total); charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:combined.map(e=>e.operario),datasets:[{label:'Horas sin incidencia',data:combined.map(e=>e.sinIncidencia),backgroundColor:'#1e8449',borderRadius:4,borderSkipped:false},{label:'Horas con incidencia',data:combined.map(e=>e.conIncidencia),backgroundColor:'#c0392b',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:12,color:textColor}},tooltip:{callbacks:{label:function(ctx){return`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs`;},footer:function(items){const total=items.reduce((sum,item)=>sum+item.raw,0);return`Total: ${formatoHoras(total)} hs`;}}}},scales:{x:{stacked:true,ticks:{font:{size:9},color:textColor},grid:{display:false}},y:{stacked:true,beginAtZero:true,ticks:{font:{size:10},color:textColor,callback:function(v){return formatoHoras(v);}},title:{display:true,text:'Horas',font:{size:10},color:textColor}}}},interaction:{mode:'nearest',axis:'x',intersect:true}} }); } else { charts['horasResp']=new Chart(ctx1,{ type:'bar',data:{labels:['Sin datos'],datasets:[{data:[0],backgroundColor:'#ccc'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} }); } }
-
-                const ctx2=document.getElementById('graficoMaquina')?.getContext('2d');
-                if(ctx2) {
-                    const maquinasAMostrar = listaMaquinas.length > 0 ? listaMaquinas : ['Fresadora', 'Limadora', 'Mortajadora', 'Perforadora de Banco', 'Prensa', 'Soldador', 'Torno Gr. YB', 'Torno Ch. YB', 'Torno Ch. Cevil', 'Sierra sin Fin'];
-                    const ultimosMant = obtenerUltimosMantenimientos();
-                    const horasPorMaquina = {};
-                    datosRegistroProgreso.forEach(reg => {
-                        if (!reg.maquinaUsada || !reg.horaInicio || !reg.horaParada) return;
-                        if (esMantenimiento(reg.motivoParada)) return;
-                        const ultMantInfo = ultimosMant[reg.maquinaUsada];
-                        if (ultMantInfo) {
-                            const fechaReg = parseFechaDMY(reg.fecha);
-                            if (fechaReg) {
-                                if (fechaReg < ultMantInfo.fecha) return;
-                                if (fechaReg.getTime() === ultMantInfo.fecha.getTime()) {
-                                    const workIni = parseHoraAMPM(reg.horaInicio);
-                                    const mantFin = parseHoraAMPM(ultMantInfo.horaParada);
-                                    if (workIni && mantFin && workIni < mantFin) return;
-                                }
+                datosRegistroProgreso.forEach(r=>{
+                    if (!r.maquinaUsada||!r.horaInicio||!r.horaParada) return;
+                    if (esMantenimiento(r.motivoParada)) return;
+                    const info = ultMant[r.maquinaUsada];
+                    if (info) {
+                        const fr = parseFechaDMY(r.fecha);
+                        if (fr) {
+                            if (fr < info.fecha) return;
+                            if (fr.getTime() === info.fecha.getTime()) {
+                                const wi = parseHoraAMPM(r.horaInicio);
+                                const mf = parseHoraAMPM(info.horaParada);
+                                if (wi && mf && wi < mf) return;
                             }
                         }
-                        const horas = calcularHorasEntre(reg.horaInicio, reg.horaParada);
-                        if (horas > 0) horasPorMaquina[reg.maquinaUsada] = (horasPorMaquina[reg.maquinaUsada] || 0) + horas;
-                    });
-                    const datosMaquinas = maquinasAMostrar.map(maq => { const horasTrabajadas = horasPorMaquina[maq] || 0; const limite = LIMITES_MANTENIMIENTO[maq] || LIMITE_POR_DEFECTO; const porcentaje = Math.min((horasTrabajadas / limite) * 100, 120); const color = colorPorAvance(Math.min(porcentaje, 100)); const horasFaltantes = Math.max(limite - horasTrabajadas, 0); const excedente = Math.max(horasTrabajadas - limite, 0); return { maquina: maq, horasTrabajadas, limite, porcentaje: Math.min(porcentaje, 100), color, horasFaltantes, excedente }; });
-                    datosMaquinas.sort((a, b) => b.porcentaje - a.porcentaje);
-                    charts['maquina'] = new Chart(ctx2, { type: 'bar', data: { labels: datosMaquinas.map(d => d.maquina), datasets: [{ label: 'Horas trabajadas', data: datosMaquinas.map(d => d.porcentaje), backgroundColor: datosMaquinas.map(d => d.color), borderColor: datosMaquinas.map(d => d.porcentaje >= 100 ? '#a93226' : 'transparent'), borderWidth: datosMaquinas.map(d => d.porcentaje >= 100 ? 2 : 0), borderRadius: 6, borderSkipped: false }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { const d = datosMaquinas[ctx.dataIndex]; const lineas = [`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`]; lineas.push(`Límite mantenimiento: ${formatoHoras(d.limite)} hs`); lineas.push(`Avance: ${d.porcentaje.toFixed(1)}%`); const umInfo = ultimosMant[d.maquina]; if (umInfo) lineas.push(`🔧 Último mantenimiento: ${formatoFecha(umInfo.fecha)}`); else lineas.push('🔧 Último mantenimiento: Sin registro'); if (d.porcentaje >= 100) { lineas.push(`Excedente: ${formatoHoras(d.excedente)} hs`); lineas.push('⚠️ MANTENIMIENTO REQUERIDO'); } else { lineas.push(`Horas restantes: ${formatoHoras(d.horasFaltantes)} hs`); lineas.push(d.porcentaje >= 80 ? '⚠️ Próximo a mantenimiento' : '✅ En rango'); } return lineas; } } } }, scales: { x: { beginAtZero: true, max: 100, ticks: { font: { size: 10 }, color:textColor, callback: function(v) { return v + '%'; } }, grid: { color: 'rgba(128,128,128,0.1)', drawBorder: false }, title: { display: true, text: 'Avance hacia límite de mantenimiento', font: { size: 10, weight: 'bold' }, color: textColor } }, y: { ticks: { font: { size: 10 }, color:textColor }, grid: { display: false } } }, animation: { duration: 1000, easing: 'easeOutQuart' }, layout: { padding: { top: 10, bottom: 5 } } } });
-                    const subtitulo = document.getElementById('subtituloMantenimiento');
-                    if (subtitulo) { let masReciente = null; Object.values(ultimosMant).forEach(info => { if (!masReciente || info.fecha > masReciente) masReciente = info.fecha; }); if (masReciente) { subtitulo.textContent = `🔧 Último mantenimiento registrado: ${formatoFecha(masReciente)}`; } else { subtitulo.textContent = '🔧 Los contadores se reinician tras un mantenimiento'; } }
-                }
-
-                const ctx3=document.getElementById('graficoIncidencias')?.getContext('2d');
-                if(ctx3) {
-                    const incidencias=obtenerIncidencias();
-                    const datosPorMotivo={};
-                    incidencias.forEach(reg=>{ if(reg.motivoParada){ const horas=calcularHorasEntre(reg.horaInicio, reg.horaParada); if(!datosPorMotivo[reg.motivoParada]) datosPorMotivo[reg.motivoParada]={count:0, horas:0}; datosPorMotivo[reg.motivoParada].count++; datosPorMotivo[reg.motivoParada].horas += horas; } });
-                    const sorted=Object.entries(datosPorMotivo).sort((a,b)=>b[1].count-a[1].count);
-                    if(sorted.length>0) {
-                        const top3=sorted.slice(0,3); const otros=sorted.slice(3);
-                        let labels=[], data=[], horasCategoria=[], bgColors=[]; const coloresTop=['#c0392b','#e8750c','#d4a017'];
-                        top3.forEach((entry,i)=>{ labels.push(`Top ${i+1} - ${entry[0]}`); data.push(entry[1].count); horasCategoria.push(entry[1].horas); bgColors.push(coloresTop[i]); });
-                        const sumaOtrosCount = otros.reduce((s,entry)=>s+entry[1].count,0); const sumaOtrosHoras = otros.reduce((s,entry)=>s+entry[1].horas,0);
-                        if(sumaOtrosCount>0){ labels.push('Otros'); data.push(sumaOtrosCount); horasCategoria.push(sumaOtrosHoras); bgColors.push('#8b8f95'); }
-                        const total=data.reduce((a,b)=>a+b,0);
-                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels,datasets:[{data,backgroundColor:bgColors,borderColor:'#fff',borderWidth:3,borderRadius:6,offset:10,hoverOffset:18}]}, options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:12,usePointStyle:true,pointStyleWidth:8,color:textColor}},tooltip:{callbacks:{label:function(ctx){ const v=ctx.raw; const p=((v/total)*100).toFixed(1); const horas=horasCategoria[ctx.dataIndex]; return [`Cantidad: ${v} incidencias (${p}%)`,`Horas totales: ${formatoHoras(horas)} hs`]; }}}},animation:{animateRotate:true,animateScale:true},layout:{padding:10}} });
-                    } else {
-                        charts['incidencias']=new Chart(ctx3,{ type:'doughnut', data:{labels:['Sin incidencias'],datasets:[{data:[1],backgroundColor:'#e0e0e0'}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}} });
                     }
+                    const h = calcularHorasEntre(r.horaInicio, r.horaParada);
+                    if (h>0) hPorMaq[r.maquinaUsada] = (hPorMaq[r.maquinaUsada]||0)+h;
+                });
+
+                const dM = maqs.map(m=>{
+                    const ht = hPorMaq[m]||0;
+                    const lim = LIMITES_MANTENIMIENTO[m]||LIMITE_POR_DEFECTO;
+                    const pct = Math.min((ht/lim)*100, 100);
+                    return { maquina:m, horasTrabajadas:ht, limite:lim, porcentaje:pct, color:colorPorAvance(pct), horasFaltantes:Math.max(lim-ht,0), excedente:Math.max(ht-lim,0) };
+                }).sort((a,b)=>b.porcentaje-a.porcentaje);
+
+                charts['maquina'] = new Chart(ctx2, {
+                    type: 'bar',
+                    data: { labels:dM.map(d=>d.maquina), datasets:[{ label:'Horas', data:dM.map(d=>d.porcentaje), backgroundColor:dM.map(d=>d.color), borderColor:dM.map(d=>d.porcentaje>=100?'#a93226':'transparent'), borderWidth:dM.map(d=>d.porcentaje>=100?2:0), borderRadius:6, borderSkipped:false }] },
+                    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:ctx=>{ const d=dM[ctx.dataIndex]; const l=[`Horas trabajadas: ${formatoHoras(d.horasTrabajadas)} hs`,`Límite: ${formatoHoras(d.limite)} hs`,`Avance: ${d.porcentaje.toFixed(1)}%`]; const um=ultMant[d.maquina]; l.push(um?`🔧 Último mant.: ${formatoFecha(um.fecha)}`:'🔧 Sin registro de mant.'); if(d.porcentaje>=100){ l.push(`Excedente: ${formatoHoras(d.excedente)} hs`); l.push('⚠️ MANTENIMIENTO REQUERIDO'); } else { l.push(`Restantes: ${formatoHoras(d.horasFaltantes)} hs`); } return l; } } } }, scales:{ x:{ beginAtZero:true, max:100, ticks:{ font:{size:10}, color:tc, callback:v=>v+'%' }, grid:{ color:'rgba(128,128,128,0.1)' } }, y:{ ticks:{ font:{size:10}, color:tc }, grid:{display:false} } } }
+                });
+
+                const sub = document.getElementById('subtituloMantenimiento');
+                if (sub) {
+                    let masRec = null;
+                    Object.values(ultMant).forEach(i=>{ if (!masRec || i.fecha > masRec) masRec = i.fecha; });
+                    sub.textContent = masRec ? `🔧 Último mantenimiento: ${formatoFecha(masRec)}` : '🔧 Los contadores se reinician tras un mantenimiento';
                 }
             }
 
-            function actualizarPanelIncidencias() {
-                const alertas=[]; const hoy=new Date(); hoy.setHours(0,0,0,0);
-                datosOTs.forEach(o=>{ if(o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return; const fp=parseFechaDMY(o.fechaProgramada); if(fp&&fp<hoy){ const dias=Math.floor((hoy-fp)/86400000); alertas.push({tipo:'atraso',titulo:`OT Atrasada: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`,fecha:`${dias} día(s) (prog:${o.fechaProgramada})`,prioridad:10+dias}); } });
-                datosOTs.forEach(o=>{ if(o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado'&&o.estado.toLowerCase()!=='no entregado') alertas.push({tipo:'criticidad',titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`,detalle:`${o.descripcionTarea} - Estado: ${o.estado}`,fecha:o.fechaProgramada||'Sin fecha',prioridad:8}); });
-                const incs=obtenerIncidencias(); incs.forEach(reg=>{ if(reg.motivoParada) alertas.push({tipo:'incidencia',titulo:`Incidencia: ${reg.nroOT||'Sin OT'}`,detalle:reg.motivoParada,fecha:'',prioridad:5}); });
-                alertas.sort((a,b)=>b.prioridad-a.prioridad); const top=alertas.slice(0,8); const cont=document.getElementById('contenidoIncidencias');
-                cont.innerHTML=top.length?top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join(''):'<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
-            }
-
-            function actualizarPanelNoEntregados() {
-                const noEntregados = datosOTs.filter(o => o.estado.toLowerCase() === 'no entregado');
-                const cont = document.getElementById('contenidoNoEntregados');
-                if (noEntregados.length === 0) { cont.innerHTML = '<p class="todo-ok">Sin trabajos no entregados.</p>'; return; }
-                cont.innerHTML = noEntregados.map(o => {
-                    const otNueva = datosOTs.find(x => x.descripcionTarea && x.descripcionTarea.includes(o.nroOT) && x.nroOT !== o.nroOT);
-                    const otNuevaTexto = otNueva ? escapeHTML(otNueva.nroOT) : '<span class="celda-vacia">Sin OT nueva</span>';
-                    const operarioNueva = otNueva ? escapeHTML(otNueva.operarioAsignado) : '<span class="celda-vacia">—</span>';
-                    return `<div class="no-entregado-item"><div class="titulo">OT no realizada: ${escapeHTML(o.nroOT)}</div><div>Responsable original: ${escapeHTML(o.operarioAsignado)}</div><div>OT nueva: ${otNuevaTexto}</div><div>Operario de fabricación: ${operarioNueva}</div></div>`;
-                }).join('');
-            }
-
-            // ========== EVENTOS ==========
-            document.getElementById('btnRecargarGoogle').addEventListener('click',cargarTodo);
-
-            // Modo oscuro
-            document.getElementById('btnTheme').addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                const esOscuro = document.body.classList.contains('dark-mode');
-                document.querySelector('#btnTheme i').className = esOscuro ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-                localStorage.setItem('darkMode', esOscuro ? '1' : '0');
-                actualizarGraficosOTs();
-                actualizarGraficosTrabajos();
-            });
-            if (localStorage.getItem('darkMode') === '1') {
-                document.body.classList.add('dark-mode');
-                document.querySelector('#btnTheme i').className = 'fa-solid fa-sun';
-            }
-
-            // Exportar/Imprimir
-            document.getElementById('btnExportar').addEventListener('click', () => window.print());
-
-            // Toggle vista
-            document.querySelectorAll('.toggle-vista button').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    document.querySelectorAll('.toggle-vista button').forEach(b => b.classList.remove('activo'));
-                    btn.classList.add('activo');
-                    document.body.classList.toggle('vista-resumen', btn.dataset.vista === 'resumen');
+            const ctx3 = document.getElementById('graficoIncidencias')?.getContext('2d');
+            if (ctx3) {
+                const inc = obtenerIncidencias();
+                const porMotivo = {};
+                inc.forEach(r=>{
+                    if (!r.motivoParada) return;
+                    const h = calcularHorasEntre(r.horaInicio, r.horaParada);
+                    if (!porMotivo[r.motivoParada]) porMotivo[r.motivoParada] = { count:0, horas:0 };
+                    porMotivo[r.motivoParada].count++;
+                    porMotivo[r.motivoParada].horas += h;
                 });
-            });
-
-            // Chips filtros
-            document.querySelectorAll('#chipsFiltros .chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    document.querySelectorAll('#chipsFiltros .chip').forEach(c => c.classList.remove('activo'));
-                    chip.classList.add('activo');
-                    document.getElementById('filtroEstado').value = chip.dataset.estado;
-                    actualizarTablaOTs();
-                    actualizarGraficosOTs();
-                });
-            });
-
-            // Sincronizar chips con select
-            document.getElementById('filtroEstado').addEventListener('change', (e) => {
-                document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
-                    c.classList.toggle('activo', c.dataset.estado === e.target.value);
-                });
-                actualizarTablaOTs();
-                actualizarGraficosOTs();
-            });
-
-            // Tarjetas clickeables
-            document.querySelectorAll('.tarjeta[data-filtro-estado]').forEach(tarjeta => {
-                tarjeta.addEventListener('click', () => {
-                    const estado = tarjeta.dataset.filtroEstado;
-                    document.getElementById('filtroEstado').value = estado;
-                    document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
-                        c.classList.toggle('activo', c.dataset.estado === estado);
+                const sorted = Object.entries(porMotivo).sort((a,b)=>b[1].count-a[1].count);
+                if (sorted.length) {
+                    const top3 = sorted.slice(0,3), otros = sorted.slice(3);
+                    const labels=[], data=[], hrs=[], bg=[];
+                    const cols = ['#c0392b','#e8750c','#d4a017'];
+                    top3.forEach((e,i)=>{ labels.push(`Top ${i+1} - ${e[0]}`); data.push(e[1].count); hrs.push(e[1].horas); bg.push(cols[i]); });
+                    const sc = otros.reduce((s,e)=>s+e[1].count,0);
+                    const sh = otros.reduce((s,e)=>s+e[1].horas,0);
+                    if (sc>0) { labels.push('Otros'); data.push(sc); hrs.push(sh); bg.push('#8b8f95'); }
+                    const total = data.reduce((a,b)=>a+b,0);
+                    charts['incidencias'] = new Chart(ctx3, {
+                        type: 'doughnut',
+                        data: { labels, datasets:[{ data, backgroundColor:bg, borderColor:'#fff', borderWidth:3, borderRadius:6, offset:10, hoverOffset:18 }] },
+                        options: { responsive:true, maintainAspectRatio:false, cutout:'55%', plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>{ const v=ctx.raw, p=((v/total)*100).toFixed(1), h=hrs[ctx.dataIndex]; return [`Cantidad: ${v} (${p}%)`,`Horas: ${formatoHoras(h)} hs`]; } } } } }
                     });
+                } else {
+                    charts['incidencias'] = new Chart(ctx3, { type:'doughnut', data:{ labels:['Sin incidencias'], datasets:[{ data:[1], backgroundColor:'#e0e0e0' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
+                }
+            }
+        }
+
+        function actualizarPanelIncidencias() {
+            const alertas = [];
+            const hoy = new Date(); hoy.setHours(0,0,0,0);
+            datosOTs.forEach(o=>{
+                if (o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return;
+                const fp = parseFechaDMY(o.fechaProgramada);
+                if (fp && fp<hoy) {
+                    const d = Math.floor((hoy-fp)/86400000);
+                    alertas.push({ tipo:'atraso', titulo:`OT Atrasada: ${o.nroOT||'Sin'}`, detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha:`${d} día(s)`, prioridad:10+d });
+                }
+            });
+            datosOTs.forEach(o=>{
+                if (o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado'&&o.estado.toLowerCase()!=='no entregado') {
+                    alertas.push({ tipo:'criticidad', titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle:`${o.descripcionTarea}`, fecha:o.fechaProgramada||'Sin fecha', prioridad:8 });
+                }
+            });
+            obtenerIncidencias().forEach(r=>{
+                if (r.motivoParada) alertas.push({ tipo:'incidencia', titulo:`Incidencia: ${r.nroOT||'Sin OT'}`, detalle:r.motivoParada, fecha:'', prioridad:5 });
+            });
+            alertas.sort((a,b)=>b.prioridad-a.prioridad);
+            const top = alertas.slice(0,8);
+            const cont = document.getElementById('contenidoIncidencias');
+            cont.innerHTML = top.length ? top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
+        }
+
+        function actualizarPanelNoEntregados() {
+            const noEnt = datosOTs.filter(o=>o.estado.toLowerCase()==='no entregado');
+            const cont = document.getElementById('contenidoNoEntregados');
+            if (!noEnt.length) { cont.innerHTML = '<p class="todo-ok">Sin trabajos no entregados.</p>'; return; }
+            cont.innerHTML = noEnt.map(o=>{
+                const otN = datosOTs.find(x=>x.descripcionTarea&&x.descripcionTarea.includes(o.nroOT)&&x.nroOT!==o.nroOT);
+                return `<div class="no-entregado-item"><div class="titulo">OT no realizada: ${escapeHTML(o.nroOT)}</div><div>Responsable: ${escapeHTML(o.operarioAsignado)}</div><div>OT nueva: ${otN?escapeHTML(otN.nroOT):'<span class="celda-vacia">Sin OT nueva</span>'}</div><div>Operario nueva: ${otN?escapeHTML(otN.operarioAsignado):'<span class="celda-vacia">—</span>'}</div></div>`;
+            }).join('');
+        }
+
+        // ============= SETUP EVENTOS =============
+        function setupEventos() {
+            try { document.getElementById('btnRecargarGoogle').addEventListener('click', cargarTodo); } catch(e) { console.warn(e); }
+
+            try {
+                const themeBtn = document.getElementById('btnTheme');
+                themeBtn.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const oscuro = document.body.classList.contains('dark-mode');
+                    themeBtn.querySelector('i').className = oscuro ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+                    try { localStorage.setItem('darkMode', oscuro ? '1' : '0'); } catch(e) {}
+                    actualizarGraficosOTs();
+                    actualizarGraficosTrabajos();
+                });
+            } catch(e) { console.warn(e); }
+
+            try { document.getElementById('btnExportar').addEventListener('click', () => window.print()); } catch(e) { console.warn(e); }
+
+            try {
+                document.querySelectorAll('.toggle-vista button').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.toggle-vista button').forEach(b => b.classList.remove('activo'));
+                        btn.classList.add('activo');
+                        if (btn.dataset.vista === 'resumen') document.body.classList.add('vista-resumen');
+                        else document.body.classList.remove('vista-resumen');
+                    });
+                });
+            } catch(e) { console.warn(e); }
+
+            try {
+                document.querySelectorAll('#chipsFiltros .chip').forEach(chip => {
+                    chip.addEventListener('click', () => {
+                        document.querySelectorAll('#chipsFiltros .chip').forEach(c => c.classList.remove('activo'));
+                        chip.classList.add('activo');
+                        document.getElementById('filtroEstado').value = chip.dataset.estado;
+                        actualizarTablaOTs();
+                        actualizarGraficosOTs();
+                    });
+                });
+            } catch(e) { console.warn(e); }
+
+            try {
+                document.querySelectorAll('.tarjeta[data-filtro-estado]').forEach(t => {
+                    t.addEventListener('click', () => {
+                        const est = t.dataset.filtroEstado;
+                        document.getElementById('filtroEstado').value = est;
+                        document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
+                            c.classList.toggle('activo', c.dataset.estado === est);
+                        });
+                        actualizarTablaOTs();
+                        actualizarGraficosOTs();
+                        toast(`Filtrando: ${est}`);
+                    });
+                });
+            } catch(e) { console.warn(e); }
+
+            try {
+                ['filtroEstado','filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{
+                    if (id === 'filtroEstado') {
+                        const val = document.getElementById('filtroEstado').value;
+                        document.querySelectorAll('#chipsFiltros .chip').forEach(c => {
+                            c.classList.toggle('activo', c.dataset.estado === val);
+                        });
+                    }
                     actualizarTablaOTs();
                     actualizarGraficosOTs();
-                    toast(`Filtrando por: ${estado}`);
-                });
-            });
+                }));
+            } catch(e) { console.warn(e); }
 
-            // Otros filtros
-            ['filtroOperario','filtroTipo','filtroSector'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }));
-            document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); });
-            ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
-            document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); });
+            try { document.getElementById('busquedaOTs').addEventListener('input',()=>{ actualizarTablaOTs(); actualizarGraficosOTs(); }); } catch(e) { console.warn(e); }
+            try {
+                ['filtroNroOT','filtroOperarioTrab'].forEach(id=>document.getElementById(id).addEventListener('change',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }));
+            } catch(e) { console.warn(e); }
+            try { document.getElementById('busquedaTrabajos').addEventListener('input',()=>{ actualizarTablaTrabajos(); actualizarGraficosTrabajos(); }); } catch(e) { console.warn(e); }
+        }
 
-            // Contador tiempo transcurrido
+        function inicializar() {
+            try { actualizarFechasUI(); } catch(e) { console.warn(e); }
+            setupEventos();
+            try { actualizarTarjetasOTs(); } catch(e) { console.warn(e); }
+            try { actualizarTarjetasTrabajos(); } catch(e) { console.warn(e); }
+            try { actualizarTablaOTs(); } catch(e) { console.warn(e); }
+            try { actualizarTablaTrabajos(); } catch(e) { console.warn(e); }
+            try { actualizarPanelIncidencias(); } catch(e) { console.warn(e); }
+            try { actualizarPanelNoEntregados(); } catch(e) { console.warn(e); }
+
+            setTimeout(() => { try { cargarTodo(); } catch(e) { console.error('Error carga:', e); } }, 600);
+
             setInterval(() => {
-                const seg = Math.floor((new Date() - ultimaCarga) / 1000);
-                const el = document.getElementById('tiempoTranscurrido');
-                if (el) el.textContent = seg < 60 ? seg : Math.floor(seg/60) + 'm';
+                try {
+                    const seg = Math.floor((new Date() - ultimaCarga) / 1000);
+                    const el = document.getElementById('tiempoTranscurrido');
+                    if (el) el.textContent = seg < 60 ? seg : Math.floor(seg/60) + 'm';
+                } catch(e) {}
             }, 1000);
+        }
 
-            function inicializar() {
-                actualizarFechasUI();
-                actualizarTarjetasOTs();
-                actualizarTarjetasTrabajos();
-                actualizarTablaOTs();
-                actualizarTablaTrabajos();
-                actualizarPanelIncidencias();
-                actualizarPanelNoEntregados();
-                setTimeout(cargarTodo, 600);
-            }
-            if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',inicializar); else inicializar();
-        })();
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', inicializar);
+        else inicializar();
+    })();
     </script>
 </body>
 </html>

@@ -121,14 +121,28 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
         
-        /* Detalle textual del gráfico */
+        /* NUEVO: Contenedor de detalles del gráfico */
         .detalle-grafico { 
             font-size: 0.68rem; 
             color: var(--gris-medio); 
             margin-top: 6px; 
             line-height: 1.3; 
             display: none; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 10px;
         }
+        
+        /* NUEVO: Estilo de bloque para cada operario en el detalle */
+        .detalle-operador {
+            display: inline-block;
+            text-align: left;
+            border-left: 2px solid #ccc;
+            padding-left: 6px;
+            margin-bottom: 2px;
+        }
+        .detalle-operador strong { color: #222; font-size: 1.1em; }
+        .detalle-operador span { font-size: 0.9em; color: #555; }
 
         .paneles-inferiores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
         @media (max-width: 900px) { .paneles-inferiores { grid-template-columns: 1fr; } }
@@ -169,24 +183,17 @@
             body {
                 background: white !important;
                 color: #000 !important;
-                /* Ajustamos el zoom para llenar la hoja A4 horizontal */
                 zoom: 0.75; 
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .dashboard-container { 
-                padding: 0 !important; 
-                max-width: 100% !important; 
-                width: 100% !important;
-            }
+            .dashboard-container { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
             
-            /* Ocultar elementos no imprimibles */
             .header-der, .toggle-vista, .chips-filtros, .filtros-bar, 
             .tabla-contenedor, .toast, #btnTheme, #btnExportar, .fecha-actual, .semaforo-texto span { 
                 display: none !important; 
             }
             
-            /* Header compacto */
             .header { margin-bottom: 8px !important; padding: 6px 12px !important; border-radius: 6px !important; border-left-width: 4px !important; }
             .logo-escudo { width: 32px !important; height: 32px !important; border-width: 2px !important; }
             .header-titulos h1 { font-size: 14pt !important; }
@@ -195,64 +202,41 @@
             .semaforo-header i { font-size: 10pt !important; }
             .semaforo-texto strong { font-size: 9pt !important; }
             
-            /* Secciones */
             .seccion-titulo { font-size: 8pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 8px !important; }
             
-            /* Tarjetas KPI: 7 en una fila (o 4+3) */
-            .tarjetas-grid { 
-                grid-template-columns: repeat(4, 1fr) !important; /* Mejor distribución en 2 filas */
-                gap: 6px !important; 
-                margin-bottom: 10px !important; 
-            }
+            .tarjetas-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 10px !important; }
             .tarjeta { padding: 6px 8px !important; gap: 6px !important; border-radius: 6px !important; }
             .tarjeta-icono { width: 20px !important; height: 20px !important; font-size: 0.6rem !important; }
             .tarjeta-info .tarjeta-numero { font-size: 12pt !important; }
             .tarjeta-info .tarjeta-label { font-size: 6pt !important; }
             
-            /* Gráficos: 3 columnas x 2 filas */
-            .graficos-grid { 
-                grid-template-columns: repeat(3, 1fr) !important; 
-                gap: 8px !important; 
-                margin-bottom: 10px !important; 
-            }
-            .grafico-card { 
-                padding: 6px !important; 
-                min-height: auto !important; 
-                page-break-inside: avoid !important;
-                border-radius: 6px !important;
-            }
+            .graficos-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-bottom: 10px !important; }
+            .grafico-card { padding: 6px !important; min-height: auto !important; page-break-inside: avoid !important; border-radius: 6px !important; }
             .grafico-card h3 { font-size: 9pt !important; margin-bottom: 2px !important; }
             .grafico-subtitulo { font-size: 6pt !important; margin-bottom: 2px !important; }
             .grafico-card canvas { max-height: 100px !important; }
             
-            /* DETALLE TEXTUAL VISIBLE Y LEGIBLE */
+            /* Detalle textual visible en impresión */
             .detalle-grafico { 
-                display: block !important; 
+                display: flex !important; 
                 font-size: 6.5pt !important; 
                 color: #222 !important; 
                 background: #f8f9fa !important;
-                padding: 3px 5px !important;
+                padding: 4px 6px !important;
                 border-radius: 4px !important;
                 border: 1px solid #ddd !important;
                 margin-top: 4px !important; 
                 line-height: 1.2 !important;
-                text-align: center !important;
             }
+            .detalle-operador {
+                border-left: 1px solid #bbb !important;
+                padding-left: 4px !important;
+            }
+            .detalle-operador strong { font-size: 1.1em !important; }
+            .detalle-operador span { font-size: 0.9em !important; }
             
-            /* Paneles inferiores */
-            .paneles-inferiores { 
-                grid-template-columns: 1fr 1fr !important; 
-                gap: 8px !important; 
-                margin-bottom: 4px !important; 
-            }
-            .incidencias-panel, .no-entregados-panel { 
-                padding: 6px 10px !important; 
-                max-height: 120px !important; 
-                overflow: hidden !important; 
-                page-break-inside: avoid !important;
-                border-radius: 6px !important;
-                border-left-width: 3px !important;
-            }
+            .paneles-inferiores { grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-bottom: 4px !important; }
+            .incidencias-panel, .no-entregados-panel { padding: 6px 10px !important; max-height: 120px !important; overflow: hidden !important; page-break-inside: avoid !important; border-radius: 6px !important; border-left-width: 3px !important; }
             .incidencias-panel h2, .no-entregados-panel h2 { font-size: 8pt !important; margin-bottom: 4px !important; }
             .alerta-item, .no-entregado-item { padding: 3px 5px !important; font-size: 6.5pt !important; margin-bottom: 3px !important; gap: 4px !important; }
             .alerta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
@@ -260,10 +244,8 @@
             .alerta-detalle, .no-entregado-item div { font-size: 6pt !important; }
             .alerta-fecha { font-size: 6pt !important; }
             
-            /* Footer */
             .footer { padding: 4px !important; font-size: 6pt !important; margin-top: 4px !important; border-top-width: 1px !important; }
             
-            /* Forzar bordes y colores exactos */
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
     </style>
@@ -850,15 +832,26 @@
                 const estados = ['Entregado','En curso','Pendiente','No entregado'];
                 const cols = { 'Entregado':'#1e8449','En curso':'#e8750c','Pendiente':'#c0392b','No entregado':'#5d6d7e' };
                 const ds = estados.map(est=>({ label:est, data:ops.map(op=>filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op&&o.estado.toLowerCase()===est.toLowerCase()).length), backgroundColor:cols[est], borderRadius:4, borderSkipped:false }));
+                
                 charts['operario'] = new Chart(ctx2, {
                     type: 'bar',
                     data: { labels:ops, datasets:ds },
                     options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc } }, y:{ stacked:true, ticks:{ font:{size:10}, color:tc } } } }
                 });
+                
+                // DETALLE DESGLOSADO POR OPERARIO
                 llenarDetalle('detalleOperario', ops.map(op=>{
                     const total = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op).length;
-                    return `${op}: ${total}`;
-                }).join(' · '));
+                    const ent = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='entregado').length;
+                    const cur = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='en curso').length;
+                    const pen = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='pendiente').length;
+                    const no = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='no entregado').length;
+                    
+                    return `<div class="detalle-operador">
+                                <strong>${op}</strong>: ${total}<br>
+                                <span style="font-size:0.9em; color:#555;">Entregado: ${ent} · En curso: ${cur}<br>Pendiente: ${pen} · No entregado: ${no}</span>
+                            </div>`;
+                }).join(''));
             }
 
             const ctx3 = document.getElementById('graficoTipo')?.getContext('2d');
@@ -989,6 +982,8 @@
         function actualizarPanelIncidencias() {
             const alertas = [];
             const hoy = new Date(); hoy.setHours(0,0,0,0);
+            
+            // SOLO OTs ATRASADAS
             datosOTs.forEach(o=>{
                 if (o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return;
                 const fp = parseFechaDMY(o.fechaProgramada);
@@ -997,18 +992,11 @@
                     alertas.push({ tipo:'atraso', titulo:`OT Atrasada: ${o.nroOT||'Sin'}`, detalle:`${o.descripcionTarea} - ${o.maquinaEquipo}`, fecha:`${d} día(s)`, prioridad:10+d });
                 }
             });
-            datosOTs.forEach(o=>{
-                if (o.criticidad.toLowerCase()==='alta'&&o.estado.toLowerCase()!=='entregado'&&o.estado.toLowerCase()!=='no entregado') {
-                    alertas.push({ tipo:'criticidad', titulo:`Criticidad ALTA: ${o.nroOT||'Sin'}`, detalle:`${o.descripcionTarea}`, fecha:o.fechaProgramada||'Sin fecha', prioridad:8 });
-                }
-            });
-            obtenerIncidencias().forEach(r=>{
-                if (r.motivoParada) alertas.push({ tipo:'incidencia', titulo:`Incidencia: ${r.nroOT||'Sin OT'}`, detalle:r.motivoParada, fecha:'', prioridad:5 });
-            });
+            
             alertas.sort((a,b)=>b.prioridad-a.prioridad);
             const top = alertas.slice(0,8);
             const cont = document.getElementById('contenidoIncidencias');
-            cont.innerHTML = top.length ? top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid ${a.tipo==='atraso'?'fa-clock':a.tipo==='criticidad'?'fa-skull':'fa-triangle-exclamation'}"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Todo en orden</p>';
+            cont.innerHTML = top.length ? top.map(a=>`<div class="alerta-item"><div class="alerta-icono"><i class="fa-solid fa-clock"></i></div><div class="alerta-contenido"><div class="alerta-titulo">${escapeHTML(a.titulo)}</div><div class="alerta-detalle">${escapeHTML(a.detalle)}</div></div><div class="alerta-fecha">${escapeHTML(a.fecha)}</div></div>`).join('') : '<p class="todo-ok"><i class="fa-regular fa-circle-check"></i> Sin OTs atrasadas</p>';
         }
 
         function actualizarPanelNoEntregados() {

@@ -121,7 +121,6 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
         
-        /* NUEVO: Contenedor de detalles del gráfico */
         .detalle-grafico { 
             font-size: 0.68rem; 
             color: var(--gris-medio); 
@@ -133,7 +132,6 @@
             gap: 10px;
         }
         
-        /* NUEVO: Estilo de bloque para cada operario en el detalle */
         .detalle-operador {
             display: inline-block;
             text-align: left;
@@ -174,52 +172,70 @@
             .filtros-bar { flex-direction: column; align-items: stretch; }
         }
 
-        /* ========== ESTILOS DE IMPRESIÓN OPTIMIZADOS ========== */
+        /* ========== ESTILOS DE IMPRESIÓN CORREGIDOS ========== */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 8mm;
+                margin: 6mm;
             }
             body {
                 background: white !important;
                 color: #000 !important;
-                zoom: 0.75; 
+                zoom: 0.65; /* Zoom reducido para asegurar que todo entre en una hoja */
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             .dashboard-container { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
             
+            /* Ocultar elementos no imprimibles */
             .header-der, .toggle-vista, .chips-filtros, .filtros-bar, 
             .tabla-contenedor, .toast, #btnTheme, #btnExportar, .fecha-actual, .semaforo-texto span { 
                 display: none !important; 
             }
             
-            .header { margin-bottom: 8px !important; padding: 6px 12px !important; border-radius: 6px !important; border-left-width: 4px !important; }
-            .logo-escudo { width: 32px !important; height: 32px !important; border-width: 2px !important; }
-            .header-titulos h1 { font-size: 14pt !important; }
-            .header-titulos .subtitulo { font-size: 8pt !important; }
-            .semaforo-header { padding: 4px 10px !important; margin-right: 0 !important; border-radius: 12px !important; }
-            .semaforo-header i { font-size: 10pt !important; }
-            .semaforo-texto strong { font-size: 9pt !important; }
+            /* Header compacto */
+            .header { margin-bottom: 8px !important; padding: 4px 10px !important; border-radius: 4px !important; border-left-width: 3px !important; }
+            .logo-escudo { width: 24px !important; height: 24px !important; border-width: 2px !important; }
+            .header-titulos h1 { font-size: 12pt !important; }
+            .header-titulos .subtitulo { font-size: 7pt !important; }
+            .semaforo-header { padding: 3px 8px !important; margin-right: 0 !important; border-radius: 10px !important; }
+            .semaforo-header i { font-size: 9pt !important; }
+            .semaforo-texto strong { font-size: 8pt !important; }
             
-            .seccion-titulo { font-size: 8pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 8px !important; }
+            /* Títulos de sección */
+            .seccion-titulo { font-size: 7pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 6px !important; }
             
-            .tarjetas-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 10px !important; }
-            .tarjeta { padding: 6px 8px !important; gap: 6px !important; border-radius: 6px !important; }
-            .tarjeta-icono { width: 20px !important; height: 20px !important; font-size: 0.6rem !important; }
-            .tarjeta-info .tarjeta-numero { font-size: 12pt !important; }
-            .tarjeta-info .tarjeta-label { font-size: 6pt !important; }
+            /* Tarjetas KPI (1 sola fila de 7) */
+            .tarjetas-grid { 
+                grid-template-columns: repeat(7, 1fr) !important; 
+                gap: 4px !important; 
+                margin-bottom: 8px !important; 
+            }
+            .tarjeta { padding: 4px 6px !important; gap: 4px !important; border-radius: 4px !important; }
+            .tarjeta-icono { width: 16px !important; height: 16px !important; font-size: 0.5rem !important; }
+            .tarjeta-info .tarjeta-numero { font-size: 10pt !important; }
+            .tarjeta-info .tarjeta-label { font-size: 5.5pt !important; }
             
-            .graficos-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-bottom: 10px !important; }
-            .grafico-card { padding: 6px !important; min-height: auto !important; page-break-inside: avoid !important; border-radius: 6px !important; }
-            .grafico-card h3 { font-size: 9pt !important; margin-bottom: 2px !important; }
-            .grafico-subtitulo { font-size: 6pt !important; margin-bottom: 2px !important; }
-            .grafico-card canvas { max-height: 100px !important; }
+            /* Gráficos: 2 columnas para que respiren y no se amontonen */
+            .graficos-grid { 
+                grid-template-columns: repeat(2, 1fr) !important; 
+                gap: 8px !important; 
+                margin-bottom: 8px !important; 
+            }
+            .grafico-card { 
+                padding: 4px !important; 
+                min-height: auto !important; 
+                page-break-inside: avoid !important;
+                border-radius: 4px !important;
+            }
+            .grafico-card h3 { font-size: 8pt !important; margin-bottom: 2px !important; }
+            .grafico-subtitulo { font-size: 5.5pt !important; margin-bottom: 2px !important; }
+            .grafico-card canvas { max-height: 110px !important; }
             
-            /* Detalle textual visible en impresión */
+            /* Detalle textual: espaciosos y legibles */
             .detalle-grafico { 
                 display: flex !important; 
-                font-size: 6.5pt !important; 
+                font-size: 7pt !important; 
                 color: #222 !important; 
                 background: #f8f9fa !important;
                 padding: 4px 6px !important;
@@ -227,16 +243,28 @@
                 border: 1px solid #ddd !important;
                 margin-top: 4px !important; 
                 line-height: 1.2 !important;
+                gap: 12px !important;
             }
             .detalle-operador {
-                border-left: 1px solid #bbb !important;
-                padding-left: 4px !important;
+                border-left: 2px solid #aaa !important;
+                padding-left: 6px !important;
             }
-            .detalle-operador strong { font-size: 1.1em !important; }
-            .detalle-operador span { font-size: 0.9em !important; }
+            .detalle-operador strong { font-size: 1.1em !important; color: #000 !important; }
+            .detalle-operador span { font-size: 0.9em !important; color: #444 !important; }
             
-            .paneles-inferiores { grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-bottom: 4px !important; }
-            .incidencias-panel, .no-entregados-panel { padding: 6px 10px !important; max-height: 120px !important; overflow: hidden !important; page-break-inside: avoid !important; border-radius: 6px !important; border-left-width: 3px !important; }
+            /* Panel de Incidencias SIN CORTES (eliminado max-height y overflow) */
+            .paneles-inferiores { 
+                grid-template-columns: 1fr 1fr !important; 
+                gap: 8px !important; 
+                margin-bottom: 4px !important; 
+            }
+            .incidencias-panel, .no-entregados-panel { 
+                padding: 6px 10px !important; 
+                page-break-inside: avoid !important;
+                border-radius: 4px !important;
+                border-left-width: 3px !important;
+                /* Aquí quitamos max-height y overflow para que no se corte */
+            }
             .incidencias-panel h2, .no-entregados-panel h2 { font-size: 8pt !important; margin-bottom: 4px !important; }
             .alerta-item, .no-entregado-item { padding: 3px 5px !important; font-size: 6.5pt !important; margin-bottom: 3px !important; gap: 4px !important; }
             .alerta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
@@ -244,6 +272,7 @@
             .alerta-detalle, .no-entregado-item div { font-size: 6pt !important; }
             .alerta-fecha { font-size: 6pt !important; }
             
+            /* Footer */
             .footer { padding: 4px !important; font-size: 6pt !important; margin-top: 4px !important; border-top-width: 1px !important; }
             
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }

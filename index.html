@@ -121,6 +121,7 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
         
+        /* NUEVO: Contenedor de detalles del gráfico */
         .detalle-grafico { 
             font-size: 0.68rem; 
             color: var(--gris-medio); 
@@ -132,6 +133,7 @@
             gap: 10px;
         }
         
+        /* NUEVO: Estilo de bloque para cada operario en el detalle */
         .detalle-operador {
             display: inline-block;
             text-align: left;
@@ -172,148 +174,77 @@
             .filtros-bar { flex-direction: column; align-items: stretch; }
         }
 
-        /* ========== ESTILOS DE IMPRESIÓN OPTIMIZADOS CON FLEXBOX Y GRID ========== */
+        /* ========== ESTILOS DE IMPRESIÓN OPTIMIZADOS ========== */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 4mm 6mm; /* Márgenes ajustados para maximizar espacio */
+                margin: 8mm;
             }
             body {
                 background: white !important;
                 color: #000 !important;
-                height: 100vh; /* Forza altura de la pantalla para evitar scroll */
-                overflow: hidden; /* Evita que se generen más páginas */
+                zoom: 0.75; 
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
-                /* Cero zoom, cero deformación */
             }
-            .dashboard-container { 
-                padding: 0 !important; 
-                max-width: 100% !important; 
-                width: 100% !important; 
-                height: 100% !important;
-                display: flex;
-                flex-direction: column;
-                gap: 2mm; /* Separación controlada entre secciones */
-            }
+            .dashboard-container { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
             
-            /* Ocultar no imprimibles */
             .header-der, .toggle-vista, .chips-filtros, .filtros-bar, 
             .tabla-contenedor, .toast, #btnTheme, #btnExportar, .fecha-actual, .semaforo-texto span { 
                 display: none !important; 
             }
             
-            /* 1. Header (tamaño controlado) */
-            .header { 
-                margin-bottom: 0 !important; 
-                padding: 2mm 4mm !important; 
-                border-radius: 4px !important; 
-                flex-shrink: 0; 
-                height: 12mm;
-            }
-            .logo-escudo { width: 24px !important; height: 24px !important; }
-            .header-titulos h1 { font-size: 11pt !important; }
-            .header-titulos .subtitulo { font-size: 6.5pt !important; }
-            .semaforo-header { padding: 2px 8px !important; margin-right: 0 !important; }
-            .semaforo-texto strong { font-size: 8pt !important; }
+            .header { margin-bottom: 8px !important; padding: 6px 12px !important; border-radius: 6px !important; border-left-width: 4px !important; }
+            .logo-escudo { width: 32px !important; height: 32px !important; border-width: 2px !important; }
+            .header-titulos h1 { font-size: 14pt !important; }
+            .header-titulos .subtitulo { font-size: 8pt !important; }
+            .semaforo-header { padding: 4px 10px !important; margin-right: 0 !important; border-radius: 12px !important; }
+            .semaforo-header i { font-size: 10pt !important; }
+            .semaforo-texto strong { font-size: 9pt !important; }
             
-            /* 2. Títulos de sección */
-            .seccion-titulo { 
-                font-size: 7pt !important; 
-                margin: 0 !important; 
-                padding: 1mm 0 0 0 !important; 
-                flex-shrink: 0;
-            }
+            .seccion-titulo { font-size: 8pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 8px !important; }
             
-            /* 3. Tarjetas KPI (2 filas de 4 columnas, muy compactas) */
-            .tarjetas-grid { 
-                grid-template-columns: repeat(4, 1fr) !important; 
-                gap: 2mm !important; 
-                margin-bottom: 0 !important; 
-                flex-shrink: 0;
-            }
-            .tarjeta { padding: 1.5mm 2mm !important; gap: 2mm !important; border-radius: 4px !important; }
-            .tarjeta-icono { width: 18px !important; height: 18px !important; font-size: 7pt !important; }
-            .tarjeta-info .tarjeta-numero { font-size: 10pt !important; }
-            .tarjeta-info .tarjeta-label { font-size: 5.5pt !important; }
+            .tarjetas-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 10px !important; }
+            .tarjeta { padding: 6px 8px !important; gap: 6px !important; border-radius: 6px !important; }
+            .tarjeta-icono { width: 20px !important; height: 20px !important; font-size: 0.6rem !important; }
+            .tarjeta-info .tarjeta-numero { font-size: 12pt !important; }
+            .tarjeta-info .tarjeta-label { font-size: 6pt !important; }
             
-            /* 4. Gráficos (3 columnas x 2 filas, flex:1 para llenar el centro) */
-            .graficos-grid { 
-                display: grid !important;
-                grid-template-columns: repeat(3, 1fr) !important; 
-                grid-template-rows: repeat(2, 1fr) !important;
-                gap: 3mm !important; 
-                flex: 1 !important; /* Ocupa todo el espacio vertical sobrante */
-                min-height: 0 !important; /* Permite que flexbox reduzca si hace falta */
-                margin-bottom: 0 !important; 
-            }
-            .grafico-card { 
-                padding: 2mm !important; 
-                min-height: 0 !important; 
-                height: 100% !important;
-                display: flex;
-                flex-direction: column;
-                border-radius: 4px !important;
-                page-break-inside: avoid !important;
-            }
-            .grafico-card h3 { font-size: 7.5pt !important; margin-bottom: 0 !important; }
-            .grafico-subtitulo { font-size: 5.5pt !important; margin-bottom: 1mm !important; }
-            .grafico-card canvas { 
-                flex: 1 !important; 
-                min-height: 0 !important; 
-                max-height: none !important; /* Permite crecer/decrecer según el espacio */
-            }
+            .graficos-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-bottom: 10px !important; }
+            .grafico-card { padding: 6px !important; min-height: auto !important; page-break-inside: avoid !important; border-radius: 6px !important; }
+            .grafico-card h3 { font-size: 9pt !important; margin-bottom: 2px !important; }
+            .grafico-subtitulo { font-size: 6pt !important; margin-bottom: 2px !important; }
+            .grafico-card canvas { max-height: 100px !important; }
             
-            /* Detalles textuales (justo debajo del canvas) */
+            /* Detalle textual visible en impresión */
             .detalle-grafico { 
                 display: flex !important; 
-                font-size: 5.5pt !important; 
+                font-size: 6.5pt !important; 
                 color: #222 !important; 
-                background: #f4f5f7 !important;
-                padding: 1mm !important;
-                border-radius: 2px !important;
-                margin-top: 1mm !important; 
-                line-height: 1.1 !important;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 4px;
+                background: #f8f9fa !important;
+                padding: 4px 6px !important;
+                border-radius: 4px !important;
+                border: 1px solid #ddd !important;
+                margin-top: 4px !important; 
+                line-height: 1.2 !important;
             }
             .detalle-operador {
                 border-left: 1px solid #bbb !important;
-                padding-left: 3px !important;
+                padding-left: 4px !important;
             }
+            .detalle-operador strong { font-size: 1.1em !important; }
+            .detalle-operador span { font-size: 0.9em !important; }
             
-            /* 5. Paneles inferiores (altura fija de 35mm para que quepan) */
-            .paneles-inferiores { 
-                grid-template-columns: 1fr 1fr !important; 
-                gap: 3mm !important; 
-                margin-bottom: 0 !important; 
-                height: 35mm !important; /* Forza a que no crezca más de esto */
-                flex-shrink: 0;
-            }
-            .incidencias-panel, .no-entregados-panel { 
-                padding: 2mm 3mm !important; 
-                border-radius: 4px !important; 
-                border-left-width: 3px !important;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden; /* Evita que el contenido interno rompa el panel */
-            }
-            .incidencias-panel h2, .no-entregados-panel h2 { font-size: 7.5pt !important; margin-bottom: 1.5mm !important; }
-            .alerta-item, .no-entregado-item { padding: 1mm !important; font-size: 6pt !important; margin-bottom: 1mm !important; gap: 4px !important; }
-            .alerta-icono { width: 12px !important; height: 12px !important; font-size: 0.35rem !important; }
-            .alerta-titulo, .no-entregado-item .titulo { font-size: 6.5pt !important; }
-            .alerta-detalle, .no-entregado-item div { font-size: 5.5pt !important; }
-            .alerta-fecha { font-size: 5.5pt !important; }
+            .paneles-inferiores { grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-bottom: 4px !important; }
+            .incidencias-panel, .no-entregados-panel { padding: 6px 10px !important; max-height: 120px !important; overflow: hidden !important; page-break-inside: avoid !important; border-radius: 6px !important; border-left-width: 3px !important; }
+            .incidencias-panel h2, .no-entregados-panel h2 { font-size: 8pt !important; margin-bottom: 4px !important; }
+            .alerta-item, .no-entregado-item { padding: 3px 5px !important; font-size: 6.5pt !important; margin-bottom: 3px !important; gap: 4px !important; }
+            .alerta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
+            .alerta-titulo, .no-entregado-item .titulo { font-size: 7pt !important; }
+            .alerta-detalle, .no-entregado-item div { font-size: 6pt !important; }
+            .alerta-fecha { font-size: 6pt !important; }
             
-            /* 6. Footer */
-            .footer { 
-                padding: 1mm !important; 
-                font-size: 5.5pt !important; 
-                margin-top: 0 !important; 
-                border-top-width: 1px !important;
-                flex-shrink: 0;
-            }
+            .footer { padding: 4px !important; font-size: 6pt !important; margin-top: 4px !important; border-top-width: 1px !important; }
             
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
@@ -908,6 +839,7 @@
                     options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc } }, y:{ stacked:true, ticks:{ font:{size:10}, color:tc } } } }
                 });
                 
+                // DETALLE DESGLOSADO POR OPERARIO
                 llenarDetalle('detalleOperario', ops.map(op=>{
                     const total = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op).length;
                     const ent = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='entregado').length;
@@ -1051,6 +983,7 @@
             const alertas = [];
             const hoy = new Date(); hoy.setHours(0,0,0,0);
             
+            // SOLO OTs ATRASADAS
             datosOTs.forEach(o=>{
                 if (o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return;
                 const fp = parseFechaDMY(o.fechaProgramada);

@@ -74,11 +74,6 @@
         .chip.activo { background: var(--azul-medio); color: white; border-color: var(--azul-medio); }
 
         .seccion-titulo { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; color: var(--gris-medio); margin-bottom: 10px; padding-left: 4px; }
-        
-        /* NUEVO: Contenedor para pantalla normal (se apilan) */
-        .resumen-split { display: flex; flex-direction: column; gap: 0; }
-        .resumen-bloque { width: 100%; }
-
         .tarjetas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-bottom: 20px; }
         .tarjeta { background: var(--blanco); border-radius: var(--radio); padding: 16px 18px; box-shadow: var(--sombra-sm); display: flex; align-items: center; gap: 14px; border-left: 4px solid transparent; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; }
         .tarjeta:hover { transform: translateY(-3px); box-shadow: var(--sombra-md); }
@@ -126,24 +121,28 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
         
-        /* NUEVO: Estilo para los detalles en pantalla */
+        /* NUEVO: Contenedor de detalles del gráfico */
         .detalle-grafico { 
             font-size: 0.68rem; 
             color: var(--gris-medio); 
             margin-top: 6px; 
             line-height: 1.3; 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 6px;
+            display: none; 
+            flex-wrap: wrap; 
+            justify-content: center;
+            gap: 10px;
         }
         
+        /* NUEVO: Estilo de bloque para cada operario en el detalle */
         .detalle-operador {
-            border: 1px solid var(--gris-claro);
-            border-radius: 4px;
-            padding: 4px 6px;
-            background: var(--gris-fondo);
+            display: inline-block;
+            text-align: left;
+            border-left: 2px solid #ccc;
+            padding-left: 6px;
+            margin-bottom: 2px;
         }
-        .detalle-operador strong { color: var(--gris-oscuro); display: block; border-bottom: 1px solid var(--gris-claro); margin-bottom: 2px; font-size: 0.8rem; }
+        .detalle-operador strong { color: #222; font-size: 1.1em; }
+        .detalle-operador span { font-size: 0.9em; color: #555; }
 
         .paneles-inferiores { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
         @media (max-width: 900px) { .paneles-inferiores { grid-template-columns: 1fr; } }
@@ -175,130 +174,69 @@
             .filtros-bar { flex-direction: column; align-items: stretch; }
         }
 
-        /* ========== ESTILOS DE IMPRESIÓN MODIFICADOS ========== */
+        /* ========== ESTILOS DE IMPRESIÓN OPTIMIZADOS ========== */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 6mm;
+                margin: 8mm;
             }
             body {
                 background: white !important;
                 color: #000 !important;
-                zoom: 0.75; /* Aumentamos un poco el zoom porque ganamos espacio */
+                zoom: 0.75; 
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             .dashboard-container { padding: 0 !important; max-width: 100% !important; width: 100% !important; }
             
-            /* Ocultar elementos no imprimibles */
             .header-der, .toggle-vista, .chips-filtros, .filtros-bar, 
             .tabla-contenedor, .toast, #btnTheme, #btnExportar, .fecha-actual, .semaforo-texto span { 
                 display: none !important; 
             }
             
-            .header { margin-bottom: 6px !important; padding: 4px 10px !important; border-radius: 4px !important; border-left-width: 3px !important; }
-            .logo-escudo { width: 24px !important; height: 24px !important; border-width: 2px !important; }
-            .header-titulos h1 { font-size: 12pt !important; }
-            .header-titulos .subtitulo { font-size: 7pt !important; }
-            .semaforo-header { padding: 3px 8px !important; margin-right: 0 !important; border-radius: 10px !important; }
-            .semaforo-header i { font-size: 9pt !important; }
-            .semaforo-texto strong { font-size: 8pt !important; }
-
-            /* 1. RESUMEN LADO A LADO CON LÍNEA DIVISORIA */
-            .resumen-split {
-                display: flex !important;
-                flex-direction: row !important;
-                width: 100% !important;
-                margin-bottom: 8px !important;
-            }
-            .resumen-bloque {
-                flex: 1 !important;
-                width: 50% !important;
-            }
-            .resumen-bloque:first-child {
-                border-right: 3px solid #000 !important; /* Línea gruesa divisoria */
-                padding-right: 10px !important;
-                margin-right: 10px !important;
-            }
-            .resumen-bloque .seccion-titulo { font-size: 7pt !important; margin: 0 0 2px 0 !important; padding: 0 !important; }
+            .header { margin-bottom: 8px !important; padding: 6px 12px !important; border-radius: 6px !important; border-left-width: 4px !important; }
+            .logo-escudo { width: 32px !important; height: 32px !important; border-width: 2px !important; }
+            .header-titulos h1 { font-size: 14pt !important; }
+            .header-titulos .subtitulo { font-size: 8pt !important; }
+            .semaforo-header { padding: 4px 10px !important; margin-right: 0 !important; border-radius: 12px !important; }
+            .semaforo-header i { font-size: 10pt !important; }
+            .semaforo-texto strong { font-size: 9pt !important; }
             
-            .resumen-bloque .tarjetas-grid { 
-                display: grid !important; 
-                grid-template-columns: repeat(4, 1fr) !important; /* 4 tarjetas OTs */
-                gap: 4px !important; 
-                margin-bottom: 0 !important; 
-            }
-            .resumen-bloque:last-child .tarjetas-grid { 
-                grid-template-columns: repeat(3, 1fr) !important; /* 3 tarjetas Trabajos */
-            }
-            .resumen-bloque .tarjeta { padding: 3px 5px !important; gap: 4px !important; border-radius: 3px !important; border-left-width: 2px !important; }
-            .resumen-bloque .tarjeta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
-            .resumen-bloque .tarjeta-info .tarjeta-numero { font-size: 9pt !important; }
-            .resumen-bloque .tarjeta-info .tarjeta-label { font-size: 4.5pt !important; }
-
-            /* 2. GRILLA DE DETALLES 5 COLUMNAS */
-            #detalleOperario {
-                display: grid !important;
-                grid-template-columns: repeat(5, 1fr) !important; /* 5 arriba, 2 abajo */
-                gap: 4px !important;
-            }
-            .detalle-operador {
-                border: 1px solid #aaa !important;
-                background: #fff !important;
-                padding: 2px 4px !important;
-                font-size: 5.5pt !important;
-                line-height: 1.1 !important;
-                color: #333 !important;
-            }
-            .detalle-operador strong {
-                font-size: 6pt !important;
-                border-bottom: 1px solid #ccc !important;
-                display: block !important;
-                color: #000 !important;
-                margin-bottom: 1px !important;
-            }
-
-            /* 3. OTROS DETALLES (Estado, Tipo, etc) - Se dejan flex normales */
-            #detalleEstado, #detalleTipo, #detalleHorasResp, #detalleMaquina, #detalleIncidencias {
-                display: flex !important;
-                flex-wrap: wrap !important;
-                justify-content: center !important;
-                font-size: 6.5pt !important;
-                gap: 6px !important;
+            .seccion-titulo { font-size: 8pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 8px !important; }
+            
+            .tarjetas-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 6px !important; margin-bottom: 10px !important; }
+            .tarjeta { padding: 6px 8px !important; gap: 6px !important; border-radius: 6px !important; }
+            .tarjeta-icono { width: 20px !important; height: 20px !important; font-size: 0.6rem !important; }
+            .tarjeta-info .tarjeta-numero { font-size: 12pt !important; }
+            .tarjeta-info .tarjeta-label { font-size: 6pt !important; }
+            
+            .graficos-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; margin-bottom: 10px !important; }
+            .grafico-card { padding: 6px !important; min-height: auto !important; page-break-inside: avoid !important; border-radius: 6px !important; }
+            .grafico-card h3 { font-size: 9pt !important; margin-bottom: 2px !important; }
+            .grafico-subtitulo { font-size: 6pt !important; margin-bottom: 2px !important; }
+            .grafico-card canvas { max-height: 100px !important; }
+            
+            /* Detalle textual visible en impresión */
+            .detalle-grafico { 
+                display: flex !important; 
+                font-size: 6.5pt !important; 
+                color: #222 !important; 
                 background: #f8f9fa !important;
-                padding: 4px !important;
+                padding: 4px 6px !important;
                 border-radius: 4px !important;
                 border: 1px solid #ddd !important;
+                margin-top: 4px !important; 
+                line-height: 1.2 !important;
             }
-
-            /* 4. GRÁFICOS (2 columnas para que respiren) */
-            .graficos-grid { 
-                grid-template-columns: repeat(2, 1fr) !important; 
-                gap: 8px !important; 
-                margin-bottom: 8px !important; 
+            .detalle-operador {
+                border-left: 1px solid #bbb !important;
+                padding-left: 4px !important;
             }
-            .grafico-card { 
-                padding: 4px !important; 
-                min-height: auto !important; 
-                page-break-inside: avoid !important;
-                border-radius: 4px !important;
-            }
-            .grafico-card h3 { font-size: 8pt !important; margin-bottom: 2px !important; }
-            .grafico-subtitulo { font-size: 5.5pt !important; margin-bottom: 2px !important; }
-            .grafico-card canvas { max-height: 120px !important; /* Subimos un poco porque ganamos espacio vertical */ }
+            .detalle-operador strong { font-size: 1.1em !important; }
+            .detalle-operador span { font-size: 0.9em !important; }
             
-            /* 5. PANELES INFERIORES */
-            .paneles-inferiores { 
-                grid-template-columns: 1fr 1fr !important; 
-                gap: 8px !important; 
-                margin-bottom: 4px !important; 
-            }
-            .incidencias-panel, .no-entregados-panel { 
-                padding: 6px 10px !important; 
-                page-break-inside: avoid !important;
-                border-radius: 4px !important;
-                border-left-width: 3px !important;
-            }
+            .paneles-inferiores { grid-template-columns: 1fr 1fr !important; gap: 8px !important; margin-bottom: 4px !important; }
+            .incidencias-panel, .no-entregados-panel { padding: 6px 10px !important; max-height: 120px !important; overflow: hidden !important; page-break-inside: avoid !important; border-radius: 6px !important; border-left-width: 3px !important; }
             .incidencias-panel h2, .no-entregados-panel h2 { font-size: 8pt !important; margin-bottom: 4px !important; }
             .alerta-item, .no-entregado-item { padding: 3px 5px !important; font-size: 6.5pt !important; margin-bottom: 3px !important; gap: 4px !important; }
             .alerta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
@@ -345,27 +283,19 @@
             <button data-vista="resumen">📊 Resumen Ejecutivo</button>
         </div>
 
-        <!-- NUEVO: Envoltorio de resumen dividido -->
-        <div class="resumen-split">
-            <!-- Bloque izquierdo -->
-            <div class="resumen-bloque">
-                <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
-                <div class="tarjetas-grid">
-                    <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
-                    <div class="tarjeta naranja" data-filtro-estado="En curso"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
-                    <div class="tarjeta rojo" data-filtro-estado="Pendiente"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
-                    <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
-                </div>
-            </div>
-            <!-- Bloque derecho -->
-            <div class="resumen-bloque">
-                <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
-                <div class="tarjetas-grid">
-                    <div class="tarjeta azul" data-filtro-estado="Entregado"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
-                    <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
-                    <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
-                </div>
-            </div>
+        <p class="seccion-titulo">📋 Resumen — Órdenes de Trabajo</p>
+        <div class="tarjetas-grid">
+            <div class="tarjeta azul"><div class="tarjeta-icono"><i class="fa-solid fa-clipboard-list"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="totalOTs">0</div><div class="tarjeta-label">Total OTs</div></div></div>
+            <div class="tarjeta naranja" data-filtro-estado="En curso"><div class="tarjeta-icono"><i class="fa-solid fa-spinner"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="enCursoOTs">0</div><div class="tarjeta-label">En curso</div></div></div>
+            <div class="tarjeta rojo" data-filtro-estado="Pendiente"><div class="tarjeta-icono"><i class="fa-solid fa-box-archive"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="pendientesOTs">0</div><div class="tarjeta-label">Pendientes</div></div></div>
+            <div class="tarjeta verde"><div class="tarjeta-icono"><i class="fa-solid fa-people-group"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="operariosActivos">0</div><div class="tarjeta-label">Operarios activos</div></div></div>
+        </div>
+
+        <p class="seccion-titulo">🔧 Resumen — Trabajos Realizados</p>
+        <div class="tarjetas-grid">
+            <div class="tarjeta azul" data-filtro-estado="Entregado"><div class="tarjeta-icono"><i class="fa-solid fa-list-check"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="trabajosTerminados">0</div><div class="tarjeta-label">Trabajos Terminados</div></div></div>
+            <div class="tarjeta naranja"><div class="tarjeta-icono"><i class="fa-solid fa-hourglass-half"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="horasTotales">0</div><div class="tarjeta-label">Horas totales</div></div></div>
+            <div class="tarjeta rojo"><div class="tarjeta-icono"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="tarjeta-info"><div class="tarjeta-numero" id="conIncidencia">0</div><div class="tarjeta-label">Con incidencia</div></div></div>
         </div>
 
         <p class="seccion-titulo">📊 Gráficos — Órdenes de Trabajo</p>
@@ -909,7 +839,7 @@
                     options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc } }, y:{ stacked:true, ticks:{ font:{size:10}, color:tc } } } }
                 });
                 
-                // DETALLE DESGLOSADO POR OPERARIO (Estilo nota amarilla)
+                // DETALLE DESGLOSADO POR OPERARIO
                 llenarDetalle('detalleOperario', ops.map(op=>{
                     const total = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op).length;
                     const ent = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='entregado').length;
@@ -918,12 +848,8 @@
                     const no = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op && o.estado.toLowerCase()==='no entregado').length;
                     
                     return `<div class="detalle-operador">
-                                <strong>${op}</strong>
-                                Total: ${total}<br>
-                                Entregado: ${ent}<br>
-                                En curso: ${cur}<br>
-                                Pendiente: ${pen}<br>
-                                No entreg: ${no}
+                                <strong>${op}</strong>: ${total}<br>
+                                <span style="font-size:0.9em; color:#555;">Entregado: ${ent} · En curso: ${cur}<br>Pendiente: ${pen} · No entregado: ${no}</span>
                             </div>`;
                 }).join(''));
             }
@@ -1057,6 +983,7 @@
             const alertas = [];
             const hoy = new Date(); hoy.setHours(0,0,0,0);
             
+            // SOLO OTs ATRASADAS
             datosOTs.forEach(o=>{
                 if (o.estado.toLowerCase()==='entregado'||o.estado.toLowerCase()==='no entregado') return;
                 const fp = parseFechaDMY(o.fechaProgramada);

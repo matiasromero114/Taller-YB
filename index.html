@@ -121,7 +121,7 @@
         .grafico-subtitulo { font-size: 0.72rem; color: var(--gris-medio); margin-bottom: 8px; font-weight: 500; }
         .grafico-card canvas { flex: 1; max-height: 300px; }
         
-        /* NUEVO: Detalle textual del gráfico (visible al imprimir) */
+        /* Detalle textual del gráfico */
         .detalle-grafico { 
             font-size: 0.68rem; 
             color: var(--gris-medio); 
@@ -160,20 +160,25 @@
             .filtros-bar { flex-direction: column; align-items: stretch; }
         }
 
-        /* ========== ESTILOS DE IMPRESIÓN (VISTA PREVIA) ========== */
+        /* ========== ESTILOS DE IMPRESIÓN OPTIMIZADOS ========== */
         @media print {
             @page {
                 size: A4 landscape;
-                margin: 4mm;
+                margin: 8mm;
             }
             body {
                 background: white !important;
                 color: #000 !important;
-                zoom: 0.55; /* Ajuste clave para que todo entre en 1 hoja */
+                /* Ajustamos el zoom para llenar la hoja A4 horizontal */
+                zoom: 0.75; 
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
-            .dashboard-container { padding: 0 !important; max-width: 100% !important; }
+            .dashboard-container { 
+                padding: 0 !important; 
+                max-width: 100% !important; 
+                width: 100% !important;
+            }
             
             /* Ocultar elementos no imprimibles */
             .header-der, .toggle-vista, .chips-filtros, .filtros-bar, 
@@ -182,76 +187,81 @@
             }
             
             /* Header compacto */
-            .header { margin-bottom: 4px !important; padding: 4px 8px !important; border-radius: 4px !important; }
-            .logo-escudo { width: 24px !important; height: 24px !important; }
-            .header-titulos h1 { font-size: 0.9rem !important; }
-            .header-titulos .subtitulo { font-size: 0.55rem !important; }
-            .semaforo-header { padding: 2px 6px !important; margin-right: 0 !important; }
-            .semaforo-header i { font-size: 0.8rem !important; }
-            .semaforo-texto strong { font-size: 0.65rem !important; }
+            .header { margin-bottom: 8px !important; padding: 6px 12px !important; border-radius: 6px !important; border-left-width: 4px !important; }
+            .logo-escudo { width: 32px !important; height: 32px !important; border-width: 2px !important; }
+            .header-titulos h1 { font-size: 14pt !important; }
+            .header-titulos .subtitulo { font-size: 8pt !important; }
+            .semaforo-header { padding: 4px 10px !important; margin-right: 0 !important; border-radius: 12px !important; }
+            .semaforo-header i { font-size: 10pt !important; }
+            .semaforo-texto strong { font-size: 9pt !important; }
             
             /* Secciones */
-            .seccion-titulo { font-size: 0.55rem !important; margin-bottom: 2px !important; padding-left: 0 !important; margin-top: 2px !important; }
+            .seccion-titulo { font-size: 8pt !important; margin-bottom: 4px !important; padding-left: 0 !important; margin-top: 8px !important; }
             
-            /* Tarjetas KPI en 1 fila (7 columnas) */
+            /* Tarjetas KPI: 7 en una fila (o 4+3) */
             .tarjetas-grid { 
-                grid-template-columns: repeat(7, 1fr) !important; 
-                gap: 3px !important; 
-                margin-bottom: 4px !important; 
+                grid-template-columns: repeat(4, 1fr) !important; /* Mejor distribución en 2 filas */
+                gap: 6px !important; 
+                margin-bottom: 10px !important; 
             }
-            .tarjeta { padding: 3px 5px !important; gap: 3px !important; border-radius: 4px !important; }
-            .tarjeta-icono { width: 16px !important; height: 16px !important; font-size: 0.5rem !important; }
-            .tarjeta-info .tarjeta-numero { font-size: 0.8rem !important; }
-            .tarjeta-info .tarjeta-label { font-size: 0.42rem !important; }
+            .tarjeta { padding: 6px 8px !important; gap: 6px !important; border-radius: 6px !important; }
+            .tarjeta-icono { width: 20px !important; height: 20px !important; font-size: 0.6rem !important; }
+            .tarjeta-info .tarjeta-numero { font-size: 12pt !important; }
+            .tarjeta-info .tarjeta-label { font-size: 6pt !important; }
             
-            /* Gráficos en 2 filas de 3 columnas */
+            /* Gráficos: 3 columnas x 2 filas */
             .graficos-grid { 
                 grid-template-columns: repeat(3, 1fr) !important; 
-                gap: 4px !important; 
-                margin-bottom: 4px !important; 
+                gap: 8px !important; 
+                margin-bottom: 10px !important; 
             }
             .grafico-card { 
-                padding: 3px !important; 
+                padding: 6px !important; 
                 min-height: auto !important; 
                 page-break-inside: avoid !important;
-                border-radius: 4px !important;
+                border-radius: 6px !important;
             }
-            .grafico-card h3 { font-size: 0.55rem !important; margin-bottom: 0 !important; }
-            .grafico-subtitulo { font-size: 0.45rem !important; margin-bottom: 1px !important; }
-            .grafico-card canvas { max-height: 95px !important; }
+            .grafico-card h3 { font-size: 9pt !important; margin-bottom: 2px !important; }
+            .grafico-subtitulo { font-size: 6pt !important; margin-bottom: 2px !important; }
+            .grafico-card canvas { max-height: 100px !important; }
             
-            /* Detalle textual de gráficos VISIBLE en impresión */
+            /* DETALLE TEXTUAL VISIBLE Y LEGIBLE */
             .detalle-grafico { 
                 display: block !important; 
-                font-size: 0.42rem !important; 
-                color: #333 !important; 
-                margin-top: 2px !important; 
-                line-height: 1.1 !important;
-                text-align: center;
+                font-size: 6.5pt !important; 
+                color: #222 !important; 
+                background: #f8f9fa !important;
+                padding: 3px 5px !important;
+                border-radius: 4px !important;
+                border: 1px solid #ddd !important;
+                margin-top: 4px !important; 
+                line-height: 1.2 !important;
+                text-align: center !important;
             }
             
-            /* Paneles inferiores en 2 columnas */
+            /* Paneles inferiores */
             .paneles-inferiores { 
                 grid-template-columns: 1fr 1fr !important; 
-                gap: 4px !important; 
-                margin-bottom: 2px !important; 
+                gap: 8px !important; 
+                margin-bottom: 4px !important; 
             }
             .incidencias-panel, .no-entregados-panel { 
-                padding: 4px 6px !important; 
-                max-height: 110px !important; 
+                padding: 6px 10px !important; 
+                max-height: 120px !important; 
                 overflow: hidden !important; 
                 page-break-inside: avoid !important;
-                border-radius: 4px !important;
+                border-radius: 6px !important;
+                border-left-width: 3px !important;
             }
-            .incidencias-panel h2, .no-entregados-panel h2 { font-size: 0.6rem !important; margin-bottom: 3px !important; }
-            .alerta-item, .no-entregado-item { padding: 2px 4px !important; font-size: 0.45rem !important; margin-bottom: 2px !important; gap: 4px !important; }
-            .alerta-icono { width: 12px !important; height: 12px !important; font-size: 0.35rem !important; }
-            .alerta-titulo, .no-entregado-item .titulo { font-size: 0.5rem !important; }
-            .alerta-detalle, .no-entregado-item div { font-size: 0.42rem !important; }
-            .alerta-fecha { font-size: 0.42rem !important; }
+            .incidencias-panel h2, .no-entregados-panel h2 { font-size: 8pt !important; margin-bottom: 4px !important; }
+            .alerta-item, .no-entregado-item { padding: 3px 5px !important; font-size: 6.5pt !important; margin-bottom: 3px !important; gap: 4px !important; }
+            .alerta-icono { width: 14px !important; height: 14px !important; font-size: 0.4rem !important; }
+            .alerta-titulo, .no-entregado-item .titulo { font-size: 7pt !important; }
+            .alerta-detalle, .no-entregado-item div { font-size: 6pt !important; }
+            .alerta-fecha { font-size: 6pt !important; }
             
             /* Footer */
-            .footer { padding: 2px !important; font-size: 0.45rem !important; margin-top: 2px !important; }
+            .footer { padding: 4px !important; font-size: 6pt !important; margin-top: 4px !important; border-top-width: 1px !important; }
             
             /* Forzar bordes y colores exactos */
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -795,7 +805,6 @@
 
         function getTextColor() { return document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#3c4043'; }
 
-        // NUEVO: función helper para llenar el detalle textual
         function llenarDetalle(id, texto) {
             const el = document.getElementById(id);
             if (el) el.innerHTML = texto;
@@ -831,7 +840,6 @@
                     data: { labels, datasets: [{ data, backgroundColor: bg, borderColor:'#fff', borderWidth:3, borderRadius:6, offset:10, hoverOffset:18 }] },
                     options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:11}, padding:16, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>`${ctx.label}: ${((ctx.raw/total)*100).toFixed(1)}%` } } } }
                 });
-                // DETALLE TEXTUAL
                 llenarDetalle('detalleEstado', labels.map((l,i)=>`${l}: ${data[i]} (${((data[i]/total)*100).toFixed(0)}%)`).join(' · '));
             }
 
@@ -847,7 +855,6 @@
                     data: { labels:ops, datasets:ds },
                     options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ mode:'index', intersect:false } }, scales:{ x:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc } }, y:{ stacked:true, ticks:{ font:{size:10}, color:tc } } } }
                 });
-                // DETALLE TEXTUAL: "Operario (Total) · ..."
                 llenarDetalle('detalleOperario', ops.map(op=>{
                     const total = filt.filter(o=>(o.operarioAsignado||'Sin asignar')===op).length;
                     return `${op}: ${total}`;
@@ -864,7 +871,6 @@
                     data: { labels:sorted.map(e=>e[0]), datasets:[{ label:'Cantidad', data:sorted.map(e=>e[1]), backgroundColor:'#e8750c', borderRadius:4 }] },
                     options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, ticks:{ stepSize:1, font:{size:10}, color:tc } }, x:{ ticks:{ font:{size:9}, color:tc } } } }
                 });
-                // DETALLE TEXTUAL
                 llenarDetalle('detalleTipo', sorted.map(e=>`${e[0]}: ${e[1]}`).join(' · '));
             }
         }
@@ -892,7 +898,6 @@
                         data: { labels:comb.map(e=>e.operario), datasets:[{ label:'Sin incidencia', data:comb.map(e=>e.sin), backgroundColor:'#1e8449', borderRadius:4, borderSkipped:false },{ label:'Con incidencia', data:comb.map(e=>e.con), backgroundColor:'#c0392b', borderRadius:4, borderSkipped:false }] },
                         options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>`${ctx.dataset.label}: ${formatoHoras(ctx.raw)} hs` } } }, scales:{ x:{ stacked:true, ticks:{ font:{size:9}, color:tc } }, y:{ stacked:true, beginAtZero:true, ticks:{ font:{size:10}, color:tc, callback:v=>formatoHoras(v) } } } }
                     });
-                    // DETALLE
                     llenarDetalle('detalleHorasResp', comb.map(e=>`${e.operario}: ${formatoHoras(e.total)} hs`).join(' · '));
                 } else {
                     charts['horasResp'] = new Chart(ctx1, { type:'bar', data:{ labels:['Sin datos'], datasets:[{ data:[0], backgroundColor:'#ccc' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
@@ -944,7 +949,6 @@
                     Object.values(ultMant).forEach(i=>{ if (!masRec || i.fecha > masRec) masRec = i.fecha; });
                     sub.textContent = masRec ? `🔧 Último mantenimiento: ${formatoFecha(masRec)}` : '🔧 Los contadores se reinician tras un mantenimiento';
                 }
-                // DETALLE
                 llenarDetalle('detalleMaquina', dM.slice(0,5).map(d=>`${d.maquina}: ${d.porcentaje.toFixed(0)}%`).join(' · '));
             }
 
@@ -974,7 +978,6 @@
                         data: { labels, datasets:[{ data, backgroundColor:bg, borderColor:'#fff', borderWidth:3, borderRadius:6, offset:10, hoverOffset:18 }] },
                         options: { responsive:true, maintainAspectRatio:false, cutout:'55%', plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, usePointStyle:true, color:tc } }, tooltip:{ callbacks:{ label:ctx=>{ const v=ctx.raw, p=((v/total)*100).toFixed(1), h=hrs[ctx.dataIndex]; return [`Cantidad: ${v} (${p}%)`,`Horas: ${formatoHoras(h)} hs`]; } } } } }
                     });
-                    // DETALLE
                     llenarDetalle('detalleIncidencias', labels.map((l,i)=>`${l}: ${data[i]} (${formatoHoras(hrs[i])}hs)`).join(' · '));
                 } else {
                     charts['incidencias'] = new Chart(ctx3, { type:'doughnut', data:{ labels:['Sin incidencias'], datasets:[{ data:[1], backgroundColor:'#e0e0e0' }] }, options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}} } });
